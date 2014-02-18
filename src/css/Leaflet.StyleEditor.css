@@ -115,6 +115,7 @@
     font-size: 15px;
     font-weight: 600;
     color: #FFFFFF;
+    cursor: pointer;
 }
 .styleeditor-inBtn {
     background-image: url('../img/icon.png');
@@ -156,6 +157,7 @@
     float: left;
     margin-right: 15px;
     border: 1px solid white;
+    cursor: pointer;
 }
 .leaflet-styleeditor-sizeicon:hover {
     border: 1px solid black;
