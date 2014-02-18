@@ -7,6 +7,8 @@ Current Leaflet version is: 0.7.2.
 
 Check out the [Demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/)!
 
+And another [demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/StyleEditorWithLeafletDraw.html) with Leaflet.draw.
+
 Usage
 -----
 
@@ -32,7 +34,6 @@ TODO
 -----
 * Create a tooltip: "Click on feature...."
 * Better representation of marker icons (img instead of plain text)
-* Add listener to Leaflet.draw events
 * Line strokes
 * Restore default button
 * Visual highlight of the selected feature
