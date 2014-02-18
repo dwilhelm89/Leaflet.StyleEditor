@@ -11,11 +11,8 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
-    cursor: auto;
     text-align: center;
     background-color: #FFFFFF;
-    cursor:hand;
-    cursor:pointer;
 }
 .leaflet-control-styleeditor-interior:hover {
     background-color: #07C217;
@@ -118,6 +115,7 @@
     font-size: 15px;
     font-weight: 600;
     color: #FFFFFF;
+    cursor: pointer;
 }
 .styleeditor-inBtn {
     background-image: url('../img/icon.png');
@@ -148,6 +146,7 @@
     width: 30px;
     float: left;
     border: 1px solid white;
+    cursor: pointer;
 }
 .leaflet-styleeditor-color:hover {
     border:1px solid black;
@@ -158,6 +157,7 @@
     float: left;
     margin-right: 15px;
     border: 1px solid white;
+    cursor: pointer;
 }
 .leaflet-styleeditor-sizeicon:hover {
     border: 1px solid black;
