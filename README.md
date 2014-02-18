@@ -44,7 +44,6 @@ map.addControl(styleEditor);
 TODO
 -----
 * Better representation of marker icons (img instead of plain text)
-* Line strokes
 * "Restore default" button
 * Visual highlight of the selected feature
 

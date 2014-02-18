@@ -28,9 +28,10 @@ L.StyleForms = L.Class.extend({
 
         this.createColor();
         this.createOpacity();
+        this.createStroke();
 
         //Polygons, Circles get the fill options
-        if (this.options.currentElement.target._holePoints || 
+        if (this.options.currentElement.target._holePoints ||
             this.options.currentElement.target._holes ||
             this.options.currentElement.target._radius) {
 
@@ -135,6 +136,34 @@ L.StyleForms = L.Class.extend({
         }.bind(this));
     },
 
+    createStroke: function() {
+        var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.options.styleEditorUi);
+        label.innerHTML = 'Line Stroke:';
+
+        var stroke1 = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', this.options.styleEditorUi);
+        stroke1.style.backgroundPosition = "0px -75px";
+
+        var stroke2 = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', this.options.styleEditorUi);
+        stroke2.style.backgroundPosition = "0px -95px";
+
+        var stroke3 = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', this.options.styleEditorUi);
+        stroke3.style.backgroundPosition = "0px -115px";
+
+        L.DomUtil.create('br', 'bla', this.options.styleEditorUi);
+
+        L.DomEvent.addListener(stroke1, 'click', function(e) {
+            this.setStroke('1');
+        }, this);
+        L.DomEvent.addListener(stroke2, 'click', function(e) {
+            this.setStroke('10,10');
+        }, this);
+        L.DomEvent.addListener(stroke3, 'click', function(e) {
+            this.setStroke('15, 10, 1, 10');
+        }, this);
+    },
+
+
+
     createOpacity: function() {
         var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.options.styleEditorUi);
         label.innerHTML = 'Opacity:';
@@ -223,6 +252,12 @@ L.StyleForms = L.Class.extend({
     setColor: function(color) {
         this.options.currentElement.target.setStyle({
             color: color
+        });
+    },
+
+    setStroke: function(stroke) {
+        this.options.currentElement.target.setStyle({
+            dashArray: stroke
         });
     },
 

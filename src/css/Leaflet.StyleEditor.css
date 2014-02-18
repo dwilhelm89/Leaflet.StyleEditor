@@ -177,14 +177,22 @@
     width:30px;
     height: 49px;
 }
-.leaflet-styleeditor-mouseTooltip{
+.leaflet-styleeditor-mouseTooltip {
     height: 50px;
     width: 100px;
     position: absolute;
-    background-color: rgba(68,68,68, 0.5);
+    background-color: rgba(68, 68, 68, 0.5);
     padding: 5px;
     border-radius: 5px;
-    font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-
-
+    font: 12px/1.5"Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.leaflet-styleeditor-stroke {
+    height: 20px;
+    width: 150px;
+    background-repeat: no-repeat;
+    border: 1px solid white;
+    background-image: url('../img/icon.png')
+}
+.leaflet-styleeditor-stroke:hover {
+    border: 1px solid black;
 }
