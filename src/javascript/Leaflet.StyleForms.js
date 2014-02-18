@@ -29,8 +29,11 @@ L.StyleForms = L.Class.extend({
         this.createColor();
         this.createOpacity();
 
-        //Polygon
-        if (this.options.currentElement.target._holePoints || this.options.currentElement.target._holes) {
+        //Polygons, Circles get the fill options
+        if (this.options.currentElement.target._holePoints || 
+            this.options.currentElement.target._holes ||
+            this.options.currentElement.target._radius) {
+
             this.createFillColor();
             this.createFillOpacity();
         }
