@@ -8,7 +8,6 @@ Check out the [Demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/)!
 Usage
 -----
 
-
 ```javascript
 //Initialize the StyleEditor
 var styleEditor = L.control.styleEditor({
@@ -26,6 +25,14 @@ var styleEditor = L.control.styleEditor({
 });
 map.addControl(styleEditor);
 ````
+
+TODO
+-----
+* Create a tooltip: "Click on feature...."
+* Better representation of marker icons (img instead of plain text)
+* Add listener to Leaflet.draw events
+* Line strokes
+* Restore default button
 
 
 Author
