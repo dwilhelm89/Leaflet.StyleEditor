@@ -43,7 +43,6 @@ map.addControl(styleEditor);
 
 TODO
 -----
-* Create a tooltip: "Click on feature...."
 * Better representation of marker icons (img instead of plain text)
 * Line strokes
 * "Restore default" button

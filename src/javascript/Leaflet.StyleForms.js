@@ -77,7 +77,7 @@ L.StyleForms = L.Class.extend({
 
     createIconUrl: function() {
         var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.options.styleEditorUi);
-        label.innerHTML = 'Icon Url:';
+        label.innerHTML = 'Icon:';
 
         this.createSelectInput(this.options.styleEditorUi, function(e) {
             var value = e.target.value;

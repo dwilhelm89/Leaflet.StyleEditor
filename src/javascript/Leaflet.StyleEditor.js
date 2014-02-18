@@ -7,7 +7,8 @@ L.Control.StyleEditor = L.Control.extend({
         markerApi: 'http://api.tiles.mapbox.com/v3/marker/',
         markers: ['circle-stroked', 'circle', 'square-stroked', 'square', 'triangle-stroked', 'triangle', 'star-stroked', 'star', 'cross', 'marker-stroked', 'marker', 'religious-jewish', 'religious-christian', 'religious-muslim', 'cemetery', 'rocket', 'airport', 'heliport', 'rail', 'rail-metro', 'rail-light', 'bus', 'fuel', 'parking', 'parking-garage', 'airfield', 'roadblock', 'ferry', 'harbor', 'bicycle', 'park', 'park2', 'museum', 'lodging', 'monument', 'zoo', 'garden', 'campsite', 'theatre', 'art-gallery', 'pitch', 'soccer', 'america-football', 'tennis', 'basketball', 'baseball', 'golf', 'swimming', 'cricket', 'skiing', 'school', 'college', 'library', 'post', 'fire-station', 'town-hall', 'police', 'prison', 'embassy', 'beer', 'restaurant', 'cafe', 'shop', 'fast-food', 'bar', 'bank', 'grocery', 'cinema', 'pharmacy', 'hospital', 'danger', 'industrial', 'warehouse', 'commercial', 'building', 'place-of-worship', 'alcohol-shop', 'logging', 'oil-well', 'slaughterhouse', 'dam', 'water', 'wetland', 'disability', 'telephone', 'emergency-telephone', 'toilets', 'waste-basket', 'music', 'land-use', 'city', 'town', 'village', 'farm', 'bakery', 'dog-park', 'lighthouse', 'clothing-store', 'polling-place', 'playground', 'entrance', 'heart', 'london-underground', 'minefield', 'rail-underground', 'rail-above', 'camera', 'laundry', 'car', 'suitcase', 'hairdresser', 'chemist', 'mobilephone', 'scooter'],
         editlayers: [],
-        openOnLeafletDraw: true
+        openOnLeafletDraw: true,
+        showTooltip: true
     },
 
     onAdd: function(map) {
@@ -38,11 +39,13 @@ L.Control.StyleEditor = L.Control.extend({
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
     },
 
-    addLeafletDrawEvents: function(){
-        if(L.Control.Draw){
-            if(this.options.openOnLeafletDraw){
-                this.options.map.on('draw:created', function(layer){
-                    this.initChangeStyle({"target":layer.layer});
+    addLeafletDrawEvents: function() {
+        if (L.Control.Draw) {
+            if (this.options.openOnLeafletDraw) {
+                this.options.map.on('draw:created', function(layer) {
+                    this.initChangeStyle({
+                        "target": layer.layer
+                    });
                 }, this);
             }
         }
@@ -89,6 +92,16 @@ L.Control.StyleEditor = L.Control.extend({
     enable: function() {
         L.DomUtil.addClass(this.options.controlUI, "enabled");
         this.options.map.eachLayer(this.addEditClickEvents, this);
+
+        this.createMouseTooltip();
+    },
+
+    disable: function() {
+        this.options.editlayers.forEach(this.removeEditClickEvents, this);
+        this.options.editlayers = [];
+        this.hideEditor();
+
+        this.removeMouseTooltip();
     },
 
     addEditClickEvents: function(layer) {
@@ -100,12 +113,6 @@ L.Control.StyleEditor = L.Control.extend({
 
     removeEditClickEvents: function(layer) {
         layer.off('click', this.initChangeStyle, this);
-    },
-
-    disable: function() {
-        this.options.editlayers.forEach(this.removeEditClickEvents, this);
-        this.options.editlayers = [];
-        this.hideEditor();
     },
 
     hideEditor: function() {
@@ -138,6 +145,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.options.currentElement = e;
 
         this.showEditor();
+        this.removeMouseTooltip();
 
         var layer = e.target;
 
@@ -171,6 +179,31 @@ L.Control.StyleEditor = L.Control.extend({
         });
 
         styleForms.createMarkerForm();
+    },
+
+    createMouseTooltip: function() {
+        if (this.options.showTooltip) {
+            var mouseTooltip = this.options.mouseTooltip = L.DomUtil.create('div', 'leaflet-styleeditor-mouseTooltip', document.body);
+            mouseTooltip.innerHTML = 'Click on the element you want to style';
+
+            L.DomEvent.addListener(window, 'mousemove', this.moveMouseTooltip, this);
+        }
+
+    },
+
+    removeMouseTooltip: function() {
+        L.DomEvent.removeListener(window, 'mousemove', this.moveMouseTooltip);
+
+        if (this.options.mouseTooltip && this.options.mouseTooltip.parentNode) {
+            this.options.mouseTooltip.parentNode.removeChild(this.options.mouseTooltip);
+        }
+    },
+
+    moveMouseTooltip: function(e) {
+        var x = e.clientX,
+            y = e.clientY;
+        this.options.mouseTooltip.style.top = (y + 15) + 'px';
+        this.options.mouseTooltip.style.left = (x) + 'px';
     }
 
 
