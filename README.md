@@ -35,6 +35,7 @@ TODO
 * Add listener to Leaflet.draw events
 * Line strokes
 * Restore default button
+* Visual highlight of the selected feature
 
 
 Author
