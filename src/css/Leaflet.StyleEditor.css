@@ -191,7 +191,8 @@
     width: 150px;
     background-repeat: no-repeat;
     border: 1px solid white;
-    background-image: url('../img/icon.png')
+    background-image: url('../img/icon.png');
+    cursor: pointer;
 }
 .leaflet-styleeditor-stroke:hover {
     border: 1px solid black;
