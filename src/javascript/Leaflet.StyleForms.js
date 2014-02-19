@@ -171,7 +171,7 @@ L.StyleForms = L.Class.extend({
         this.createNumberInput(this.options.styleEditorUi, function(e) {
             var value = e.target.value;
             this.setOpacity(value);
-        }.bind(this), this.options.currentElement.target.options.opacity);
+        }.bind(this), this.options.currentElement.target.options.opacity, 0, 1, 0.1);
     },
 
     createFillColor: function() {
@@ -191,7 +191,7 @@ L.StyleForms = L.Class.extend({
         this.createNumberInput(this.options.styleEditorUi, function(e) {
             var value = e.target.value;
             this.setFillOpacity(value);
-        }.bind(this), this.options.currentElement.target.options.fillOpacity);
+        }.bind(this), this.options.currentElement.target.options.fillOpacity, 0, 1, 0.1);
 
     },
 
@@ -210,10 +210,13 @@ L.StyleForms = L.Class.extend({
         return colorPickerDiv;
     },
 
-    createNumberInput: function(parentDiv, callback, value) {
+    createNumberInput: function(parentDiv, callback, value, min, max, step) {
         var numberInput = L.DomUtil.create('input', 'leaflet-styleeditor-input', parentDiv);
         numberInput.setAttribute('type', 'number');
         numberInput.setAttribute('value', value);
+        numberInput.setAttribute('min', min);
+        numberInput.setAttribute('max', max);
+        numberInput.setAttribute('step', step);
 
         L.DomEvent.addListener(numberInput, 'change', callback, this);
         L.DomEvent.addListener(numberInput, 'keyup', callback, this);
