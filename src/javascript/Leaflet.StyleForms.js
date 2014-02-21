@@ -132,7 +132,7 @@ L.StyleForms = L.Class.extend({
 
         this.createColorPicker(this.options.styleEditorUi, function(e) {
             var color = this.rgbToHex(e.target.style.backgroundColor);
-            this.setColor(color);
+            this.setStyle('color', color);
         }.bind(this));
     },
 
@@ -152,13 +152,13 @@ L.StyleForms = L.Class.extend({
         L.DomUtil.create('br', 'bla', this.options.styleEditorUi);
 
         L.DomEvent.addListener(stroke1, 'click', function(e) {
-            this.setStroke('1');
+            this.setStyle('dashArray', '1');
         }, this);
         L.DomEvent.addListener(stroke2, 'click', function(e) {
-            this.setStroke('10,10');
+            this.setStyle('dashArray', '10,10');
         }, this);
         L.DomEvent.addListener(stroke3, 'click', function(e) {
-            this.setStroke('15, 10, 1, 10');
+            this.setStyle('dashArray', '15, 10, 1, 10');
         }, this);
     },
 
@@ -170,7 +170,7 @@ L.StyleForms = L.Class.extend({
 
         this.createNumberInput(this.options.styleEditorUi, function(e) {
             var value = e.target.value;
-            this.setOpacity(value);
+            this.setStyle('opacity', value);
         }.bind(this), this.options.currentElement.target.options.opacity, 0, 1, 0.1);
     },
 
@@ -180,7 +180,7 @@ L.StyleForms = L.Class.extend({
 
         this.createColorPicker(this.options.styleEditorUi, function(e) {
             var color = this.rgbToHex(e.target.style.backgroundColor);
-            this.setFillColor(color);
+            this.setStyle('fillColor', color);
         }.bind(this));
     },
 
@@ -190,7 +190,7 @@ L.StyleForms = L.Class.extend({
 
         this.createNumberInput(this.options.styleEditorUi, function(e) {
             var value = e.target.value;
-            this.setFillOpacity(value);
+            this.setStyle('fillOpacity', value);
         }.bind(this), this.options.currentElement.target.options.fillOpacity, 0, 1, 0.1);
 
     },
@@ -241,34 +241,10 @@ L.StyleForms = L.Class.extend({
         return selectBox;
     },
 
-    setOpacity: function(value) {
-        this.options.currentElement.target.setStyle({
-            opacity: value
-        });
-    },
-    setFillOpacity: function(value) {
-        this.options.currentElement.target.setStyle({
-            fillOpacity: value
-        });
-    },
-
-    setColor: function(color) {
-        this.options.currentElement.target.setStyle({
-            color: color
-        });
-    },
-
-    setStroke: function(stroke) {
-        this.options.currentElement.target.setStyle({
-            dashArray: stroke
-        });
-    },
-
-
-    setFillColor: function(color) {
-        this.options.currentElement.target.setStyle({
-            fillColor: color
-        });
+    setStyle: function(option, value) {
+        var newStyle = {};
+        newStyle[option] = value;
+        this.options.currentElement.target.setStyle(newStyle);
     },
 
     componentToHex: function(c) {
