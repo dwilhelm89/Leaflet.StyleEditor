@@ -149,7 +149,7 @@ L.Control.StyleEditor = L.Control.extend({
 
         var layer = e.target;
 
-        if (layer._icon) {
+        if (layer instanceof L.Marker) {
             //marker
             this.createMarkerForm(layer);
         } else {

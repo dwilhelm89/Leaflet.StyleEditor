@@ -31,15 +31,15 @@ L.StyleForms = L.Class.extend({
         this.createStroke();
 
         //Polygons, Circles get the fill options
-        if (this.options.currentElement.target._holePoints ||
-            this.options.currentElement.target._holes ||
-            this.options.currentElement.target._radius) {
+        if (this.options.currentElement.target instanceof L.Polygon){
 
             this.createFillColor();
             this.createFillOpacity();
         }
 
     },
+
+
 
     createMarkerForm: function() {
         this.clearForm();
