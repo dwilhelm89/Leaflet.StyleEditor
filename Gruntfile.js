@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         cssmin: {
             combine: {
                 files: {
-                    'dist/css/Leaflet.StyleEditor.min.css': ['src/css/Leaflet.STyleEditor.css']
+                    'dist/css/Leaflet.StyleEditor.min.css': ['src/css/Leaflet.StyleEditor.css']
                 }
             }
         }

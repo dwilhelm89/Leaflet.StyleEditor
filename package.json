@@ -5,14 +5,11 @@
     "description": "Edit the style of features drawn within Leaflet.",
     "license": "MIT",
     "main": "dist/Leaflet.StyleEditor.min.js",
-    "dependencies": {
-        "leaflet": "~0.7.x"
-    },
     "devDependencies": {
-        "grunt": "latest",
-        "grunt-contrib-concat": "latest",
-        "grunt-contrib-uglify": "latest",
-        "grunt-contrib-cssmin": "latest"
+        "grunt": "~0.4.x",
+        "grunt-contrib-concat": "~0.3.x",
+        "grunt-contrib-uglify": "~0.3.x",
+        "grunt-contrib-cssmin": "~0.8.x"
     },
     "repository":{
         "type": "git",
