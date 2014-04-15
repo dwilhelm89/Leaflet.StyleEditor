@@ -76,6 +76,10 @@
         golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
 
     var cities = L.layerGroup([littleton, denver, aurora, golden]).addTo(map);
+    
+    map.on('styleeditor:changed', function(element){
+        console.log(element);
+    });
     </script>
 </body>
 

@@ -71,8 +71,9 @@ L.StyleForms = L.Class.extend({
                 iconUrl: this.options.markerApi + 'pin-' + markerStyle.size + '-' + markerStyle.icon + '+' + markerStyle.color + '.png',
                 iconSize: iconSize
             });
-
-            this.options.currentElement.target.setIcon(newIcon);
+            var currentElement = this.options.currentElement.target;
+            currentElement.setIcon(newIcon);
+            this.fireChangeEvent(currentElement);
         }
     },
 
@@ -244,7 +245,13 @@ L.StyleForms = L.Class.extend({
     setStyle: function(option, value) {
         var newStyle = {};
         newStyle[option] = value;
-        this.options.currentElement.target.setStyle(newStyle);
+        var currentElement = this.options.currentElement.target;
+        currentElement.setStyle(newStyle);
+        this.fireChangeEvent(currentElement);
+    },
+    
+    fireChangeEvent: function(element){
+        this.options.currentElement.target._map.fireEvent('styleeditor:changed', element);
     },
 
     componentToHex: function(c) {
