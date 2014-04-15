@@ -30,6 +30,14 @@ var styleEditor = L.control.styleEditor({
 map.addControl(styleEditor);
 ````
 
+
+There is also an event to catch style changes:
+```javascript
+map.on('styleeditor:changed', function(element){
+    console.log(element);
+});
+````
+
 When using with Leaflet.draw you can define if the editor should open when new features are added:
 ```javascript
 var styleEditor = L.control.styleEditor({
