@@ -23,7 +23,6 @@ L.Control.StyleEditor = L.Control.extend({
 
         var styleEditorDiv = this.options.styleEditorDiv = L.DomUtil.create('div', 'leaflet-styleeditor', this.options.map._container);
         this.options.styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', styleEditorDiv);
-
         this.options.styleEditorUi = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv);
 
         this.addDomEvents();
@@ -35,30 +34,37 @@ L.Control.StyleEditor = L.Control.extend({
 
     addDomEvents: function() {
         L.DomEvent.addListener(this.options.controlDiv, 'click', this.clickHandler, this);
+        L.DomEvent.addListener(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
     },
 
     addLeafletDrawEvents: function() {
-        if (L.Control.Draw) {
-            if (this.options.openOnLeafletDraw) {
-                this.options.map.on('draw:created', function(layer) {
-                    this.initChangeStyle({
-                        "target": layer.layer
-                    });
-                }, this);
-            }
+        if (!this.options.openOnLeafletDraw) {
+        	return;
         }
+        if (!L.Control.Draw) {
+        	return;
+        }
+
+        this.options.map.on('draw:created', function(layer) {
+            this.initChangeStyle({
+                "target": layer.layer
+            });
+        });
     },
 
     addButtons: function() {
-        var closeBtn = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-closeBtn', this.options.styleEditorHeader);
-        var sizeToggleBtn = this.options.sizeToggleBtn = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-inBtn', this.options.styleEditorHeader);
+        var nextBtn = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', this.options.styleEditorHeader);
+        nextBtn.title = 'Choose another element you want to style';
 
-        L.DomEvent.addListener(closeBtn, 'click', this.hideEditor, this);
-        L.DomEvent.addListener(sizeToggleBtn, 'click', this.toggleEditorSize, this);
+        L.DomEvent.addListener(nextBtn, 'click', function(e) {
+        	this.hideEditor();
+        	this.createTooltip();
+
+        	e.stopPropagation();
+        }, this);
     },
-
 
     clickHandler: function(e) {
         this.options.enabled = !this.options.enabled;
@@ -69,31 +75,37 @@ L.Control.StyleEditor = L.Control.extend({
             L.DomUtil.removeClass(this.options.controlUI, 'enabled');
             this.disable();
         }
+
+        e.stopPropagation();
     },
 
     disableLeafletActions: function() {
-        this.options.map.dragging.disable();
-        this.options.map.touchZoom.disable();
-        this.options.map.doubleClickZoom.disable();
-        this.options.map.scrollWheelZoom.disable();
-        this.options.map.boxZoom.disable();
-        this.options.map.keyboard.disable();
+    	var m = this.options.map;
+
+        m.dragging.disable();
+        m.touchZoom.disable();
+        m.doubleClickZoom.disable();
+        m.scrollWheelZoom.disable();
+        m.boxZoom.disable();
+        m.keyboard.disable();
     },
 
     enableLeafletActions: function() {
-        this.options.map.dragging.enable();
-        this.options.map.touchZoom.enable();
-        this.options.map.doubleClickZoom.enable();
-        this.options.map.scrollWheelZoom.enable();
-        this.options.map.boxZoom.enable();
-        this.options.map.keyboard.enable();
+    	var m = this.options.map;
+
+        m.dragging.enable();
+        m.touchZoom.enable();
+        m.doubleClickZoom.enable();
+        m.scrollWheelZoom.enable();
+        m.boxZoom.enable();
+        m.keyboard.enable();
     },
 
     enable: function() {
         L.DomUtil.addClass(this.options.controlUI, "enabled");
         this.options.map.eachLayer(this.addEditClickEvents, this);
 
-        this.createMouseTooltip();
+        this.createTooltip();
     },
 
     disable: function() {
@@ -101,7 +113,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.options.editlayers = [];
         this.hideEditor();
 
-        this.removeMouseTooltip();
+        this.removeTooltip();
     },
 
     addEditClickEvents: function(layer) {
@@ -119,21 +131,6 @@ L.Control.StyleEditor = L.Control.extend({
         L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled');
     },
 
-    toggleEditorSize: function() {
-        if (L.DomUtil.hasClass(this.options.styleEditorDiv, 'leaflet-styleeditor-full')) {
-            L.DomUtil.removeClass(this.options.styleEditorDiv, 'leaflet-styleeditor-full');
-            L.DomUtil.removeClass(this.options.styleEditorUi, 'leaflet-styleeditor-full');
-            L.DomUtil.removeClass(this.options.sizeToggleBtn, 'styleeditor-outBtn');
-            L.DomUtil.addClass(this.options.sizeToggleBtn, 'styleeditor-inBtn');
-
-        } else {
-            L.DomUtil.addClass(this.options.styleEditorDiv, 'leaflet-styleeditor-full');
-            L.DomUtil.addClass(this.options.styleEditorUi, 'leaflet-styleeditor-full');
-            L.DomUtil.removeClass(this.options.sizeToggleBtn, 'styleeditor-inBtn');
-            L.DomUtil.addClass(this.options.sizeToggleBtn, 'styleeditor-outBtn');
-        }
-    },
-
     showEditor: function() {
         var editorDiv = this.options.styleEditorDiv;
         if (!L.DomUtil.hasClass(editorDiv, 'editor-enabled')) {
@@ -145,15 +142,15 @@ L.Control.StyleEditor = L.Control.extend({
         this.options.currentElement = e;
 
         this.showEditor();
-        this.removeMouseTooltip();
+        this.removeTooltip();
 
         var layer = e.target;
 
         if (layer instanceof L.Marker) {
-            //marker
+            // marker
             this.createMarkerForm(layer);
         } else {
-            //geometry with normal styles
+            // geometry with normal styles
             this.createGeometryForm(layer);
         }
 
@@ -181,31 +178,21 @@ L.Control.StyleEditor = L.Control.extend({
         styleForms.createMarkerForm();
     },
 
-    createMouseTooltip: function() {
-        if (this.options.showTooltip) {
-            var mouseTooltip = this.options.mouseTooltip = L.DomUtil.create('div', 'leaflet-styleeditor-mouseTooltip', document.body);
-            mouseTooltip.innerHTML = 'Click on the element you want to style';
-
-            L.DomEvent.addListener(window, 'mousemove', this.moveMouseTooltip, this);
+    createTooltip: function() {
+        if (!this.options.showTooltip) {
+        	return;
         }
 
+        var tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', document.body);
+        var tooltip = this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
+        tooltip.innerHTML = 'Click on the element you want to style';
     },
 
-    removeMouseTooltip: function() {
-        L.DomEvent.removeListener(window, 'mousemove', this.moveMouseTooltip);
-
-        if (this.options.mouseTooltip && this.options.mouseTooltip.parentNode) {
-            this.options.mouseTooltip.parentNode.removeChild(this.options.mouseTooltip);
+    removeTooltip: function() {
+        if (this.options.tooltip && this.options.tooltip.parentNode) {
+            this.options.tooltip.parentNode.removeChild(this.options.tooltip);
         }
-    },
-
-    moveMouseTooltip: function(e) {
-        var x = e.clientX,
-            y = e.clientY;
-        this.options.mouseTooltip.style.top = (y + 15) + 'px';
-        this.options.mouseTooltip.style.left = (x) + 'px';
     }
-
 
 });
 
