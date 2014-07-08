@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="icon.svg"
-   inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+   inkscape:export-filename="/home/user/workspace/Leaflet.StyleEditor/src/img/icon.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="561.41001"
+     inkscape:cx="451.80846"
      inkscape:cy="529.41462"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1846"
-     inkscape:window-height="1058"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1920"
+     inkscape:window-height="1171"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -425,44 +425,9 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:#333333;stroke:none"
-       d="m 520.89722,533.08262 c -0.87434,-0.54039 -0.72073,-1.51343 0.66848,-4.2339 2.88916,-5.65788 10.16425,-15.05039 11.35632,-14.66157 1.25875,0.41056 7.69784,9.42717 10.51342,14.72187 1.35359,2.54543 1.60798,3.77949 0.87273,4.23389 -1.72061,1.0634 -2.83667,0.11915 -7.11142,-6.01711 -2.24992,-3.22965 -4.29529,-5.87207 -4.54526,-5.87207 -0.25,0 -2.29537,2.64242 -4.54527,5.87207 -4.32829,6.21304 -5.38355,7.08501 -7.209,5.95682 l 0,0 z"
-       id="path3945"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#333333;stroke:none"
-       d="m 576.55335,515.01634 c -0.87434,0.54038 -0.72073,1.51343 0.66847,4.23389 2.88917,5.65789 10.16426,15.05039 11.35633,14.66158 1.25875,-0.41056 7.69783,-9.42717 10.51342,-14.72187 1.35358,-2.54544 1.60797,-3.77949 0.87272,-4.2339 -1.7206,-1.06339 -2.83666,-0.11914 -7.11141,6.01712 -2.24992,3.22964 -4.29529,5.87207 -4.54527,5.87207 -0.24999,0 -2.29536,-2.64243 -4.54526,-5.87207 -4.3283,-6.21305 -5.38356,-7.08501 -7.209,-5.95682 l 0,0 z"
-       id="path3945-4"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#333333;stroke:#000000;stroke-width:3.59966803;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 631.76022,516.04274 17.99834,17.99834"
-       id="path4001"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#333333;stroke:#000000;stroke-width:3.59966803;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 631.76022,534.04108 17.99834,-17.99834"
-       id="path4003"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:#333333;fill-opacity:1;stroke:none"
-       d="m 630.42905,534.31207 c 0,-0.35783 1.92773,-2.60773 4.28382,-4.9998 l 4.28384,-4.34922 -4.28384,-4.34925 c -2.35609,-2.39207 -4.28382,-4.64197 -4.28382,-4.99979 0,-1.73335 2.74084,-0.25092 6.36669,3.44356 l 4.0181,4.09414 4.15662,-4.09414 c 2.28615,-2.25177 4.44939,-4.09411 4.8072,-4.09411 1.64335,0 0.32294,2.53762 -3.17493,6.10168 l -3.82547,3.89791 3.82547,3.89788 c 3.55284,3.62006 4.81596,6.10169 3.10571,6.10169 -0.39588,0 -2.52793,-1.84235 -4.73787,-4.09412 l -4.01807,-4.09414 -4.15665,4.09414 c -3.78431,3.7274 -6.3668,5.12418 -6.3668,3.44357 z"
-       id="path4005"
-       inkscape:connector-curvature="0"
-       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 521.0076,514.38249 20,10 -20,10 z"
+       id="path3151"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
