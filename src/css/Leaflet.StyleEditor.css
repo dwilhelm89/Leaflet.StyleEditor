@@ -24,14 +24,13 @@
 }
 .leaflet-styleeditor {
     box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
-    height: 400px;
+    height: 100%;
     right: 0;
     min-height: 300px;
     background-color: white;
     width: 0;
     position: absolute;
-    margin-top: 20px;
-    margin-right: 20px;
+    margin: 0px;
     overflow: hidden;
     -webkit-transition-property: -webkit-transform, width;
     transition-property: transform, width;
@@ -49,7 +48,7 @@
 .leaflet-styleeditor-header {
     position: relative;
     height: 40px;
-    background-color: #444444;
+    background-color: #b0de5c;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -59,16 +58,12 @@
     overflow: auto;
     position: relative;
     right: 0px;
-    height: 350px;
+    height: 100%;
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
     /* Firefox, other Gecko */
     box-sizing: border-box;
-}
-.leaflet-styleeditor-full {
-    height: 100%;
-    margin-top: 0px;
 }
 .leaflet-styleeditor-label {
     width: 100px;
@@ -116,19 +111,11 @@
     color: #FFFFFF;
     cursor: pointer;
 }
-.styleeditor-inBtn {
-    background-image: url('../img/icon.png');
-    background-position: 8px -31px;
-}
-.styleeditor-outBtn {
-    background-image: url('../img/icon.png');
-    background-position: -47px -31px;
-}
-.styleeditor-closeBtn {
-    float:right;
+.styleeditor-nextBtn {
+    float: right;
     margin-right: 0px;
     background-image: url('../img/icon.png');
-    background-position: -100px -31px;
+    background-position: 10px -31px;
 }
 .leaflet-styleeditor-button:hover {
     background-color: #00ad87;
@@ -176,14 +163,21 @@
     width:30px;
     height: 49px;
 }
-.leaflet-styleeditor-mouseTooltip {
-    height: 50px;
-    width: 100px;
-    position: absolute;
-    background-color: rgba(68, 68, 68, 0.5);
-    padding: 5px;
-    border-radius: 5px;
-    font: 12px/1.5"Helvetica Neue", Arial, Helvetica, sans-serif;
+.leaflet-styleeditor-tooltip-wrapper {
+	position: absolute;
+	text-align: center;
+	top: 90%;
+	width: 100%;
+}
+.leaflet-styleeditor-tooltip {
+	background-color: rgba(68, 68, 68, 0.2);
+	border: 3px solid rgba(68, 68, 68, 0.7);
+	border-radius: 5px;
+	display: inline-block;
+	font: 20px/1"Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: relative;
+    whitespace: no-wrap;
 }
 .leaflet-styleeditor-stroke {
     height: 20px;
