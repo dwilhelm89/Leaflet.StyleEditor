@@ -30,16 +30,12 @@ L.StyleForms = L.Class.extend({
         this.createOpacity();
         this.createStroke();
 
-        //Polygons, Circles get the fill options
+        // Polygons, Circles get the fill options
         if (this.options.currentElement.target instanceof L.Polygon){
-
             this.createFillColor();
             this.createFillOpacity();
         }
-
     },
-
-
 
     createMarkerForm: function() {
         this.clearForm();
@@ -163,8 +159,6 @@ L.StyleForms = L.Class.extend({
         }, this);
     },
 
-
-
     createOpacity: function() {
         var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.options.styleEditorUi);
         label.innerHTML = 'Opacity:';
@@ -193,7 +187,6 @@ L.StyleForms = L.Class.extend({
             var value = e.target.value;
             this.setStyle('fillOpacity', value);
         }.bind(this), this.options.currentElement.target.options.fillOpacity, 0, 1, 0.1);
-
     },
 
     createColorPicker: function(parentDiv, callback) {
@@ -249,7 +242,7 @@ L.StyleForms = L.Class.extend({
         currentElement.setStyle(newStyle);
         this.fireChangeEvent(currentElement);
     },
-    
+
     fireChangeEvent: function(element){
         this.options.currentElement.target._map.fireEvent('styleeditor:changed', element);
     },
@@ -262,8 +255,6 @@ L.StyleForms = L.Class.extend({
     rgbToHex: function(rgb) {
         rgb = rgb.substring(4).replace(")", "").split(",");
         return "#" + this.componentToHex(parseInt(rgb[0], 10)) + this.componentToHex(parseInt(rgb[1], 10)) + this.componentToHex(parseInt(rgb[2], 10));
-    },
-
-
+    }
 
 });
