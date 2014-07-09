@@ -31,7 +31,7 @@ L.StyleForms = L.Class.extend({
         this.createStroke();
 
         // Polygons, Circles get the fill options
-        if (this.options.currentElement.target instanceof L.Polygon){
+        if (this.options.currentElement.target instanceof L.Polygon) {
             this.createFillColor();
             this.createFillOpacity();
         }
@@ -82,7 +82,6 @@ L.StyleForms = L.Class.extend({
             this.options.currentMarkerStyle.icon = value;
             this.setNewMarker();
         }.bind(this), this.options.markers);
-
     },
 
     createMarkerColor: function() {
@@ -94,11 +93,9 @@ L.StyleForms = L.Class.extend({
             this.options.currentMarkerStyle.color = color.replace("#", "");
             this.setNewMarker();
         }.bind(this));
-
     },
 
     createMarkerSize: function() {
-
         var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.options.styleEditorUi);
         label.innerHTML = 'Size:';
 
@@ -120,7 +117,6 @@ L.StyleForms = L.Class.extend({
             this.options.currentMarkerStyle.size = 'l';
             this.setNewMarker();
         }, this);
-
     },
 
     createColor: function() {
@@ -195,7 +191,7 @@ L.StyleForms = L.Class.extend({
             var elem = L.DomUtil.create('div', 'leaflet-styleeditor-color', colorPickerDiv);
             elem.style.backgroundColor = color;
 
-            L.DomEvent.addListener(elem, "click", callback, this);
+            L.DomEvent.addListener(elem, 'click', function(e) { e.stopPropagation(); callback(e); });
         }, this);
 
         L.DomUtil.create('br', '', parentDiv);
@@ -212,8 +208,8 @@ L.StyleForms = L.Class.extend({
         numberInput.setAttribute('max', max);
         numberInput.setAttribute('step', step);
 
-        L.DomEvent.addListener(numberInput, 'change', callback, this);
-        L.DomEvent.addListener(numberInput, 'keyup', callback, this);
+        L.DomEvent.addListener(numberInput, 'change', function(e) { e.stopPropagation(); callback(e); });
+        L.DomEvent.addListener(numberInput, 'keyup', function(e) { e.stopPropagation(); callback(e); });
 
         L.DomUtil.create('br', '', parentDiv);
         L.DomUtil.create('br', '', parentDiv);
@@ -230,7 +226,7 @@ L.StyleForms = L.Class.extend({
             selectOption.innerHTML = option;
         }, this);
 
-        L.DomEvent.addListener(selectBox, 'change', callback, this);
+        L.DomEvent.addListener(selectBox, 'change', function(e) { e.stopPropagation(); callback(e); });
 
         return selectBox;
     },
