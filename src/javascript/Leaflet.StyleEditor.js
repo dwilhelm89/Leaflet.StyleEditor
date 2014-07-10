@@ -53,7 +53,7 @@ L.Control.StyleEditor = L.Control.extend({
             this.initChangeStyle({
                 "target": layer.layer
             });
-        });
+        }, this);
     },
 
     addButtons: function() {
