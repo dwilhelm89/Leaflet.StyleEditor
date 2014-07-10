@@ -9,7 +9,7 @@
   "main": [
     "dist/javascript/Leaflet.StyleEditor.min.js",
     "dist/css/Leaflet.StyleEditor.min.css",
-  ]
+  ],
   "moduleType": [
     "globals"
   ],
