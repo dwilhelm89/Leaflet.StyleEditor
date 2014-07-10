@@ -7,8 +7,10 @@ L.Control.StyleEditor = L.Control.extend({
         markerApi: 'http://api.tiles.mapbox.com/v3/marker/',
         markers: ['circle-stroked', 'circle', 'square-stroked', 'square', 'triangle-stroked', 'triangle', 'star-stroked', 'star', 'cross', 'marker-stroked', 'marker', 'religious-jewish', 'religious-christian', 'religious-muslim', 'cemetery', 'rocket', 'airport', 'heliport', 'rail', 'rail-metro', 'rail-light', 'bus', 'fuel', 'parking', 'parking-garage', 'airfield', 'roadblock', 'ferry', 'harbor', 'bicycle', 'park', 'park2', 'museum', 'lodging', 'monument', 'zoo', 'garden', 'campsite', 'theatre', 'art-gallery', 'pitch', 'soccer', 'america-football', 'tennis', 'basketball', 'baseball', 'golf', 'swimming', 'cricket', 'skiing', 'school', 'college', 'library', 'post', 'fire-station', 'town-hall', 'police', 'prison', 'embassy', 'beer', 'restaurant', 'cafe', 'shop', 'fast-food', 'bar', 'bank', 'grocery', 'cinema', 'pharmacy', 'hospital', 'danger', 'industrial', 'warehouse', 'commercial', 'building', 'place-of-worship', 'alcohol-shop', 'logging', 'oil-well', 'slaughterhouse', 'dam', 'water', 'wetland', 'disability', 'telephone', 'emergency-telephone', 'toilets', 'waste-basket', 'music', 'land-use', 'city', 'town', 'village', 'farm', 'bakery', 'dog-park', 'lighthouse', 'clothing-store', 'polling-place', 'playground', 'entrance', 'heart', 'london-underground', 'minefield', 'rail-underground', 'rail-above', 'camera', 'laundry', 'car', 'suitcase', 'hairdresser', 'chemist', 'mobilephone', 'scooter'],
         editlayers: [],
+        layerGroups: [],
         openOnLeafletDraw: true,
-        showTooltip: true
+        showTooltip: true,
+        useGrouping: true
     },
 
     onAdd: function(map) {
@@ -33,7 +35,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     addDomEvents: function() {
-        L.DomEvent.addListener(this.options.controlDiv, 'click', this.clickHandler, this);
+        L.DomEvent.addListener(this.options.controlDiv, 'click', function(e) { this.clickHandler(e); e.stopPropagation(); }, this);
         L.DomEvent.addListener(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
@@ -75,8 +77,6 @@ L.Control.StyleEditor = L.Control.extend({
             L.DomUtil.removeClass(this.options.controlUI, 'enabled');
             this.disable();
         }
-
-        e.stopPropagation();
     },
 
     disableLeafletActions: function() {
@@ -104,20 +104,21 @@ L.Control.StyleEditor = L.Control.extend({
     enable: function() {
         L.DomUtil.addClass(this.options.controlUI, "enabled");
         this.options.map.eachLayer(this.addEditClickEvents, this);
-
         this.createTooltip();
     },
 
     disable: function() {
         this.options.editlayers.forEach(this.removeEditClickEvents, this);
         this.options.editlayers = [];
+        this.options.layerGroups = [];
         this.hideEditor();
-
         this.removeTooltip();
     },
 
     addEditClickEvents: function(layer) {
-        if (layer._latlng || layer._latlngs) {
+    	if (this.options.useGrouping && layer instanceof L.LayerGroup) {
+    		this.options.layerGroups.push(layer);
+    	} else if (layer instanceof L.Marker || layer instanceof L.Path) {
             var evt = layer.on('click', this.initChangeStyle, this);
             this.options.editlayers.push(evt);
         }
@@ -139,24 +140,22 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     initChangeStyle: function(e) {
-        this.options.currentElement = e;
+        this.options.currentElement = (this.options.useGrouping) ? this.getMatchingElement(e) : e;
 
         this.showEditor();
         this.removeTooltip();
 
         var layer = e.target;
-
         if (layer instanceof L.Marker) {
             // marker
-            this.createMarkerForm(layer);
+            this.createMarkerForm();
         } else {
-            // geometry with normal styles
-            this.createGeometryForm(layer);
+        	// layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
+            this.createGeometryForm();
         }
-
     },
 
-    createGeometryForm: function(layer) {
+    createGeometryForm: function() {
         var styleForms = new L.StyleForms({
             colorRamp: this.options.colorRamp,
             styleEditorUi: this.options.styleEditorUi,
@@ -166,7 +165,7 @@ L.Control.StyleEditor = L.Control.extend({
         styleForms.createGeometryForm();
     },
 
-    createMarkerForm: function(layer) {
+    createMarkerForm: function() {
         var styleForms = new L.StyleForms({
             colorRamp: this.options.colorRamp,
             styleEditorUi: this.options.styleEditorUi,
@@ -186,6 +185,38 @@ L.Control.StyleEditor = L.Control.extend({
         var tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', document.body);
         var tooltip = this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
         tooltip.innerHTML = 'Click on the element you want to style';
+    },
+
+    getMatchingElement: function(e) {
+    	var group = null,
+    		layer = e.target;
+
+        for (i = 0; i < this.options.layerGroups.length; ++i) {
+        	group = this.options.layerGroups[i];
+        	if (group && layer != group && group.hasLayer(layer)) {
+        		// we use the opacity style to check for correct object
+        		if (!group.options || !group.options.opacity) {
+        			group.options = layer.options;
+
+        			// special handling for layers... we pass the setIcon function
+        			if (layer.setIcon) {
+        				group.setIcon = function(icon) {
+        					group.eachLayer(function(layer) {
+        						if (layer instanceof L.Marker) {
+        							layer.setIcon(icon);
+        						}
+        					});
+        				}
+        			}
+        		}
+
+        		return this.getMatchingElement({
+        			target: group
+        		});
+        	}
+        }
+
+        return e;
     },
 
     removeTooltip: function() {
