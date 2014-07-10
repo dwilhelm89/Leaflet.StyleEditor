@@ -46,7 +46,13 @@ var styleEditor = L.control.styleEditor({
 map.addControl(styleEditor);
 ````
 
-
+Bower
+----
+Leaflet.StyleEditor is also a registered package in [Bower](http://bower.io/) (based on [nodejs](http://nodejs.org/)). Integrate the source in your project with:
+```
+npm install -g bower
+bower install Leaflet.StyleEditor
+```
 
 
 TODO
