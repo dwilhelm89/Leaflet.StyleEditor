@@ -30,8 +30,9 @@ L.StyleForms = L.Class.extend({
         this.createOpacity();
         this.createStroke();
 
-        // Polygons, Circles get the fill options
-        if (this.options.currentElement.target instanceof L.Polygon) {
+        // Polygons, Circles get the fill options (TODO: how should we handle groups here?)
+        var t = this.options.currentElement.target;
+        if (t instanceof L.Polygon || t instanceof L.LayerGroup) {
             this.createFillColor();
             this.createFillOpacity();
         }
@@ -60,7 +61,6 @@ L.StyleForms = L.Class.extend({
                 case 'l':
                     iconSize = [35, 90];
                     break;
-
             }
 
             var newIcon = new L.Icon({
