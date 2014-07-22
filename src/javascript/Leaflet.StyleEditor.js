@@ -206,7 +206,7 @@ L.Control.StyleEditor = L.Control.extend({
         							layer.setIcon(icon);
         						}
         					});
-        				}
+        				};
         			}
         		}
 
