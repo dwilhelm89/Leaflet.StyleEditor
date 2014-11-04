@@ -37,6 +37,7 @@ L.Control.StyleEditor = L.Control.extend({
     addDomEvents: function() {
         L.DomEvent.addListener(this.options.controlDiv, 'click', function(e) { this.clickHandler(e); e.stopPropagation(); }, this);
         L.DomEvent.addListener(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
+        L.DomEvent.addListener(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
     },
