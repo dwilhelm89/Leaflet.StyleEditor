@@ -10,6 +10,10 @@ L.Control.StyleEditor = L.Control.extend({
         layerGroups: [],
         openOnLeafletDraw: true,
         showTooltip: true,
+        strings: {
+            tooltip: 'Click on the element you want to style',
+            tooltipNext: 'Choose another element you want to style'
+        },
         useGrouping: true
     },
 
@@ -59,7 +63,7 @@ L.Control.StyleEditor = L.Control.extend({
 
     addButtons: function() {
         var nextBtn = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', this.options.styleEditorHeader);
-        nextBtn.title = 'Choose another element you want to style';
+        nextBtn.title = this.options.strings.tooltipNext;
 
         L.DomEvent.addListener(nextBtn, 'click', function(e) {
         	this.hideEditor();
@@ -185,7 +189,7 @@ L.Control.StyleEditor = L.Control.extend({
 
         var tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', document.body);
         var tooltip = this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
-        tooltip.innerHTML = 'Click on the element you want to style';
+        tooltip.innerHTML = this.options.strings.tooltip;
     },
 
     getMatchingElement: function(e) {
