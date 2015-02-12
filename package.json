@@ -1,7 +1,7 @@
 {
     "name": "Leaflet.StyleEditor",
     "author": "Dennis Wilhelm",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "Edit the style of features drawn within Leaflet.",
     "license": "MIT",
     "main": "dist/javascript/Leaflet.StyleEditor.min.js",
