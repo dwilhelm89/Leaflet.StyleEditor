@@ -65,7 +65,9 @@ L.StyleForms = L.Class.extend({
 
             var newIcon = new L.Icon({
                 iconUrl: this.options.markerApi + 'pin-' + markerStyle.size + '-' + markerStyle.icon + '+' + markerStyle.color + '.png',
-                iconSize: iconSize
+                iconSize: iconSize,
+                iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
+                popupAnchor: [0, -iconSize[1] / 2]
             });
             var currentElement = this.options.currentElement.target;
             currentElement.setIcon(newIcon);
