@@ -67,7 +67,9 @@ L.Control.StyleEditor = L.Control.extend({
 
         L.DomEvent.addListener(nextBtn, 'click', function(e) {
         	this.hideEditor();
-        	this.createTooltip();
+
+          if (L.DomUtil.hasClass(this.options.controlUI, 'enabled'))
+              this.createTooltip();
 
         	e.stopPropagation();
         }, this);
@@ -187,9 +189,13 @@ L.Control.StyleEditor = L.Control.extend({
         	return;
         }
 
-        var tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', document.body);
-        var tooltip = this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
-        tooltip.innerHTML = this.options.strings.tooltip;
+        if (!this.options.tooltipWrapper)
+          this.options.tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', document.body);
+
+        if (!this.options.tooltip)
+          this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', this.options.tooltipWrapper);
+
+        this.options.tooltip.innerHTML = this.options.strings.tooltip;
     },
 
     getMatchingElement: function(e) {
@@ -226,7 +232,8 @@ L.Control.StyleEditor = L.Control.extend({
 
     removeTooltip: function() {
         if (this.options.tooltip && this.options.tooltip.parentNode) {
-            this.options.tooltip.parentNode.removeChild(this.options.tooltip);
+            this.options.tooltip.remove();
+            this.options.tooltip = undefined;
         }
     }
 
