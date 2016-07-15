@@ -26,7 +26,6 @@
     box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
     height: 100%;
     right: 0;
-    min-height: 300px;
     background-color: white;
     width: 0;
     position: absolute;
@@ -46,6 +45,9 @@
 .editor-enabled {
     width: 210px;
 }
+.leaflet-styleeditor-hidden {
+    display: none;
+}
 .leaflet-styleeditor-header {
     position: relative;
     height: 40px;
@@ -59,7 +61,7 @@
     overflow: auto;
     position: relative;
     right: 0px;
-    height: 100%;
+    height: calc(100% - 40px);
     -webkit-box-sizing: border-box;
     /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;
@@ -73,6 +75,7 @@
 }
 .leaflet-styleeditor-input {
     height: 30px;
+    width: 20px;
     margin-bottom: 5px;
     padding-left: 10px;
     background: #fff;
@@ -89,8 +92,22 @@
     outline: none;
     width: 150px;
 }
-.leaflet-styleeditor-option {
+.leaflet-styleeditor-select-option-wrapper {
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: white;
+    top: 80px;
+    bottom: 20px;
+}
+.leaflet-styleeditor-select-option {
+    display: inline-block;
     height: 30px;
+    width: 28px;
+    padding: 4px;
+    cursor: pointer;
 }
 .leaflet-styleeditor-button {
     border: 0px;
@@ -151,17 +168,17 @@
 }
 .sizeicon-small {
     background-size: 20px 33px;
-    width: 20px;
+    width: 22px;
     height: 33px;
 }
 .sizeicon-medium {
     background-size: 25px 41px;
-    width:25px;
+    width:28px;
     height:41px;
 }
 .sizeicon-large {
     background-size: 30px 49px;
-    width:30px;
+    width:32px;
     height: 49px;
 }
 .leaflet-styleeditor-tooltip-wrapper {
