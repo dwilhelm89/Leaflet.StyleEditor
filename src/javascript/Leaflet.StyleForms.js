@@ -12,12 +12,12 @@ L.StyleForms = L.Class.extend({
         currentMarkerStyle: {
             size: 'm',
             color: '48a'
-        }
+        },
     },
 
     initialize: function(options) {
         L.setOptions(this, options);
-        this.createIconUrl();
+        this.createIconSelect();
         this.createMarkerColor();
         this.createMarkerSize();
         this.createColor();
@@ -83,6 +83,8 @@ L.StyleForms = L.Class.extend({
         var markerStyle = this.options.currentMarkerStyle;
         if(iconOptions.iconColor)
             markerStyle.color = iconOptions.iconColor;
+        if(iconOptions.markerColor)
+            markerStyle.color = iconOptions.markercolor;
         if(iconOptions.icon)
             markerStyle.icon = iconOptions.icon;
         if(iconOptions.iconSizeChar)
@@ -112,15 +114,23 @@ L.StyleForms = L.Class.extend({
                     break;
             }
 
-            var newIcon = new L.Icon({
-                iconUrl: this.getIconSrc(),
-                iconSize: iconSize,
-                iconSizeChar: markerStyle.size,
-                iconColor: markerStyle.color,
-                icon: markerStyle.icon,
-                iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
-                popupAnchor: [0, -iconSize[1] / 2]
-            });
+            if (this.options.ExtraMarkers.enabled) { 
+                var newIcon = new L.ExtraMarkers.icon({
+                    markerSize: iconSize,
+                    icon: markerStyle.icon,
+                    prefix: 'glyphicon'
+                });
+            } else {
+                var newIcon = new L.Icon({
+                    iconUrl: this.getIconSrc(),
+                    iconSize: iconSize,
+                    iconSizeChar: markerStyle.size,
+                    iconColor: markerStyle.color,
+                    icon: markerStyle.icon,
+                    iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
+                    popupAnchor: [0, -iconSize[1] / 2]
+                });
+            }
             var currentElement = this.options.currentElement.target;
             currentElement.setIcon(newIcon);
             this.fireChangeEvent(currentElement);
@@ -139,7 +149,7 @@ L.StyleForms = L.Class.extend({
             L.DomUtil.addClass(element, 'leaflet-styleeditor-hidden');
     },
 
-    createIconUrl: function() {
+    createIconSelect: function() {
         var iconDiv = this.options.styleEditorUi.iconDiv;
 
         var label = L.DomUtil.create('label', 'leaflet-styleeditor-label', iconDiv);
@@ -148,7 +158,7 @@ L.StyleForms = L.Class.extend({
         this.createSelectInput(iconDiv, function(e) {
             var value = e.target.getAttribute('value');
 
-            this.options.selectBoxImage.setAttribute('value', value);
+            this.updateIconSelectIcon(value);
             this.options.currentMarkerStyle.icon = value;
 
             this.setNewMarker();
@@ -305,9 +315,33 @@ L.StyleForms = L.Class.extend({
         return numberInput;
     },
 
+    createIconSelectIcon: function(parentDiv, option) {
+        if (option === undefined){
+            option = this.options.currentMarkerStyle.icon;
+        }
+
+        if (this.options.ExtraMarkers.enabled) {
+            var iconClass = this.options.ExtraMarkers.prefix + " " + option;
+            var iconSelect = L.DomUtil.create('i', iconClass, parentDiv);
+        } else {
+            var iconSelect =  L.DomUtil.create('img', 'leaflet-styleeditor-select-image', parentDiv);
+        }
+        iconSelect.setAttribute('value', option);
+        return iconSelect;
+    },
+
+    updateIconSelectIcon: function(option) {
+        var selectBoxImage = this.options.selectBoxImage;
+        selectBoxImage.setAttribute('value', option);
+        if (this.options.ExtraMarkers.enabled) {
+           selectBoxImage.setAttribute('class', 
+               this.options.ExtraMarkers.prefix + " " + option); 
+        }
+    },
+
     createSelectInput: function(parentDiv, callback, options) {
         var selectBox = L.DomUtil.create('button', 'leaflet-styleeditor-select', parentDiv);
-        var selectBoxImage = this.options.selectBoxImage = L.DomUtil.create('img', 'leaflet-styleeditor-select-image', selectBox);
+        this.options.selectBoxImage = this.createIconSelectIcon(selectBox);
 
         var selectOptionWrapper = this.options.selectOptionWrapper =
             L.DomUtil.create('ul', 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden', parentDiv);
@@ -319,8 +353,7 @@ L.StyleForms = L.Class.extend({
 
         options.forEach(function(option) {
             var selectOption = L.DomUtil.create('li', 'leaflet-styleeditor-select-option', selectOptionWrapper);
-            var selectImage = L.DomUtil.create('img', 'leaflet-styleeditor-select-option-image', selectOption);
-            selectImage.setAttribute('value', option);
+            var selectImage = this.createIconSelectIcon(selectOption, option); 
             this.options.selectImages.push(selectImage);
         }, this);
 
