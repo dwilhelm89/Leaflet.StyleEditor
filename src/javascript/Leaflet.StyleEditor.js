@@ -14,7 +14,8 @@ L.Control.StyleEditor = L.Control.extend({
             tooltip: 'Click on the element you want to style',
             tooltipNext: 'Choose another element you want to style'
         },
-        useGrouping: true
+        useGrouping: true,
+        styleForm: undefined
     },
 
     onAdd: function(map) {
@@ -29,11 +30,31 @@ L.Control.StyleEditor = L.Control.extend({
 
         var styleEditorDiv = this.options.styleEditorDiv = L.DomUtil.create('div', 'leaflet-styleeditor', this.options.map._container);
         this.options.styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', styleEditorDiv);
-        this.options.styleEditorUi = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv);
+        var styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv);
+
+        var styleEditorUi = {};
+        var iconDiv = styleEditorUi.iconDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var markerColorDiv = styleEditorUi.markerColorDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var sizeDiv = styleEditorUi.sizeDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var colorDiv = styleEditorUi.colorDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var opacityDiv = styleEditorUi.opacityDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var lineStrokeDiv = styleEditorUi.lineStrokeDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var fillColorDiv = styleEditorUi.fillColorDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        var fillOpacityDiv = styleEditorUi.fillOpacityDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-element', styleEditorInterior);
+        this.options.styleEditorUi = styleEditorUi;
 
         this.addDomEvents();
         this.addLeafletDrawEvents();
         this.addButtons();
+
+        this.options.styleForm = new L.StyleForms({
+            colorRamp: this.options.colorRamp,
+            styleEditorUi: styleEditorUi,
+            styleEditorDiv: styleEditorDiv,
+            markerApi: this.options.markerApi,
+            markers: this.options.markers,
+            map: this.options.map,
+        });
 
         return controlDiv;
     },
@@ -155,33 +176,23 @@ L.Control.StyleEditor = L.Control.extend({
         var layer = e.target;
         if (layer instanceof L.Marker) {
             // marker
-            this.createMarkerForm();
+            this.showMarkerForm();
         } else {
-        	// layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
-            this.createGeometryForm();
+          	// layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
+            this.showGeometryForm();
         }
     },
 
-    createGeometryForm: function() {
-        var styleForms = new L.StyleForms({
-            colorRamp: this.options.colorRamp,
-            styleEditorUi: this.options.styleEditorUi,
-            currentElement: this.options.currentElement
-        });
-
-        styleForms.createGeometryForm();
+    showGeometryForm: function() {
+        this.options.styleForm.showGeometryForm(
+            this.options.currentElement
+        );
     },
 
-    createMarkerForm: function() {
-        var styleForms = new L.StyleForms({
-            colorRamp: this.options.colorRamp,
-            styleEditorUi: this.options.styleEditorUi,
-            currentElement: this.options.currentElement,
-            markerApi: this.options.markerApi,
-            markers: this.options.markers
-        });
-
-        styleForms.createMarkerForm();
+    showMarkerForm: function() {
+        this.options.styleForm.showMarkerForm(
+            this.options.currentElement
+        );
     },
 
     createTooltip: function() {
