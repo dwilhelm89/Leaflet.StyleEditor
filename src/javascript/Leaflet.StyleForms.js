@@ -68,7 +68,8 @@ L.StyleForms = L.Class.extend({
         this.showElement(styleEditorUi.lineStrokeDiv);
 
         var t = currentElement.target;
-        if (t instanceof L.Polygon || t instanceof L.LayerGroup) {
+        if (t instanceof L.Polygon || t instanceof L.LayerGroup ||
+          (t instanceof L.Circle && ! (t instanceof L.CircleMarker))) {
             this.showElement(styleEditorUi.fillColorDiv);
             this.showElement(styleEditorUi.fillOpacityDiv);
         }
@@ -387,7 +388,7 @@ L.StyleForms = L.Class.extend({
             icon = markerStyle.icon;
         if (!size)
             size = markerStyle.size;
-        return this.options.markerApi + 'pin-' + size + '-' + icon+ '+' + markerStyle.color + '.png'
+        return this.options.markerApi + 'pin-' + size + '-' + icon+ '+' + markerStyle.color + '@2x.png'
     },
 
     setStyle: function(option, value) {
