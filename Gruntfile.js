@@ -10,27 +10,9 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 src: [
-                    'src/javascript/Leaflet.StyleEditor.js',
-                    'src/javascript/Util.js',
+                    'src/javascript/Leaflet.StyleForms.js',
+                    'src/javascript/Leaflet.StyleEditor.js'
 
-                    'src/javascript/FormElements/FormElement.js',
-                    'src/javascript/FormElements/IconElement.js',
-                    'src/javascript/FormElements/ColorElement.js',
-                    'src/javascript/FormElements/OpacityElement.js',
-                    'src/javascript/FormElements/SizeElement.js',
-                    'src/javascript/FormElements/DashElement.js',
-
-                    'src/javascript/Form/Form.js',
-                    'src/javascript/Form/GeometryForm.js',
-                    'src/javascript/Form/MarkerForm.js',
-
-                    'src/javascript/Marker/Marker.js',
-                    'src/javascript/Marker/MakiMarker.js',
-                    'src/javascript/Marker/GlyphiconMarker.js',
-
-                    'src/javascript/StyleForm.js',
-
-                    'src/javascript/Control.js'
                 ],
                 dest: 'dist/javascript/Leaflet.StyleEditor.min.js'
             }

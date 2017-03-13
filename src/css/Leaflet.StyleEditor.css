@@ -1,7 +1,17 @@
-.leaflet-control-styleeditor .leaflet-control-styleeditor-interior {
+.leaflet-control-styleeditor-interior {
+    height: 20px;
+    width: 20px;
     background-image: url('../img/icon.png');
-    background-position: 6px 6px;
-    background-size: 134px 116px;
+    background-position: 4px 4px;
+    background-repeat: no-repeat;
+    display: block;
+    padding: 3px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+    text-align: center;
+    background-color: #FFFFFF;
 }
 .leaflet-control-styleeditor-interior:hover {
     background-color: #07C217;
@@ -38,18 +48,6 @@
 .leaflet-styleeditor-hidden {
     display: none;
 }
-.leaflet-styleeditor-fill-horizontal{
-    display: flex;
-}
-.leaflet-styleeditor-fill-vertical{
-    flex-direction: column;
-    display: flex;
-}
-.leaflet-styleeditor-fill {
-    flex: 1;
-    min-width: 1px;
-    min-height: 1px;
-}
 .leaflet-styleeditor-header {
     position: relative;
     height: 40px;
@@ -77,6 +75,7 @@
 }
 .leaflet-styleeditor-input {
     height: 30px;
+    width: 20px;
     margin-bottom: 5px;
     padding-left: 10px;
     background: #fff;
@@ -85,7 +84,7 @@
     width: 150px;
 }
 .leaflet-styleeditor-select {
-    height: 32px;
+    height: 30px;
     margin-bottom: 5px;
     padding-left: 10px;
     background: #fff;
@@ -109,14 +108,6 @@
     width: 28px;
     padding: 4px;
     cursor: pointer;
-    position: relative;
-}
-.leaflet-styleeditor-select-image {
-    position: relative;
-    width: 20px;
-    height: 30px;
-    left: calc(50% - 10px);
-    overflow: hidden;
 }
 .leaflet-styleeditor-button {
     border: 0px;
@@ -193,7 +184,7 @@
 .leaflet-styleeditor-tooltip-wrapper {
 	position: absolute;
 	text-align: center;
-	top: 80%;
+	top: 90%;
 	width: 100%;
 }
 .leaflet-styleeditor-tooltip {
@@ -216,24 +207,4 @@
 }
 .leaflet-styleeditor-stroke:hover {
     border: 1px solid black;
-}
-
-.leaflet-styleeditor-glyphicon-marker-s {
-    padding-top: 3px;
-    font-size: 8px;
-}
-.leaflet-styleeditor-glyphicon-marker-m {
-    padding-top: 5px;
-    font-size: 12px;
-}
-.leaflet-styleeditor-glyphicon-marker-l {
-    padding-top: 9px;
-    font-size: 16px;
-}
-.leaflet-styleeditor-glyphicon-marker{
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: white;
-    display: flex;
 }
