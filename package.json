@@ -6,15 +6,15 @@
     "license": "MIT",
     "main": "dist/javascript/Leaflet.StyleEditor.min.js",
     "devDependencies": {
-        "grunt": "~0.4.x",
-        "grunt-contrib-concat": "~0.3.x",
-        "grunt-contrib-uglify": "~0.3.x",
-        "grunt-contrib-cssmin": "~0.8.x"
+        "grunt": "~1.x",
+        "grunt-contrib-concat": "~1.x",
+        "grunt-contrib-uglify": "~3.x",
+        "grunt-contrib-cssmin": "~2.x"
     },
-    "repository":{
+    "repository": {
         "type": "git",
         "url": "https://github.com/dwilhelm89/Leaflet.StyleEditor"
-        },
+    },
     "keywords": [
         "map",
         "gis",

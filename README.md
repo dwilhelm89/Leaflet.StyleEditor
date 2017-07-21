@@ -3,7 +3,7 @@ Leaflet.StyleEditor
 
 The [Leaflet](http://leafletjs.com/) StyleEditor allows to edit the style of any feature drawn within Leaflet.
 After activating the tool, the features can be edited by simply clicking them within the map.
-Current Leaflet version is: 0.7.7.
+Current Leaflet version is: 1.1.0.
 
 Check out the [Demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/)!
 
@@ -57,7 +57,6 @@ bower install Leaflet.StyleEditor
 
 TODO
 -----
-* Better representation of marker icons (img instead of plain text)
 * "Restore default" button
 * Visual highlight of the selected feature
 

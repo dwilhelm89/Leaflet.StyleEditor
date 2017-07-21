@@ -1,4 +1,6 @@
 L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.extend({
+    _selectOptionWrapperClasses: 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden',
+    _selectOptionClasses: 'leaflet-styleeditor-select-option',
 
     createContent: function() {
         var uiElement = this.options.uiElement;
@@ -7,14 +9,12 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
 
         L.DomEvent.addListener(selectBox, 'click', this._toggleSelectInput, this);
         L.DomEvent.addListener(selectBoxImage, 'click', this._toggleSelectInput, this);
-
-        var colors = this.options.styleEditorOptions.colorRamp;
-        colors.forEach(function(color) {this._createColorSelect(color)}, this);
     },
 
     style: function () {
         this._styleSelectInputImage(this.options.selectBoxImage,
             this.options.styleEditorOptions.markerType.options.iconOptions.icon);
+        this._createColorSelect(this.options.styleEditorOptions.markerType.options.iconOptions.color);
     },
 
     _createSelectInputImage: function(parentUiElement) {
@@ -46,11 +46,10 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
 
         var uiElement = this.options.uiElement;
         var selectOptionWrapper =
-            L.DomUtil.create('ul', 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden',
-                uiElement);
+            L.DomUtil.create('ul', this._selectOptionWrapperClasses, uiElement);
 
         this.options.styleEditorOptions.markerType.options.markers.forEach(function (option) {
-            var selectOption = L.DomUtil.create('li', 'leaflet-styleeditor-select-option', selectOptionWrapper);
+            var selectOption = L.DomUtil.create('li', this._selectOptionClasses, selectOptionWrapper);
             var selectImage = this._createSelectInputImage(selectOption);
             this._styleSelectInputImage(selectImage, option, color);
         }, this);
@@ -79,10 +78,12 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
         if (!!e) {
             e.stopPropagation();
         }
-        
-        var currentColorElement = this.options.selectOptions[this.options.styleEditorOptions.util.rgbToHex(
-            this.options.styleEditorOptions.markerType.options.iconOptions.iconColor
-        )];
+
+        var currentColorElement = this._getCurrentColorElement(
+            this.options.styleEditorOptions.util.rgbToHex(
+                this.options.styleEditorOptions.markerType.options.iconOptions.iconColor
+            )
+        );
 
         var show = false;
         if(!!currentColorElement) {
@@ -99,7 +100,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
     },
 
     _selectMarker: function (e) {
-        var value = e.target.getAttribute('value');
+        var value = this._getValue(e.target);
 
         this.options.selectBoxImage.setAttribute('value', value);
         this.setStyle(value);
@@ -107,5 +108,16 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
             this.options.styleEditorOptions.util.hideElement(this.options.selectOptions[i]);
         }
         this._toggleSelectInput();
+    },
+
+    _getValue: function (target) {
+        return target.getAttribute('value');
+    },
+
+    _getCurrentColorElement: function(color) {
+        if (!this.options.selectOptions[color])
+            this._createColorSelect(color);
+        return this.options.selectOptions[color];
     }
+
 });

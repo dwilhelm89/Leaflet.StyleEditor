@@ -33,7 +33,7 @@
     <script src="./javascript/Form/MarkerForm.js"></script>
 
     <script src="./javascript/Marker/Marker.js"></script>
-    <script src="./javascript/Marker/DefaultMarker.js"></script>
+    <script src="./javascript/Marker/MakiMarker.js"></script>
     <script src="./javascript/Marker/GlyphiconMarker.js"></script>
 
     <script src="javascript/StyleForm.js"></script>
@@ -52,13 +52,7 @@
         top:0;
         bottom:0;
         width:100%;
-        height:50%;
-    }
-    #map2 {
-        position:absolute;
-        top:50%;
-        bottom:0;
-        width:100%;
+        height:100%;
     }
     </style>
 
@@ -67,74 +61,7 @@
 <body>
     <div id="map"></div>
     <script>
-    var map = L.map('map').setView([20, -40], 3);
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // initialize the StyleEditor
-    map.addControl(L.control.styleEditor({
-        position: "topleft"
-    }));
-
-    // some random geometries to test (marker, polygon, polyline, geoJSON)
-    L.marker([51.5, -0.09]).addTo(map);
-
-    L.polyline([
-        [0, 0],
-        [30, 30],
-        [0, 20]
-    ]).addTo(map);
-
-    L.polygon([
-        [49, -100],
-        [60, -120],
-        [70, -90]
-    ]).addTo(map);
-
-    L.polygon([
-        [-45, 64.92354174306496],
-        [-45, 70.61261423801925],
-        [-22.148437499999996, 70.61261423801925],
-        [-22.148437499999996, 64.92354174306496],
-        [-45, 64.92354174306496]
-    ]).addTo(map);
-
-	L.geoJson([{
-	    "type": "Feature",
-	    "properties": {"party": "Republican"},
-	    "geometry": {
-	        "type": "Polygon",
-	        "coordinates": [[
-	            [-104.05, 48.99],
-	            [-97.22,  48.98],
-	            [-96.58,  45.94],
-	            [-104.03, 45.94],
-	            [-104.05, 48.99]
-	        ]]
-	    }
-	}], {
-	    style: function(feature) {
-	        switch (feature.properties.party) {
-	            case 'Republican': return {color: "#ff0000"};
-	        }
-	    }
-	}).addTo(map);
-
-    var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
-        denver = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
-        aurora = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
-        golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
-
-    var cities = L.layerGroup([littleton, denver, aurora, golden]).addTo(map);
-
-    map.on('styleeditor:changed', function(element){
-        console.log(element);
-    });
-    </script>
-    <div id="map2"></div>
-    <script>
-        var map = L.map('map2').setView([20, -40], 3);
+        var map = L.map('map').setView([20, -40], 3);
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
