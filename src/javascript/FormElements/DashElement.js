@@ -1,4 +1,9 @@
+/**
+ * FormElement used for styling the dash attribute
+ */
 L.StyleEditor.formElements.DashElement = L.StyleEditor.formElements.FormElement.extend({
+
+    /** create the three standard dash options */
     createContent: function () {
         var uiElement = this.options.uiElement;
         var stroke = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', uiElement);

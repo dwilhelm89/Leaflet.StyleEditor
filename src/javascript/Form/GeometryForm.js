@@ -1,3 +1,4 @@
+/** Form used to enable modification of a Geometry */
 L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
     options: {
         formElements: {
@@ -9,6 +10,7 @@ L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
         }
     },
 
+    /** show the fillOptions (fillColor and fillOpacity) only if the Element can be filled */
     showFormElements: function () {
         for (var i = 0; i < this.options.initializedElements.length; i++) {
             if (this.options.initializedElements[i].options.styleOption.indexOf('fill') == 0) {

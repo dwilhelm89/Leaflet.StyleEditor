@@ -1,3 +1,7 @@
+/**
+ * The "old" marker style used by L.StyleEditor
+ * used the mapbox API v3
+ */
 L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 
     createMarkerIcon: function (iconOptions) {

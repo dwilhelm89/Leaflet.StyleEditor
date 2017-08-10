@@ -1,6 +1,11 @@
+/**
+ * The Base class for different markers
+ */
 L.StyleEditor.marker.Marker = L.Class.extend({
+    /** define markerForm used to style the Marker */
     markerForm: L.StyleEditor.forms.MarkerForm,
 
+    /** set standard icon */
     initialize: function(options) {
         L.setOptions(this, options);
         this.options.iconOptions = {
@@ -10,6 +15,7 @@ L.StyleEditor.marker.Marker = L.Class.extend({
         };
     },
 
+    /** create new Marker and show it */
     setNewMarker: function() {
         var iconOptions = this.options.iconOptions;
 
@@ -20,6 +26,7 @@ L.StyleEditor.marker.Marker = L.Class.extend({
         }
     },
 
+    /** set styling options */
     setStyle: function (styleOption, value) {
         var iconOptions = this.options.iconOptions;
         if(iconOptions[styleOption] != value) {
@@ -28,6 +35,7 @@ L.StyleEditor.marker.Marker = L.Class.extend({
         }
     },
 
+    /** create HTML used to */
     createSelectHTML: function(parentUiElement, iconOptions, icon) {
         this.createSelectHTML(parentUiElement, iconOptions, icon);
     }
