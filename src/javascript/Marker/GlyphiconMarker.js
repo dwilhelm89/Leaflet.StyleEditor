@@ -1,3 +1,7 @@
+/**
+ * Example class showing how to implement new MarkerClasses
+ * uses the glyphicons given by bootstrap
+ */
 L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     getMarkerHtml: function(size, color, icon) {
         var iconUrl = this._getMarkerUrl(size, color);

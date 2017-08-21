@@ -1,3 +1,7 @@
+/**
+ *  FormElement used to style the color
+ */
+
 L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement.extend({
 
     createContent: function() {
@@ -6,6 +10,7 @@ L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement
         this._getColorRamp().forEach(this._setSelectCallback, this);
     },
 
+    /** create of get already created colorRamp */
     _getColorRamp: function() {
         if (!!this.options.colorRamp) {
             return this.options.colorRamp;
@@ -14,16 +19,19 @@ L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement
         }
     },
 
+    /** define what to do when color is changed */
     _setSelectCallback: function(color) {
         var elem = L.DomUtil.create('div', 'leaflet-styleeditor-color', this.options.colorPickerDiv);
         elem.style.backgroundColor = color;
         L.DomEvent.addListener(elem, 'click', this._selectColor, this);
     },
 
+    /** set style for chosen color */
     _selectColor: function(e) {
         e.stopPropagation();
         this.setStyle(e.target.style.backgroundColor);
 
+        // marker styling needs additional function calls
         if (this.options.styleEditorOptions.currentElement.target instanceof L.Marker) {
             this.options.styleEditorOptions.markerType.setNewMarker();
         }

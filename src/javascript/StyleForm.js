@@ -1,12 +1,3 @@
-/*
-Style options based on:
-- path: http://leafletjs.com/reference.html#path-options
-- icon: http://leafletjs.com/reference.html#icon
-
-Markers from:
--
-*/
-
 L.StyleForm = L.Class.extend({
     initialize: function(options) {
         L.setOptions(this, options);
@@ -14,12 +5,12 @@ L.StyleForm = L.Class.extend({
         this.createMarkerForm();
         this.createGeometryForm();
 
-        // this.addDOMEvents();
+        this.addDOMEvents();
     },
 
     addDOMEvents: function() {
-        L.DomEvent.addListener(this.options.styleEditorOptions.map, 'click', this.hideSelectInput, this);
-        L.DomEvent.addListener(this.options.styleEditorDiv, 'click', this.hideSelectInput, this);
+        L.DomEvent.addListener(this.options.styleEditorOptions.map, 'click', this.lostFocus, this);
+        L.DomEvent.addListener(this.options.styleEditorDiv, 'click', this.lostFocus, this);
     },
 
     clearForm: function() {
@@ -51,5 +42,19 @@ L.StyleForm = L.Class.extend({
 
     fireChangeEvent: function(element){
         this.options.styleEditorOptions.map.fireEvent('styleeditor:changed', element);
+    },
+
+    lostFocus: function(e) {
+        var parent = e.target;
+        for (var i=0; i<10; i++) {
+            if (!parent)
+                break;
+            if (!!parent.className && L.DomUtil.hasClass(parent, 'leaflet-styleeditor-interior'))
+                return;
+            parent = parent.parentNode;
+        }
+
+        this.options.styleEditorOptions.markerForm.lostFocus();
+        this.options.styleEditorOptions.geometryForm.lostFocus();
     }
 });
