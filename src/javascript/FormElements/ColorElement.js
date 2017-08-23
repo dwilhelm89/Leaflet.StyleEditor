@@ -12,11 +12,16 @@ L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement
 
     /** create of get already created colorRamp */
     _getColorRamp: function() {
-        if (!!this.options.colorRamp) {
-            return this.options.colorRamp;
-        } else {
-            return this.options.styleEditorOptions.colorRamp;
+        if (!this.options.colorRamp) {
+            // if markers have own colorRamp use it
+            if (this.options.parentForm instanceof L.StyleEditor.forms.MarkerForm && !! this.options.styleEditorOptions.markerType.colorRamp){
+                this.options.colorRamp = this.options.styleEditorOptions.markerType.colorRamp;
+            // else use the default
+            } else {
+                this.options.colorRamp = this.options.styleEditorOptions.colorRamp;
+            }
         }
+        return this.options.colorRamp;
     },
 
     /** define what to do when color is changed */
