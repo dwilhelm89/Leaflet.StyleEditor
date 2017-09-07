@@ -17,10 +17,10 @@ L.StyleEditor.marker.Marker = L.Class.extend({
 
     /** create new Marker and show it */
     setNewMarker: function() {
-        var iconOptions = this.options.iconOptions;
+        var iconOptions = this._ensureMarkerIcon(this.options.iconOptions);
 
         if (iconOptions.iconSize && iconOptions.icon && iconOptions.iconColor) {
-            var newIcon = this.createMarkerIcon(iconOptions);
+            var newIcon = this._createMarkerIcon(iconOptions);
             var currentElement = this.options.styleEditorOptions.currentElement.target;
             currentElement.setIcon(newIcon);
         }
@@ -28,7 +28,7 @@ L.StyleEditor.marker.Marker = L.Class.extend({
 
     /** set styling options */
     setStyle: function (styleOption, value) {
-        var iconOptions = this.options.iconOptions;
+        var iconOptions = this._ensureMarkerIcon(this.options.iconOptions);
         if(iconOptions[styleOption] != value) {
             iconOptions[styleOption] = value;
             this.setNewMarker();
@@ -38,6 +38,24 @@ L.StyleEditor.marker.Marker = L.Class.extend({
     /** create HTML used to */
     createSelectHTML: function(parentUiElement, iconOptions, icon) {
         this.createSelectHTML(parentUiElement, iconOptions, icon);
+    },
+
+    _createMarkerIcon: function(iconOptions) {
+        iconOptions = this._ensureMarkerIcon(iconOptions);
+        return this.createMarkerIcon(iconOptions);
+    },
+
+    _ensureMarkerIcon: function(iconOptions) {
+        var markers = this.options.styleEditorOptions.util.getMarkersForColor(iconOptions.iconColor);
+
+        if (markers.includes(iconOptions.icon)) {
+            return iconOptions;
+        }
+
+        iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(iconOptions.iconColor);
+
+        return iconOptions;
+
     }
 });
 

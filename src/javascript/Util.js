@@ -103,4 +103,39 @@ L.StyleEditor.Util = L.Class.extend({
         return hex.length === 1 ? '0' + hex : hex;
     },
 
+    /** get the markers for a specific color **/
+    getMarkersForColor: function(color) {
+        var markers = this.options.styleEditorOptions.markerType.options.markers;
+
+        // if only an array of markers is given return it
+        if (Array.isArray(markers)) {
+            return markers;
+        }
+
+        // if color is specified return specific markers
+        color = this.rgbToHex(color);
+        if (Object.keys(markers).includes(color)) {
+            return markers[color];
+        }
+        // return default markers
+        return markers.default;
+    },
+
+    /** get default marker for specific color **/
+    getDefaultMarkerForColor: function(color) {
+        color = this.rgbToHex(color);
+        var defaultMarker = this.options.styleEditorOptions.markerType.options.defaultMarker;
+        var markers = this.getMarkersForColor(color);
+
+        if (defaultMarker != undefined) {
+            if (typeof myVar === 'string' && markers.includes(defaultMarker)) {
+                return defaultMarker;
+            }
+            if (Object.keys(defaultMarker).includes(color)) {
+                return defaultMarker[color];
+            }
+        }
+        return markers[0];
+    }
+
 });

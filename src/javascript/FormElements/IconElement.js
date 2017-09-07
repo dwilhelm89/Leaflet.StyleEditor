@@ -19,7 +19,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
     style: function () {
         this._styleSelectInputImage(this.options.selectBoxImage,
             this.options.styleEditorOptions.markerType.options.iconOptions.icon);
-        this._createColorSelect(this.options.styleEditorOptions.markerType.options.iconOptions.color);
+        this._createColorSelect(this.options.styleEditorOptions.markerType.options.iconOptions.iconColor);
         this._hideSelectOptions();
     },
 
@@ -57,7 +57,6 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
         if (!this.options.selectOptions) {
             this.options.selectOptions = {};
         }
-
         if (color in this.options.selectOptions)
             return;
 
@@ -65,7 +64,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
         var selectOptionWrapper =
             L.DomUtil.create('ul', this._selectOptionWrapperClasses, uiElement);
 
-        this.options.styleEditorOptions.markerType.options.markers.forEach(function (option) {
+        this.options.styleEditorOptions.util.getMarkersForColor(color).forEach(function (option) {
             var selectOption = L.DomUtil.create('li', this._selectOptionClasses, selectOptionWrapper);
             var selectImage = this._createSelectInputImage(selectOption);
             this._styleSelectInputImage(selectImage, option, color);
