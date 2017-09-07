@@ -8,7 +8,7 @@
     "devDependencies": {
         "grunt": "~1.x",
         "grunt-contrib-concat": "~1.x",
-        "grunt-contrib-uglify": "~3.x",
+        "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
         "grunt-contrib-cssmin": "~2.x"
     },
     "repository": {
