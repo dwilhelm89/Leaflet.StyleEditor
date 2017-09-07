@@ -28,6 +28,9 @@ L.StyleEditor.Util = L.Class.extend({
     rgbToHex: function(rgb, no_hash) {
         if (!rgb) {
             rgb = this.options.styleEditorOptions.defaultColor;
+            if(rgb.indexOf('#') != 0) {
+                rgb = '#'+rgb;
+            }
         }
 
         if (rgb.indexOf('#') == 0) {
@@ -35,6 +38,10 @@ L.StyleEditor.Util = L.Class.extend({
                 rgb.replace('#', '');
             }
             return rgb;
+        }
+
+        if (rgb.indexOf('(') < 0) {
+            return '#' + rgb;
         }
 
         var without_hash = '';
@@ -105,36 +112,72 @@ L.StyleEditor.Util = L.Class.extend({
 
     /** get the markers for a specific color **/
     getMarkersForColor: function(color) {
+        color = this.rgbToHex(color);
+
         var markers = this.options.styleEditorOptions.markerType.options.markers;
+        var controlMarkers = this.options.styleEditorOptions.markers;
 
         // if only an array of markers is given return it
-        if (Array.isArray(markers)) {
-            return markers;
-        }
+        if (!Array.isArray(markers)) {
 
-        // if color is specified return specific markers
-        color = this.rgbToHex(color);
-        if (Object.keys(markers).includes(color)) {
-            return markers[color];
+            // if color is specified return specific markers
+            if (Object.keys(markers).includes(color)) {
+                markers = markers[color];
+            } else {
+                markers = markers['default'];
+            }
         }
-        // return default markers
-        return markers.default;
+        if (controlMarkers != null) {
+            if(!Array.isArray(controlMarkers)) {
+                var keys = Object.keys(controlMarkers);
+                if(keys.includes(color)) {
+                    controlMarkers = controlMarkers[color];
+                } else if (keys.includes('default')) {
+                    controlMarkers = controlMarkers['default'];
+                } else {
+                    controlMarkers = markers;
+                }
+            }
+
+            return markers.filter((n) => controlMarkers.includes(n))
+        }
+        return markers;
     },
 
     /** get default marker for specific color **/
     getDefaultMarkerForColor: function(color) {
         color = this.rgbToHex(color);
-        var defaultMarker = this.options.styleEditorOptions.markerType.options.defaultMarker;
+
         var markers = this.getMarkersForColor(color);
 
-        if (defaultMarker != undefined) {
-            if (typeof myVar === 'string' && markers.includes(defaultMarker)) {
-                return defaultMarker;
+        var defMarkers = [];
+
+        var defaultMarker = this.options.styleEditorOptions.defaultMarker;
+        if (defaultMarker != null) {
+            if (typeof defaultMarker === 'string') {
+                defMarkers.push(defaultMarker);
             }
             if (Object.keys(defaultMarker).includes(color)) {
-                return defaultMarker[color];
+                defMarkers.push(defaultMarker[color]);
+            }
+
+        }
+
+        defaultMarker = this.options.styleEditorOptions.markerType.options.defaultMarker;
+        if (defaultMarker != undefined) {
+            if (typeof defaultMarker === 'string') {
+                defMarkers.push(defaultMarker);
+            }
+            if (Object.keys(defaultMarker).includes(color)) {
+                defMarkers.push(defaultMarker[color]);
             }
         }
+
+        defMarkers.filter((n) => markers.includes(n));
+        if (defMarkers.length > 0) {
+            return defMarkers[0];
+        }
+
         return markers[0];
     }
 
