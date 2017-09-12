@@ -46,6 +46,37 @@ var styleEditor = L.control.styleEditor({
 map.addControl(styleEditor);
 ````
 
+### Settings
+
+```javascript
+//Initialize the StyleEditor
+var styleEditor = L.control.styleEditor({
+    position: "topleft"
+    colorRamp: ['#1abc9c', '#2ecc71', '#3498db'],
+    markers: ['circle-stroked', 'circle', 'square-stroked', 'square']
+});
+map.addControl(styleEditor);
+````
+
+* colorRamp
+
+   The colors shown in the ColorElement to set color and fillColor.
+   Markers may overwrite these settings (e.g. if they do not support
+   these colors)
+
+* markers
+
+   The markers that will be selectable in the IconElement. You may
+   define a list or a dictionary.
+
+* defaultIcon
+
+   The default icon selected at the beginning. A string or a dictionary.
+
+* defaultColor
+
+   The default color for icons.
+
 Bower
 ----
 Leaflet.StyleEditor is also a registered package in [Bower](http://bower.io/) (based on [nodejs](http://nodejs.org/)). Integrate the source in your project with:
