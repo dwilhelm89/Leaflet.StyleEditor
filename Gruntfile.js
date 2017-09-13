@@ -42,10 +42,26 @@ module.exports = function(grunt) {
                     'dist/css/Leaflet.StyleEditor.min.css': ['src/css/Leaflet.StyleEditor.css']
                 }
             }
-        }
+        },
+
+        'gh-pages': {
+            options: {
+                base: 'dist',
+                only: [
+                    'javascript/Leaflet.StyleEditor.min.js',
+                    'css/Leaflet.StyleEditor.min.css'
+                ]
+            },
+            src: [
+                'javascript/Leaflet.StyleEditor.min.js',
+                'css/Leaflet.StyleEditor.min.css'
+            ]
+        },
     });
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-gh-pages');
+
     grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
 };
