@@ -1,1 +1,4 @@
 node_modules/
+.grunt/
+.idea/
+package-lock.json
