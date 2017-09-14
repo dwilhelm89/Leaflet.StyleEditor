@@ -9,7 +9,8 @@
         "grunt": "~1.x",
         "grunt-contrib-concat": "~1.x",
         "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-        "grunt-contrib-cssmin": "~2.x"
+        "grunt-contrib-cssmin": "~2.x",
+        "grunt-gh-pages": "~2.x"
     },
     "repository": {
         "type": "git",
