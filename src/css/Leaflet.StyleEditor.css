@@ -118,6 +118,10 @@
     left: calc(50% - 10px);
     overflow: hidden;
 }
+.leaflet-styleeditor-select-image {
+    padding: 0;
+    margin: 0;
+}
 .leaflet-styleeditor-button {
     border: 0px;
     display: inline-block;
