@@ -2,23 +2,30 @@ L.Control.StyleEditor = L.Control.extend({
     options: {
         position: 'topleft',
         enabled: false,
+
         colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
                     '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
                     '#bdc3c7', '#7f8c8d'],
         defaultColor: null,
         currentElement: null,
+
         markerType: L.StyleEditor.marker.DefaultMarker,
+        markers: null,
+        defaultMarkerIcon: null,
+        defaultMarkerColor: null,
+
         geometryForm: L.StyleEditor.forms.GeometryForm,
+
         editLayers: [],
         layerGroups: [],
+
         openOnLeafletDraw: true,
         showTooltip: true,
+
         strings: {
             tooltip: 'Click on the element you want to style',
             tooltipNext: 'Choose another element you want to style'
         },
-        markers: null,
-        defaultMarker: null,
         useGrouping: true
     },
 
@@ -220,7 +227,7 @@ L.Control.StyleEditor = L.Control.extend({
 
         for (var i = 0; i < this.options.layerGroups.length; ++i) {
         	group = this.options.layerGroups[i];
-        	if (group && layer != group && group.hasLayer(layer)) {
+        	if (group && layer !== group && group.hasLayer(layer)) {
         		// we use the opacity style to check for correct object
         		if (!group.options || !group.options.opacity) {
         			group.options = layer.options;
