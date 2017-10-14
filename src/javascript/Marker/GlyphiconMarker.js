@@ -6,7 +6,7 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     getMarkerHtml: function(size, color, icon) {
         var iconUrl = this._getMarkerUrl(size, color);
         return  '<div class="leaflet-styleeditor-marker leaflet-styleeditor-marker-' +
-                    this._size(size) +'" ' +
+                    this.sizeToName(size)[0] +'" ' +
                     'style="background-image: url(' + iconUrl +');">' +
                 '<div class="leaflet-styleeditor-fill"></div>' +
                     '<i class="glyphicon ' + icon + '"></i>' +
@@ -28,12 +28,12 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     },
 
 	setStyle: function(styleOption, value) {
-		if (styleOption != 'icon') {
+		if (styleOption !== 'icon') {
 			styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
 		}
 
 		var iconOptions = this.options.iconOptions;
-        if(iconOptions[styleOption] != value) {
+        if(iconOptions[styleOption] !== value) {
             iconOptions[styleOption] = value;
             this.setNewMarker();
         }
@@ -43,25 +43,13 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
         parentUiElement.innerHTML = this.getMarkerHtml('s', iconOptions.iconColor, icon);
     },
 
-	_size: function (size) {
-		if (size[0] >= 30) {
-			if(size[0] >= 35) {
-				return 'l';
-			} else {
-				return 'm';
-			}
-		} else {
-			return 's';
-		}
-	},
-
 	_getMarkerUrlForStyle: function(iconOptions) {
 		return this._getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon)
 	},
 
 	_getMarkerUrl: function(size, color, icon) {
-		size = this._size(size);
-		if (color.indexOf('#') == 0) {
+		size = this.sizeToName(size)[0];
+		if (color.indexOf('#') === 0) {
 			color = color.replace('#', '');
 		} else {
 			color = this.options.styleEditorOptions.util.rgbToHex(color, true);

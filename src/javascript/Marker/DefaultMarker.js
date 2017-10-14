@@ -4,31 +4,39 @@
  */
 L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 
-    createMarkerIcon: function (iconOptions) {
+    createMarkerIcon: function (iconOptions, iconClass) {
+    	if (!iconClass) {
+    		iconClass = '';
+		}
+
 		var iconSize = iconOptions.iconSize;
         return new L.Icon({
             iconUrl: this._getMarkerUrlForStyle(iconOptions),
             iconSize: iconOptions.iconSize,
             iconColor: iconOptions.iconColor,
             icon: iconOptions.icon,
+			className: iconClass,
             iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
             popupAnchor: [0, -iconSize[1] / 2]
         });
     },
 
     createSelectHTML: function (parentUiElement, iconOptions, icon) {
-        var iconUrl = this._getMarkerUrl([20,30], iconOptions.iconColor, icon);
-        var image = L.DomUtil.create('IMG', '', parentUiElement);
-        image.src = iconUrl;
+        var tmpOptions = {};
+        tmpOptions.iconSize = this.options.size.small;
+        tmpOptions.icon = icon;
+        tmpOptions.iconColor = iconOptions.iconColor;
+
+        parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions, this.options.selectIconClass).createIcon().outerHTML;
     },
 
 	setStyle: function(styleOption, value) {
-		if (styleOption != 'icon') {
+		if (styleOption !== 'icon') {
 			styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
 		}
 
 		var iconOptions = this.options.iconOptions;
-        if(iconOptions[styleOption] != value) {
+        if(iconOptions[styleOption] !== value) {
             iconOptions[styleOption] = value;
             this.setNewMarker();
         }
@@ -39,8 +47,8 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 	},
 
 	_getMarkerUrl: function(size, color, icon) {
-		size = this._size(size);
-		if (color.indexOf('#') == 0) {
+		size = this.sizeToName(size)[0];
+		if (color.indexOf('#') === 0) {
 			color = color.replace('#', '');
 		} else {
 			color = this.options.styleEditorOptions.util.rgbToHex(color, true);
@@ -52,19 +60,8 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 		return url + '+' + color + '.png';
 	},
 
-	_size: function (size) {
-		if (size[0] >= 30) {
-			if(size[0] >= 35) {
-				return 'l';
-			} else {
-				return 'm';
-			}
-		} else {
-			return 's';
-		}
-	},
-
     options: {
+    	selectIconClass: 'defaultmarker',
         markers: [
             'circle-stroked',
             'circle',

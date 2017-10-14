@@ -1,13 +1,30 @@
 /**
  * The Base class for different markers
  */
-L.StyleEditor.marker.Marker = L.Class.extend({
+L.StyleEditor.marker.Marker = L.Marker.extend({
     /** define markerForm used to style the Marker */
     markerForm: L.StyleEditor.forms.MarkerForm,
+
+    options: {
+        size: {
+            'small': [20, 50],
+            'medium': [30, 70],
+            'large': [35, 90]
+        },
+
+        selectIconSize: [],
+        selectIconClass: ''
+    },
 
     /** set standard icon */
     initialize: function(options) {
         L.setOptions(this, options);
+        L.setOptions(this, this.options);
+
+        if (this.options.selectIconClass !== '' && !this.options.selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
+            this.options.selectIconClass = 'leaflet-styleeditor-select-image-' + this.options.selectIconClass;
+        }
+
     },
 
     /** create new Marker and show it */
@@ -23,8 +40,12 @@ L.StyleEditor.marker.Marker = L.Class.extend({
 
     /** set styling options */
     setStyle: function (styleOption, value) {
+        if (styleOption !== 'icon') {
+            styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
+        }
+
         var iconOptions = this.getIconOptions();
-        if(iconOptions[styleOption] != value) {
+        if(iconOptions[styleOption] !== value) {
             iconOptions[styleOption] = value;
             this.setNewMarker();
         }
@@ -32,26 +53,16 @@ L.StyleEditor.marker.Marker = L.Class.extend({
 
     /** create HTML used to */
     createSelectHTML: function(parentUiElement, iconOptions, icon) {
-        this.createSelectHTML(parentUiElement, iconOptions, icon);
     },
 
+    /** get the current iconOptions
+     *  if not set set them
+     */
     getIconOptions: function() {
         if (!this.options.iconOptions) {
-            var color = this.options.styleEditorOptions.defaultColor;
-            if (color == null) {
-                color = this.options.defaultColor;
-            }
-            if (color == null && this.options.colorRamp != null) {
-                color = this.options.colorRamp[0];
-            }
-            if (color == null) {
-                color = this.options.styleEditorOptions.colorRamp[0];
-            }
-
-            color = this.options.styleEditorOptions.util.rgbToHex(color);
-
+            var color = this._getDefaultMarkerColor();
             this.options.iconOptions = {
-                iconSize: [20, 50],
+                iconSize: this.options.styleEditorOptions.markerType.options.size.small,
                 iconColor: color,
                 icon:  this.options.styleEditorOptions.util.getDefaultMarkerForColor(color)
             };
@@ -60,11 +71,15 @@ L.StyleEditor.marker.Marker = L.Class.extend({
         return this._ensureMarkerIcon(this.options.iconOptions);
     },
 
+    /** call createMarkerIcon with the correct iconOptions */
     _createMarkerIcon: function(iconOptions) {
         iconOptions = this.getIconOptions(iconOptions);
         return this.createMarkerIcon(iconOptions);
     },
 
+    /** check that the icon set in the iconOptions exists
+     *  else set default icon
+     */
     _ensureMarkerIcon: function(iconOptions) {
         var markers = this.options.styleEditorOptions.util.getMarkersForColor(iconOptions.iconColor);
 
@@ -76,7 +91,85 @@ L.StyleEditor.marker.Marker = L.Class.extend({
 
         return iconOptions;
 
-    }
+    },
+
+    /** return default marker color
+     *
+     * will return the first of the following which is set and supported by the markers
+     * 1. styleEditorOptions.defaultMarkerColor
+     * 2. styleEditorOptions.defaultColor
+     * 3. first color of the marker's colorRamp which is in the styleeditor.colorRamp
+     * 4. first color of the marker's colorRamp
+     * */
+    _getDefaultMarkerColor: function() {
+        var markerTypeColorRamp = this.options.colorRamp;
+        var generalColorRamp = this.options.styleEditorOptions.colorRamp;
+        var intersectedColorRamp = [];
+
+        if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
+            intersectedColorRamp = markerTypeColorRamp.filter((n) => generalColorRamp.includes(n));
+            if (intersectedColorRamp.length ===0) {
+                intersectedColorRamp = markerTypeColorRamp;
+            }
+        } else {
+            intersectedColorRamp = generalColorRamp;
+        }
+
+        var color = this.options.styleEditorOptions.defaultMarkerColor;
+        if (color !== null && !intersectedColorRamp.includes(color)) {
+            color = null;
+        }
+
+        if (color === null) {
+            color = this.options.styleEditorOptions.defaultColor;
+            if (color !== null && !intersectedColorRamp.includes(color)){
+                color = null;
+            }
+
+            if (color === null) {
+                color = intersectedColorRamp[0];
+            }
+        }
+        return this.options.styleEditorOptions.util.rgbToHex(color);
+    },
+
+    /** return size as keyword */
+    sizeToName: function (size) {
+        var keys = Object.keys(this.options.size);
+
+        if (typeof size === 'string') {
+            if (size === 's') {
+                size = 'small';
+            } else if (size === 'm') {
+                size = 'medium';
+            } else if (size === 'l') {
+                size = 'large';
+            }
+
+            for (i = 0; i < keys.length; i++) {
+                if (this.options.size[keys[i]] === size) {
+                    return keys[i];
+                }
+            }
+        }
+
+        var values = Object.values(this.options.size);
+        for (var i=0; i<values.length; i++) {
+            if (JSON.stringify(size) === JSON.stringify(values[i])) {
+                return keys[i];
+            }
+        }
+
+        return keys[0];
+    },
+
+    /** return size as [x,y] */
+    sizeToPixel: function(size) {
+        size = this.sizeToName(size);
+        return this.options.size[size];
+    },
+
+
 });
 
 

@@ -6,11 +6,6 @@ L.StyleEditor.forms.MarkerForm = L.StyleEditor.forms.Form.extend({
             'color': L.StyleEditor.formElements.ColorElement,
             'size': L.StyleEditor.formElements.SizeElement
         }
-    },
-
-    /** before showing the MarkerForm update currently used MarkerIcon */
-    preShow: function () {
-        Object.assign(this.options.styleEditorOptions.markerType.getIconOptions(),
-            this.options.styleEditorOptions.util.getCurrentElement().options.icon.options);
     }
+
 });
