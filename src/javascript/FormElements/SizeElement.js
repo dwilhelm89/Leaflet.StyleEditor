@@ -8,17 +8,17 @@ L.StyleEditor.formElements.SizeElement = L.StyleEditor.formElements.FormElement.
         var uiElement = this.options.uiElement;
         var select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-small', uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle([20, 50]);
+            this.setStyle(this.options.styleEditorOptions.markerType.options.size.small);
         }, this);
 
         select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-medium', uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle([30, 70]);
+            this.setStyle(this.options.styleEditorOptions.markerType.options.size.medium);
         }, this);
 
         select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-large', uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle([35, 90]);
+            this.setStyle(this.options.styleEditorOptions.markerType.options.size.large);
         }, this);
     }
 });
