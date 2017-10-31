@@ -28,12 +28,12 @@ L.StyleEditor.Util = L.Class.extend({
     rgbToHex: function(rgb, no_hash) {
         if (!rgb) {
             rgb = this.options.styleEditorOptions.defaultColor;
-            if(rgb.indexOf('#') != 0) {
+            if(rgb.indexOf('#') !== 0) {
                 rgb = '#'+rgb;
             }
         }
 
-        if (rgb.indexOf('#') == 0) {
+        if (rgb.indexOf('#') === 0) {
             if (no_hash) {
                 rgb.replace('#', '');
             }
@@ -127,7 +127,7 @@ L.StyleEditor.Util = L.Class.extend({
                 markers = markers['default'];
             }
         }
-        if (controlMarkers != null) {
+        if (controlMarkers !== null) {
             if(!Array.isArray(controlMarkers)) {
                 var keys = Object.keys(controlMarkers);
                 if(keys.includes(color)) {
@@ -139,7 +139,7 @@ L.StyleEditor.Util = L.Class.extend({
                 }
             }
 
-            return markers.filter((n) => controlMarkers.includes(n))
+            return markers.filter((n) => controlMarkers.includes(n));
         }
         return markers;
     },
@@ -152,8 +152,8 @@ L.StyleEditor.Util = L.Class.extend({
 
         var defMarkers = [];
 
-        var defaultMarker = this.options.styleEditorOptions.defaultMarker;
-        if (defaultMarker != null) {
+        var defaultMarker = this.options.styleEditorOptions.defaultMarkerIcon;
+        if (defaultMarker !== null) {
             if (typeof defaultMarker === 'string') {
                 defMarkers.push(defaultMarker);
             }
@@ -163,8 +163,8 @@ L.StyleEditor.Util = L.Class.extend({
 
         }
 
-        defaultMarker = this.options.styleEditorOptions.markerType.options.defaultMarker;
-        if (defaultMarker != undefined) {
+        defaultMarker = this.options.styleEditorOptions.markerType.options.defaultMarkerIcon;
+        if (defaultMarker !== undefined) {
             if (typeof defaultMarker === 'string') {
                 defMarkers.push(defaultMarker);
             }

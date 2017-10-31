@@ -9,7 +9,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
     /** create the icon selectBoxes */
     createContent: function() {
         var uiElement = this.options.uiElement;
-        var selectBox = L.DomUtil.create('button', 'leaflet-styleeditor-select', uiElement);
+        var selectBox = L.DomUtil.create('div', 'leaflet-styleeditor-select', uiElement);
         var selectBoxImage = this.options.selectBoxImage = this._createSelectInputImage(selectBox);
 
         L.DomEvent.addListener(selectBox, 'click', this._toggleSelectInput, this);
@@ -18,7 +18,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
     /** show the correct icon in the correct color if the icon or color changed */
     style: function () {
         this._styleSelectInputImage(this.options.selectBoxImage,
-            this.options.styleEditorOptions.markerType.options.iconOptions.icon);
+            this.options.styleEditorOptions.markerType.getIconOptions().icon);
         this._createColorSelect(this.options.styleEditorOptions.markerType.options.iconOptions.iconColor);
         this._hideSelectOptions();
     },
@@ -30,7 +30,8 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
 
     /** create image container that hides/shows the iconSelectBox */
     _createSelectInputImage: function(parentUiElement) {
-        return L.DomUtil.create('div', 'leaflet-styleeditor-select-image', parentUiElement);
+        var wrapper = L.DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement);
+        return L.DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper);
     },
 
     /** create appropriate image for color and icon */
@@ -42,7 +43,7 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
             }
         }
 
-        var iconOptions = this.options.styleEditorOptions.markerType.options.iconOptions;
+        var iconOptions = this.options.styleEditorOptions.markerType.getIconOptions();
         if (!!color) {
             iconOptions.iconColor = color;
         }
@@ -78,11 +79,12 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
             if (target.nodeName === 'UL') {
                 return;
             }
-            while (target.nodeName !== 'LI') {
+            if(target.parentNode.className === 'leaflet-styleeditor-select-image') {
                 target = target.parentNode;
-            }
-            if (target.nodeName === 'LI') {
-                target = target.childNodes[0];
+            } else {
+                while (target && target.className !== 'leaflet-styleeditor-select-image') {
+                    target = target.childNodes[0];
+                }
             }
             this._selectMarker({
                 'target': target
