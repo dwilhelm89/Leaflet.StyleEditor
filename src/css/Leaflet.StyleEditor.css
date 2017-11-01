@@ -1,10 +1,29 @@
 .leaflet-control-styleeditor .leaflet-control-styleeditor-interior {
-    background-image: url('../img/icon.png');
-    background-position: 6px 6px;
-    background-size: 134px 116px;
+    background-image: url('../img/control.svg');
+    background-position: 50% 50%;
+    background-size: 50%;
 }
 .leaflet-control-styleeditor-interior:hover {
     background-color: #07C217;
+}
+.leaflet-control-styleeditor .leaflet-control-styleeditor-cancel {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #919187;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+    color: white;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.leaflet-control-styleeditor .leaflet-control-styleeditor-cancel:hover {
+    background-color: #a0a098;
+    cursor: pointer;
 }
 .enabled {
     background-color: #b0de5c;

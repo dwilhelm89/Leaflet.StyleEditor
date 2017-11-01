@@ -23,6 +23,8 @@ L.Control.StyleEditor = L.Control.extend({
         showTooltip: true,
 
         strings: {
+            cancel: 'Cancel',
+            cancelTitle: 'Cancel Styling',
             tooltip: 'Click on the element you want to style',
             tooltipNext: 'Choose another element you want to style'
         },
@@ -46,10 +48,14 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     createUi: function() {
-        var controlDiv = this.options.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-bar');
+        var controlDiv = this.options.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar');
         var controlUI = this.options.controlUI = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior',
             controlDiv);
         controlUI.title = 'Style Editor';
+
+        var cancel = this.options.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlDiv);
+        cancel.innerHTML = this.options.strings.cancel;
+        cancel.title = this.options.strings.cancelTitle;
 
         var styleEditorDiv = this.options.styleEditorDiv =
             L.DomUtil.create('div', 'leaflet-styleeditor', this.options.map._container);
@@ -71,7 +77,10 @@ L.Control.StyleEditor = L.Control.extend({
 
     addDomEvents: function() {
         L.DomEvent.addListener(this.options.controlDiv, 'click', function(e) {
-            this.clickHandler(e); e.stopPropagation();
+            this.enable(); e.stopPropagation();
+        }, this);
+        L.DomEvent.addListener(this.options.cancelUI, 'click', function(e) {
+            this.disable(); e.stopPropagation();
         }, this);
         L.DomEvent.addListener(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
         L.DomEvent.addListener(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation);
@@ -109,17 +118,6 @@ L.Control.StyleEditor = L.Control.extend({
         }, this);
     },
 
-    clickHandler: function(e) {
-        this.options.enabled = !this.options.enabled;
-
-        if (this.options.enabled) {
-            this.enable();
-        } else {
-            L.DomUtil.removeClass(this.options.controlUI, 'enabled');
-            this.disable();
-        }
-    },
-
     disableLeafletActions: function() {
     	var m = this.options.map;
 
@@ -145,6 +143,7 @@ L.Control.StyleEditor = L.Control.extend({
     enable: function() {
         L.DomUtil.addClass(this.options.controlUI, "enabled");
         this.options.map.eachLayer(this.addEditClickEvents, this);
+        this.showCancelButton();
         this.createTooltip();
     },
 
@@ -153,6 +152,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.options.editLayers = [];
         this.options.layerGroups = [];
         this.hideEditor();
+        this.hideCancelButton();
         this.removeTooltip();
     },
 
@@ -173,11 +173,19 @@ L.Control.StyleEditor = L.Control.extend({
         L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled');
     },
 
+    hideCancelButton: function() {
+        L.DomUtil.addClass(this.options.cancelUI, 'leaflet-styleeditor-hidden');
+    },
+
     showEditor: function() {
         var editorDiv = this.options.styleEditorDiv;
         if (!L.DomUtil.hasClass(editorDiv, 'editor-enabled')) {
             L.DomUtil.addClass(editorDiv, 'editor-enabled');
         }
+    },
+
+    showCancelButton: function() {
+        L.DomUtil.removeClass(this.options.cancelUI, 'leaflet-styleeditor-hidden');
     },
 
     initChangeStyle: function(e) {
