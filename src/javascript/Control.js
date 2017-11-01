@@ -38,6 +38,9 @@ L.Control.StyleEditor = L.Control.extend({
         this.options.markerType = new this.options.markerType({styleEditorOptions: this.options});
         this.options.markerForm = new this.options.markerType.markerForm({styleEditorOptions: this.options});
         this.options.geometryForm = new this.options.geometryForm({styleEditorOptions: this.options});
+
+        this.getDefaultIcon = this.options.markerType._createMarkerIcon.bind(this.options.markerType),
+        this.createIcon = this.options.markerType.createMarkerIcon.bind(this.options.markerType)
     },
 
     onAdd: function(map) {
@@ -258,7 +261,7 @@ L.Control.StyleEditor = L.Control.extend({
             this.options.tooltip.remove();
             this.options.tooltip = undefined;
         }
-    }
+    },
 
 });
 
