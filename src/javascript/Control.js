@@ -97,6 +97,7 @@ L.Control.StyleEditor = L.Control.extend({
         }
 
         this.options.map.on('draw:created', function(layer) {
+            this.enable();
             this.initChangeStyle({
                 "target": layer.layer
             });
