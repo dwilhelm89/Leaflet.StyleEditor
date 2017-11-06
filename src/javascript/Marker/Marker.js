@@ -66,6 +66,14 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
      *  if not set set them
      */
     getIconOptions: function() {
+        var currentIconOptions = {};
+        if (this.options.styleEditorOptions.currentElement) {
+            currentIconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options;
+        }
+        if (Object.keys(currentIconOptions).length) {
+            this.options.iconOptions = currentIconOptions;
+        }
+
         if (!this.options.iconOptions) {
             var color = this._getDefaultMarkerColor();
             this.options.iconOptions = {
