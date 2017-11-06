@@ -7,7 +7,6 @@ L.Control.StyleEditor = L.Control.extend({
                     '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
                     '#bdc3c7', '#7f8c8d'],
         defaultColor: null,
-        currentElement: null,
 
         markerType: L.StyleEditor.marker.DefaultMarker,
         markers: null,
@@ -16,9 +15,6 @@ L.Control.StyleEditor = L.Control.extend({
 
         geometryForm: L.StyleEditor.forms.GeometryForm,
 
-        editLayers: [],
-        layerGroups: [],
-
         openOnLeafletDraw: true,
         showTooltip: true,
 
@@ -26,7 +22,14 @@ L.Control.StyleEditor = L.Control.extend({
             tooltip: 'Click on the element you want to style',
             tooltipNext: 'Choose another element you want to style'
         },
-        useGrouping: true
+        useGrouping: true,
+
+
+        // internal
+        currentElement: null,
+        _editLayers: [],
+        _layerGroups: []
+
     },
 
     initialize: function(options) {
@@ -84,16 +87,26 @@ L.Control.StyleEditor = L.Control.extend({
 
     addLeafletDrawEvents: function() {
         if (!this.options.openOnLeafletDraw) {
-        	return;
+          return;
         }
         if (!L.Control.Draw) {
-        	return;
+          return;
         }
 
-        this.options.map.on('draw:created', function(layer) {
-            this.initChangeStyle({
-                "target": layer.layer
-            });
+        this.options.map.on('layeradd', function(e) {
+            if (this.options.currentElement) {
+                if (e.layer === this.options.currentElement.target) {
+                    this.enable();
+                    this.initChangeStyle({
+                        "target": e.layer
+                    });
+                }
+            }
+        }, this);
+
+        this.options.map.on(L.Draw.Event.CREATED, function(layer) {
+            this.removeIndicators();
+            this.options.currentElement = {'target': layer.layer};
         }, this);
     },
 
@@ -103,12 +116,12 @@ L.Control.StyleEditor = L.Control.extend({
         nextBtn.title = this.options.strings.tooltipNext;
 
         L.DomEvent.addListener(nextBtn, 'click', function(e) {
-        	this.hideEditor();
+          this.hideEditor();
 
           if (L.DomUtil.hasClass(this.options.controlUI, 'enabled'))
               this.createTooltip();
 
-        	e.stopPropagation();
+          e.stopPropagation();
         }, this);
     },
 
@@ -124,7 +137,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     disableLeafletActions: function() {
-    	var m = this.options.map;
+      var m = this.options.map;
 
         m.dragging.disable();
         m.touchZoom.disable();
@@ -135,7 +148,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     enableLeafletActions: function() {
-    	var m = this.options.map;
+      var m = this.options.map;
 
         m.dragging.enable();
         m.touchZoom.enable();
@@ -152,19 +165,19 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     disable: function() {
-        this.options.editLayers.forEach(this.removeEditClickEvents, this);
-        this.options.editLayers = [];
-        this.options.layerGroups = [];
+        this.options._editLayers.forEach(this.removeEditClickEvents, this);
+        this.options._editLayers = [];
+        this.options._layerGroups = [];
         this.hideEditor();
         this.removeTooltip();
     },
 
     addEditClickEvents: function(layer) {
-    	if (this.options.useGrouping && layer instanceof L.LayerGroup) {
-    		this.options.layerGroups.push(layer);
-    	} else if (layer instanceof L.Marker || layer instanceof L.Path) {
+      if (this.options.useGrouping && layer instanceof L.LayerGroup) {
+        this.options._layerGroups.push(layer);
+      } else if (layer instanceof L.Marker || layer instanceof L.Path) {
             var evt = layer.on('click', this.initChangeStyle, this);
-            this.options.editLayers.push(evt);
+            this.options._editLayers.push(evt);
         }
     },
 
@@ -172,7 +185,46 @@ L.Control.StyleEditor = L.Control.extend({
         layer.off('click', this.initChangeStyle, this);
     },
 
+    addIndicators: function() {
+        if(!this.options.currentElement) {
+            return;
+        }
+
+        var currentElement = this.options.currentElement.target;
+        if (currentElement instanceof L.LayerGroup) {
+            currentElement.eachLayer(function(layer) {
+                if(layer instanceof L.Marker && layer.getElement()) {
+                    L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
+                }
+            });
+        } else if (currentElement instanceof L.Marker) {
+            if (currentElement.getElement()) {
+                L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
+            }
+        }
+    },
+
+    removeIndicators: function() {
+        if (!this.options.currentElement) {
+            return;
+        }
+
+        var currentElement = this.options.currentElement.target;
+        if (currentElement instanceof L.LayerGroup) {
+            currentElement.eachLayer(function(layer) {
+                if(layer.getElement()) {
+                    L.DomUtil.removeClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
+                }
+            });
+        } else {
+            if(currentElement.getElement()) {
+                L.DomUtil.removeClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
+            }
+        }
+    },
+
     hideEditor: function() {
+        this.removeIndicators();
         L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled');
     },
 
@@ -184,8 +236,10 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     initChangeStyle: function(e) {
+        this.removeIndicators();
         this.options.currentElement = (this.options.useGrouping) ? this.getMatchingElement(e) : e;
 
+        this.addIndicators();
         this.showEditor();
         this.removeTooltip();
 
@@ -194,9 +248,10 @@ L.Control.StyleEditor = L.Control.extend({
             // marker
             this.showMarkerForm();
         } else {
-          	// layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
+            // layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
             this.showGeometryForm();
         }
+
     },
 
     showGeometryForm: function() {
@@ -209,7 +264,7 @@ L.Control.StyleEditor = L.Control.extend({
 
     createTooltip: function() {
         if (!this.options.showTooltip) {
-        	return;
+          return;
         }
 
         if (!this.options.tooltipWrapper) {
@@ -225,32 +280,32 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     getMatchingElement: function(e) {
-    	var group = null,
-    		layer = e.target;
+      var group = null,
+        layer = e.target;
 
-        for (var i = 0; i < this.options.layerGroups.length; ++i) {
-        	group = this.options.layerGroups[i];
-        	if (group && layer !== group && group.hasLayer(layer)) {
-        		// we use the opacity style to check for correct object
-        		if (!group.options || !group.options.opacity) {
-        			group.options = layer.options;
+        for (var i = 0; i < this.options._layerGroups.length; ++i) {
+          group = this.options._layerGroups[i];
+          if (group && layer !== group && group.hasLayer(layer)) {
+            // we use the opacity style to check for correct object
+            if (!group.options || !group.options.opacity) {
+              group.options = layer.options;
 
-        			// special handling for layers... we pass the setIcon function
-        			if (layer.setIcon) {
-        				group.setIcon = function(icon) {
-        					group.eachLayer(function(layer) {
-        						if (layer instanceof L.Marker) {
-        							layer.setIcon(icon);
-        						}
-        					});
-        				};
-        			}
-        		}
+              // special handling for layers... we pass the setIcon function
+              if (layer.setIcon) {
+                group.setIcon = function(icon) {
+                  group.eachLayer(function(layer) {
+                    if (layer instanceof L.Marker) {
+                      layer.setIcon(icon);
+                    }
+                  });
+                };
+              }
+            }
 
-        		return this.getMatchingElement({
-        			target: group
-        		});
-        	}
+            return this.getMatchingElement({
+              target: group
+            });
+          }
         }
 
         return e;

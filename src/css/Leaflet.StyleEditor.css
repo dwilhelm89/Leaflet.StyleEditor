@@ -204,18 +204,18 @@
     height: 49px;
 }
 .leaflet-styleeditor-tooltip-wrapper {
-	position: absolute;
-	text-align: center;
-	bottom: 10%;
-	width: 100%;
+    position: absolute;
+    text-align: center;
+    bottom: 10%;
+    width: 100%;
     z-index: 1000;
 }
 .leaflet-styleeditor-tooltip {
-	background-color: rgba(68, 68, 68, 0.2);
-	border: 3px solid rgba(68, 68, 68, 0.7);
-	border-radius: 5px;
-	display: inline-block;
-	font: 20px/1"Helvetica Neue", Arial, Helvetica, sans-serif;
+    background-color: rgba(68, 68, 68, 0.2);
+    border: 3px solid rgba(68, 68, 68, 0.7);
+    border-radius: 5px;
+    display: inline-block;
+    font: 20px/1"Helvetica Neue", Arial, Helvetica, sans-serif;
     padding: 10px;
     position: relative;
     whitespace: no-wrap;
@@ -251,14 +251,23 @@
     width: 35px;
 }
 
-.leaflet-styleeditor-marker{
+.leaflet-styleeditor-marker {
     text-align: center;
     color: white;
     display: flex;
     background-repeat: no-repeat;
 }
 
-.leaflet-styleeditor-maki-marker-icon{
+.leaflet-styleeditor-maki-marker-icon {
     width: 100%;
     height: 25%;
+}
+.leaflet-styleeditor-marker-selected {
+    background-color: rgba(254,87,161,0.1);
+    border: 4px dashed rgba(254,87,161,0.6);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    box-sizing: content-box;
+    left: -4px;
+    top: -4px;
 }
