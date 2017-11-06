@@ -19,6 +19,7 @@ module.exports = function(grunt) {
                     'src/javascript/FormElements/OpacityElement.js',
                     'src/javascript/FormElements/SizeElement.js',
                     'src/javascript/FormElements/DashElement.js',
+                    'src/javascript/FormElements/WidthElement.js',
 
                     'src/javascript/Form/Form.js',
                     'src/javascript/Form/GeometryForm.js',

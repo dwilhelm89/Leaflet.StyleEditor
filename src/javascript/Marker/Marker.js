@@ -35,6 +35,13 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
             var newIcon = this._createMarkerIcon(iconOptions);
             var currentElement = this.options.styleEditorOptions.currentElement.target;
             currentElement.setIcon(newIcon);
+            if (currentElement instanceof L.LayerGroup) {
+                currentElement.eachLayer(function(layer) {
+                    L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
+                });
+            } else {
+                L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
+            }
         }
     },
 
