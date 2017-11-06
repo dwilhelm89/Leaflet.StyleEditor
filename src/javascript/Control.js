@@ -92,7 +92,7 @@ L.Control.StyleEditor = L.Control.extend({
 
         this.options.map.on('layeradd', function(e) {
             if (this.options.currentElement) {
-                if (e.layer.id === this.options.currentElement.target.id) {
+                if (e.layer === this.options.currentElement.target) {
                     this.enable();
                     this.initChangeStyle({
                         "target": e.layer
@@ -233,6 +233,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     initChangeStyle: function(e) {
+        this.removeIndicators();
         this.options.currentElement = (this.options.useGrouping) ? this.getMatchingElement(e) : e;
 
         this.addIndicators();
