@@ -50,7 +50,6 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
         if (styleOption !== 'icon') {
             styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
         }
-
         var iconOptions = this.getIconOptions();
         if(iconOptions[styleOption] !== value) {
             iconOptions[styleOption] = value;

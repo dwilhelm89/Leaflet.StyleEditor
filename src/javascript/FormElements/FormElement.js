@@ -8,7 +8,7 @@ L.StyleEditor.formElements.FormElement = L.Class.extend({
         }
 
         // if no title is given use styling option
-        if (!!this.options.styleOption) {
+        if (!this.options.title && !!this.options.styleOption) {
             this.options.title = this.options.styleOption.charAt(0).toUpperCase() + this.options.styleOption.slice(1);
         }
     },
@@ -58,7 +58,6 @@ L.StyleEditor.formElements.FormElement = L.Class.extend({
     /** set style - used when the FormElement wants to change the styling option */
     setStyle: function (value) {
         var currentElement = this.options.styleEditorOptions.util.getCurrentElement();
-
         // check whether a layer is part of a layerGroup
         var layers = [currentElement];
         if (currentElement instanceof L.LayerGroup) {
