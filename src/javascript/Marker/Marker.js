@@ -29,19 +29,15 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
 
     /** create new Marker and show it */
     setNewMarker: function() {
-        var iconOptions = this.getIconOptions();
-
-        if (iconOptions.iconSize && iconOptions.icon && iconOptions.iconColor) {
-            var newIcon = this._createMarkerIcon(iconOptions);
-            var currentElement = this.options.styleEditorOptions.currentElement.target;
-            currentElement.setIcon(newIcon);
-            if (currentElement instanceof L.LayerGroup) {
-                currentElement.eachLayer(function(layer) {
-                    L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
-                });
-            } else {
-                L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
-            }
+        var newIcon = this._createMarkerIcon();
+        var currentElement = this.options.styleEditorOptions.currentElement.target;
+        currentElement.setIcon(newIcon);
+        if (currentElement instanceof L.LayerGroup) {
+            currentElement.eachLayer(function(layer) {
+                L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
+            });
+        } else {
+            L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
         }
     },
 
@@ -50,7 +46,7 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
         if (styleOption !== 'icon') {
             styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
         }
-        var iconOptions = this.getIconOptions();
+        var iconOptions = this.options.iconOptions;
         if(iconOptions[styleOption] !== value) {
             iconOptions[styleOption] = value;
             this.setNewMarker();
@@ -65,29 +61,35 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
      *  if not set set them
      */
     getIconOptions: function() {
-        var currentIconOptions = {};
+        var iconOptions = {};
         if (this.options.styleEditorOptions.currentElement) {
-            currentIconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options;
-        }
-        if (Object.keys(currentIconOptions).length) {
-            this.options.iconOptions = currentIconOptions;
+            iconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options;
         }
 
-        if (!this.options.iconOptions) {
-            var color = this._getDefaultMarkerColor();
-            this.options.iconOptions = {
-                iconSize: this.options.styleEditorOptions.markerType.options.size.small,
-                iconColor: color,
-                icon:  this.options.styleEditorOptions.util.getDefaultMarkerForColor(color)
-            };
+        if (!iconOptions.iconColor) {
+            iconOptions.iconColor = this._getDefaultMarkerColor();
+        }
+        if (!iconOptions.iconSize) {
+            iconOptions.iconSize =  this.options.styleEditorOptions.markerType.options.size.small;
+        }
+        if (!iconOptions.icon) {
+            iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(iconOptions.iconColor);
         }
 
-        return this._ensureMarkerIcon(this.options.iconOptions);
+        this.options.iconOptions = this._ensureMarkerIcon(iconOptions); 
+        return iconOptions;
+    },
+
+    setIconOptions: function() {
+        this.getIconOptions();
+        Object.keys(this.options.iconOptions).forEach((key) =>
+                this.setStyle(key, this.options.iconOptions[key])
+        );
     },
 
     /** call createMarkerIcon with the correct iconOptions */
-    _createMarkerIcon: function(iconOptions) {
-        iconOptions = this.getIconOptions(iconOptions);
+    _createMarkerIcon: function() {
+        var iconOptions = this.getIconOptions();
         return this.createMarkerIcon(iconOptions);
     },
 
