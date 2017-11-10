@@ -34,7 +34,11 @@ L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement
     /** set style for chosen color */
     _selectColor: function(e) {
         e.stopPropagation();
-        this.setStyle(e.target.style.backgroundColor);
+        this.setStyle(
+          this.options.styleEditorOptions.util.rgbToHex(
+            e.target.style.backgroundColor
+          )
+        );
 
         // marker styling needs additional function calls
         if (this.options.styleEditorOptions.currentElement.target instanceof L.Marker) {
