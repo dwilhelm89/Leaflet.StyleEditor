@@ -254,9 +254,7 @@ L.Control.StyleEditor = L.Control.extend({
         var layer = e.target;
         if (layer instanceof L.Marker) {
             // ensure iconOptions are set for Leaflet.Draw created Markers
-            this.options.markerType.iconOptions = {};
-            this.options.markerType.setIconOptions();
-
+            this.options.markerType.resetIconOptions();
             // marker
             this.showMarkerForm();
         } else {

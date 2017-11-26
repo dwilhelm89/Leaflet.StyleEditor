@@ -52,6 +52,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
         this.preShow();
         this.showFormElements();
         this.showForm();
+        this.style();
     },
 
     /** hook which is called at the beginning of the show function */
