@@ -69,7 +69,6 @@ L.StyleEditor.formElements.FormElement = L.Class.extend({
             var layer = layers[i];
             if (layer instanceof L.Marker) {
                 this.options.styleEditorOptions.markerType.setStyle(this.options.styleOption, value);
-                layer.options.icon.options[this.options.styleOption] = value;
             } else {
                 var newStyle = {};
                 newStyle[this.options.styleOption] = value;

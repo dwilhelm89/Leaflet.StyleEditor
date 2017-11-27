@@ -46,11 +46,8 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
         if (styleOption !== 'icon') {
             styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
         }
-        var iconOptions = this.options.iconOptions;
-        if(iconOptions[styleOption] !== value) {
-            iconOptions[styleOption] = value;
-            this.setNewMarker();
-        }
+        this.setIconOptions(styleOption, value);
+        this.setNewMarker();
     },
 
     /** create HTML used to */
@@ -76,15 +73,19 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
             iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(iconOptions.iconColor);
         }
 
-        this.options.iconOptions = this._ensureMarkerIcon(iconOptions); 
+        this.options.iconOptions = this._ensureMarkerIcon(iconOptions);
         return iconOptions;
     },
 
-    setIconOptions: function() {
-        this.getIconOptions();
-        Object.keys(this.options.iconOptions).forEach((key) =>
-                this.setStyle(key, this.options.iconOptions[key])
+    resetIconOptions: function() {
+        Object.keys(this.getIconOptions()).forEach((key) =>
+            this.setStyle(key, this.options.iconOptions[key])
         );
+    },
+
+    setIconOptions: function(key, value) {
+        var iconOptions = this.getIconOptions();
+        iconOptions[key] = value;
     },
 
     /** call createMarkerIcon with the correct iconOptions */

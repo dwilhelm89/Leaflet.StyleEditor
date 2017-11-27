@@ -17,8 +17,9 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
 
     /** show the correct icon in the correct color if the icon or color changed */
     style: function () {
+        var iconOptions = this.options.styleEditorOptions.markerType.getIconOptions();
         this._styleSelectInputImage(this.options.selectBoxImage,
-            this.options.styleEditorOptions.markerType.getIconOptions().icon);
+            iconOptions.icon, iconOptions.iconColor);
         this._createColorSelect(this.options.styleEditorOptions.markerType.options.iconOptions.iconColor);
         this._hideSelectOptions();
     },
