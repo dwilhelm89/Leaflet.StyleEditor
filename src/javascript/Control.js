@@ -82,16 +82,16 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     addDomEvents: function() {
-        L.DomEvent.addListener(this.options.controlDiv, 'click', function(e) {
+        L.DomEvent.on(this.options.controlDiv, 'click', function(e) {
             this.enable(); e.stopPropagation();
         }, this);
-        L.DomEvent.addListener(this.options.cancelUI, 'click', function(e) {
+        L.DomEvent.on(this.options.cancelUI, 'click', function(e) {
             this.disable(); e.stopPropagation();
         }, this);
-        L.DomEvent.addListener(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
-        L.DomEvent.addListener(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation);
-        L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
-        L.DomEvent.addListener(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
+        L.DomEvent.on(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
+        L.DomEvent.on(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation);
+        L.DomEvent.on(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
+        L.DomEvent.on(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
     },
 
     addLeafletDrawEvents: function() {
@@ -101,22 +101,66 @@ L.Control.StyleEditor = L.Control.extend({
         if (!L.Control.Draw) {
           return;
         }
+        this.options.map.on('layeradd', this.onLayerAdd, this);
+        this.options.map.on(L.Draw.Event.CREATED, this.onLeafletDrawCreated, this);
+    },
 
-        this.options.map.on('layeradd', function(e) {
-            if (this.options.currentElement) {
-                if (e.layer === this.options.currentElement.target) {
-                    this.enable();
-                    this.initChangeStyle({
-                        "target": e.layer
-                    });
-                }
+    onLeafletDrawCreated: function(layer) {
+        this.removeIndicators();
+        this.options.currentElement = {'target': layer.layer};
+    },
+
+    onLayerAdd: function(e) {
+        if (this.options.currentElement) {
+            if (e.layer === this.options.currentElement.target) {
+                this.enable();
+                this.initChangeStyle({
+                    "target": e.layer
+                });
             }
-        }, this);
+        }
+    },
 
-        this.options.map.on(L.Draw.Event.CREATED, function(layer) {
-            this.removeIndicators();
-            this.options.currentElement = {'target': layer.layer};
+    onRemove: function (map) {
+        // hide everything that may be visible
+        // remove edit events for layers
+        // remove tooltip
+        this.disable();
+
+        // make sure leaflet actions are usable
+        this.enableLeafletActions();
+
+        // remove events
+        this.removeDomEvents();
+        this.removeLeafletDrawEvents();
+
+        // remove dom elements
+        L.DomUtil.remove(this.options.styleEditorDiv);
+        L.DomUtil.remove(this.options.cancelUI);
+
+        // delete dom elements
+        delete this.options.styleEditorDiv;
+        delete this.options.cancelUI;
+    },
+
+    removeLeafletDrawEvents: function() {
+        this.options.map.off('layeradd', this.onLayerAdd);
+        if (!!L.Draw) {
+            this.options.map.off(L.Draw.Event.CREATED, this.onLeafletDrawCreated);
+        }
+    },
+
+    removeDomEvents: function() {
+        L.DomEvent.off(this.options.controlDiv, 'click', function(e) {
+            this.enable(); e.stopPropagation();
         }, this);
+        L.DomEvent.off(this.options.cancelUI, 'click', function(e) {
+            this.disable(); e.stopPropagation();
+        }, this);
+        L.DomEvent.off(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this);
+        L.DomEvent.off(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation);
+        L.DomEvent.off(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this);
+        L.DomEvent.off(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this);
     },
 
     addButtons: function() {
@@ -124,7 +168,7 @@ L.Control.StyleEditor = L.Control.extend({
             'leaflet-styleeditor-button styleeditor-nextBtn', this.options.styleEditorHeader);
         nextBtn.title = this.options.strings.tooltipNext;
 
-        L.DomEvent.addListener(nextBtn, 'click', function(e) {
+        L.DomEvent.on(nextBtn, 'click', function(e) {
           this.hideEditor();
 
           if (L.DomUtil.hasClass(this.options.controlUI, 'enabled'))
@@ -135,7 +179,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     disableLeafletActions: function() {
-      var m = this.options.map;
+        var m = this.options.map;
 
         m.dragging.disable();
         m.touchZoom.disable();
@@ -261,7 +305,6 @@ L.Control.StyleEditor = L.Control.extend({
             // layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
             this.showGeometryForm();
         }
-
     },
 
     showGeometryForm: function() {
@@ -285,7 +328,6 @@ L.Control.StyleEditor = L.Control.extend({
         if (!this.options.tooltip) {
             this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', this.options.tooltipWrapper);
         }
-
         this.options.tooltip.innerHTML = this.options.strings.tooltip;
     },
 
@@ -317,7 +359,6 @@ L.Control.StyleEditor = L.Control.extend({
             });
           }
         }
-
         return e;
     },
 
@@ -327,7 +368,6 @@ L.Control.StyleEditor = L.Control.extend({
             this.options.tooltip = undefined;
         }
     },
-
 });
 
 L.control.styleEditor = function(options) {
