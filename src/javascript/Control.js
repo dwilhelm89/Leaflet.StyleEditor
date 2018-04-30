@@ -26,6 +26,7 @@ L.Control.StyleEditor = L.Control.extend({
         },
         useGrouping: true,
 
+        styleEditorEventPrefix: 'styleeditor:',
 
         // internal
         currentElement: null,
@@ -51,6 +52,10 @@ L.Control.StyleEditor = L.Control.extend({
     onAdd: function(map) {
         this.options.map = map;
         return this.createUi();
+    },
+
+    fireEvent: function(eventName, element) {
+        this.options.util.fireEvent(eventName, element);
     },
 
     createUi: function() {
@@ -135,7 +140,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     disableLeafletActions: function() {
-      var m = this.options.map;
+        var m = this.options.map;
 
         m.dragging.disable();
         m.touchZoom.disable();
@@ -146,7 +151,7 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     enableLeafletActions: function() {
-      var m = this.options.map;
+        var m = this.options.map;
 
         m.dragging.enable();
         m.touchZoom.enable();
@@ -224,8 +229,11 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     hideEditor: function() {
-        this.removeIndicators();
-        L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled');
+        if (L.DomUtil.hasClass(this.options.styleEditorDiv, 'editor-enabled')) {
+            this.removeIndicators();
+            L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled');
+            this.fireEvent('hidden');
+        }
     },
 
     hideCancelButton: function() {
@@ -236,6 +244,7 @@ L.Control.StyleEditor = L.Control.extend({
         var editorDiv = this.options.styleEditorDiv;
         if (!L.DomUtil.hasClass(editorDiv, 'editor-enabled')) {
             L.DomUtil.addClass(editorDiv, 'editor-enabled');
+            this.fireEvent('visible');
         }
     },
 
@@ -252,23 +261,26 @@ L.Control.StyleEditor = L.Control.extend({
         this.removeTooltip();
 
         var layer = e.target;
+        this.fireEvent('editing', layer);
         if (layer instanceof L.Marker) {
             // ensure iconOptions are set for Leaflet.Draw created Markers
             this.options.markerType.resetIconOptions();
             // marker
-            this.showMarkerForm();
+            this.showMarkerForm(layer);
         } else {
             // layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
-            this.showGeometryForm();
+            this.showGeometryForm(layer);
         }
 
     },
 
-    showGeometryForm: function() {
+    showGeometryForm: function(layer) {
+        this.fireEvent('geometry', layer);
         this.options.styleForm.showGeometryForm();
     },
 
-    showMarkerForm: function() {
+    showMarkerForm: function(layer) {
+        this.fireEvent('marker', layer);
         this.options.styleForm.showMarkerForm();
     },
 

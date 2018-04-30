@@ -9,9 +9,16 @@ L.StyleEditor.Util = L.Class.extend({
         }
     },
 
+    fireEvent: function(eventName, element) {
+        this.options.styleEditorOptions.map.fireEvent(
+            this.options.styleEditorOptions.styleEditorEventPrefix + eventName,
+            element
+        );
+    },
+
     /** fire an event if Leaflet.StyleEditor changed something */
     fireChangeEvent: function(element){
-        this.options.styleEditorOptions.map.fireEvent('styleeditor:changed', element);
+        this.fireEvent('changed', element);
     },
 
     /** hide the given element */

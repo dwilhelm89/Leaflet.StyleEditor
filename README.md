@@ -20,18 +20,26 @@ var styleEditor = L.control.styleEditor({
 map.addControl(styleEditor);
 ````
 
-It is also possible to specify different color ramps or to specify the set of markers:
-```javascript
-var styleEditor = L.control.styleEditor({
-    position: "topleft",
-    colorRamp: ['#1abc9c', '#2ecc71', '#3498db'],
-    markers: ['circle-stroked', 'circle', 'square-stroked', 'square']
-});
-map.addControl(styleEditor);
-````
+
+### Events
+
+Events are prefixed with 'styleeditor:' unless defined differently by
+styleEditorEventPrefix.
+
+The following events exist:
+
+event | signification
+--- | ---
+visible | The editor is visible and ready for user interaction.
+hidden | The editor is invisible.
+changed | An element has been styled. Element is given by the function.
+editing | A layer is being edited. The layer is given by the function.
+marker | A marker is being edited. The layer is given by the function. Note: 
+'editing' will be called beforehand with the same layer.
+geometry | A geometry is being edited. The layer is given by the function. Note:
+'editing' will be called beforehand with the same layer.
 
 
-There is also an event to catch style changes:
 ```javascript
 map.on('styleeditor:changed', function(element){
     console.log(element);
@@ -48,6 +56,8 @@ map.addControl(styleEditor);
 
 ### Settings
 
+There are a bunch of settings you can define when initializing the styleeditor.
+
 ```javascript
 //Initialize the StyleEditor
 var styleEditor = L.control.styleEditor({
@@ -59,13 +69,11 @@ map.addControl(styleEditor);
 ````
 
 * colorRamp
-
    The colors shown in the ColorElement to set color and fillColor.
    Markers may overwrite these settings (e.g. if they do not support
    these colors)
 
 * markers
-
    The markers that will be selectable in the IconElement. You may
    define a list or a dictionary.
 
