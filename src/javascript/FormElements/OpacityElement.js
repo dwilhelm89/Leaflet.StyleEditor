@@ -7,10 +7,10 @@ L.StyleEditor.formElements.OpacityElement = L.StyleEditor.formElements.FormEleme
     createContent: function () {
         var opacity = this.options.opacity = L.DomUtil.create('input', 'leaflet-styleeditor-input',
             this.options.uiElement);
-        opacity.type = 'number';
+        opacity.type = 'range';
         opacity.max = 1;
         opacity.min = 0;
-        opacity.step = 0.1;
+        opacity.step = 0.001;
         opacity.value = 0.5;
 
         // add event listeners
