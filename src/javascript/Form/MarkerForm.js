@@ -8,4 +8,4 @@ L.StyleEditor.forms.MarkerForm = L.StyleEditor.forms.Form.extend({
         }
     }
 
-});
+})

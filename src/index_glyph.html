@@ -60,31 +60,31 @@
 <body>
     <div id="map"></div>
     <script>
-        var map = L.map('map').setView([20, -40], 3);
+        let map = L.map('map').setView([20, -40], 3)
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        }).addTo(map)
 
         // initialize the StyleEditor
         map.addControl(L.control.styleEditor({
             position: "topleft",
             markerType: L.StyleEditor.marker.GlyphiconMarker
-        }));
+        }))
 
         // some random geometries to test (marker, polygon, polyline, geoJSON)
-        L.marker([51.5, -0.09]).addTo(map);
+        L.marker([51.5, -0.09]).addTo(map)
 
         L.polyline([
             [0, 0],
             [30, 30],
             [0, 20]
-        ]).addTo(map);
+        ]).addTo(map)
 
         L.polygon([
             [49, -100],
             [60, -120],
             [70, -90]
-        ]).addTo(map);
+        ]).addTo(map)
 
         L.polygon([
             [-45, 64.92354174306496],
@@ -92,7 +92,7 @@
             [-22.148437499999996, 70.61261423801925],
             [-22.148437499999996, 64.92354174306496],
             [-45, 64.92354174306496]
-        ]).addTo(map);
+        ]).addTo(map)
 
         L.geoJson([{
             "type": "Feature",
@@ -110,21 +110,21 @@
         }], {
             style: function(feature) {
                 switch (feature.properties.party) {
-                    case 'Republican': return {color: "#ff0000"};
+                    case 'Republican': return {color: "#ff0000"}
                 }
             }
-        }).addTo(map);
+        }).addTo(map)
 
-        var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+        let littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
                 denver = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
                 aurora = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
-                golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+                golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.')
 
-        var cities = L.layerGroup([littleton, denver, aurora, golden]).addTo(map);
+        let cities = L.layerGroup([littleton, denver, aurora, golden]).addTo(map)
 
         map.on('styleeditor:changed', function(element){
-            console.log(element);
-        });
+            console.log(element)
+        })
     </script>
 </body>
 

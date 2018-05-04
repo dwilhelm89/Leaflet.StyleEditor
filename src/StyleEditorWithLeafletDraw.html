@@ -44,27 +44,27 @@
 <body>
     <div id="map"></div>
     <script>
-    var map = L.map('map').setView([20, -40], 3);
+    let map = L.map('map').setView([20, -40], 3)
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(map)
 
     //Initialize the StyleEditor
-    var styleEditor = L.control.styleEditor({
+    let styleEditor = L.control.styleEditor({
         position: "topleft",
         useGrouping: false
-    });
-    map.addControl(styleEditor);
+    })
+    map.addControl(styleEditor)
 
 
 
 
     //Leaflet.draw
 
-    var drawnItems = new L.FeatureGroup();
-    map.addLayer(drawnItems);
+    let drawnItems = new L.FeatureGroup()
+    map.addLayer(drawnItems)
 
-    var drawControl = new L.Control.Draw({
+    let drawControl = new L.Control.Draw({
         draw: {
             position: 'topleft',
             polygon: {
@@ -94,19 +94,19 @@
         edit: {
             featureGroup: drawnItems
         }
-    });
-    map.addControl(drawControl);
+    })
+    map.addControl(drawControl)
 
     map.on('draw:created', function(e) {
-        var type = e.layerType,
-            layer = e.layer;
+        let type = e.layerType,
+            layer = e.layer
 
         if (type === 'marker') {
-            layer.bindPopup('A popup!');
+            layer.bindPopup('A popup!')
         }
 
-        drawnItems.addLayer(layer);
-    });
+        drawnItems.addLayer(layer)
+    })
     </script>
 </body>
 

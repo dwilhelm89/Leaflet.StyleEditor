@@ -6,10 +6,10 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 
     createMarkerIcon: function (iconOptions, iconClass) {
       if (!iconClass) {
-        iconClass = '';
+        iconClass = ''
     }
 
-    var iconSize = iconOptions.iconSize;
+    let iconSize = iconOptions.iconSize
         return new L.Icon({
             iconUrl: this._getMarkerUrlForStyle(iconOptions),
             iconSize: iconOptions.iconSize,
@@ -18,16 +18,16 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
       className: iconClass,
             iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
             popupAnchor: [0, -iconSize[1] / 2]
-        });
+        })
     },
 
     createSelectHTML: function (parentUiElement, iconOptions, icon) {
-        var tmpOptions = {};
+        let tmpOptions = {}
         tmpOptions.iconSize = this.options.size.small;
-        tmpOptions.icon = icon;
+        tmpOptions.icon = icon
         tmpOptions.iconColor = iconOptions.iconColor;
 
-        parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions, this.options.selectIconClass).createIcon().outerHTML;
+        parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions, this.options.selectIconClass).createIcon().outerHTML
     },
 
   _getMarkerUrlForStyle: function(iconOptions) {
@@ -35,17 +35,17 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
   },
 
   _getMarkerUrl: function(size, color, icon) {
-    size = this.sizeToName(size)[0];
+    size = this.sizeToName(size)[0]
     if (color.indexOf('#') === 0) {
-      color = color.replace('#', '');
+      color = color.replace('#', '')
     } else {
-      color = this.options.styleEditorOptions.util.rgbToHex(color, true);
+      color = this.options.styleEditorOptions.util.rgbToHex(color, true)
     }
-    var url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size;
+    let url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size
     if(!!icon) {
-      url += '-' + icon;
+      url += '-' + icon
     }
-    return url + '+' + color + '.png';
+    return url + '+' + color + '.png'
   },
 
     options: {
@@ -166,4 +166,4 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
             'scooter'
         ]
     }
-});
+})

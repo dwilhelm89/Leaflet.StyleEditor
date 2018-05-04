@@ -11,7 +11,7 @@
 
     // attach your plugin to the global 'L' variable
     if (typeof window !== 'undefined' && window.L) {
-        window.L.StyleEditor = factory(L);
+        window.L.YourPlugin = factory(L);
     }
 }(function (L) {
     var StyleEditor = {
