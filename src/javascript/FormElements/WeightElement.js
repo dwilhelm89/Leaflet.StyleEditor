@@ -5,10 +5,13 @@ L.StyleEditor.formElements.WeightElement = L.StyleEditor.formElements.FormElemen
 
     /** create number input box */
     createContent: function () {
+        this.options.label = L.DomUtil.create('span', 'leaflet-styleeditor-input-span', this.options.uiElement)
+
         let weight = this.options.weight = L.DomUtil.create('input', 'leaflet-styleeditor-input',
             this.options.uiElement)
-        weight.type = 'number'
+        weight.type = 'range'
         weight.min = 0
+        weight.max = 20
         weight.step = 1
         weight.value = 4
 
@@ -22,6 +25,7 @@ L.StyleEditor.formElements.WeightElement = L.StyleEditor.formElements.FormElemen
     /** set correct value */
     style: function () {
         this.options.weight.value = this.options.styleEditorOptions.util.getStyle(this.options.styleOption)
+        this.options.label.innerText = this.options.weight.value
     },
 
     /** communicate weight value */

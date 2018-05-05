@@ -52,7 +52,7 @@
     z-index: 1000;
 }
 .editor-enabled {
-    width: 210px;
+   width: 200px;
 }
 .leaflet-styleeditor-hidden {
     display: none;
@@ -94,12 +94,18 @@
     display: block;
     font-size: medium;
 }
-.leaflet-styleeditor-input {
+.leaflet-styleeditor-input-span {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.8em;
+}
+input.leaflet-styleeditor-input {
     height: 30px;
-    margin-bottom: 5px;
-    padding-left: 10px;
     background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
+    border: 0;
     outline: none;
     width: 150px;
 }

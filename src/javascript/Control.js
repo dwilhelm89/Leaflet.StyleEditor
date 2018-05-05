@@ -87,16 +87,17 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     addDomEvents: function() {
-        L.DomEvent.on(this.options.controlDiv, 'click', function(e) {
-            this.enable(); e.stopPropagation()
+        L.DomEvent.disableScrollPropagation(this.options.styleEditorDiv)
+        L.DomEvent.disableScrollPropagation(this.options.controlDiv)
+        L.DomEvent.disableScrollPropagation(this.options.cancelUI)
+
+        L.DomEvent.disableClickPropagation(this.options.styleEditorDiv)
+        L.DomEvent.disableClickPropagation(this.options.controlDiv)
+        L.DomEvent.disableClickPropagation(this.options.cancelUI)
+
+        L.DomEvent.on(this.options.controlDiv, 'click', function() {
+            this.toggle()
         }, this)
-        L.DomEvent.on(this.options.cancelUI, 'click', function(e) {
-            this.disable(); e.stopPropagation()
-        }, this)
-        L.DomEvent.on(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this)
-        L.DomEvent.on(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation)
-        L.DomEvent.on(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this)
-        L.DomEvent.on(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this)
     },
 
     addLeafletDrawEvents: function() {
@@ -126,14 +127,11 @@ L.Control.StyleEditor = L.Control.extend({
         }
     },
 
-    onRemove: function (map) {
+    onRemove: function () {
         // hide everything that may be visible
         // remove edit events for layers
         // remove tooltip
         this.disable()
-
-        // make sure leaflet actions are usable
-        this.enableLeafletActions()
 
         // remove events
         this.removeDomEvents()
@@ -156,16 +154,9 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     removeDomEvents: function() {
-        L.DomEvent.off(this.options.controlDiv, 'click', function(e) {
-            this.enable(); e.stopPropagation()
+        L.DomEvent.off(this.options.controlDiv, 'click', function() {
+            this.toggle()
         }, this)
-        L.DomEvent.off(this.options.cancelUI, 'click', function(e) {
-            this.disable(); e.stopPropagation()
-        }, this)
-        L.DomEvent.off(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this)
-        L.DomEvent.off(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation)
-        L.DomEvent.off(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this)
-        L.DomEvent.off(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this)
     },
 
     addButtons: function() {
@@ -183,26 +174,12 @@ L.Control.StyleEditor = L.Control.extend({
         }, this)
     },
 
-    disableLeafletActions: function() {
-        var m = this.options.map
-
-        m.dragging.disable()
-        m.touchZoom.disable()
-        m.doubleClickZoom.disable()
-        m.scrollWheelZoom.disable()
-        m.boxZoom.disable()
-        m.keyboard.disable()
-    },
-
-    enableLeafletActions: function() {
-        var m = this.options.map
-
-        m.dragging.enable()
-        m.touchZoom.enable()
-        m.doubleClickZoom.enable()
-        m.scrollWheelZoom.enable()
-        m.boxZoom.enable()
-        m.keyboard.enable()
+    toggle: function() {
+        if (L.DomUtil.hasClass(this.options.controlUI, "enabled")) {
+            this.disable()
+        } else {
+            this.enable()
+        }
     },
 
     enable: function() {
@@ -219,6 +196,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.hideEditor()
         this.hideCancelButton()
         this.removeTooltip()
+        L.DomUtil.removeClass(this.options.controlUI, "enabled")
     },
 
     addEditClickEvents: function(layer) {
@@ -304,7 +282,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.showEditor()
         this.removeTooltip()
 
-        var layer = e.target
+        let layer = e.target
         this.fireEvent('editing', layer)
         if (layer instanceof L.Marker) {
             // ensure iconOptions are set for Leaflet.Draw created Markers
