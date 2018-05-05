@@ -282,7 +282,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.showEditor()
         this.removeTooltip()
 
-        var layer = e.target
+        let layer = e.target
         this.fireEvent('editing', layer)
         if (layer instanceof L.Marker) {
             // ensure iconOptions are set for Leaflet.Draw created Markers
