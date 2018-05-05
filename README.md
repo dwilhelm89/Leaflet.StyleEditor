@@ -34,10 +34,8 @@ visible | The editor is visible and ready for user interaction.
 hidden | The editor is invisible.
 changed | An element has been styled. Element is given by the function.
 editing | A layer is being edited. The layer is given by the function.
-marker | A marker is being edited. The layer is given by the function. Note: 
-'editing' will be called beforehand with the same layer.
-geometry | A geometry is being edited. The layer is given by the function. Note:
-'editing' will be called beforehand with the same layer.
+marker | A marker is being edited. The layer is given by the function. Note: 'editing' will be called beforehand with the same layer.
+geometry | A geometry is being edited. The layer is given by the function. Note:'editing' will be called beforehand with the same layer.
 
 
 ```javascript
