@@ -95,12 +95,8 @@ L.Control.StyleEditor = L.Control.extend({
         L.DomEvent.disableClickPropagation(this.options.controlDiv)
         L.DomEvent.disableClickPropagation(this.options.cancelUI)
 
-        L.DomEvent.on(this.options.controlDiv, 'click', function(e) {
-            this.enable()
-        }, this)
-        L.DomEvent.on(this.options.cancelUI, 'click', function(e) {
-            e.stopPropagation()
-            this.disable()
+        L.DomEvent.on(this.options.controlDiv, 'click', function() {
+            this.toggle()
         }, this)
     },
 
@@ -131,7 +127,7 @@ L.Control.StyleEditor = L.Control.extend({
         }
     },
 
-    onRemove: function (map) {
+    onRemove: function () {
         // hide everything that may be visible
         // remove edit events for layers
         // remove tooltip
@@ -158,14 +154,9 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     removeDomEvents: function() {
-        L.DomEvent.off(this.options.controlDiv, 'click', function(e) {
-            this.enable()
+        L.DomEvent.off(this.options.controlDiv, 'click', function() {
+            this.toggle()
         }, this)
-        L.DomEvent.off(this.options.cancelUI, 'click', function(e) {
-            this.disable()
-        }, this)
-        L.DomEvent.off(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this)
-        L.DomEvent.off(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation)
     },
 
     addButtons: function() {
@@ -183,6 +174,14 @@ L.Control.StyleEditor = L.Control.extend({
         }, this)
     },
 
+    toggle: function() {
+        if (L.DomUtil.hasClass(this.options.controlUI, "enabled")) {
+            this.disable()
+        } else {
+            this.enable()
+        }
+    },
+
     enable: function() {
         L.DomUtil.addClass(this.options.controlUI, "enabled")
         this.options.map.eachLayer(this.addEditClickEvents, this)
@@ -197,6 +196,7 @@ L.Control.StyleEditor = L.Control.extend({
         this.hideEditor()
         this.hideCancelButton()
         this.removeTooltip()
+        L.DomUtil.removeClass(this.options.controlUI, "enabled")
     },
 
     addEditClickEvents: function(layer) {
