@@ -23,9 +23,9 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 
     createSelectHTML: function (parentUiElement, iconOptions, icon) {
         let tmpOptions = {}
-        tmpOptions.iconSize = this.options.size.small;
+        tmpOptions.iconSize = this.options.size.small
         tmpOptions.icon = icon
-        tmpOptions.iconColor = iconOptions.iconColor;
+        tmpOptions.iconColor = iconOptions.iconColor
 
         parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions, this.options.selectIconClass).createIcon().outerHTML
     },
