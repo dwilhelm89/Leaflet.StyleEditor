@@ -41,7 +41,7 @@ L.StyleForm = L.Class.extend({
     },
 
     fireChangeEvent: function(element){
-        this.options.styleEditorOptions.map.fireEvent('styleeditor:changed', element);
+        this.options.styleEditorOptions.util.fireChangedEvent(element);
     },
 
     lostFocus: function(e) {

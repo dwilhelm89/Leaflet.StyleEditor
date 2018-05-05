@@ -25,7 +25,6 @@
         top:0;
         bottom:0;
         width:100%;
-        height:50%;
     }
     #map2 {
         position:absolute;
@@ -46,9 +45,11 @@
     }).addTo(map);
 
     // initialize the StyleEditor
-    map.addControl(L.control.styleEditor({
+    var styleEditor = L.control.styleEditor({
         position: "topleft"
-    }));
+    });
+
+    map.addControl(styleEditor);
 
     // some random geometries to test (marker, polygon, polyline, geoJSON)
     L.marker([51.5, -0.09]).addTo(map);
