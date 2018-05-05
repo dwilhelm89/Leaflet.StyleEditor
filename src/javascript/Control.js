@@ -87,16 +87,21 @@ L.Control.StyleEditor = L.Control.extend({
     },
 
     addDomEvents: function() {
+        L.DomEvent.disableScrollPropagation(this.options.styleEditorDiv)
+        L.DomEvent.disableScrollPropagation(this.options.controlDiv)
+        L.DomEvent.disableScrollPropagation(this.options.cancelUI)
+
+        L.DomEvent.disableClickPropagation(this.options.styleEditorDiv)
+        L.DomEvent.disableClickPropagation(this.options.controlDiv)
+        L.DomEvent.disableClickPropagation(this.options.cancelUI)
+
         L.DomEvent.on(this.options.controlDiv, 'click', function(e) {
-            this.enable(); e.stopPropagation()
+            this.enable()
         }, this)
         L.DomEvent.on(this.options.cancelUI, 'click', function(e) {
-            this.disable(); e.stopPropagation()
+            e.stopPropagation()
+            this.disable()
         }, this)
-        L.DomEvent.on(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this)
-        L.DomEvent.on(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation)
-        L.DomEvent.on(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this)
-        L.DomEvent.on(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this)
     },
 
     addLeafletDrawEvents: function() {
@@ -132,9 +137,6 @@ L.Control.StyleEditor = L.Control.extend({
         // remove tooltip
         this.disable()
 
-        // make sure leaflet actions are usable
-        this.enableLeafletActions()
-
         // remove events
         this.removeDomEvents()
         this.removeLeafletDrawEvents()
@@ -157,15 +159,13 @@ L.Control.StyleEditor = L.Control.extend({
 
     removeDomEvents: function() {
         L.DomEvent.off(this.options.controlDiv, 'click', function(e) {
-            this.enable(); e.stopPropagation()
+            this.enable()
         }, this)
         L.DomEvent.off(this.options.cancelUI, 'click', function(e) {
-            this.disable(); e.stopPropagation()
+            this.disable()
         }, this)
         L.DomEvent.off(this.options.controlDiv, 'dblclick', function(e) { e.stopPropagation(); }, this)
         L.DomEvent.off(this.options.styleEditorDiv, 'click', L.DomEvent.stopPropagation)
-        L.DomEvent.off(this.options.styleEditorDiv, 'mouseenter', this.disableLeafletActions, this)
-        L.DomEvent.off(this.options.styleEditorDiv, 'mouseleave', this.enableLeafletActions, this)
     },
 
     addButtons: function() {
@@ -181,28 +181,6 @@ L.Control.StyleEditor = L.Control.extend({
 
           e.stopPropagation()
         }, this)
-    },
-
-    disableLeafletActions: function() {
-        var m = this.options.map
-
-        m.dragging.disable()
-        m.touchZoom.disable()
-        m.doubleClickZoom.disable()
-        m.scrollWheelZoom.disable()
-        m.boxZoom.disable()
-        m.keyboard.disable()
-    },
-
-    enableLeafletActions: function() {
-        var m = this.options.map
-
-        m.dragging.enable()
-        m.touchZoom.enable()
-        m.doubleClickZoom.enable()
-        m.scrollWheelZoom.enable()
-        m.boxZoom.enable()
-        m.keyboard.enable()
     },
 
     enable: function() {
