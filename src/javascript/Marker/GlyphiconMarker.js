@@ -4,18 +4,18 @@
  */
 L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     getMarkerHtml: function(size, color, icon) {
-        var iconUrl = this._getMarkerUrl(size, color);
+        let iconUrl = this._getMarkerUrl(size, color)
         return  '<div class="leaflet-styleeditor-marker leaflet-styleeditor-marker-' +
                     this.sizeToName(size)[0] +'" ' +
                     'style="background-image: url(' + iconUrl +');">' +
                 '<div class="leaflet-styleeditor-fill"></div>' +
                     '<i class="glyphicon ' + icon + '"></i>' +
                 '<div class="leaflet-styleeditor-fill"></div>' +
-            '</div>';
+            '</div>'
     },
 
     createMarkerIcon: function (iconOptions) {
-        var iconSize = iconOptions.iconSize;
+        let iconSize = iconOptions.iconSize
         return new L.divIcon({
             className: 'leaflet-styleeditor-glyphicon-marker-wrapper',
             html:  this.getMarkerHtml(iconSize, iconOptions.iconColor, iconOptions.icon),
@@ -24,23 +24,23 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
             iconSize: iconSize,
             iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
             popupAnchor: [0, -iconSize[1] / 2]
-        });
+        })
     },
 
 	setStyle: function(styleOption, value) {
 		if (styleOption !== 'icon') {
-			styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
+			styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
 		}
 
-		var iconOptions = this.options.iconOptions;
+		let iconOptions = this.options.iconOptions
         if(iconOptions[styleOption] !== value) {
-            iconOptions[styleOption] = value;
+            iconOptions[styleOption] = value
             this.setNewMarker();
         }
 	},
 
     createSelectHTML: function (parentUiElement, iconOptions, icon) {
-        parentUiElement.innerHTML = this.getMarkerHtml('s', iconOptions.iconColor, icon);
+        parentUiElement.innerHTML = this.getMarkerHtml('s', iconOptions.iconColor, icon)
     },
 
 	_getMarkerUrlForStyle: function(iconOptions) {
@@ -48,13 +48,13 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
 	},
 
 	_getMarkerUrl: function(size, color, icon) {
-		size = this.sizeToName(size)[0];
+		size = this.sizeToName(size)[0]
 		if (color.indexOf('#') === 0) {
-			color = color.replace('#', '');
+			color = color.replace('#', '')
 		} else {
-			color = this.options.styleEditorOptions.util.rgbToHex(color, true);
+			color = this.options.styleEditorOptions.util.rgbToHex(color, true)
 		}
-		var url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size;
+		let url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size
 		return url + '+' + color + '.png';
 	},
 
