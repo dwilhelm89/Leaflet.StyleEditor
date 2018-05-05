@@ -52,7 +52,7 @@
     z-index: 1000;
 }
 .editor-enabled {
-    width: 210px;
+   width: 200px;
 }
 .leaflet-styleeditor-hidden {
     display: none;
@@ -94,7 +94,7 @@
     display: block;
     font-size: medium;
 }
-.leaflet-styleeditor-input {
+input.leaflet-styleeditor-input {
     height: 30px;
     margin-bottom: 5px;
     padding-left: 10px;

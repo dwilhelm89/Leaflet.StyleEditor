@@ -1,5 +1,5 @@
 /**
- * FormElement used to style weight 
+ * FormElement used to style weight
  */
 L.StyleEditor.formElements.WeightElement = L.StyleEditor.formElements.FormElement.extend({
 
@@ -7,8 +7,9 @@ L.StyleEditor.formElements.WeightElement = L.StyleEditor.formElements.FormElemen
     createContent: function () {
         var weight = this.options.weight = L.DomUtil.create('input', 'leaflet-styleeditor-input',
             this.options.uiElement);
-        weight.type = 'number';
+        weight.type = 'range';
         weight.min = 0;
+        weight.max = 20;
         weight.step = 1;
         weight.value = 4;
 
