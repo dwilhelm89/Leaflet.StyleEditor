@@ -1,1 +1,7 @@
-{"extends": ["standard"]}
+{"extends": ["standard"],
+  "globals": {
+    "L": true,
+    "module": true,
+    "define": true
+  }
+}
