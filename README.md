@@ -154,5 +154,5 @@ for a more complicated one see [IconElement](https://github.com/dwilhelm89/Leafl
 
 Authors
 -----
-Dennis Wilhelm, 2014
+Dennis Wilhelm, 2014  
 Felix Höffken
