@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <meta charset=utf-8/>
+  <meta charset="utf-8"/>
   <title></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
@@ -81,11 +81,7 @@
     }).addTo(map)
 
     // initialize the StyleEditor
-    let styleEditor = L.control.styleEditor({
-      position: 'topleft',
-      markerType: markerType
-    })
-    map.addControl(styleEditor)
+    map.addControl(L.control.styleEditor())
 
     // some random geometries to test (marker, polygon, polyline, geoJSON)
     L.marker([51.5, -0.09]).addTo(map)
