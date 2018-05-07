@@ -1,5 +1,6 @@
 Leaflet.StyleEditor
 =============
+[![Build Status](https://travis-ci.org/dwilhelm89/Leaflet.StyleEditor.svg?branch=master)](https://travis-ci.org/dwilhelm89/Leaflet.StyleEditor)
 
 The [Leaflet](http://leafletjs.com/) StyleEditor allows to edit the style of any feature drawn within Leaflet.
 After activating the tool, the features can be edited by simply clicking them within the map.
