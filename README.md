@@ -43,7 +43,7 @@ Here is a list of all possible options.
    
 * **markerType**  
   Defines what kind of Markers you want to use.
-  [Create your own define your own markerType](#marker)  
+  [Create your own markerType](#marker)  
   example: *L.StyleEditor.marker.DefaultMarker*
 
 * **markers**  
