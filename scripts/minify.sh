@@ -10,7 +10,11 @@ source "$DIR/travis-ci-git-commit.sh"
 grunt
 
 # check if something changed
-if ! git diff-index HEAD --; then
+if ! git diff-index --exit-code $TRAVIS_BRANCH --; then
+
+    # print diff
+    git diff
+
     # configure git
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
