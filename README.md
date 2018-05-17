@@ -117,6 +117,14 @@ Leaflet.StyleEditor is also a registered [node module](https://www.npmjs.com/pac
 npm install leaflet-styleeditor
 ```
 
+# Leaflet.Draw
+When using [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw) most people will want to set `useGrouping: false` in the settings to prevent styling all added
+elements.
+
+To let Leaflet.Draw directly show a styled marker set `marker { icon: styleEditor.getDefaultIcon() }` when
+initializing Leaflet.Draw.
+
+
 Development
 ----
 
