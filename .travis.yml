@@ -2,5 +2,16 @@ language: node_js
 node_js:
   - "10"
 
+before_install: npm i -g grunt-cli
+install: npm i
+
 script:
 - npm run lint
+
+deploy:
+  skip-cleanup: true
+  provider: script
+  script: bash scripts/minify.sh
+  github-token: $GITHUB_TOKEN
+  on:
+    branch: master
