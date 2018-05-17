@@ -1,0 +1,12 @@
+node_modules/
+.idea/
+.grunt/
+scripts/
+.project
+package-lock.json
+.gitignore
+.npmignore
+.editorconfig
+.eslintignore
+.eslintrc
+.travis.yml
