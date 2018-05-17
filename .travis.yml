@@ -1,7 +1,6 @@
 language: node_js
 node_js:
-  - "10"
-
+- '10'
 before_install: npm i -g grunt-cli
 install: npm i
 
@@ -9,9 +8,17 @@ script:
 - npm run lint
 
 deploy:
-  skip-cleanup: true
-  provider: script
-  script: bash scripts/minify.sh
-  github-token: $GITHUB_TOKEN
-  on:
-    branch: master
+  - provider: npm
+    email: fupduck@sacknagel.com
+    api_key:
+      secure: eqXfJymb+Lvtzp5rI9rysJdVSNC/jZBWUg1+XGyt1lgGmOF4jUe6lzpBjP+V22s0A5zbzfjLnjy8V3jyffkHIaq7XG7kIajPgfGeRKL7xpReq5eqet+K3a36wKfKG+Sfuzaw5MPuzWRR+Sh+C7Qktai842egQsjznKZA3fDajw9yvxJPzkGwCA8vaOyorYV87axy/hEGeWgiSNSrsHxOipJqjePOh0k8f9irB8SJAhQOHS1aAzWQMDygikzI8FaNj3unJJSsZ6Zs+LDBns5vZH7HMQ5lzGYfhz5Wc6dWifhfvIde25NU9X1gwTdBNchvqyFdG8g6z587jL4+qrvWPchUtYhbdh8sGSA2gXOTLSHgQ4fbMIVnXXdCrBJ1/PxLSDZLvWOOu0//7eDxo8CRxUwLjJ+/0ioF22rYyGEiXPh14LVAAEV1ycKF1p2mUOJ2WlX9acbeYHLic3oFqpY/hlpSWH2WfsnHyt0fB734zEUlndQTLSY5+Z4SGf0BdHs6dfXxNiHeJuWM+Qs1fJViVsqjxa+RkOEix5fd3cFcnpjDpgWsyTDXfjK2PalttFl6UH5FWAGygncsW9XZBgblzyXyH9VylqL9IHQk1WIupcVYo0+ACPClYmlwE3CNEeD1TZ+RYK61WhllUOhrVM7XoautdqHcbfpK0qGQPuB3FjU=
+    on:
+      tags: true
+      branch: master
+
+  - provider: script
+    script: bash scripts/minify.sh
+    github-token: $GITHUB_TOKEN
+    skip-cleanup: true
+    on:
+      branch: master
