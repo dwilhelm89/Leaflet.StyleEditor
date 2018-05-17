@@ -11,7 +11,6 @@ grunt
 
 # check if something changed
 if ! git diff-index HEAD --; then
-
     # configure git
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
