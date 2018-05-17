@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/user/workspace/Leaflet.StyleEditor/src/img/icon.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="451.80846"
+     inkscape:cy="529.41462"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1171"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2994" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3875"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="matrix(0.93849059,0,0,0.93849059,-52.614764,-7.4320524)">
+      <polygon
+         transform="translate(288,498.8979)"
+         style="fill:#464646"
+         points="327,30.699 335.891,21.809 338.719,24.637 329.828,33.529 327,33.529 "
+         id="polygon3006" />
+      <rect
+         style="fill:#464646"
+         x="-813.74628"
+         y="74.533409"
+         transform="matrix(-0.70700677,-0.70720678,0.70720678,-0.70700677,0,0)"
+         width="3.9999616"
+         height="3.9999616"
+         id="rect3008" />
+      <path
+         transform="matrix(0.78402363,0,0,0.78402363,222.68069,148.68168)"
+         inkscape:transform-center-y="-0.29924052"
+         inkscape:transform-center-x="0.29924114"
+         d="m 508.57142,476.82648 c -0.78265,0.78265 -4.14781,-1.95042 -5.24102,-1.77728 -1.0932,0.17315 -3.44909,3.81235 -4.43529,3.30986 -0.98619,-0.50249 0.57322,-4.54752 0.0707,-5.53371 -0.50249,-0.9862 -4.69158,-2.10221 -4.51844,-3.19541 0.17315,-1.09321 4.50208,-0.8601 5.28473,-1.64274 0.78265,-0.78265 0.54954,-5.11158 1.64274,-5.28473 1.09321,-0.17315 2.20922,4.01595 3.19541,4.51844 0.9862,0.50249 5.03122,-1.05693 5.53371,-0.0707 0.50249,0.98619 -3.13671,3.34208 -3.30985,4.43529 -0.17315,1.0932 2.55992,4.45836 1.77728,5.24101 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0.2"
+         inkscape:flatsided="false"
+         sodipodi:arg2="1.4137167"
+         sodipodi:arg1="0.78539816"
+         sodipodi:r2="4.1668792"
+         sodipodi:r1="8.3337584"
+         sodipodi:cy="470.93362"
+         sodipodi:cx="502.67856"
+         sodipodi:sides="5"
+         id="path3099"
+         style="fill:#464646;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="star" />
+    </g>
+    <path
+       style="fill:#333333;stroke:#000000;stroke-width:3.89512324;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:7.79024653, 3.89512327;stroke-dashoffset:11.6853698"
+       d="m 522.44964,578.92549 175.28053,0"
+       id="path3766"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;stroke:#000000;stroke-width:3.89512324;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:31.16098612, 3.89512327;stroke-dashoffset:11.6853698"
+       d="m 522.05414,617.28851 175.28057,0"
+       id="path3766-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;stroke:#000000;stroke-width:3.89512324;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:15.58049307, 7.79024653, 3.89512327, 7.79024653;stroke-dashoffset:11.6853698"
+       d="m 522.84511,598.40109 175.28053,0"
+       id="path3766-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;stroke:#000000;stroke-width:3.89512324;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:46.7414792, 3.89512327;stroke-dashoffset:11.6853698"
+       d="m 522.44964,636.76413 175.28053,0"
+       id="path3766-1-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 557.67269,579.00023 0,-1.7389 3.65166,0 3.65169,0 0,1.7389 0,1.7389 -3.65169,0 -3.65166,0 0,-1.7389 z"
+       id="path3820"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 522.54702,579.00023 0,-1.7389 3.82555,0 3.8256,0 0,1.7389 0,1.7389 -3.8256,0 -3.82555,0 0,-1.7389 z"
+       id="path3822"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 534.37147,579.00023 0,-1.7389 3.65169,0 3.65167,0 0,1.7389 0,1.7389 -3.65167,0 -3.65169,0 0,-1.7389 z"
+       id="path3824"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 545.84817,579.00023 0,-1.7389 3.82561,0 3.82554,0 0,1.7389 0,1.7389 -3.82554,0 -3.82561,0 0,-1.7389 z"
+       id="path3826"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 580.97386,579.00023 0,-1.7389 3.82554,0 3.82561,0 0,1.7389 0,1.7389 -3.82561,0 -3.82554,0 0,-1.7389 z"
+       id="path3828"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 569.49716,579.00023 0,-1.7389 3.65167,0 3.65168,0 0,1.7389 0,1.7389 -3.65168,0 -3.65167,0 0,-1.7389 z"
+       id="path3830"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 592.79831,579.00023 0,-1.7389 3.65169,0 3.65169,0 0,1.7389 0,1.7389 -3.65169,0 -3.65169,0 0,-1.7389 z"
+       id="path3832"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 604.27505,579.00023 0,-1.7389 3.82556,0 3.82559,0 0,1.7389 0,1.7389 -3.82559,0 -3.82556,0 0,-1.7389 z"
+       id="path3834"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 616.09954,579.00023 0,-1.7389 3.65167,0 3.65169,0 0,1.7389 0,1.7389 -3.65169,0 -3.65167,0 0,-1.7389 z"
+       id="path3836"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 627.924,579.00023 0,-1.7389 3.65168,0 3.65167,0 0,1.7389 0,1.7389 -3.65167,0 -3.65168,0 0,-1.7389 z"
+       id="path3838"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 639.40071,579.00023 0,-1.7389 3.82555,0 3.8256,0 0,1.7389 0,1.7389 -3.8256,0 -3.82555,0 0,-1.7389 z"
+       id="path3840"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 651.22517,579.00023 0,-1.7389 3.65169,0 3.65168,0 0,1.7389 0,1.7389 -3.65168,0 -3.65169,0 0,-1.7389 z"
+       id="path3842"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 662.70188,579.00023 0,-1.7389 3.82561,0 3.82555,0 0,1.7389 0,1.7389 -3.82555,0 -3.82561,0 0,-1.7389 z"
+       id="path3844"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 674.5264,579.00023 0,-1.7389 3.65165,0 3.65168,0 0,1.7389 0,1.7389 -3.65168,0 -3.65165,0 0,-1.7389 z"
+       id="path3846"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 686.35085,579.00023 0,-1.7389 3.65169,0 3.65167,0 0,1.7389 0,1.7389 -3.65167,0 -3.65169,0 0,-1.7389 z"
+       id="path3848"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 546.54373,598.47584 0,-1.73889 7.47729,0 7.47723,0 0,1.73889 0,1.7389 -7.47723,0 -7.47729,0 0,-1.7389 z"
+       id="path3850"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 534.71927,598.47584 0,-1.73889 1.73891,0 1.73888,0 0,1.73889 0,1.7389 -1.73888,0 -1.73891,0 0,-1.7389 z"
+       id="path3852"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 522.89482,598.47584 0,-1.73889 1.91278,0 1.91276,0 0,1.73889 0,1.7389 -1.91276,0 -1.91278,0 0,-1.7389 z"
+       id="path3854"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 569.84496,598.47584 0,-1.73889 1.73888,0 1.73887,0 0,1.73889 0,1.7389 -1.73887,0 -1.73888,0 0,-1.7389 z"
+       id="path3856"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 581.32165,598.47584 0,-1.73889 7.65112,0 7.65115,0 0,1.73889 0,1.7389 -7.65115,0 -7.65112,0 0,-1.7389 z"
+       id="path3858"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 616.4473,598.47584 0,-1.73889 7.65115,0 7.65111,0 0,1.73889 0,1.7389 -7.65111,0 -7.65115,0 0,-1.7389 z"
+       id="path3860"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 604.97058,598.47584 0,-1.73889 1.73891,0 1.7389,0 0,1.73889 0,1.7389 -1.7389,0 -1.73891,0 0,-1.7389 z"
+       id="path3862"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 639.74851,598.47584 0,-1.73889 1.91276,0 1.91279,0 0,1.73889 0,1.7389 -1.91279,0 -1.91276,0 0,-1.7389 z"
+       id="path3864"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 651.57296,598.47584 0,-1.73889 7.65116,0 7.65113,0 0,1.73889 0,1.7389 -7.65113,0 -7.65116,0 0,-1.7389 z"
+       id="path3866"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 674.87414,598.47584 0,-1.73889 1.7389,0 1.7389,0 0,1.73889 0,1.7389 -1.7389,0 -1.7389,0 0,-1.7389 z"
+       id="path3868"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 686.69865,598.47584 0,-1.73889 5.56447,0 5.56443,0 0,1.73889 0,1.7389 -5.56443,0 -5.56447,0 0,-1.7389 z"
+       id="path3870"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 685.6553,617.25591 0,-1.73891 5.73833,0 5.73837,0 0,1.73891 0,1.73888 -5.73837,0 -5.73833,0 0,-1.73888 z"
+       id="path3872"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 650.87741,617.25591 0,-1.73891 15.30228,0 15.30225,0 0,1.73891 0,1.73888 -15.30225,0 -15.30228,0 0,-1.73888 z"
+       id="path3874"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 615.75175,617.25591 0,-1.73891 15.30226,0 15.30226,0 0,1.73891 0,1.73888 -15.30226,0 -15.30226,0 0,-1.73888 z"
+       id="path3876"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 580.62606,617.25591 0,-1.73891 15.47618,0 15.47614,0 0,1.73891 0,1.73888 -15.47614,0 -15.47618,0 0,-1.73888 z"
+       id="path3878"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 545.50041,617.25591 0,-1.73891 15.47615,0 15.4762,0 0,1.73891 0,1.73888 -15.4762,0 -15.47615,0 0,-1.73888 z"
+       id="path3880"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 522.1992,617.25591 0,-1.73891 9.56394,0 9.56393,0 0,1.73891 0,1.73888 -9.56393,0 -9.56394,0 0,-1.73888 z"
+       id="path3882"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 522.54702,636.73151 0,-1.73888 17.38896,0 17.38893,0 0,1.73888 0,1.73893 -17.38893,0 -17.38896,0 0,-1.73893 z"
+       id="path3884"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 561.49825,636.73151 0,-1.73888 23.30115,0 23.30121,0 0,1.73888 0,1.73893 -23.30121,0 -23.30115,0 0,-1.73893 z"
+       id="path3886"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 612.27396,636.73151 0,-1.73888 23.12729,0 23.12729,0 0,1.73888 0,1.73893 -23.12729,0 -23.12729,0 0,-1.73893 z"
+       id="path3888"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34777889;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.78223088, 0.34777887;stroke-dashoffset:1.04333658"
+       d="m 662.70188,636.73151 0,-1.73888 17.38895,0 17.38892,0 0,1.73888 0,1.73893 -17.38892,0 -17.38895,0 0,-1.73893 z"
+       id="path3890"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:0.34666598;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0.26785714"
+       d="m 521.15591,559.17685 0,-1.39115 87.1186,0 87.1186,0 0,1.39115 0,1.3911 -87.1186,0 -87.1186,0 0,-1.3911 z"
+       id="path3892"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\Coding\leaflet-editStyle\img\icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#333333;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 521.0076,514.38249 20,10 -20,10 z"
+       id="path3151"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
