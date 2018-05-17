@@ -103,12 +103,18 @@ map.on('styleeditor:changed', function(element){
 });
 ````
 
-Bower
-----
+# Packages
+## Bower
 Leaflet.StyleEditor is also a registered package in [Bower](http://bower.io/) (based on [nodejs](http://nodejs.org/)). Integrate the source in your project with:
 ```
 npm install -g bower
 bower install Leaflet.StyleEditor
+```
+
+## npm
+Leaflet.StyleEditor is also a registered [node module](https://www.npmjs.com/package/leaflet-styleeditor)
+```
+npm install leaflet-styleeditor
 ```
 
 Development

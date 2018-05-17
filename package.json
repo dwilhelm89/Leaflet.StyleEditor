@@ -1,40 +1,43 @@
 {
-    "name": "Leaflet.StyleEditor",
-    "author": "Dennis Wilhelm",
-    "version": "0.1.9",
-    "description": "Edit the style of features drawn within Leaflet.",
-    "license": "MIT",
-    "main": "dist/javascript/Leaflet.StyleEditor.min.js",
-    "devDependencies": {
-        "eslint": "^4.19.1",
-        "eslint-config-standard": "^11.0.0",
-        "eslint-plugin-import": "^2.11.0",
-        "eslint-plugin-node": "^6.0.1",
-        "eslint-plugin-promise": "^3.7.0",
-        "eslint-plugin-standard": "^3.1.0",
-        "grunt": "~1.x",
-        "grunt-contrib-concat": "^1.0.1",
-        "grunt-contrib-cssmin": "^2.2.1",
-        "grunt-contrib-uglify-es": "^3.3.0",
-        "grunt-gh-pages": "~2.x",
-        "lint": "^1.1.2"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/dwilhelm89/Leaflet.StyleEditor"
-    },
-    "keywords": [
-        "map",
-        "gis",
-        "leaflet",
-        "extension",
-        "style",
-        "editor",
-        "StyleEditor"
-    ],
-    "dependencies": {},
-    "scripts": {
-        "lint": "./node_modules/.bin/eslint . ./**/*.js",
-        "test": "./node_modules/.bin/eslint . ./**/*.js"
-    }
+  "name": "leaflet-styleeditor",
+  "author": "Dennis Wilhelm",
+  "version": "0.1.9",
+  "description": "Edit the style of features drawn within Leaflet.",
+  "license": "MIT",
+  "main": "dist/javascript/Leaflet.StyleEditor.min.js",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "grunt": "~1.x",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-gh-pages": "~2.x",
+    "lint": "^1.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwilhelm89/Leaflet.StyleEditor"
+  },
+  "keywords": [
+    "map",
+    "gis",
+    "leaflet",
+    "extension",
+    "style",
+    "editor",
+    "StyleEditor"
+  ],
+  "dependencies": {},
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint . ./**/*.js",
+    "test": "./node_modules/.bin/eslint . ./**/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
