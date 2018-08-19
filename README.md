@@ -171,3 +171,4 @@ Authors
 -----
 Dennis Wilhelm, 2014  
 Felix Höffken
+Daniel Berthereau

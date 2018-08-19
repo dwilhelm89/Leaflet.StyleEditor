@@ -2,6 +2,7 @@
 L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
   options: {
     formElements: {
+      'popupContent': L.StyleEditor.formElements.PopupContentElement,
       'color': L.StyleEditor.formElements.ColorElement,
       'opacity': L.StyleEditor.formElements.OpacityElement,
       'dashArray': L.StyleEditor.formElements.DashElement,
