@@ -169,5 +169,8 @@ for a more complicated one see [IconElement](https://github.com/dwilhelm89/Leafl
 
 Authors
 -----
-Dennis Wilhelm, 2014  
-Felix Höffken
+
+- Dennis Wilhelm, 2014-2018
+- Nikolaus Krismer
+- Felix Höffken
+- Daniel Berthereau, 2018

@@ -14,6 +14,7 @@ module.exports = function (grunt) {
           'src/javascript/Util.js',
 
           'src/javascript/FormElements/FormElement.js',
+          'src/javascript/FormElements/PopupContentElement.js',
           'src/javascript/FormElements/IconElement.js',
           'src/javascript/FormElements/ColorElement.js',
           'src/javascript/FormElements/OpacityElement.js',

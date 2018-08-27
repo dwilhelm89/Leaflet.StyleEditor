@@ -4,7 +4,8 @@ L.StyleEditor.forms.MarkerForm = L.StyleEditor.forms.Form.extend({
     formElements: {
       'icon': L.StyleEditor.formElements.IconElement,
       'color': L.StyleEditor.formElements.ColorElement,
-      'size': L.StyleEditor.formElements.SizeElement
+      'size': L.StyleEditor.formElements.SizeElement,
+      'popupContent': L.StyleEditor.formElements.PopupContentElement
     }
   }
 

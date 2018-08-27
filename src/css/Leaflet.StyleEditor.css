@@ -109,6 +109,9 @@ input.leaflet-styleeditor-input {
     outline: none;
     width: 150px;
 }
+textarea.leaflet-styleeditor-input {
+    width: 100%;
+}
 .leaflet-styleeditor-select {
     position: relative;
     height: 32px;
