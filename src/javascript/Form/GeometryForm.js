@@ -4,10 +4,10 @@ L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
     formElements: {
       'color': L.StyleEditor.formElements.ColorElement,
       'opacity': L.StyleEditor.formElements.OpacityElement,
+      'weight': L.StyleEditor.formElements.WeightElement,
       'dashArray': L.StyleEditor.formElements.DashElement,
       'fillColor': L.StyleEditor.formElements.ColorElement,
       'fillOpacity': L.StyleEditor.formElements.OpacityElement,
-      'weight': L.StyleEditor.formElements.WeightElement,
       'popupContent': L.StyleEditor.formElements.PopupContentElement
     }
   },
