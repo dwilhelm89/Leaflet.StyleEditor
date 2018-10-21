@@ -41,7 +41,7 @@ L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
     } else {
       color = this.options.styleEditorOptions.util.rgbToHex(color, true)
     }
-    let url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size
+    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size
     if (icon) {
       url += '-' + icon
     }

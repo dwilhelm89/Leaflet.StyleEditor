@@ -2,11 +2,11 @@ Leaflet.StyleEditor
 =============
 [![Build Status](https://travis-ci.org/dwilhelm89/Leaflet.StyleEditor.svg?branch=master)](https://travis-ci.org/dwilhelm89/Leaflet.StyleEditor)
 
-The [Leaflet](http://leafletjs.com/) StyleEditor allows to edit the style of any feature drawn within Leaflet.
+The [Leaflet](https://leafletjs.com/) StyleEditor allows to edit the style of any feature drawn within Leaflet.
 After activating the tool, the features can be edited by simply clicking them within the map.
 
-Check out the [Demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/)!  
-And another [demo](http://dwilhelm89.github.io/Leaflet.StyleEditor/StyleEditorWithLeafletDraw.html) with [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw).
+Check out the [Demo](https://dwilhelm89.github.io/Leaflet.StyleEditor/)!
+And another [demo](https://dwilhelm89.github.io/Leaflet.StyleEditor/StyleEditorWithLeafletDraw.html) with [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw).
 
 Usage
 -----
@@ -105,7 +105,7 @@ map.on('styleeditor:changed', function(element){
 
 # Packages
 ## Bower
-Leaflet.StyleEditor is also a registered package in [Bower](http://bower.io/) (based on [nodejs](http://nodejs.org/)). Integrate the source in your project with:
+Leaflet.StyleEditor is also a registered package in [Bower](https://bower.io/) (based on [nodejs](https://nodejs.org/)). Integrate the source in your project with:
 ```
 npm install -g bower
 bower install Leaflet.StyleEditor
@@ -135,8 +135,8 @@ All Marker need to extend [L.StyleEditor.marker.Marker](https://github.com/dwilh
 At a minimum a new Marker implementation **needs to provide these functions**:
 * createMarkerIcon(iconOptions)
 
-   Creates an Icon for the given Options (icon, iconColor, iconSize)  
-   Must return an instance of [L.Icon](http://leafletjs.com/reference-1.2.0.html#icon) (or subclasses)
+   Creates an Icon for the given Options (icon, iconColor, iconSize)
+   Must return an instance of [L.Icon](https://leafletjs.com/reference-1.2.0.html#icon) (or subclasses)
 
 * createSelectHTML (parentUiElement, iconOptions, icon)
 
