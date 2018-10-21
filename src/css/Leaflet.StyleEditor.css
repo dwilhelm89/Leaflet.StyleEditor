@@ -89,6 +89,9 @@
     /* Firefox, other Gecko */
     box-sizing: border-box;
 }
+.leaflet-styleeditor-interior-geometry {
+    margin-bottom: 24px;
+}
 .leaflet-styleeditor-label {
     width: 100px;
     display: block;
