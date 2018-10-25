@@ -54,7 +54,7 @@ L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     } else {
       color = this.options.styleEditorOptions.util.rgbToHex(color, true)
     }
-    let url = 'http://api.tiles.mapbox.com/v3/marker/pin-' + size
+    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size
     return url + '+' + color + '.png'
   },
 
