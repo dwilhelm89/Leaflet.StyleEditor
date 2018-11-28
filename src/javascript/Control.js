@@ -124,8 +124,7 @@ L.Control.StyleEditor = L.Control.extend({
   onLayerAdd: function (e) {
     if (this.options.currentElement) {
       if (e.layer === this.options.currentElement.target) {
-        this.enable()
-        this.initChangeStyle({
+        this.enable({
           'target': e.layer
         })
       }
@@ -188,21 +187,34 @@ L.Control.StyleEditor = L.Control.extend({
     }
   },
 
-  enable: function () {
+  enable: function (layer) {
     L.DomUtil.addClass(this.options.controlUI, 'enabled')
     this.options.map.eachLayer(this.addEditClickEvents, this)
     this.showCancelButton()
     this.createTooltip()
+
+    if (layer !== undefined) {
+      if (this.isEnabled()) {
+        this.removeIndicators()
+      }
+      this.initChangeStyle({target: layer})
+    }
+  },
+
+  isEnabled: function () {
+    return L.DomUtil.hasClass(this.options.controlUI, 'enabled')
   },
 
   disable: function () {
-    this.options._editLayers.forEach(this.removeEditClickEvents, this)
-    this.options._editLayers = []
-    this.options._layerGroups = []
-    this.hideEditor()
-    this.hideCancelButton()
-    this.removeTooltip()
-    L.DomUtil.removeClass(this.options.controlUI, 'enabled')
+    if (this.isEnabled()) {
+      this.options._editLayers.forEach(this.removeEditClickEvents, this)
+      this.options._editLayers = []
+      this.options._layerGroups = []
+      this.hideEditor()
+      this.hideCancelButton()
+      this.removeTooltip()
+      L.DomUtil.removeClass(this.options.controlUI, 'enabled')
+    }
   },
 
   addEditClickEvents: function (layer) {
@@ -288,7 +300,11 @@ L.Control.StyleEditor = L.Control.extend({
     this.showEditor()
     this.removeTooltip()
 
-    let layer = e.target
+    let layer = e
+    if (!(layer instanceof L.Layer)) {
+      layer = e.target
+    }
+
     this.fireEvent('editing', layer)
     if (layer instanceof L.Marker) {
       // ensure iconOptions are set for Leaflet.Draw created Markers
