@@ -19,11 +19,9 @@ L.StyleEditor.forms.Form = L.Class.extend({
     this.options.parentUiElement = parentUiElement
 
     let styleFormKeys = Object.keys(this.options.formElements)
-    let styleFormValues = Object.values(this.options.formElements)
 
     for (let i = 0; i < styleFormKeys.length; i++) {
-      let formElement = new styleFormValues[i](
-        {styleOption: styleFormKeys[i], parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
+      let formElement = this.getFormElementOptionClass(styleFormKeys[i])
       formElement.create(parentUiElement)
       this.options.initializedElements.push(formElement)
     }
@@ -62,7 +60,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
   /** make every FormElement visible */
   showFormElements: function () {
     for (let i = 0; i < this.options.initializedElements.length; i++) {
-      this.options.initializedElements[i].show()
+      this.showFormElement(this.options.initializedElements[i]);
     }
   },
 
@@ -83,5 +81,70 @@ L.StyleEditor.forms.Form = L.Class.extend({
     for (let i = 0; i < this.options.initializedElements.length; i++) {
       this.options.initializedElements[i].lostFocus()
     }
+  },
+
+  showFormElement(formElement) {
+      // check wether element should be shown or not
+      if (this.getFormElementOptionBoolean(formElement.options.styleOption)) {
+        formElement.show()
+      } else {
+        formElement.hide()
+      }
+  },
+
+  getFormElementOption(styleOption) {
+    window.asdf=this
+    if (this.options.formOptionKey &&
+        this.options.styleEditorOptions.forms &&
+        this.options.formOptionKey in this.options.styleEditorOptions.forms &&
+        styleOption in this.options.styleEditorOptions.forms[this.options.formOptionKey]) {
+
+        return this.options.styleEditorOptions.forms[this.options.formOptionKey][styleOption]
+    }
+  },
+
+  getFormElementOptionClass(styleOption) {
+    let formElementOption = this.getFormElementOption(styleOption)
+
+    if (formElementOption && !formElementOption instanceof Function && !formElementOption instanceof Boolean) {
+      // may be a dictionary
+      if ('formElement' in formElementOption && 'boolean' in formElementOption) {
+        formElementOption = formElementOption['formElement']
+      }
+
+      try {
+        let formElementInstance = new formElementOption(
+          {styleOption: styleFormKeys[i], parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
+        if (formElementInstance instanceof L.StyleEditor.formElements.FormElement) {
+          return formElementInstance
+        }
+      } catch {
+        return this.getFormElementStandardClass(styleOption)
+      }
+    }
+    return this.getFormElementStandardClass(styleOption)
+  },
+
+  getFormElementOptionBoolean(styleOption) {
+    let formElementOption = this.getFormElementOption(styleOption)
+    // may be a dictionary
+    if (formElementOption && 'formElement' in formElementOption && 'boolean' in formElementOption) {
+      formElementOption = formElementOption['boolean']
+    }
+
+    // may be function or boolean
+    if (formElementOption instanceof Function) {
+      window.asdf=this
+      window.fun=formElementOption
+      return formElementOption(this.options.styleEditorOptions.currentElement)
+    } else if (formElementOption instanceof Boolean) {
+      return formElementOption
+    }
+    return true
+  },
+
+  getFormElementStandardClass(styleOption) {
+        return new this.options.formElements[styleOption](
+          {styleOption: styleOption, parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
   }
 })

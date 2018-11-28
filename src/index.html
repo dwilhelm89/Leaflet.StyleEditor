@@ -82,7 +82,11 @@
     }).addTo(map)
 
     // initialize the StyleEditor
-    map.addControl(L.control.styleEditor())
+    let styleEditor = L.control.styleEditor({'forms': {'geometry': {dashArray: (elem) => {window.elem = elem; elem.target instanceof L.Polygon}}}})
+    map.addControl(styleEditor);
+
+    // make visible for testing stuff
+    window.styleEditor = styleEditor;
 
     // some random geometries to test (marker, polygon, polyline, geoJSON)
     L.marker([51.5, -0.09]).addTo(map)
