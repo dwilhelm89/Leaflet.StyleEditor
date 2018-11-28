@@ -14,13 +14,13 @@ module.exports = function (grunt) {
           'src/javascript/Util.js',
 
           'src/javascript/FormElements/FormElement.js',
-          'src/javascript/FormElements/PopupContentElement.js',
           'src/javascript/FormElements/IconElement.js',
           'src/javascript/FormElements/ColorElement.js',
-          'src/javascript/FormElements/OpacityElement.js',
           'src/javascript/FormElements/SizeElement.js',
-          'src/javascript/FormElements/DashElement.js',
+          'src/javascript/FormElements/OpacityElement.js',
           'src/javascript/FormElements/WeightElement.js',
+          'src/javascript/FormElements/DashElement.js',
+          'src/javascript/FormElements/PopupContentElement.js',
 
           'src/javascript/Form/Form.js',
           'src/javascript/Form/GeometryForm.js',
