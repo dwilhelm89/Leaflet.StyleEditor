@@ -93,7 +93,6 @@ L.StyleEditor.forms.Form = L.Class.extend({
   },
 
   getFormElementOption(styleOption) {
-    window.asdf=this
     if (this.options.formOptionKey &&
         this.options.styleEditorOptions.forms &&
         this.options.formOptionKey in this.options.styleEditorOptions.forms &&
@@ -106,20 +105,29 @@ L.StyleEditor.forms.Form = L.Class.extend({
   getFormElementOptionClass(styleOption) {
     let formElementOption = this.getFormElementOption(styleOption)
 
-    if (formElementOption && !formElementOption instanceof Function && !formElementOption instanceof Boolean) {
+    if (formElementOption) {
       // may be a dictionary
       if ('formElement' in formElementOption && 'boolean' in formElementOption) {
         formElementOption = formElementOption['formElement']
+      } else if (formElementOption instanceof Boolean) {
+        return this.getFormElementStandardClass(styleOption)
       }
 
+      let returnValue
       try {
         let formElementInstance = new formElementOption(
-          {styleOption: styleFormKeys[i], parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
+          {styleOption: styleOption, parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
         if (formElementInstance instanceof L.StyleEditor.formElements.FormElement) {
-          return formElementInstance
+          returnValue = formElementInstance
         }
-      } catch {
-        return this.getFormElementStandardClass(styleOption)
+      } catch (e) {
+        alert(error)
+        console.log(e)
+      } finally {
+        if (!returnValue) {
+          returnValue = this.getFormElementStandardClass(styleOption)
+        }
+        return returnValue
       }
     }
     return this.getFormElementStandardClass(styleOption)
@@ -134,9 +142,11 @@ L.StyleEditor.forms.Form = L.Class.extend({
 
     // may be function or boolean
     if (formElementOption instanceof Function) {
-      window.asdf=this
-      window.fun=formElementOption
-      return formElementOption(this.options.styleEditorOptions.currentElement)
+      try {
+        return formElementOption(this.options.styleEditorOptions.currentElement)
+      } catch {
+        return true
+      }
     } else if (formElementOption instanceof Boolean) {
       return formElementOption
     }

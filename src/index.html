@@ -82,7 +82,16 @@
     }).addTo(map)
 
     // initialize the StyleEditor
-    let styleEditor = L.control.styleEditor({'forms': {'geometry': {dashArray: (elem) => {window.elem = elem; elem.target instanceof L.Polygon}}}})
+    let styleEditor = L.control.styleEditor({
+      'forms': {
+        'geometry': {
+          'dashArray': (elem) => {return elem.target instanceof L.Polygon}
+        },
+        'marker': {
+          'icon': L.StyleEditor.formElements.DashElement
+        }
+      }
+    })
     map.addControl(styleEditor);
 
     // make visible for testing stuff
