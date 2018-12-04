@@ -85,10 +85,14 @@
     let styleEditor = L.control.styleEditor({
       'forms': {
         'geometry': {
-          'dashArray': (elem) => {return elem.target instanceof L.Polygon}
+          'dashArray': (elem) => {return elem.target instanceof L.Polygon},
+          'color': () => { return new Date().getSeconds()%2==0 }
         },
         'marker': {
-          'icon': L.StyleEditor.formElements.DashElement
+          'icon': {
+            'boolean': () => {return false},
+            'formElement': L.StyleEditor.formElements.DashElement
+          }
         }
       }
     })

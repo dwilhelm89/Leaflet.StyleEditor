@@ -145,7 +145,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
         console.log(e)
         return true
       }
-    } else if (formElementOption instanceof Boolean) {
+    } else if (typeof formElementOption === 'boolean') {
       return formElementOption
     }
     return true
