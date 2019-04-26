@@ -13,7 +13,8 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
     },
 
     selectIconSize: [],
-    selectIconClass: ''
+    selectIconClass: '',
+    iconOptions: {}
   },
 
   /** set standard icon */
@@ -57,23 +58,20 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
    *  if not set set them
    */
   getIconOptions: function () {
-    let iconOptions = {}
+    if (Object.keys(this.options.iconOptions).length > 0) {
+      return this.options.iconOptions
+    }
+
     if (this.options.styleEditorOptions.currentElement) {
-      iconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options
+      this.options.iconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options
     }
 
-    if (!iconOptions.iconColor) {
-      iconOptions.iconColor = this._getDefaultMarkerColor()
-    }
-    if (!iconOptions.iconSize) {
-      iconOptions.iconSize = this.options.styleEditorOptions.markerType.options.size.small
-    }
-    if (!iconOptions.icon) {
-      iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(iconOptions.iconColor)
-    }
+    this.options.iconOptions.iconColor = this._getDefaultMarkerColor()
+    this.options.iconOptions.iconSize = this.options.styleEditorOptions.markerType.options.size.small
+    this.options.iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(this.options.iconOptions.iconColor)
 
-    this.options.iconOptions = this._ensureMarkerIcon(iconOptions)
-    return iconOptions
+    this.options.iconOptions = this._ensureMarkerIcon(this.options.iconOptions)
+    return this.options.iconOptions
   },
 
   resetIconOptions: function () {
