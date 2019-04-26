@@ -294,6 +294,7 @@ textarea.leaflet-styleeditor-input {
     height: 25%;
 }
 .leaflet-styleeditor-marker-selected {
+    background-clip: padding-box;
     background-color: rgba(254,87,161,0.1);
     border: 4px dashed rgba(254,87,161,0.6);
     -webkit-border-radius: 4px;
