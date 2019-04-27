@@ -22,4 +22,5 @@ deploy:
     on:
       tags: true
       repo: dwilhelm89/Leaflet.StyleEditor
+      branch: master
 
