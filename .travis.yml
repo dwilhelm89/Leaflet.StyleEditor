@@ -8,6 +8,13 @@ script:
 - npm run lint
 
 deploy:
+  - provider: script
+    script: bash scripts/minify.sh
+    github-token: $GITHUB_TOKEN
+    skip-cleanup: true
+    on:
+      branch: master
+
   - provider: npm
     email: fupduck@sacknagel.com
     api_key:
@@ -15,11 +22,4 @@ deploy:
     on:
       tags: true
       repo: dwilhelm89/Leaflet.StyleEditor
-      branch: master
 
-  - provider: script
-    script: bash scripts/minify.sh
-    github-token: $GITHUB_TOKEN
-    skip-cleanup: true
-    on:
-      branch: master
