@@ -72,10 +72,23 @@
 <div id="map"></div>
 <div id="map2"></div>
 <script>
-  createMap('map', L.StyleEditor.marker.DefaultMarker)
-  createMap('map2', L.StyleEditor.marker.GlyphiconMarker)
+  let forms = {
+    'geometry': {
+      'dashArray': (elem) => {return elem.target instanceof L.Polygon},
+      'color': () => { return new Date().getSeconds()%2==0 }
+    },
+    'marker': {
+      'icon': {
+        'boolean': () => {return false},
+        'formElement': L.StyleEditor.formElements.DashElement
+      }
+    }
+  }
 
-  function createMap (mapId, markerType) {
+  createMap('map', L.StyleEditor.marker.DefaultMarker, {})
+  createMap('map2', L.StyleEditor.marker.GlyphiconMarker, forms)
+
+  function createMap (mapId, markerType, forms) {
     let map = L.map(mapId).setView([20, -40], 3)
     L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -83,18 +96,8 @@
 
     // initialize the StyleEditor
     let styleEditor = L.control.styleEditor({
-      'forms': {
-        'geometry': {
-          'dashArray': (elem) => {return elem.target instanceof L.Polygon},
-          'color': () => { return new Date().getSeconds()%2==0 }
-        },
-        'marker': {
-          'icon': {
-            'boolean': () => {return false},
-            'formElement': L.StyleEditor.formElements.DashElement
-          }
-        }
-      }
+      'forms': forms,
+      'markerType': markerType
     })
     map.addControl(styleEditor);
 
