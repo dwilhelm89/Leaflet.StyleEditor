@@ -116,6 +116,8 @@ L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.
 
   /** called when user selects a marker */
   _selectMarker: function (e) {
+    console.log('IconElement._selectMarker')
+
     let value = this._getValue(e.target)
 
     // update style

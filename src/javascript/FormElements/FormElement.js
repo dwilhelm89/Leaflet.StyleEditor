@@ -57,6 +57,8 @@ L.StyleEditor.formElements.FormElement = L.Class.extend({
 
   /** set style - used when the FormElement wants to change the styling option */
   setStyle: function (value) {
+    console.log('Formelement.setStyle')
+
     let currentElement = this.options.styleEditorOptions.util.getCurrentElement()
     // check whether a layer is part of a layerGroup
     let layers = [currentElement]
