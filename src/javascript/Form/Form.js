@@ -119,7 +119,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
       // may be a dictionary
       if ('formElement' in FormElement && 'boolean' in FormElement) {
         FormElement = FormElement['formElement']
-      } else if (FormElement instanceof Boolean) {
+      } else if (typeof FormElement === 'boolean') {
         return this.getFormElementStandardClass(styleOption)
       }
 

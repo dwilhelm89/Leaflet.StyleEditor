@@ -18,7 +18,6 @@
     forms: {},
     formElements: {}
   }
-  // implement your plugin
 
   // return your plugin when you are done
   return StyleEditor

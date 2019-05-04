@@ -17,7 +17,9 @@
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-gh-pages": "~2.x",
-    "lint": "^1.1.2"
+    "lint": "^1.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,15 @@
     "editor",
     "StyleEditor"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "leaflet": "^1.4.0",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-draw": "^1.0.4",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2"
+  },
   "scripts": {
     "lint": "./node_modules/.bin/eslint . ./**/*.js",
     "test": "./node_modules/.bin/eslint . ./**/*.js"

@@ -14,13 +14,10 @@
   <link rel="stylesheet" href="lib/leaflet/leaflet.ie.css"/>
   <link rel="stylesheet" href="leaflet.draw.ie.css"/>
   <![endif]-->
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 
   <script src="../dist/javascript/Leaflet.StyleEditor.min.js"></script>
-  <link rel="stylesheet" href="../dist/css/Leaflet.StyleEditor.min.css"/>
-
 
   <style type="text/css">
 
@@ -53,6 +50,7 @@
     position: 'topleft',
     useGrouping: false
   })
+  window.se=styleEditor
   map.addControl(styleEditor)
 
   //Leaflet.draw
