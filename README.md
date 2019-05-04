@@ -14,8 +14,15 @@ Usage
 ```javascript
 //Initialize the StyleEditor
 map.addControl(L.control.styleEditor())
-````
+```
 
+It's now possible to open the StyleEditor programmatically:  
+```javascript
+let styleEditor = L.control.styleEditor()
+let marker = L.marker([51.5, -0.09])
+marker.addTo(map)
+styleEditor.enable(marker)
+```
 
 ### Settings
 

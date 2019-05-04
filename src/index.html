@@ -75,7 +75,7 @@
   let forms = {
     'geometry': {
       'dashArray': (elem) => {return elem.target instanceof L.Polygon},
-      'color': () => { return new Date().getSeconds()%2==0 }
+      'color': true,
     },
     'marker': {
       'icon': {
