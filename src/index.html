@@ -72,17 +72,37 @@
 <div id="map"></div>
 <div id="map2"></div>
 <script>
-  createMap('map', L.StyleEditor.marker.DefaultMarker)
-  createMap('map2', L.StyleEditor.marker.GlyphiconMarker)
+  let forms = {
+    'geometry': {
+      'dashArray': (elem) => {return elem.target instanceof L.Polygon},
+      'color': () => { return new Date().getSeconds()%2==0 }
+    },
+    'marker': {
+      'icon': {
+        'boolean': () => {return false},
+        'formElement': L.StyleEditor.formElements.DashElement
+      }
+    }
+  }
 
-  function createMap (mapId, markerType) {
+  createMap('map', L.StyleEditor.marker.DefaultMarker, {})
+  createMap('map2', L.StyleEditor.marker.GlyphiconMarker, forms)
+
+  function createMap (mapId, markerType, forms) {
     let map = L.map(mapId).setView([20, -40], 3)
     L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map)
 
     // initialize the StyleEditor
-    map.addControl(L.control.styleEditor())
+    let styleEditor = L.control.styleEditor({
+      'forms': forms,
+      'markerType': markerType
+    })
+    map.addControl(styleEditor);
+
+    // make visible for testing stuff
+    window.styleEditor = styleEditor;
 
     // some random geometries to test (marker, polygon, polyline, geoJSON)
     L.marker([51.5, -0.09]).addTo(map)

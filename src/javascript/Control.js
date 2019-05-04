@@ -14,6 +14,8 @@ L.Control.StyleEditor = L.Control.extend({
 
     geometryForm: L.StyleEditor.forms.GeometryForm,
 
+    forms: {},
+
     openOnLeafletDraw: true,
     showTooltip: true,
 

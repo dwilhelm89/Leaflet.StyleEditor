@@ -1,6 +1,7 @@
 /** Form used to enable modification of a Geometry */
 L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
   options: {
+    formOptionKey: 'geometry',
     formElements: {
       'color': L.StyleEditor.formElements.ColorElement,
       'opacity': L.StyleEditor.formElements.OpacityElement,
@@ -17,12 +18,12 @@ L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
     for (let i = 0; i < this.options.initializedElements.length; i++) {
       if (this.options.initializedElements[i].options.styleOption.indexOf('fill') === 0) {
         if (this.options.styleEditorOptions.util.fillCurrentElement()) {
-          this.options.initializedElements[i].show()
+          this.showFormElement(this.options.initializedElements[i])
         } else {
           this.options.initializedElements[i].hide()
         }
       } else {
-        this.options.initializedElements[i].show()
+        this.showFormElement(this.options.initializedElements[i])
       }
     }
   }
