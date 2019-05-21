@@ -118,7 +118,7 @@ L.Control.StyleEditor = L.Control.extend({
 
   onLeafletDrawCreated: function (layer) {
     this.removeIndicators()
-    this.options.currentElement = {'target': layer.layer}
+    this.options.currentElement = layer.layer
   },
 
   onLayerAdd: function (e) {
@@ -254,7 +254,7 @@ L.Control.StyleEditor = L.Control.extend({
       return
     }
 
-    let currentElement = this.options.currentElement.target
+    let currentElement = this.options.util.getCurrentElement()
     if (currentElement instanceof L.LayerGroup) {
       currentElement.eachLayer(function (layer) {
         if (layer.getElement()) {

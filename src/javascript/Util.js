@@ -66,7 +66,10 @@ L.StyleEditor.Util = L.Class.extend({
     if (!this.options.styleEditorOptions.currentElement) {
       return null
     }
-    return this.options.styleEditorOptions.currentElement.target
+    if (this.options.styleEditorOptions.currentElement.target !== undefined) {
+      return this.options.styleEditorOptions.currentElement.target
+    }
+    return this.options.styleEditorOptions.currentElement
   },
 
   /** set which element is selected to be styled */
