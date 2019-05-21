@@ -18,12 +18,20 @@ L.StyleEditor.forms.Form = L.Class.extend({
   create: function (parentUiElement) {
     this.options.parentUiElement = parentUiElement
 
-    let styleFormKeys = Object.keys(this.options.formElements)
+    let formElements
+    if (this.options.formOptionKey in this.options.styleEditorOptions.forms) {
+      formElements = this.options.styleEditorOptions.forms[this.options.formOptionKey]
+    } else {
+      formElements = this.options.formElements
+    }
+    let styleFormKeys = Object.keys(formElements)
 
     for (let i = 0; i < styleFormKeys.length; i++) {
-      let formElement = this.getFormElementForStyleOptionClass(styleFormKeys[i])
-      formElement.create(parentUiElement)
-      this.options.initializedElements.push(formElement)
+      let formElement = this.getFormElementClass(styleFormKeys[i], formElements)
+      if (formElement !== undefined) {
+        formElement.create(parentUiElement)
+        this.options.initializedElements.push(formElement)
+      }
     }
   },
 
@@ -95,75 +103,58 @@ L.StyleEditor.forms.Form = L.Class.extend({
     }
   },
 
-  /**
-   * get the FormElement for a StyleOption
-   * @param styleOption to get the FormElement for
-   */
-  getFormElementForStyleOption (styleOption) {
-    if (this.options.formOptionKey &&
-        this.options.styleEditorOptions.forms &&
-        this.options.formOptionKey in this.options.styleEditorOptions.forms &&
-        styleOption in this.options.styleEditorOptions.forms[this.options.formOptionKey]) {
-      return this.options.styleEditorOptions.forms[this.options.formOptionKey][styleOption]
-    }
-  },
+  getFormElementClass (styleOption, formElements) {
+    let formElementKeys = Object.keys(formElements)
+    if (formElementKeys.indexOf(styleOption) > 0) {
+      let FormElement = formElements[styleOption]
 
-  /**
-   * get FormatElement to show
-   * @param {*} styleOption the styleOption to get the FormElement for
-   */
-  getFormElementForStyleOptionClass (styleOption) {
-    let FormElement = this.getFormElementForStyleOption(styleOption)
-
-    if (FormElement) {
-      // may be a dictionary
-      if ('formElement' in FormElement && 'boolean' in FormElement) {
-        FormElement = FormElement['formElement']
-      } else if (FormElement instanceof Boolean) {
-        return this.getFormElementStandardClass(styleOption)
-      }
-
-      // try to instantiate FormElementOption and return StandardClass if it does not work
-      let returnValue
-      try {
-        let formElementInstance = new FormElement(
-          {styleOption: styleOption, parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
-        if (formElementInstance instanceof L.StyleEditor.formElements.FormElement) {
-          returnValue = formElementInstance
+      if (FormElement) {
+        // may be a dictionary
+        if (typeof FormElement === 'boolean') {
+          return this.getFormElementStandardClass(styleOption)
         }
-      } catch (e) {
-        console.log(e)
+
+        if ('formElement' in FormElement && 'boolean' in FormElement) {
+          FormElement = FormElement['formElement']
+        }
+        // try to instantiate FormElementOption and return StandardClass if it does not work
+        try {
+          let formElementInstance = new FormElement({
+            styleOption: styleOption,
+            parentForm: this,
+            styleEditorOptions: this.options.styleEditorOptions
+          })
+          if (formElementInstance instanceof L.StyleEditor.formElements.FormElement) {
+            return formElementInstance
+          }
+        } catch (e) {
+          console.log(e)
+        }
       }
-      if (!returnValue) {
-        return this.getFormElementStandardClass(styleOption)
-      }
-      return returnValue
+      // if nothing works return it
+      return this.getFormElementStandardClass(styleOption)
     }
-    return this.getFormElementStandardClass(styleOption)
   },
 
-  /**
-   * @returns a boolean indicating whether FormElement for @param styleOption should be shown
-   */
   showFormElementForStyleOption (styleOption) {
-    let formElementOption = this.getFormElementForStyleOption(styleOption)
-    // may be a dictionary
-    if (formElementOption && 'formElement' in formElementOption && 'boolean' in formElementOption) {
-      formElementOption = formElementOption['boolean']
+    let formElements
+    if (this.options.formOptionKey in this.options.styleEditorOptions.forms) {
+      formElements = this.options.styleEditorOptions.forms[this.options.formOptionKey]
+    } else {
+      formElements = this.options.formElements
     }
+    if (styleOption in formElements) {
+      let styleFormElement = formElements[styleOption]
 
-    // may be function or boolean
-    if (formElementOption instanceof Function) {
-      try {
-        return formElementOption(this.options.styleEditorOptions.currentElement)
-      } catch (e) {
-        console.log(e)
-        return true
+      if (typeof styleFormElement === 'boolean') {
+        return styleFormElement
       }
-    } else if (typeof formElementOption === 'boolean') {
-      return formElementOption
+      if ('boolean' in styleFormElement) {
+        return styleFormElement['boolean']
+      }
+      return true
     }
-    return true
+    return false
   },
 
   getFormElementStandardClass (styleOption) {
