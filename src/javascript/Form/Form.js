@@ -18,12 +18,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
   create: function (parentUiElement) {
     this.options.parentUiElement = parentUiElement
 
-    let formElements
-    if (this.options.formOptionKey in this.options.styleEditorOptions.forms) {
-      formElements = this.options.styleEditorOptions.forms[this.options.formOptionKey]
-    } else {
-      formElements = this.options.formElements
-    }
+    let formElements = this.getFormElements()
     let styleFormKeys = Object.keys(formElements)
 
     for (let i = 0; i < styleFormKeys.length; i++) {
@@ -103,7 +98,26 @@ L.StyleEditor.forms.Form = L.Class.extend({
     }
   },
 
-  getFormElementClass: function (styleOption, formElements) {
+  /**
+   * get the currently used formElements
+   * either standard or the ones provided while instanciation
+   */
+  getFormElements: function () {
+    let formElements
+    if (this.options.formOptionKey in this.options.styleEditorOptions.forms) {
+      formElements = this.options.styleEditorOptions.forms[this.options.formOptionKey]
+    } else {
+      formElements = this.options.formElements
+    }
+    return formElements
+  },
+
+  /**
+   * get the Class of the Formelement to instanciate
+   * @param {*} styleOption, the styleOption to get the FormElement for
+   */
+  getFormElementClass: function (styleOption) {
+    let formElements = this.getFormElements()
     let formElementKeys = Object.keys(formElements)
 
     if (formElementKeys.indexOf(styleOption) >= 0) {
@@ -137,28 +151,36 @@ L.StyleEditor.forms.Form = L.Class.extend({
     }
   },
 
+  /**
+   * check whether a FormElement should be shown
+   * @param {*} styleOption, the styleOption to check
+   */
   showFormElementForStyleOption (styleOption) {
-    let formElements
-    if (this.options.formOptionKey in this.options.styleEditorOptions.forms) {
-      formElements = this.options.styleEditorOptions.forms[this.options.formOptionKey]
-    } else {
-      formElements = this.options.formElements
-    }
+    let formElements = this.getFormElements()
     if (styleOption in formElements) {
       let styleFormElement = formElements[styleOption]
 
+      // maybe a function is given to declare when to show the FormElement
       if (typeof styleFormElement === 'function') {
         try {
-          let asfd = styleFormElement(this.options.styleEditorOptions.util.getCurrentElement())
-          return asfd
+          return styleFormElement(this.options.styleEditorOptions.util.getCurrentElement())
         } catch (err) {
+          // the given function presumably is a constructor -> always show it
           return true
         }
       }
+
+      // maybe a boolean is given to indicate whether to show it
       if (typeof styleFormElement === 'boolean') {
         return styleFormElement
       }
+
+      // check for dictionary
       if ('boolean' in styleFormElement) {
+        // in a dictionary boolean may be a function or boolean
+        if (typeof styleFormElement['boolean'] === 'function') {
+          return styleFormElement['boolean'](this.options.styleEditorOptions.util.getCurrentElement())
+        }
         return styleFormElement['boolean']
       }
       return true
@@ -166,6 +188,10 @@ L.StyleEditor.forms.Form = L.Class.extend({
     return false
   },
 
+  /**
+   * get Leaflet.StyleEditor standard FormElement class for given styleOption
+   * @param {*} styleOption, the styleOption to get the standard class for
+   */
   getFormElementStandardClass (styleOption) {
     return new this.options.formElements[styleOption](
       {styleOption: styleOption, parentForm: this, styleEditorOptions: this.options.styleEditorOptions})
