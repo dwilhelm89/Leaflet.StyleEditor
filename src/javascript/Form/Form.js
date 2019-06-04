@@ -94,7 +94,7 @@ L.StyleEditor.forms.Form = L.Class.extend({
   /**
    * @returns a Boolean indicating if the @param formElement should be shown
    */
-  showFormElement (formElement) {
+  showFormElement: function (formElement) {
     // check wether element should be shown or not
     if (this.showFormElementForStyleOption(formElement.options.styleOption)) {
       formElement.show()
@@ -103,9 +103,10 @@ L.StyleEditor.forms.Form = L.Class.extend({
     }
   },
 
-  getFormElementClass (styleOption, formElements) {
+  getFormElementClass: function (styleOption, formElements) {
     let formElementKeys = Object.keys(formElements)
-    if (formElementKeys.indexOf(styleOption) > 0) {
+
+    if (formElementKeys.indexOf(styleOption) >= 0) {
       let FormElement = formElements[styleOption]
 
       if (FormElement) {
@@ -146,6 +147,14 @@ L.StyleEditor.forms.Form = L.Class.extend({
     if (styleOption in formElements) {
       let styleFormElement = formElements[styleOption]
 
+      if (typeof styleFormElement === 'function') {
+        try {
+          let asfd = styleFormElement(this.options.styleEditorOptions.util.getCurrentElement())
+          return asfd
+        } catch (err) {
+          return true
+        }
+      }
       if (typeof styleFormElement === 'boolean') {
         return styleFormElement
       }

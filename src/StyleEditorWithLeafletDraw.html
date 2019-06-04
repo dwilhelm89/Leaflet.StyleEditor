@@ -50,14 +50,14 @@
 
   let forms = {
     'geometry': {
-      'dashArray': (elem) => {return elem.target instanceof L.Polygon},
+      'dashArray': (elem) => {return elem instanceof L.Polygon},
       'color': true,
       'weight': true,
     },
     'marker': {
       'icon': {
         'boolean': () => {return false},
-        'formElement': L.StyleEditor.formElements.DashElement
+        'formElement': L.StyleEditor.formElements.IconElement,
       }
     }
   }
@@ -65,7 +65,6 @@
   let styleEditor = L.control.styleEditor({
     position: 'topleft',
     useGrouping: false,
-    forms: forms, 
   })
   map.addControl(styleEditor)
 

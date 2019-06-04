@@ -43,8 +43,6 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
 
   /** set styling options */
   setStyle: function (styleOption, value) {
-    console.log('Marker.setStyle')
-
     if (styleOption !== 'icon') {
       styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
     }
@@ -77,7 +75,6 @@ L.StyleEditor.marker.Marker = L.Marker.extend({
   },
 
   resetIconOptions: function () {
-    console.log('Marker.resetIconOptions')
     Object.keys(this.getIconOptions()).forEach((key) =>
       this.setStyle(key, this.options.iconOptions[key])
     )
