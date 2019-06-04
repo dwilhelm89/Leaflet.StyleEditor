@@ -123,10 +123,8 @@ L.Control.StyleEditor = L.Control.extend({
 
   onLayerAdd: function (e) {
     if (this.options.currentElement) {
-      if (e.layer === this.options.currentElement.target) {
-        this.enable({
-          'target': e.layer
-        })
+      if (e.layer === this.options.util.getCurrentElement()) {
+        this.enable(e.layer)
       }
     }
   },

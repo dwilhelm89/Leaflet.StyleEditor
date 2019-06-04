@@ -33,8 +33,6 @@ L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement
 
   /** set style for chosen color */
   _selectColor: function (e) {
-    console.log('ColoreElement.setColor')
-
     e.stopPropagation()
     this.setStyle(
       this.options.styleEditorOptions.util.rgbToHex(

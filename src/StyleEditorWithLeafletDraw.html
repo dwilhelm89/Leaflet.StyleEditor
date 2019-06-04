@@ -48,10 +48,24 @@
     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map)
 
+  let forms = {
+    'geometry': {
+      'dashArray': (elem) => {return elem instanceof L.Polygon},
+      'color': true,
+      'weight': true,
+    },
+    'marker': {
+      'icon': {
+        'boolean': () => {return true},
+        'formElement': L.StyleEditor.formElements.IconElement,
+      }
+    }
+  }
   //Initialize the StyleEditor
   let styleEditor = L.control.styleEditor({
     position: 'topleft',
-    useGrouping: false
+    useGrouping: false,
+    forms: forms,
   })
   map.addControl(styleEditor)
 
