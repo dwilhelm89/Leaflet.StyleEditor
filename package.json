@@ -6,6 +6,9 @@
   "license": "MIT",
   "main": "dist/javascript/Leaflet.StyleEditor.min.js",
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "babel-loader": "^8.0.6",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.11.0",
@@ -17,7 +20,9 @@
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-gh-pages": "~2.x",
-    "lint": "^1.1.2"
+    "lint": "^1.1.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9"
   },
   "repository": {
     "type": "git",
@@ -32,7 +37,9 @@
     "editor",
     "StyleEditor"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "leaflet": "^1.5.1"
+  },
   "scripts": {
     "lint": "./node_modules/.bin/eslint . ./**/*.js",
     "test": "./node_modules/.bin/eslint . ./**/*.js"

@@ -1,25 +1,33 @@
-(function (factory, window) {
-  // define an AMD module that relies on 'leaflet'
-  if (typeof define === 'function' && define.amd) {
-    define(['leaflet'], factory)
+import 'leaflet'
+import setupColorElement from './FormElements/ColorElement'
+import setupOpacityElement from './FormElements/OpacityElement'
 
-    // define a Common JS module that relies on 'leaflet'
-  } else if (typeof exports === 'object') {
-    module.exports = factory(require('leaflet'))
-  }
+L.StyleEditor = {
+  marker: {},
+  forms: {},
+  formElements: {}
+}
 
-  // attach your plugin to the global 'L' variable
-  if (typeof window !== 'undefined' && window.L) {
-    window.L.StyleEditor = factory(L)
-  }
-}(function (L) {
-  let StyleEditor = {
-    marker: {},
-    forms: {},
-    formElements: {}
-  }
-  // implement your plugin
+require('./Util').setupUtil(L)
 
-  // return your plugin when you are done
-  return StyleEditor
-}, window))
+require('./FormElements/FormElement').setupFormElement(L)
+setupColorElement(L)
+require('./FormElements/DashElement').setupDashElement(L)
+require('./FormElements/IconElement').setupIconElement(L)
+setupOpacityElement(L)
+require('./FormElements/PopupContentElement').setupPopupContentElement(L)
+require('./FormElements/SizeElement').setupSizeElement(L)
+require('./FormElements/WeightElement').setupWeightElement(L)
+
+require('./Form/Form').setupForm(L)
+require('./Form/GeometryForm').setupGeometryForm(L)
+require('./Form/MarkerForm').setupMarkerForm(L)
+
+require('./Marker/Marker').setupMarker(L)
+require('./Marker/DefaultMarker').setupDefaultMarker(L)
+require('./Marker/GlyphiconMarker').setupGlyphiconMarker(L)
+
+require('./StyleForm').setupStyleForm(L)
+require('./Control').setupControl(L)
+
+export default L

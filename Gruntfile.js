@@ -64,6 +64,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-gh-pages')
+  grunt.loadNpmTasks('grunt-import-js')
 
   grunt.registerTask('default', ['concat', 'uglify', 'cssmin'])
 }
