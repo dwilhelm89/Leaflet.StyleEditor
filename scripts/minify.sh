@@ -7,7 +7,7 @@ if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 source "$DIR/travis-ci-git-commit.sh"
 
 # minimize and uglify css & js
-grunt
+npx webpack
 
 # check if something changed
 if ! git diff --quiet; then
