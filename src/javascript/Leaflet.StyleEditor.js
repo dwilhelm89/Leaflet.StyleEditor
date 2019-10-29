@@ -22,6 +22,8 @@ import setupControl from './Control'
 
 import setupUtil from './Util'
 
+require('../css/Leaflet.StyleEditor.css')
+
 L.StyleEditor = {
   marker: {},
   forms: {},
