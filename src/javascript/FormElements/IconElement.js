@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * FormElement used for styling the icon
  */
-const setupIconElement = function setupIconElement (L) {
+export default function setupIconElement () {
   L.StyleEditor.formElements.IconElement = L.StyleEditor.formElements.FormElement.extend({
     // private classed used in the code
     _selectOptionWrapperClasses: 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden',
@@ -148,5 +150,3 @@ const setupIconElement = function setupIconElement (L) {
 
   })
 }
-
-module.exports.setupIconElement = setupIconElement

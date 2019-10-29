@@ -1,7 +1,9 @@
 /**
  * FormElement used for styling the dash attribute
  */
-const setupDashElement = function setupDashElement (L) {
+import 'leaflet'
+
+export default function setupDashElement () {
   L.StyleEditor.formElements.DashElement = L.StyleEditor.formElements.FormElement.extend({
 
     /** create the three standard dash options */
@@ -27,5 +29,3 @@ const setupDashElement = function setupDashElement (L) {
     }
   })
 }
-
-module.exports.setupDashElement = setupDashElement

@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * FormElement used to style weight
  */
-const setupWeightElement = function setupWeightElement (L) {
+export default function setupWeightElement () {
   L.StyleEditor.formElements.WeightElement = L.StyleEditor.formElements.FormElement.extend({
 
     /** create number input box */
@@ -35,5 +37,3 @@ const setupWeightElement = function setupWeightElement (L) {
     }
   })
 }
-
-module.exports.setupWeightElement = setupWeightElement

@@ -1,8 +1,10 @@
+import 'leaflet'
+
 /**
  * Example class showing how to implement new MarkerClasses
  * uses the glyphicons given by bootstrap
  */
-const setupGlyphiconMarker = function setupGlyphiconMarker (L) {
+export default function setupGlyphiconMarker () {
   L.StyleEditor.marker.GlyphiconMarker = L.StyleEditor.marker.Marker.extend({
     getMarkerHtml: function (size, color, icon) {
       let iconUrl = this._getMarkerUrl(size, color)
@@ -199,5 +201,3 @@ const setupGlyphiconMarker = function setupGlyphiconMarker (L) {
     }
   })
 }
-
-module.exports.setupGlyphiconMarker = setupGlyphiconMarker

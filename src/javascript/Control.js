@@ -1,4 +1,6 @@
-const setupControl = function setupControl (L) {
+import 'leaflet'
+
+export default function setupControl () {
   L.Control.StyleEditor = L.Control.extend({
     options: {
       position: 'topleft',
@@ -388,5 +390,3 @@ const setupControl = function setupControl (L) {
     return new L.Control.StyleEditor(options)
   }
 }
-
-module.exports.setupControl = setupControl

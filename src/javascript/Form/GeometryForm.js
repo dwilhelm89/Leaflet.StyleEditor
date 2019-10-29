@@ -1,5 +1,7 @@
+import 'leaflet'
+
 /** Form used to enable modification of a Geometry */
-const setupGeometryForm = function setupGeometryForm (L) {
+export default function setupGeometryForm () {
   L.StyleEditor.forms.GeometryForm = L.StyleEditor.forms.Form.extend({
     options: {
       formOptionKey: 'geometry',
@@ -30,5 +32,3 @@ const setupGeometryForm = function setupGeometryForm (L) {
     }
   })
 }
-
-module.exports.setupGeometryForm = setupGeometryForm

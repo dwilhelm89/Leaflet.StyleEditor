@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  *  FormElement used to style the color
  */
-export default function setupColorElement (L) {
+export default function setupColorElement () {
   L.StyleEditor.formElements.ColorElement = L.StyleEditor.formElements.FormElement.extend({
 
     createContent: function () {

@@ -1,6 +1,26 @@
 import 'leaflet'
+
 import setupColorElement from './FormElements/ColorElement'
+import setupFormElement from './FormElements/FormElement'
+import setupDashElement from './FormElements/DashElement'
+import setupIconElement from './FormElements/IconElement'
 import setupOpacityElement from './FormElements/OpacityElement'
+import setupPopupContentElement from './FormElements/PopupContentElement'
+import setupSizeElement from './FormElements/SizeElement'
+import setupWeightElement from './FormElements/WeightElement'
+
+import setupForm from './Form/Form'
+import setupGeometryForm from './Form/GeometryForm'
+import setupMarkerForm from './Form/MarkerForm'
+
+import setupMarker from './Marker/Marker'
+import setupDefaultMarker from './Marker/DefaultMarker'
+import setupGlyphiconMarker from './Marker/GlyphiconMarker'
+
+import setupStyleForm from './StyleForm'
+import setupControl from './Control'
+
+import setupUtil from './Util'
 
 L.StyleEditor = {
   marker: {},
@@ -8,26 +28,26 @@ L.StyleEditor = {
   formElements: {}
 }
 
-require('./Util').setupUtil(L)
+setupUtil()
 
-require('./FormElements/FormElement').setupFormElement(L)
-setupColorElement(L)
-require('./FormElements/DashElement').setupDashElement(L)
-require('./FormElements/IconElement').setupIconElement(L)
-setupOpacityElement(L)
-require('./FormElements/PopupContentElement').setupPopupContentElement(L)
-require('./FormElements/SizeElement').setupSizeElement(L)
-require('./FormElements/WeightElement').setupWeightElement(L)
+setupFormElement()
+setupColorElement()
+setupDashElement()
+setupIconElement()
+setupOpacityElement()
+setupPopupContentElement()
+setupSizeElement()
+setupWeightElement()
 
-require('./Form/Form').setupForm(L)
-require('./Form/GeometryForm').setupGeometryForm(L)
-require('./Form/MarkerForm').setupMarkerForm(L)
+setupForm()
+setupGeometryForm()
+setupMarkerForm()
 
-require('./Marker/Marker').setupMarker(L)
-require('./Marker/DefaultMarker').setupDefaultMarker(L)
-require('./Marker/GlyphiconMarker').setupGlyphiconMarker(L)
+setupMarker()
+setupDefaultMarker()
+setupGlyphiconMarker()
 
-require('./StyleForm').setupStyleForm(L)
-require('./Control').setupControl(L)
+setupStyleForm()
+setupControl()
 
 export default L

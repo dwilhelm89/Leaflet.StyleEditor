@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * The Base class for different markers
  */
-const setupMarker = function setupMarker (L) {
+export default function setupMarker () {
   L.StyleEditor.marker.Marker = L.Marker.extend({
     /** define markerForm used to style the Marker */
     markerForm: L.StyleEditor.forms.MarkerForm,
@@ -183,5 +185,3 @@ const setupMarker = function setupMarker (L) {
     }
   })
 }
-
-module.exports.setupMarker = setupMarker

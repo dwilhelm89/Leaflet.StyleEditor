@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * FormElement to set style of an icon
  */
-const setupSizeElement = function setupSizeElement (L) {
+export default function setupSizeElement () {
   L.StyleEditor.formElements.SizeElement = L.StyleEditor.formElements.FormElement.extend({
 
     /** create the 3 standard icon sizes */
@@ -24,5 +26,3 @@ const setupSizeElement = function setupSizeElement (L) {
     }
   })
 }
-
-module.exports.setupSizeElement = setupSizeElement

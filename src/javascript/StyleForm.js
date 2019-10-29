@@ -1,4 +1,6 @@
-const setupStyleForm = function setupStyleForm (L) {
+import 'leaflet'
+
+export default function setupStyleForm () {
   L.StyleForm = L.Class.extend({
     initialize: function (options) {
       L.setOptions(this, options)
@@ -62,5 +64,3 @@ const setupStyleForm = function setupStyleForm (L) {
     }
   })
 }
-
-module.exports.setupStyleForm = setupStyleForm

@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * FormElement used for adding a description to marker or geometry.
  */
-const setupPopupContentElement = function setupPopupContentElement (L) {
+export default function setupPopupContentElement () {
   L.StyleEditor.formElements.PopupContentElement = L.StyleEditor.formElements.FormElement.extend({
 
     options: {
@@ -55,5 +57,3 @@ const setupPopupContentElement = function setupPopupContentElement (L) {
     }
   })
 }
-
-module.exports.setupPopupContentElement = setupPopupContentElement

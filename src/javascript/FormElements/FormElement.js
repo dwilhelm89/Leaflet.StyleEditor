@@ -1,5 +1,7 @@
+import 'leaflet'
+
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
-const setupFormElement = function setupFormElement (L) {
+export default function setupFormElement () {
   L.StyleEditor.formElements.FormElement = L.Class.extend({
 
     /** set options and title */
@@ -87,5 +89,3 @@ const setupFormElement = function setupFormElement (L) {
 
   })
 }
-
-module.exports.setupFormElement = setupFormElement

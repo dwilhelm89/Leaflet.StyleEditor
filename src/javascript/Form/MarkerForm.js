@@ -1,5 +1,7 @@
+import 'leaflet'
+
 /** Form used to enable modification of a Geometry */
-const setupMarkerForm = function setupMarkerForm (L) {
+export default function setupMarkerForm () {
   L.StyleEditor.forms.MarkerForm = L.StyleEditor.forms.Form.extend({
     options: {
       formOptionKey: 'marker',
@@ -13,5 +15,3 @@ const setupMarkerForm = function setupMarkerForm (L) {
 
   })
 }
-
-module.exports.setupMarkerForm = setupMarkerForm

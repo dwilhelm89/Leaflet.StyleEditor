@@ -1,3 +1,5 @@
+import 'leaflet'
+
 /**
  * Forms consist of FormElements and are shown in the StyleForm
  * There exists a MarkerForm to modify Markers and a GeometryForm to modify Geometries (i.e. rectangles...)
@@ -5,7 +7,7 @@
  *     - path: https://leafletjs.com/reference.html#path-options
  *     - icon: https://leafletjs.com/reference.html#icon
  */
-const setupForm = function setupForm (L) {
+export default function setupForm () {
   L.StyleEditor.forms.Form = L.Class.extend({
     initialize: function (options) {
       if (options) {
@@ -143,7 +145,7 @@ const setupForm = function setupForm (L) {
               return formElementInstance
             }
           } catch (e) {
-            console.log(e)
+            // creating instance failed fallback to StandardClass
           }
         }
         // if nothing works return it
@@ -198,5 +200,3 @@ const setupForm = function setupForm (L) {
     }
   })
 }
-
-module.exports.setupForm = setupForm

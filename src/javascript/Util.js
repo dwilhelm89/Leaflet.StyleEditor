@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * Helper functions used throuhgout the project
  */
-const setupUtil = function setupUtil (L) {
+export default function setupUtil () {
   L.StyleEditor.Util = L.Class.extend({
 
     initialize: function (options) {
@@ -190,5 +192,3 @@ const setupUtil = function setupUtil (L) {
     }
   })
 }
-
-module.exports = { setupUtil }

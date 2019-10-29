@@ -1,7 +1,9 @@
+import 'leaflet'
+
 /**
  * FormElement used to style opacity
  */
-export default function setupOpacityElement (L) {
+export default function setupOpacityElement () {
   L.StyleEditor.formElements.OpacityElement = L.StyleEditor.formElements.FormElement.extend({
 
     /** create number input box */

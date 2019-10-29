@@ -1,8 +1,10 @@
+import 'leaflet'
+
 /**
  * The "old" marker style used by L.StyleEditor
  * used the mapbox API v3
  */
-const setupDefaultMarker = function setupDefaultMarker (L) {
+export default function setupDefaultMarker () {
   L.StyleEditor.marker.DefaultMarker = L.StyleEditor.marker.Marker.extend({
 
     createMarkerIcon: function (iconOptions, iconClass) {
@@ -169,5 +171,3 @@ const setupDefaultMarker = function setupDefaultMarker (L) {
     }
   })
 }
-
-module.exports.setupDefaultMarker = setupDefaultMarker
