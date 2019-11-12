@@ -10,6 +10,7 @@
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "es-check": "^5.0.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.11.0",
@@ -43,7 +44,7 @@
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint . ./**/*.js",
-    "test": "./node_modules/.bin/eslint . ./**/*.js"
+    "es-check": "./node_modules/.bin/es-check es5 ./dist/javascript/Leaflet.StyleEditor.min.js"
   },
   "publishConfig": {
     "access": "public"
