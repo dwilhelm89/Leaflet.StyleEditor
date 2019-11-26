@@ -2,6 +2,7 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
     app: './src/javascript/Leaflet.StyleEditor.js'
   },
