@@ -90,18 +90,21 @@ Here is a list of all possible options.
 * **forms**  
   A dictionary defining when to show what form for which option.  
   example: *{'marker': {'icon': CustomIconFormElement }}*  
-  example: *{'geometry': {'color': false}}*  
-  example: *{'marker': {'size': () => return {new Date().getSecond()%2==0 }}*  
-  example: *{'geometry': {'opacity': (elem) => {return elem.target instanceof L.Polygon}}}*  
-  example: *{'marker': {'size': {'boolean': () => {return true }, 'formElement': 'L.StyleEditor.formElement.DashElement'}}}*
+  example: *{'geometry': {'color': false, opacity: true }}*  
+  example: *{'marker': {'size': () => return {new Date().getSecond()%2 == 0 }}*  
+  example: *{'geometry': {'opacity': (elem) => {return elem.target instanceof L.Polygon }}}*  
+  example: *{'marker': {'size': {'boolean': () => {return true }, 'formElement': 'L.StyleEditor.formElement.DashElement' }}}*
 
   Only predefined styleOptions of the Geometry- and Markerform are supported.
   For every styleOption You may provide a boolean, function, [FormElement](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/FormElements/FormElement.js) or dictionary.
  
-  A **boolean** indicates if a FormElement should be shown at all,  
-  a **function** will be called and its return value indicates if a FormElement should be shown  
-  and a **FormElement** overrides the predefined FormElement.
-  The **dictionary** may contain 'boolean' and 'formElement' thus combining obove mentionend options. 
+  If you decide to customize forms **only** the formElements listed will be rendered (and shown).
+ 
+  The **boolean** indicates if a FormElement will be shown. Setting this to false will generate the formElement in the HTML but hide it by adding `leaflet-styleeditor-hidden` class.
+  A **function** will be called to determine if a FormElement should be shown. The return value should be a boolean.
+  A **FormElement** overrides the predefined FormElement.
+  A **dictionary** should contain **boolean** and **formElement** combining obove mentionend options.
+  'boolean' can be a function or a boolean.
 
 
 ### Events
