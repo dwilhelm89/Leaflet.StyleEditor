@@ -17,6 +17,8 @@ export default function setupControl () {
 
       geometryForm: L.StyleEditor.forms.GeometryForm,
 
+      ignoreLayerTypes: [],
+
       forms: {},
 
       openOnLeafletDraw: true,
@@ -189,6 +191,10 @@ export default function setupControl () {
     },
 
     enable: function (layer) {
+      if (this._layerIsIgnored(layer)) {
+        return
+      }
+
       L.DomUtil.addClass(this.options.controlUI, 'enabled')
       this.options.map.eachLayer(this.addEditClickEvents, this)
       this.showCancelButton()
@@ -219,6 +225,9 @@ export default function setupControl () {
     },
 
     addEditClickEvents: function (layer) {
+      if (this._layerIsIgnored(layer)) {
+        return
+      }
       if (this.options.useGrouping && layer instanceof L.LayerGroup) {
         this.options._layerGroups.push(layer)
       } else if (layer instanceof L.Marker || layer instanceof L.Path) {
@@ -380,6 +389,15 @@ export default function setupControl () {
         this.options.tooltip.remove()
         this.options.tooltip = undefined
       }
+    },
+
+    _layerIsIgnored: function (layer) {
+      if (layer === undefined) {
+        return false
+      }
+      return this.options.ignoreLayerTypes.some(
+        layerType => layer.styleEditor && layer.styleEditor.type.toUpperCase() === layerType.toUpperCase()
+      )
     }
   })
 

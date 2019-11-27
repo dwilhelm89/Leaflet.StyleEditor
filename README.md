@@ -87,6 +87,10 @@ Here is a list of all possible options.
 * **styleEditorEventPrefix**  
   Overwrite the prefix for the events. Default is *'styleeditor:'*
 
+* **ignoreLayerTypes**
+  An Array indicating which layer types to ignore.
+  Possible options are "Marker", "Polyline", "Polygon" and "Rectangle".
+
 * **forms**  
   A dictionary defining when to show what form for which option.  
   example: *{'marker': {'icon': CustomIconFormElement }}*  
