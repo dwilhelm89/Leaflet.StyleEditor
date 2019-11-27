@@ -1,5 +1,7 @@
 import 'leaflet'
 
+import overrideToGeoJson from './GeoJson'
+
 import setupColorElement from './FormElements/ColorElement'
 import setupFormElement from './FormElements/FormElement'
 import setupDashElement from './FormElements/DashElement'
@@ -29,6 +31,8 @@ L.StyleEditor = {
   forms: {},
   formElements: {}
 }
+
+overrideToGeoJson()
 
 setupUtil()
 

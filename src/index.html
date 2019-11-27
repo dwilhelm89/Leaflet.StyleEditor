@@ -129,6 +129,8 @@
 
     map.on('styleeditor:changed', function (element) {
       console.log(element)
+      window.element = element
+      element.toGeoJSON()
     })
   }
 </script>
