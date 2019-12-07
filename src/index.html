@@ -63,10 +63,12 @@
     }
   }
 
-  createMap('map', L.StyleEditor.marker.DefaultMarker, {})
-  createMap('map2', L.StyleEditor.marker.GlyphiconMarker, forms)
+  const ignoreLayerTypes = ["Marker", "PolyLIne"]
 
-  function createMap (mapId, markerType, forms) {
+  createMap('map', L.StyleEditor.marker.DefaultMarker, {}, [])
+  createMap('map2', L.StyleEditor.marker.GlyphiconMarker, forms, ignoreLayerTypes)
+
+  function createMap (mapId, markerType, forms, ignoreLayerTypes) {
     let map = L.map(mapId).setView([20, -40], 3)
     L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -74,8 +76,9 @@
 
     // initialize the StyleEditor
     let styleEditor = L.control.styleEditor({
-      'forms': forms,
-      'markerType': markerType
+      forms,
+      markerType,
+      ignoreLayerTypes
     })
     map.addControl(styleEditor);
 

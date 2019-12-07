@@ -30,6 +30,30 @@ L.StyleEditor = {
   formElements: {}
 }
 
+L.Marker.include({
+  styleEditor: {
+    type: 'Marker'
+  }
+})
+
+L.Polygon.include({
+  styleEditor: {
+    type: 'Polygon'
+  }
+})
+
+L.Polyline.include({
+  styleEditor: {
+    type: 'Polyline'
+  }
+})
+
+L.Rectangle.include({
+  styleEditor: {
+    type: 'Rectangle'
+  }
+})
+
 setupUtil()
 
 setupFormElement()
