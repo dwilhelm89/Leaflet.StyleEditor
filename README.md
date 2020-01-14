@@ -71,7 +71,11 @@ Here is a list of all possible options.
 * **openOnLeafletDraw**  
   Define if Leaflet.StyleEditor should automatically show up if an element has been created with
   [Leaflet Draw](https://github.com/Leaflet/Leaflet.draw)
-  
+
+* **openOnLeafletEditable**  
+  Define if Leaflet.StyleEditor should automatically show up if an element has been created with
+  [Leaflet Editable](https://github.com/Leaflet/Leaflet.Editable)
+
 * **showTooltip**  
   Define if tooltip indicating to 'choose another element you want to style' should be shown
 

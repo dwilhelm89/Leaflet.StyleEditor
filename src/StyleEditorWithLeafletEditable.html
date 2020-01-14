@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Leaflet.StyleEditor with Leaflet.Editable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"/>
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="lib/leaflet/leaflet.ie.css"/>
+  <link rel="stylesheet" href="leaflet.draw.ie.css"/>
+  <![endif]-->
+
+  <script src="../dist/javascript/Leaflet.StyleEditor.min.js"></script>
+  <link rel="stylesheet" href="../dist/css/Leaflet.StyleEditor.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-editable@1.2.0/src/Leaflet.Editable.min.js"></script>
+  
+  <style type="text/css">
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+  </style>
+
+</head>
+
+<body>
+<div id="map"></div>
+<script>
+  let map = L.map('map', {editable: true}).setView([20, -40], 3)
+  L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map)
+
+  let forms = {
+    'geometry': {
+      'dashArray': (elem) => {return elem instanceof L.Polygon},
+      'color': true,
+      'weight': true,
+    },
+    'marker': {
+      'icon': {
+        'boolean': () => {return true},
+        'formElement': L.StyleEditor.formElements.IconElement,
+      }
+    }
+  }
+  // Initialize the StyleEditor
+  let styleEditor = L.control.styleEditor({
+    position: 'topleft',
+    useGrouping: false,
+    forms: forms,
+  })
+  map.addControl(styleEditor)
+
+  // Leaflet.Editable
+
+  L.EditControl = L.Control.extend({
+    options: {
+      position: 'topleft',
+      callback: null,
+      kind: '',
+      html: ''
+    },
+
+    onAdd: function (map) {
+      var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
+        link = L.DomUtil.create('a', '', container);
+
+      link.href = '#';
+      link.title = 'Create a new ' + this.options.kind;
+      link.innerHTML = this.options.html;
+      L.DomEvent.on(link, 'click', L.DomEvent.stop)
+                .on(link, 'click', function () {
+                  window.LAYER = this.options.callback.call(map.editTools);
+                }, this);
+
+      return container;
+    }
+  });
+
+  L.NewLineControl = L.EditControl.extend({
+
+    options: {
+      position: 'topleft',
+      callback: map.editTools.startPolyline,
+      kind: 'line',
+      html: '\\/\\'
+    }
+
+  });
+
+  L.NewPolygonControl = L.EditControl.extend({
+    options: {
+      position: 'topleft',
+      callback: map.editTools.startPolygon,
+      kind: 'polygon',
+      html: '▰'
+    }
+});
+
+  L.NewMarkerControl = L.EditControl.extend({
+    options: {
+      position: 'topleft',
+      callback: () => { map.editTools.startMarker(null, {icon: styleEditor.getDefaultIcon()}) },
+      kind: 'marker',
+      html: '🖈'
+    }
+  });
+
+  L.NewRectangleControl = L.EditControl.extend({
+    options: {
+      position: 'topleft',
+      callback: map.editTools.startRectangle,
+      kind: 'rectangle',
+      html: '⬛'
+    }
+  });
+
+  L.NewCircleControl = L.EditControl.extend({
+    options: {
+      position: 'topleft',
+      callback: map.editTools.startCircle,
+      kind: 'circle',
+      html: '⬤'
+    }
+  });
+
+  map.addControl(new L.NewMarkerControl());
+  map.addControl(new L.NewLineControl());
+  map.addControl(new L.NewPolygonControl());
+  map.addControl(new L.NewRectangleControl());
+  map.addControl(new L.NewCircleControl());
+
+</script>
+</body>
+
+</html>

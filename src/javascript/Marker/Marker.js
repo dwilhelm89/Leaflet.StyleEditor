@@ -61,8 +61,10 @@ export default function setupMarker () {
      *  if not set set them
      */
     getIconOptions: function () {
-      if (this.options.styleEditorOptions.currentElement) {
+      try {
         this.options.iconOptions = this.options.styleEditorOptions.currentElement.target.options.icon.options
+      } catch (e) {
+        // if a new marker is created it may be the currentItem is still set, but is no marker
       }
 
       if (Object.keys(this.options.iconOptions).length > 0) {
