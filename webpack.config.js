@@ -1,5 +1,6 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
 
 module.exports = {
   devtool: 'source-map',
@@ -19,7 +20,8 @@ module.exports = {
       filename: 'css/Leaflet.StyleEditor.min.css',
       chunkFilename: '[id].css',
       ignoreOrder: false // Enable to remove warnings about conflicting order
-    })
+    }),
+    new UnminifiedWebpackPlugin()
   ],
   output: {
     path: path.resolve(__dirname, 'dist/'),
