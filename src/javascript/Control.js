@@ -22,6 +22,8 @@ export default function setupControl () {
       forms: {},
 
       openOnLeafletDraw: true,
+      openOnLeafletEditable: true,
+
       showTooltip: true,
 
       strings: {
@@ -84,7 +86,7 @@ export default function setupControl () {
       let styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv)
 
       this.addDomEvents()
-      this.addLeafletDrawEvents()
+      this.addEventListeners()
       this.addButtons()
 
       this.options.styleForm = new L.StyleForm({
@@ -110,18 +112,28 @@ export default function setupControl () {
       }, this)
     },
 
+    addEventListeners: function () {
+      this.addLeafletDrawEvents()
+      this.addLeafletEditableEvents()
+    },
+
     addLeafletDrawEvents: function () {
-      if (!this.options.openOnLeafletDraw) {
-        return
-      }
-      if (!L.Control.Draw) {
+      if (!this.options.openOnLeafletDraw || !L.Control.Draw) {
         return
       }
       this.options.map.on('layeradd', this.onLayerAdd, this)
-      this.options.map.on(L.Draw.Event.CREATED, this.onLeafletDrawCreated, this)
+      this.options.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this)
     },
 
-    onLeafletDrawCreated: function (layer) {
+    addLeafletEditableEvents: function () {
+      if (!this.options.openOnLeafletEditable || !L.Editable) {
+        return
+      }
+      this.options.map.on('layeradd', this.onLayerAdd, this)
+      this.options.map.on('editable:created', this.onLayerCreated, this)
+    },
+
+    onLayerCreated: function (layer) {
       this.removeIndicators()
       this.options.currentElement = layer.layer
     },
@@ -142,7 +154,7 @@ export default function setupControl () {
 
       // remove events
       this.removeDomEvents()
-      this.removeLeafletDrawEvents()
+      this.removeEventListeners()
 
       // remove dom elements
       L.DomUtil.remove(this.options.styleEditorDiv)
@@ -153,10 +165,13 @@ export default function setupControl () {
       delete this.options.cancelUI
     },
 
-    removeLeafletDrawEvents: function () {
+    removeEventListeners: function () {
       this.options.map.off('layeradd', this.onLayerAdd)
       if (L.Draw) {
-        this.options.map.off(L.Draw.Event.CREATED, this.onLeafletDrawCreated)
+        this.options.map.off(L.Draw.Event.CREATED, this.onLayerCreated)
+      }
+      if (L.Editable) {
+        this.options.map.off('editable:created', this.onLayerCreated)
       }
     },
 
