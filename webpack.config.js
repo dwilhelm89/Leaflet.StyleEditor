@@ -5,7 +5,10 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
 module.exports = {
   devtool: 'source-map',
   entry: {
-    app: './src/javascript/Leaflet.StyleEditor.js'
+    app: './src/typescript/'
+  },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx', '.css']
   },
   externals: {
     leaflet: {
@@ -30,6 +33,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.css$/,
         use: [
