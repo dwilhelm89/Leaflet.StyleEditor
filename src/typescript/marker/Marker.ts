@@ -4,7 +4,7 @@ import { MarkerForm } from '../form'
 import Util from '../Util'
 import { StyleEditor } from '../Leaflet.StyleEditor'
 import MarkerOptions from './MarkerOptions'
-import { IconOptions } from '../types'
+import { IconOptions, Size } from '../types'
 
 /**
  * The Base class for different markers
@@ -15,22 +15,16 @@ export default abstract class Marker {
 
   constructor(styleEditor: StyleEditor) {
     this.styleEditor = styleEditor
+    
+    if (this.options.selectIconClass !== '' && !this.options.selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
+      this.options.selectIconClass = 'leaflet-styleeditor-select-image-' + this.options.selectIconClass
+    }
   }
 
   /** define markerForm used to style the Marker */
   markerForm = new MarkerForm(this.styleEditor)
 
   options: MarkerOptions
-
-  /** set standard icon TODO
-  initialize(options) {
-    L.setOptions(this, options)
-    L.setOptions(this, this.options)
-
-    if (this.options.selectIconClass !== '' && !this.options.selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
-      this.options.selectIconClass = 'leaflet-styleeditor-select-image-' + this.options.selectIconClass
-    }
-  }*/
 
   /** create new Marker and show it */
   setNewMarker() {
@@ -74,7 +68,7 @@ export default abstract class Marker {
     }
 
     this.options.iconOptions.iconColor = this._getDefaultMarkerColor()
-    this.options.iconOptions.iconSize = this.styleEditor.markerType.options.size.small
+    this.options.iconOptions.iconSize = Size.Small 
     this.options.iconOptions.icon = this.util.getDefaultMarkerForColor(this.options.iconOptions.iconColor)
 
     this.options.iconOptions = this._ensureMarkerIcon(this.options.iconOptions)
@@ -124,7 +118,7 @@ export default abstract class Marker {
    * */
   _getDefaultMarkerColor() {
     let markerTypeColorRamp = this.options.colorRamp
-    let generalColorRamp = this.styleEditor.colorRamp
+    let generalColorRamp = this.styleEditor.options.colorRamp
     let intersectedColorRamp = []
 
     if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
@@ -136,13 +130,13 @@ export default abstract class Marker {
       intersectedColorRamp = generalColorRamp
     }
 
-    let color = this.styleEditor.defaultMarkerColor
+    let color = this.styleEditor.options.defaultMarkerColor
     if (color !== null && intersectedColorRamp.includes(color)) {
       color = null
     }
 
     if (color === null) {
-      color = this.styleEditor.defaultColor
+      color = this.styleEditor.options.defaultColor
       if (color !== null && !intersectedColorRamp.includes(color)) {
         color = null
       }
@@ -154,39 +148,4 @@ export default abstract class Marker {
     return this.util.rgbToHex(color)
   }
 
-  /** return size as keyword */
-  sizeToName(size) {
-    let keys = Object.keys(this.options.size)
-
-    if (typeof size === 'string') {
-      if (size === 's') {
-        size = 'small'
-      } else if (size === 'm') {
-        size = 'medium'
-      } else if (size === 'l') {
-        size = 'large'
-      }
-
-      for (let i = 0; i < keys.length; i++) {
-        if (this.options.size[keys[i]] === size) {
-          return keys[i]
-        }
-      }
-    }
-
-    let values = Object.values(this.options.size)
-    for (let i = 0; i < values.length; i++) {
-      if (JSON.stringify(size) === JSON.stringify(values[i])) {
-        return keys[i]
-      }
-    }
-
-    return keys[0]
-  }
-
-  /** return size as [x,y] */
-  sizeToPixel(size) {
-    size = this.sizeToName(size)
-    return this.options.size[size]
-  }
 }

@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import { Marker } from '.'
-import { IconOptions } from '../types'
+import { IconOptions, Size, Color } from '../types'
 /**
  * The "old" marker style used by L.StyleEditor
  * used the mapbox API v3
@@ -14,7 +14,7 @@ export default class DefaultMarker extends Marker {
     let iconSize = iconOptions.iconSize
     return new L.Icon({
       iconUrl: this._getMarkerUrlForStyle(iconOptions),
-      iconSize: iconOptions.iconSize,
+      iconSize: iconOptions.iconSize.dimen,
       iconColor: iconOptions.iconColor,
       icon: iconOptions.icon,
       className: iconClass,
@@ -25,7 +25,7 @@ export default class DefaultMarker extends Marker {
 
   createSelectHTML(parentUiElement, iconOptions, icon) {
     let tmpOptions = new IconOptions(
-      this.options.size.small,
+      Size.Small,
       icon,
       iconOptions.iconColor
     )
@@ -37,14 +37,13 @@ export default class DefaultMarker extends Marker {
     return this._getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon)
   }
 
-  _getMarkerUrl(size, color, icon) {
-    size = this.sizeToName(size)[0]
+  _getMarkerUrl(size: Size, color: Color, icon: L.Icon) {
     if (color.indexOf('#') === 0) {
       color = color.replace('#', '')
     } else {
       color = this.util.rgbToHex(color, true)
     }
-    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size
+    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size.name
     if (icon) {
       url += '-' + icon
     }

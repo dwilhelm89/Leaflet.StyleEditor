@@ -1273,7 +1273,7 @@ function setupControl() {
       this.createIcon = this.options.markerType.createMarkerIcon.bind(this.options.markerType);
     },
     onAdd: function onAdd(map) {
-      this.options.map = map;
+      this.styleEditor.map = map;
       return this.createUi();
     },
     fireEvent: function fireEvent(eventName, element) {
@@ -1286,7 +1286,7 @@ function setupControl() {
       var cancel = this.options.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlDiv);
       cancel.innerHTML = this.options.strings.cancel;
       cancel.title = this.options.strings.cancelTitle;
-      var styleEditorDiv = this.options.styleEditorDiv = L.DomUtil.create('div', 'leaflet-styleeditor', this.options.map._container);
+      var styleEditorDiv = this.options.styleEditorDiv = L.DomUtil.create('div', 'leaflet-styleeditor', this.styleEditor.map._container);
       this.options.styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', styleEditorDiv);
       var styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv);
       this.addDomEvents();
@@ -1319,16 +1319,16 @@ function setupControl() {
         return;
       }
 
-      this.options.map.on('layeradd', this.onLayerAdd, this);
-      this.options.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this);
+      this.styleEditor.map.on('layeradd', this.onLayerAdd, this);
+      this.styleEditor.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this);
     },
     addLeafletEditableEvents: function addLeafletEditableEvents() {
       if (!this.options.openOnLeafletEditable || !L.Editable) {
         return;
       }
 
-      this.options.map.on('layeradd', this.onLayerAdd, this);
-      this.options.map.on('editable:created', this.onLayerCreated, this);
+      this.styleEditor.map.on('layeradd', this.onLayerAdd, this);
+      this.styleEditor.map.on('editable:created', this.onLayerCreated, this);
     },
     onLayerCreated: function onLayerCreated(layer) {
       this.removeIndicators();
@@ -1357,14 +1357,14 @@ function setupControl() {
       delete this.options.cancelUI;
     },
     removeEventListeners: function removeEventListeners() {
-      this.options.map.off('layeradd', this.onLayerAdd);
+      this.styleEditor.map.off('layeradd', this.onLayerAdd);
 
       if (L.Draw) {
-        this.options.map.off(L.Draw.Event.CREATED, this.onLayerCreated);
+        this.styleEditor.map.off(L.Draw.Event.CREATED, this.onLayerCreated);
       }
 
       if (L.Editable) {
-        this.options.map.off('editable:created', this.onLayerCreated);
+        this.styleEditor.map.off('editable:created', this.onLayerCreated);
       }
     },
     removeDomEvents: function removeDomEvents() {
@@ -1398,7 +1398,7 @@ function setupControl() {
       }
 
       L.DomUtil.addClass(this.options.controlUI, 'enabled');
-      this.options.map.eachLayer(this.addEditClickEvents, this);
+      this.styleEditor.map.eachLayer(this.addEditClickEvents, this);
       this.showCancelButton();
       this.createTooltip();
 
@@ -1540,7 +1540,7 @@ function setupControl() {
       }
 
       if (!this.options.tooltipWrapper) {
-        this.options.tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.options.map.getContainer());
+        this.options.tooltipWrapper = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.styleEditor.map.getContainer());
       }
 
       if (!this.options.tooltip) {

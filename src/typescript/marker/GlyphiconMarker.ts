@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import { Marker } from '.'
-import { IconOptions } from '../types'
+import { IconOptions, Size, Color } from '../types'
 import { StyleEditor } from '../Leaflet.StyleEditor'
 
 /**
@@ -14,10 +14,10 @@ export default class GlyphiconMarker extends Marker {
     this.options.markers = markers
   }
 
-  getMarkerHtml(size, color, icon) {
+  getMarkerHtml(size: Size, color: Color, icon: L.Icon) {
     let iconUrl = this.getMarkerUrl(size, color)
     return '<div class="leaflet-styleeditor-marker leaflet-styleeditor-marker-' +
-      this.sizeToName(size)[0] + '" ' +
+      size.name + '" ' +
       'style="background-image: url(' + iconUrl + ');">' +
       '<div class="leaflet-styleeditor-fill"></div>' +
       '<i class="glyphicon ' + icon + '"></i>' +
@@ -32,7 +32,7 @@ export default class GlyphiconMarker extends Marker {
       html: this.getMarkerHtml(iconSize, iconOptions.iconColor, iconOptions.icon),
       //icon: iconOptions.icon,
       //iconColor: iconOptions.iconColor,
-      iconSize: iconSize,
+      iconSize: iconSize.dimen,
       iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
       popupAnchor: [0, -iconSize[1] / 2]
     })
@@ -51,15 +51,15 @@ export default class GlyphiconMarker extends Marker {
   }
 
   createSelectHTML(parentUiElement, iconOptions, icon) {
-    parentUiElement.innerHTML = this.getMarkerHtml('s', iconOptions.iconColor, icon)
+    parentUiElement.innerHTML = this.getMarkerHtml(Size.Small, iconOptions.iconColor, icon)
   }
 
   _getMarkerUrlForStyle(iconOptions) {
     return this.getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor)
   }
 
-  private getMarkerUrl(size, color) {
-    size = this.sizeToName(size)[0]
+  private getMarkerUrl(size: Size, color: Color) {
+    // TODO move to Color
     if (color.indexOf('#') === 0) {
       color = color.replace('#', '')
     } else {

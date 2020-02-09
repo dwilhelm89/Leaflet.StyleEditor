@@ -24,7 +24,7 @@ export default class Util {
 // TODO element type
   fireEvent(eventName: string, element: any) {
     this.styleEditor.map.fireEvent(
-      this.styleEditor.styleEditorEventPrefix + eventName,
+      this.styleEditor.options.styleEditorEventPrefix + eventName,
       element
     )
   }
@@ -48,7 +48,7 @@ export default class Util {
    */
   rgbToHex(rgb: string, noHash: Boolean = false) {
     if (!rgb) {
-      rgb = this.styleEditor.defaultColor
+      rgb = this.styleEditor.options.defaultColor
       if (rgb.indexOf('#') !== 0) {
         rgb = '#' + rgb
       }
@@ -110,7 +110,7 @@ export default class Util {
   setStyle(option, value) {
     let currentElement = this.getCurrentElement()
     if (currentElement instanceof L.Marker) {
-      this.styleEditor.markerType.setStyle(option, value)
+      this.styleEditor.options.markerType.setStyle(option, value)
     } else {
       let newStyle = {}
       newStyle[option] = value
@@ -137,8 +137,8 @@ export default class Util {
   getMarkersForColor(color) {
     color = this.rgbToHex(color)
 
-    let markers = this.styleEditor.markerType.options.markers
-    let controlMarkers = this.styleEditor.markers
+    let markers = this.styleEditor.options.markerType.options.markers
+    let controlMarkers = this.styleEditor.options.markers
 
     if (!Array.isArray(markers)) {
       // if color is specified return specific markers
@@ -174,7 +174,7 @@ export default class Util {
 
     let defMarkers = []
 
-    let defaultMarker = this.styleEditor.defaultMarkerIcon
+    let defaultMarker = this.styleEditor.options.defaultMarkerIcon
     if (defaultMarker !== null) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)
@@ -184,7 +184,7 @@ export default class Util {
       }
     }
 
-    defaultMarker = this.styleEditor.markerType.options.defaultMarkerIcon
+    defaultMarker = this.styleEditor.options.markerType.options.defaultMarkerIcon
     if (defaultMarker !== undefined) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)

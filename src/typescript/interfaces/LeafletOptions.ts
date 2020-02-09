@@ -32,7 +32,7 @@ export default interface LeafletOptions extends L.Control.DrawConstructorOptions
   defaultMarkerIcon?: string
   defaultMarkerColor?: Color
 
-  ignoreLayerTypes: LayerType[] | LayerType
+  ignoreLayerTypes: LayerType[]
 
   openOnLeafletDraw: Boolean
   openOnLeafletEditable: Boolean

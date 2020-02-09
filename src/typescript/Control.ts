@@ -1,6 +1,9 @@
 import L from 'leaflet'
 import Util from './Util'
 import LeafletOptions from './interfaces/LeafletOptions'
+import { DefaultMarker } from './marker'
+import { StyleEditor } from './Leaflet.StyleEditor'
+import StyleForm from './StyleForm'
 
 class StyleEditorControl extends L.Control {
   private util = Util.getInstance()
@@ -34,28 +37,21 @@ class StyleEditorControl extends L.Control {
 
       styleEditorEventPrefix: 'styleeditor:',
 
-      // internal
-      currentElement: null,
-      _editLayers: [],
-      _layerGroups: []
-
+      markerType: new DefaultMarker(this.styleEditor)
     }
+    const styleEditor = new StyleEditor(this.options)
+   
+    private controlDiv: HTMLElement
+    private controlUI: HTMLElement
+    private cancelUI: HTMLElement
+    private styleEditorDiv: HTMLElement
+    private styleEditorHeader: HTMLElement
+    private styleEditorInterior: HTMLElement
 
-    initialize(options) {
-      if (options) {
-        this.setOptions(this, options)
-      }
-
-      this.options.markerType = new this.options.markerType({styleEditorOptions: this.options})
-      this.options.markerForm = new this.options.markerType.markerForm({styleEditorOptions: this.options})
-      this.options.geometryForm = new this.options.geometryForm({styleEditorOptions: this.options})
-
-      this.getDefaultIcon = this.options.markerType._createMarkerIcon.bind(this.options.markerType)
-      this.createIcon = this.options.markerType.createMarkerIcon.bind(this.options.markerType)
-    }
+    private styleForm: StyleForm
 
     onAdd(map: L.Map) {
-      this.options.map = map
+      this.styleEditor.map = map
       return this.createUi()
     }
 
@@ -64,43 +60,40 @@ class StyleEditorControl extends L.Control {
     }
 
     createUi() {
-      let controlDiv = this.options.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
-      let controlUI = this.options.controlUI = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior',
-        controlDiv)
-      controlUI.title = 'Style Editor'
+      this.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
+      this.controlUI = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior',this.controlDiv)
+      this.controlUI.title = 'Style Editor'
 
-      let cancel = this.options.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlDiv)
-      cancel.innerHTML = this.options.strings.cancel
-      cancel.title = this.options.strings.cancelTitle
+      this.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlDiv)
+      this.cancelUI.innerHTML = this.options.strings.cancel
+      this.cancelUI.title = this.options.strings.cancelTitle
 
-      let styleEditorDiv = this.options.styleEditorDiv =
-        L.DomUtil.create('div', 'leaflet-styleeditor', this.options.map._container)
-      this.options.styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', styleEditorDiv)
-      let styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', styleEditorDiv)
+      this.styleEditorDiv = L.DomUtil.create('div', 'leaflet-styleeditor', this.styleEditor.map.getContainer)
+      this.styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', this.styleEditorDiv)
+      this.styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', this.styleEditorDiv)
 
       this.addDomEvents()
       this.addEventListeners()
       this.addButtons()
 
-      this.options.styleForm = new L.StyleForm({
-        styleEditorDiv: styleEditorDiv,
-        styleEditorInterior: styleEditorInterior,
-        styleEditorOptions: this.options
+      this.styleForm = new StyleForm({
+        styleEditorDiv: this.styleEditorDiv,
+        styleEditorInterior: this.styleEditorInterior,
       })
 
-      return controlDiv
+      return this.controlDiv
     }
 
     addDomEvents() {
-      L.DomEvent.disableScrollPropagation(this.options.styleEditorDiv)
-      L.DomEvent.disableScrollPropagation(this.options.controlDiv)
-      L.DomEvent.disableScrollPropagation(this.options.cancelUI)
+      L.DomEvent.disableScrollPropagation(this.styleEditorDiv)
+      L.DomEvent.disableScrollPropagation(this.controlDiv)
+      L.DomEvent.disableScrollPropagation(this.cancelUI)
 
-      L.DomEvent.disableClickPropagation(this.options.styleEditorDiv)
-      L.DomEvent.disableClickPropagation(this.options.controlDiv)
-      L.DomEvent.disableClickPropagation(this.options.cancelUI)
+      L.DomEvent.disableClickPropagation(this.styleEditorDiv)
+      L.DomEvent.disableClickPropagation(this.controlDiv)
+      L.DomEvent.disableClickPropagation(this.cancelUI)
 
-      L.DomEvent.on(this.options.controlDiv, 'click', function () {
+      L.DomEvent.on(this.controlDiv, 'click', function () {
         this.toggle()
       }, this)
     }
@@ -114,26 +107,26 @@ class StyleEditorControl extends L.Control {
       if (!this.options.openOnLeafletDraw || !L.Control.Draw) {
         return
       }
-      this.options.map.on('layeradd', this.onLayerAdd, this)
-      this.options.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this)
+      this.styleEditor.map.on('layeradd', this.onLayerAdd, this)
+      this.styleEditor.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this)
     }
 
     addLeafletEditableEvents() {
       if (!this.options.openOnLeafletEditable || !L.Editable) {
         return
       }
-      this.options.map.on('layeradd', this.onLayerAdd, this)
-      this.options.map.on('editable:created', this.onLayerCreated, this)
+      this.styleEditor.map.on('layeradd', this.onLayerAdd, this)
+      this.styleEditor.map.on('editable:created', this.onLayerCreated, this)
     }
 
     onLayerCreated(layer) {
       this.removeIndicators()
-      this.options.currentElement = layer.layer
+      this.styleEditor.currentElement = layer.layer
     }
 
     onLayerAdd(e) {
-      if (this.options.currentElement) {
-        if (e.layer === this.options.util.getCurrentElement()) {
+      if (this.styleEditor.currentElement) {
+        if (e.layer === this.util.getCurrentElement()) {
           this.enable(e.layer)
         }
       }
@@ -159,12 +152,12 @@ class StyleEditorControl extends L.Control {
     }
 
     removeEventListeners() {
-      this.options.map.off('layeradd', this.onLayerAdd)
+      this.styleEditor.map.off('layeradd', this.onLayerAdd)
       if (L.Draw) {
-        this.options.map.off(L.Draw.Event.CREATED, this.onLayerCreated)
+        this.styleEditor.map.off(L.Draw.Event.CREATED, this.onLayerCreated)
       }
       if (L.Editable) {
-        this.options.map.off('editable:created', this.onLayerCreated)
+        this.styleEditor.map.off('editable:created', this.onLayerCreated)
       }
     }
 
@@ -204,7 +197,7 @@ class StyleEditorControl extends L.Control {
       }
 
       L.DomUtil.addClass(this.options.controlUI, 'enabled')
-      this.options.map.eachLayer(this.addEditClickEvents, this)
+      this.styleEditor.map.eachLayer(this.addEditClickEvents, this)
       this.showCancelButton()
       this.createTooltip()
 
@@ -352,7 +345,7 @@ class StyleEditorControl extends L.Control {
 
       if (!this.options.tooltipWrapper) {
         this.options.tooltipWrapper =
-          L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.options.map.getContainer())
+          L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.styleEditor.map.getContainer())
       }
 
       if (!this.options.tooltip) {
