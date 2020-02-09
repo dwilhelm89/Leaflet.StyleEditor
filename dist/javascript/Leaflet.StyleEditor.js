@@ -145,7 +145,7 @@ function setupColorElement() {
     /** set style for chosen color */
     _selectColor: function _selectColor(e) {
       e.stopPropagation();
-      this.setStyle(this.options.styleEditorOptions.util.rgbToHex(e.target.style.backgroundColor)); // marker styling needs additional function calls
+      this.setStyle(this.util.rgbToHex(e.target.style.backgroundColor)); // marker styling needs additional function calls
 
       if (this.options.styleEditorOptions.currentElement.target instanceof L.Marker) {
         this.options.styleEditorOptions.markerType.setNewMarker();
@@ -195,12 +195,12 @@ function setupFormElement() {
 
     /** show the FormElement */
     showForm: function showForm() {
-      this.options.styleEditorOptions.util.showElement(this.options.uiElement);
+      this.util.showElement(this.options.uiElement);
     },
 
     /** hide the FormElement */
     hide: function hide() {
-      this.options.styleEditorOptions.util.hideElement(this.options.uiElement);
+      this.util.hideElement(this.options.uiElement);
     },
 
     /** style the FormElement */
@@ -211,7 +211,7 @@ function setupFormElement() {
 
     /** set style - used when the FormElement wants to change the styling option */
     setStyle: function setStyle(value) {
-      var currentElement = this.options.styleEditorOptions.util.getCurrentElement(); // check whether a layer is part of a layerGroup
+      var currentElement = this.util.getCurrentElement(); // check whether a layer is part of a layerGroup
 
       var layers = [currentElement];
 
@@ -233,7 +233,7 @@ function setupFormElement() {
         } // fire event for changed layer
 
 
-        this.options.styleEditorOptions.util.fireChangeEvent(layer);
+        this.util.fireChangeEvent(layer);
       } // notify form styling value has changed
 
 
@@ -344,7 +344,7 @@ function setupIconElement() {
 
       var uiElement = this.options.uiElement;
       var selectOptionWrapper = L.DomUtil.create('ul', this._selectOptionWrapperClasses, uiElement);
-      this.options.styleEditorOptions.util.getMarkersForColor(color).forEach(function (option) {
+      this.util.getMarkersForColor(color).forEach(function (option) {
         var selectOption = L.DomUtil.create('li', this._selectOptionClasses, selectOptionWrapper);
 
         var selectImage = this._createSelectInputImage(selectOption);
@@ -376,7 +376,7 @@ function setupIconElement() {
 
     /** show/hide iconSelectBox */
     _toggleSelectInput: function _toggleSelectInput(e) {
-      var currentColorElement = this._getCurrentColorElement(this.options.styleEditorOptions.util.rgbToHex(this.options.styleEditorOptions.markerType.options.iconOptions.iconColor));
+      var currentColorElement = this._getCurrentColorElement(this.util.rgbToHex(this.options.styleEditorOptions.markerType.options.iconOptions.iconColor));
 
       var show = false;
 
@@ -387,7 +387,7 @@ function setupIconElement() {
       this._hideSelectOptions();
 
       if (show) {
-        this.options.styleEditorOptions.util.showElement(currentColorElement);
+        this.util.showElement(currentColorElement);
       }
     },
 
@@ -419,7 +419,7 @@ function setupIconElement() {
     /** hide open SelectOption */
     _hideSelectOptions: function _hideSelectOptions() {
       for (var selectOption in this.options.selectOptions) {
-        this.options.styleEditorOptions.util.hideElement(this.options.selectOptions[selectOption]);
+        this.util.hideElement(this.options.selectOptions[selectOption]);
       }
     }
   });
@@ -450,7 +450,7 @@ function setupOpacityElement() {
 
     /** set correct value */
     style: function style() {
-      this.options.slider.value = this.options.styleEditorOptions.util.getStyle(this.options.styleOption);
+      this.options.slider.value = this.util.getStyle(this.options.styleOption);
       this.options.label.innerText = parseInt(100 * this.options.slider.value) + '%';
     },
 
@@ -479,7 +479,7 @@ function setupPopupContentElement() {
 
     /** set correct value */
     style: function style() {
-      var selectedElement = this.options.styleEditorOptions.util.getCurrentElement();
+      var selectedElement = this.util.getCurrentElement();
 
       if (selectedElement && selectedElement.options) {
         this.options.descTextAreaField.value = selectedElement.options.popupContent || '';
@@ -488,7 +488,7 @@ function setupPopupContentElement() {
 
     /** communicate popupContent value */
     _setStyle: function _setStyle() {
-      var currentElement = this.options.styleEditorOptions.util.getCurrentElement();
+      var currentElement = this.util.getCurrentElement();
       var inputText = this.options.descTextAreaField.value; // check whether a layer is part of a layerGroup
 
       var layers = [currentElement];
@@ -572,7 +572,7 @@ function setupWeightElement() {
 
     /** set correct value */
     style: function style() {
-      this.options.weight.value = this.options.styleEditorOptions.util.getStyle(this.options.styleOption);
+      this.options.weight.value = this.util.getStyle(this.options.styleOption);
       this.options.label.innerText = this.options.weight.value;
     },
 
@@ -633,7 +633,7 @@ function setupForm() {
 
     /** hide the Form */
     hideForm: function hideForm() {
-      this.options.styleEditorOptions.util.hideElement(this.options.parentUiElement);
+      this.util.hideElement(this.options.parentUiElement);
     },
 
     /** make FormElements and Form visible */
@@ -656,7 +656,7 @@ function setupForm() {
 
     /** make the Form visible */
     showForm: function showForm() {
-      this.options.styleEditorOptions.util.showElement(this.options.parentUiElement);
+      this.util.showElement(this.options.parentUiElement);
     },
 
     /** inform FormElements the selected style has changed, so they can adapt */
@@ -754,7 +754,7 @@ function setupForm() {
 
         if (typeof styleFormElement === 'function') {
           try {
-            return styleFormElement(this.options.styleEditorOptions.util.getCurrentElement());
+            return styleFormElement(this.util.getCurrentElement());
           } catch (err) {
             // the given function presumably is a constructor -> always show it
             return true;
@@ -770,7 +770,7 @@ function setupForm() {
         if ('boolean' in styleFormElement) {
           // in a dictionary boolean may be a function or boolean
           if (typeof styleFormElement['boolean'] === 'function') {
-            return styleFormElement['boolean'](this.options.styleEditorOptions.util.getCurrentElement());
+            return styleFormElement['boolean'](this.util.getCurrentElement());
           }
 
           return styleFormElement['boolean'];
@@ -818,7 +818,7 @@ function setupGeometryForm() {
     showFormElements: function showFormElements() {
       for (var i = 0; i < this.options.initializedElements.length; i++) {
         if (this.options.initializedElements[i].options.styleOption.indexOf('fill') === 0) {
-          if (this.options.styleEditorOptions.util.fillCurrentElement()) {
+          if (this.util.fillCurrentElement()) {
             this.showFormElement(this.options.initializedElements[i]);
           } else {
             this.options.initializedElements[i].hide();
@@ -922,7 +922,7 @@ function setupMarker() {
 
       this.options.iconOptions.iconColor = this._getDefaultMarkerColor();
       this.options.iconOptions.iconSize = this.options.styleEditorOptions.markerType.options.size.small;
-      this.options.iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(this.options.iconOptions.iconColor);
+      this.options.iconOptions.icon = this.util.getDefaultMarkerForColor(this.options.iconOptions.iconColor);
       this.options.iconOptions = this._ensureMarkerIcon(this.options.iconOptions);
       return this.options.iconOptions;
     },
@@ -948,13 +948,13 @@ function setupMarker() {
      *  else set default icon
      */
     _ensureMarkerIcon: function _ensureMarkerIcon(iconOptions) {
-      var markers = this.options.styleEditorOptions.util.getMarkersForColor(iconOptions.iconColor);
+      var markers = this.util.getMarkersForColor(iconOptions.iconColor);
 
       if (markers.includes(iconOptions.icon)) {
         return iconOptions;
       }
 
-      iconOptions.icon = this.options.styleEditorOptions.util.getDefaultMarkerForColor(iconOptions.iconColor);
+      iconOptions.icon = this.util.getDefaultMarkerForColor(iconOptions.iconColor);
       return iconOptions;
     },
 
@@ -1001,7 +1001,7 @@ function setupMarker() {
         }
       }
 
-      return this.options.styleEditorOptions.util.rgbToHex(color);
+      return this.util.rgbToHex(color);
     },
 
     /** return size as keyword */
@@ -1083,7 +1083,7 @@ function setupDefaultMarker() {
       if (color.indexOf('#') === 0) {
         color = color.replace('#', '');
       } else {
-        color = this.options.styleEditorOptions.util.rgbToHex(color, true);
+        color = this.util.rgbToHex(color, true);
       }
 
       var url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size;
@@ -1150,7 +1150,7 @@ function setupGlyphiconMarker() {
       if (color.indexOf('#') === 0) {
         color = color.replace('#', '');
       } else {
-        color = this.options.styleEditorOptions.util.rgbToHex(color, true);
+        color = this.util.rgbToHex(color, true);
       }
 
       var url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size;
@@ -1196,7 +1196,7 @@ function setupStyleForm() {
       this.options.styleEditorOptions.geometryForm.show();
     },
     fireChangeEvent: function fireChangeEvent(element) {
-      this.options.styleEditorOptions.util.fireChangedEvent(element);
+      this.util.fireChangedEvent(element);
     },
     lostFocus: function lostFocus(e) {
       var parent = e.target;

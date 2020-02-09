@@ -8,6 +8,9 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
+    "@types/leaflet": "^1.5.8",
+    "@types/leaflet-draw": "^1.0.1",
+    "@types/node": "^13.7.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "es-check": "^5.0.0",

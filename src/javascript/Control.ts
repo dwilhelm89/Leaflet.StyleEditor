@@ -1,7 +1,11 @@
 import L from 'leaflet'
+import Util from './Util'
+import ControlOptions from './ControlOptions'
 
 class StyleEditorControl extends L.Control {
-    options: {
+  private util = Util.getInstance()
+
+    options: ControlOptions = {
       position: 'topleft',
 
       colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
@@ -9,12 +13,9 @@ class StyleEditorControl extends L.Control {
         '#bdc3c7', '#7f8c8d'],
       defaultColor: null,
 
-      markerType: L.StyleEditor.marker.DefaultMarker,
       markers: null,
       defaultMarkerIcon: null,
       defaultMarkerColor: null,
-
-      geometryForm: L.StyleEditor.forms.GeometryForm,
 
       ignoreLayerTypes: [],
 
@@ -44,7 +45,7 @@ class StyleEditorControl extends L.Control {
 
     initialize(options) {
       if (options) {
-        L.setOptions(this, options)
+        this.setOptions(this, options)
       }
 
       this.options.markerType = new this.options.markerType({styleEditorOptions: this.options})
@@ -53,16 +54,16 @@ class StyleEditorControl extends L.Control {
 
       this.getDefaultIcon = this.options.markerType._createMarkerIcon.bind(this.options.markerType)
       this.createIcon = this.options.markerType.createMarkerIcon.bind(this.options.markerType)
-    },
+    }
 
-    onAdd(map) {
+    onAdd(map: L.Map) {
       this.options.map = map
       return this.createUi()
-    },
+    }
 
     fireEvent(eventName, element) {
-      this.options.util.fireEvent(eventName, element)
-    },
+      this.util.fireEvent(eventName, element)
+    }
 
     createUi() {
       let controlDiv = this.options.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
@@ -90,7 +91,7 @@ class StyleEditorControl extends L.Control {
       })
 
       return controlDiv
-    },
+    }
 
     addDomEvents() {
       L.DomEvent.disableScrollPropagation(this.options.styleEditorDiv)
@@ -104,12 +105,12 @@ class StyleEditorControl extends L.Control {
       L.DomEvent.on(this.options.controlDiv, 'click', function () {
         this.toggle()
       }, this)
-    },
+    }
 
     addEventListenersfunction () {
       this.addLeafletDrawEvents()
       this.addLeafletEditableEvents()
-    },
+    }
 
     addLeafletDrawEvents() {
       if (!this.options.openOnLeafletDraw || !L.Control.Draw) {
@@ -117,7 +118,7 @@ class StyleEditorControl extends L.Control {
       }
       this.options.map.on('layeradd', this.onLayerAdd, this)
       this.options.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this)
-    },
+    }
 
     addLeafletEditableEvents() {
       if (!this.options.openOnLeafletEditable || !L.Editable) {
@@ -125,12 +126,12 @@ class StyleEditorControl extends L.Control {
       }
       this.options.map.on('layeradd', this.onLayerAdd, this)
       this.options.map.on('editable:created', this.onLayerCreated, this)
-    },
+    }
 
     onLayerCreated(layer) {
       this.removeIndicators()
       this.options.currentElement = layer.layer
-    },
+    }
 
     onLayerAdd(e) {
       if (this.options.currentElement) {
@@ -138,7 +139,7 @@ class StyleEditorControl extends L.Control {
           this.enable(e.layer)
         }
       }
-    },
+    }
 
     onRemove() {
       // hide everything that may be visible
@@ -157,7 +158,7 @@ class StyleEditorControl extends L.Control {
       // delete dom elements
       delete this.options.styleEditorDiv
       delete this.options.cancelUI
-    },
+    }
 
     removeEventListeners() {
       this.options.map.off('layeradd', this.onLayerAdd)
@@ -167,13 +168,13 @@ class StyleEditorControl extends L.Control {
       if (L.Editable) {
         this.options.map.off('editable:created', this.onLayerCreated)
       }
-    },
+    }
 
     removeDomEvents() {
       L.DomEvent.off(this.options.controlDiv, 'click', function () {
         this.toggle()
       }, this)
-    },
+    }
 
     addButtons() {
       let nextBtn = L.DomUtil.create('button',
@@ -189,7 +190,7 @@ class StyleEditorControl extends L.Control {
 
         e.stopPropagation()
       }, this)
-    },
+    }
 
     toggle() {
       if (L.DomUtil.hasClass(this.options.controlUI, 'enabled')) {
@@ -217,11 +218,11 @@ class StyleEditorControl extends L.Control {
       }
     }
 
-    isEnabled: function () {
+    isEnabled() {
       return L.DomUtil.hasClass(this.options.controlUI, 'enabled')
     }
 
-    disable: function () {
+    disable() {
       if (this.isEnabled()) {
         this.options._editLayers.forEach(this.removeEditClickEvents, this)
         this.options._editLayers = []
@@ -231,9 +232,9 @@ class StyleEditorControl extends L.Control {
         this.removeTooltip()
         L.DomUtil.removeClass(this.options.controlUI, 'enabled')
       }
-    },
+    }
 
-    addEditClickEvents: function (layer) {
+    addEditClickEvents(layer) {
       if (this._layerIsIgnored(layer)) {
         return
       }
@@ -243,13 +244,13 @@ class StyleEditorControl extends L.Control {
         let evt = layer.on('click', this.initChangeStyle, this)
         this.options._editLayers.push(evt)
       }
-    },
+    }
 
-    removeEditClickEvents: function (layer) {
+    removeEditClickEvents(layer) {
       layer.off('click', this.initChangeStyle, this)
-    },
+    }
 
-    addIndicators: function () {
+    addIndicators() {
       if (!this.options.currentElement) {
         return
       }
@@ -266,9 +267,9 @@ class StyleEditorControl extends L.Control {
           L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected')
         }
       }
-    },
+    }
 
-    removeIndicators: function () {
+    removeIndicators() {
       if (!this.options.currentElement) {
         return
       }
@@ -285,9 +286,9 @@ class StyleEditorControl extends L.Control {
           L.DomUtil.removeClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected')
         }
       }
-    },
+    }
 
-    hideEditor: function () {
+    hideEditor() {
       if (L.DomUtil.hasClass(this.options.styleEditorDiv, 'editor-enabled')) {
         this.removeIndicators()
         L.DomUtil.removeClass(this.options.styleEditorDiv, 'editor-enabled')
@@ -295,23 +296,23 @@ class StyleEditorControl extends L.Control {
       }
     },
 
-    hideCancelButton: function () {
+    hideCancelButton() {
       L.DomUtil.addClass(this.options.cancelUI, 'leaflet-styleeditor-hidden')
-    },
+    }
 
-    showEditor: function () {
+    showEditor() {
       let editorDiv = this.options.styleEditorDiv
       if (!L.DomUtil.hasClass(editorDiv, 'editor-enabled')) {
         L.DomUtil.addClass(editorDiv, 'editor-enabled')
         this.fireEvent('visible')
       }
-    },
+    }
 
-    showCancelButton: function () {
+    showCancelButton() {
       L.DomUtil.removeClass(this.options.cancelUI, 'leaflet-styleeditor-hidden')
-    },
+    }
 
-    initChangeStyle: function (e) {
+    initChangeStyle(e) {
       this.removeIndicators()
       this.options.currentElement = (this.options.useGrouping) ? this.getMatchingElement(e) : e
 
@@ -334,19 +335,19 @@ class StyleEditorControl extends L.Control {
         // layer with of type L.GeoJSON or L.Path (polyline, polygon, ...)
         this.showGeometryForm(layer)
       }
-    },
+    }
 
-    showGeometryForm: function (layer) {
+    showGeometryForm(layer) {
       this.fireEvent('geometry', layer)
       this.options.styleForm.showGeometryForm()
-    },
+    }
 
-    showMarkerForm: function (layer) {
+    showMarkerForm(layer) {
       this.fireEvent('marker', layer)
       this.options.styleForm.showMarkerForm()
-    },
+    }
 
-    createTooltip: function () {
+    createTooltip() {
       if (!this.options.showTooltip) {
         return
       }
@@ -360,9 +361,9 @@ class StyleEditorControl extends L.Control {
         this.options.tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', this.options.tooltipWrapper)
       }
       this.options.tooltip.innerHTML = this.options.strings.tooltip
-    },
+    }
 
-    getMatchingElement: function (e) {
+    getMatchingElement(e) {
       let group = null
       let layer = e.target
 
@@ -393,14 +394,14 @@ class StyleEditorControl extends L.Control {
       return e
     }
 
-    removeTooltip: function () {
+    removeTooltip() {
       if (this.options.tooltip && this.options.tooltip.parentNode) {
         this.options.tooltip.remove()
         this.options.tooltip = undefined
       }
     }
 
-    _layerIsIgnored: function (layer) {
+    _layerIsIgnored(layer) {
       if (layer === undefined) {
         return false
       }
@@ -408,12 +409,11 @@ class StyleEditorControl extends L.Control {
         layerType => layer.styleEditor && layer.styleEditor.type.toUpperCase() === layerType.toUpperCase()
       )
     }
-  })
+  }
 
-  L.control.styleEditor = function (options) {
+  L.control.styleEditor = function(options) {
     if (!options) {
       options = {}
     }
     return new L.Control.StyleEditor(options)
   }
-}
