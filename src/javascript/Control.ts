@@ -1,7 +1,6 @@
-import 'leaflet'
+import L from 'leaflet'
 
-export default function setupControl () {
-  L.Control.StyleEditor = L.Control.extend({
+class StyleEditorControl extends L.Control {
     options: {
       position: 'topleft',
 
@@ -41,36 +40,31 @@ export default function setupControl () {
       _editLayers: [],
       _layerGroups: []
 
-    },
+    }
 
-    initialize: function (options) {
+    initialize(options) {
       if (options) {
         L.setOptions(this, options)
       }
 
-      this.options.util = new L.StyleEditor.Util({styleEditorOptions: this.options})
-
-      // eslint-disable-next-line new-cap
       this.options.markerType = new this.options.markerType({styleEditorOptions: this.options})
-      // eslint-disable-next-line new-cap
       this.options.markerForm = new this.options.markerType.markerForm({styleEditorOptions: this.options})
-      // eslint-disable-next-line new-cap
       this.options.geometryForm = new this.options.geometryForm({styleEditorOptions: this.options})
 
       this.getDefaultIcon = this.options.markerType._createMarkerIcon.bind(this.options.markerType)
       this.createIcon = this.options.markerType.createMarkerIcon.bind(this.options.markerType)
     },
 
-    onAdd: function (map) {
+    onAdd(map) {
       this.options.map = map
       return this.createUi()
     },
 
-    fireEvent: function (eventName, element) {
+    fireEvent(eventName, element) {
       this.options.util.fireEvent(eventName, element)
     },
 
-    createUi: function () {
+    createUi() {
       let controlDiv = this.options.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
       let controlUI = this.options.controlUI = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior',
         controlDiv)
@@ -98,7 +92,7 @@ export default function setupControl () {
       return controlDiv
     },
 
-    addDomEvents: function () {
+    addDomEvents() {
       L.DomEvent.disableScrollPropagation(this.options.styleEditorDiv)
       L.DomEvent.disableScrollPropagation(this.options.controlDiv)
       L.DomEvent.disableScrollPropagation(this.options.cancelUI)
@@ -112,12 +106,12 @@ export default function setupControl () {
       }, this)
     },
 
-    addEventListeners: function () {
+    addEventListenersfunction () {
       this.addLeafletDrawEvents()
       this.addLeafletEditableEvents()
     },
 
-    addLeafletDrawEvents: function () {
+    addLeafletDrawEvents() {
       if (!this.options.openOnLeafletDraw || !L.Control.Draw) {
         return
       }
@@ -125,7 +119,7 @@ export default function setupControl () {
       this.options.map.on(L.Draw.Event.CREATED, this.onLayerCreated, this)
     },
 
-    addLeafletEditableEvents: function () {
+    addLeafletEditableEvents() {
       if (!this.options.openOnLeafletEditable || !L.Editable) {
         return
       }
@@ -133,12 +127,12 @@ export default function setupControl () {
       this.options.map.on('editable:created', this.onLayerCreated, this)
     },
 
-    onLayerCreated: function (layer) {
+    onLayerCreated(layer) {
       this.removeIndicators()
       this.options.currentElement = layer.layer
     },
 
-    onLayerAdd: function (e) {
+    onLayerAdd(e) {
       if (this.options.currentElement) {
         if (e.layer === this.options.util.getCurrentElement()) {
           this.enable(e.layer)
@@ -146,7 +140,7 @@ export default function setupControl () {
       }
     },
 
-    onRemove: function () {
+    onRemove() {
       // hide everything that may be visible
       // remove edit events for layers
       // remove tooltip
@@ -165,7 +159,7 @@ export default function setupControl () {
       delete this.options.cancelUI
     },
 
-    removeEventListeners: function () {
+    removeEventListeners() {
       this.options.map.off('layeradd', this.onLayerAdd)
       if (L.Draw) {
         this.options.map.off(L.Draw.Event.CREATED, this.onLayerCreated)
@@ -175,13 +169,13 @@ export default function setupControl () {
       }
     },
 
-    removeDomEvents: function () {
+    removeDomEvents() {
       L.DomEvent.off(this.options.controlDiv, 'click', function () {
         this.toggle()
       }, this)
     },
 
-    addButtons: function () {
+    addButtons() {
       let nextBtn = L.DomUtil.create('button',
         'leaflet-styleeditor-button styleeditor-nextBtn', this.options.styleEditorHeader)
       nextBtn.title = this.options.strings.tooltipNext
@@ -197,15 +191,15 @@ export default function setupControl () {
       }, this)
     },
 
-    toggle: function () {
+    toggle() {
       if (L.DomUtil.hasClass(this.options.controlUI, 'enabled')) {
         this.disable()
       } else {
         this.enable()
       }
-    },
+    }
 
-    enable: function (layer) {
+    enable(layer) {
       if (this._layerIsIgnored(layer)) {
         return
       }
@@ -221,11 +215,11 @@ export default function setupControl () {
         }
         this.initChangeStyle({target: layer})
       }
-    },
+    }
 
     isEnabled: function () {
       return L.DomUtil.hasClass(this.options.controlUI, 'enabled')
-    },
+    }
 
     disable: function () {
       if (this.isEnabled()) {
@@ -397,14 +391,14 @@ export default function setupControl () {
         }
       }
       return e
-    },
+    }
 
     removeTooltip: function () {
       if (this.options.tooltip && this.options.tooltip.parentNode) {
         this.options.tooltip.remove()
         this.options.tooltip = undefined
       }
-    },
+    }
 
     _layerIsIgnored: function (layer) {
       if (layer === undefined) {
