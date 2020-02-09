@@ -1,11 +1,11 @@
 import L from 'leaflet'
 import Util from './Util'
-import ControlOptions from './ControlOptions'
+import LeafletOptions from './interfaces/LeafletOptions'
 
 class StyleEditorControl extends L.Control {
   private util = Util.getInstance()
 
-    options: ControlOptions = {
+    options: LeafletOptions = {
       position: 'topleft',
 
       colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
@@ -18,8 +18,6 @@ class StyleEditorControl extends L.Control {
       defaultMarkerColor: null,
 
       ignoreLayerTypes: [],
-
-      forms: {},
 
       openOnLeafletDraw: true,
       openOnLeafletEditable: true,
