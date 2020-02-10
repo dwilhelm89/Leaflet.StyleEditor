@@ -118,8 +118,8 @@ export default class Form {
    */
   getFormElements() {
     let formElements
-    if (this.options.formOptionKey in this.styleEditor.forms) {
-      formElements = this.styleEditor.forms[this.options.formOptionKey]
+    if (this.options.formOptionKey in this.styleEditor.options.forms) {
+      formElements = this.styleEditor.options.forms[this.options.formOptionKey]
     } else {
       formElements = this.options.formElements
     }

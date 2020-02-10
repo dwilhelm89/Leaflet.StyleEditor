@@ -29,10 +29,10 @@ export default class IconElement extends FormElement {
 
   /** show the correct icon in the correct color if the icon or color changed */
   style() {
-    let iconOptions = this.styleEditor.markerType.getIconOptions()
+    let iconOptions = this.styleEditor.options.markerType.getIconOptions()
     this._styleSelectInputImage(this.options.selectBoxImage,
       iconOptions.icon, iconOptions.iconColor)
-    this._createColorSelect(this.styleEditor.markerType.options.iconOptions.iconColor)
+    this._createColorSelect(this.styleEditor.options.markerType.options.iconOptions.iconColor)
     this._hideSelectOptions()
   }
 
@@ -56,13 +56,13 @@ export default class IconElement extends FormElement {
       }
     }
 
-    let iconOptions = this.styleEditor.markerType.getIconOptions()
+    let iconOptions = this.styleEditor.options.markerType.getIconOptions()
     if (color) {
       iconOptions.iconColor = color
     }
 
     image.innerHTML = ''
-    this.styleEditor.markerType.createSelectHTML(image, iconOptions, icon)
+    this.styleEditor.options.markerType.createSelectHTML(image, iconOptions, icon)
     image.setAttribute('value', icon)
   }
 
@@ -110,7 +110,7 @@ export default class IconElement extends FormElement {
   _toggleSelectInput(e) {
     let currentColorElement = this._getCurrentColorElement(
       this.util.rgbToHex(
-        this.styleEditor.markerType.options.iconOptions.iconColor
+        this.styleEditor.options.markerType.options.iconOptions.iconColor
       )
     )
 

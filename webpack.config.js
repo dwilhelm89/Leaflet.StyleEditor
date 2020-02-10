@@ -5,7 +5,7 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
 module.exports = {
   devtool: 'source-map',
   entry: {
-    app: './src/javascript/Leaflet.StyleEditor.js'
+    app: './lib/Leaflet.StyleEditor.js'
   },
   externals: {
     leaflet: {

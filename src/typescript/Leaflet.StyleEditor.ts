@@ -3,7 +3,7 @@ import DefaultMarker from './marker/DefaultMarker'
 import {GeometryForm, MarkerForm} from './form'
 import LeafletOptions from './interfaces/LeafletOptions'
 
-require('../css/Leaflet.StyleEditor.css')
+require('../dist/css/Leaflet.StyleEditor.min.css')
 
 export class StyleEditor {
   currentElement: any = null // TODO type
@@ -17,7 +17,7 @@ export class StyleEditor {
   markerForm = new MarkerForm(this)
   geometryForm = new GeometryForm(this)
 
-  constructor(options: LeafletOptions) {
+  constructor(options?: LeafletOptions) {
     this.options = options
   }
 
@@ -47,5 +47,14 @@ L.Rectangle.include({
     type: 'Rectangle'
   }
 })
+
+L as any
+
+L.control.styleEditor = function (options) {
+  if (!options) {
+    options = {}
+  }
+  return new L.Control.StyleEditor(options)
+}
 
 export default L

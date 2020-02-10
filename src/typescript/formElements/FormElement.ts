@@ -76,7 +76,7 @@ export default class FormElement {
     for (let i = 0; i < layers.length; i++) {
       let layer = layers[i]
       if (layer instanceof L.Marker) {
-        this.styleEditor.markerType.setStyle(this.options.styleOption, value)
+        this.styleEditor.options.markerType.setStyle(this.options.styleOption, value)
       } else {
         let newStyle = {}
         newStyle[this.options.styleOption] = value

@@ -42,6 +42,7 @@
     "StyleEditor"
   ],
   "dependencies": {
+    "@types/leaflet-editable": "^0.7.34",
     "leaflet": "^1.5.1"
   },
   "scripts": {

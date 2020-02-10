@@ -26,11 +26,11 @@ export default class ColorElement extends FormElement {
   _getColorRamp() {
     if (!this.options.colorRamp) {
       // if markers have own colorRamp use it
-      if (this.options.parentForm instanceof MarkerForm && !!this.styleEditor.markerType.options.colorRamp) {
-        this.options.colorRamp = this.styleEditor.markerType.options.colorRamp
+      if (this.options.parentForm instanceof MarkerForm && !!this.styleEditor.options.markerType.options.colorRamp) {
+        this.options.colorRamp = this.styleEditor.options.markerType.options.colorRamp
         // else use the default
       } else {
-        this.options.colorRamp = this.styleEditor.colorRamp
+        this.options.colorRamp = this.styleEditor.options.colorRamp
       }
     }
     return this.options.colorRamp
@@ -54,7 +54,7 @@ export default class ColorElement extends FormElement {
 
     // marker styling needs additional function calls
     if (this.styleEditor.currentElement.target instanceof L.Marker) {
-      this.styleEditor.markerType.setNewMarker()
+      this.styleEditor.options.markerType.setNewMarker()
     }
   }
 }

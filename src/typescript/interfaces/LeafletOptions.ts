@@ -1,28 +1,14 @@
-import L, { ControlPosition } from 'leaflet'
-import { Color, Size, LayerType } from '../types'
+import { ControlPosition } from 'leaflet'
+import { Color, LayerType } from '../types'
 import { Marker } from '../marker'
 
-export default interface LeafletOptions extends L.Control.DrawConstructorOptions {
+export default interface LeafletOptions {
   /**
    * The initial position of the control (one of the map corners).
    *
    * @default 'topleft'
    */
   position?: ControlPosition
-
-  /**
-   * The options used to configure the draw toolbar.
-   *
-   * @default {}
-   */
-  draw?: L.Control.DrawOptions
-
-  /**
-   * The options used to configure the edit toolbar.
-   *
-   * @default false
-   */
-  edit?: L.Control.EditOptions
 
   colorRamp: string[]
   defaultColor: Color
@@ -44,4 +30,7 @@ export default interface LeafletOptions extends L.Control.DrawConstructorOptions
   useGrouping: Boolean
 
   styleEditorEventPrefix: string
+
+  forms: any // TODO
+
 }
