@@ -2,6 +2,7 @@ node_modules/
 .idea/
 .grunt/
 scripts/
+patches/
 .project
 package-lock.json
 .gitignore
