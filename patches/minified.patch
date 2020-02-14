@@ -1,0 +1,26 @@
+diff --git a/.npmignore b/.npmignore
+index 66a1c6c..2b42ffa 100644
+--- a/.npmignore
++++ b/.npmignore
+@@ -12,3 +12,4 @@ package-lock.json
+ .eslintignore
+ .eslintrc
+ .travis.yml
++src/
+diff --git a/package.json b/package.json
+index d4739b2..5d60eb8 100644
+--- a/package.json
++++ b/package.json
+@@ -1,10 +1,10 @@
+ {
+-  "name": "leaflet-styleeditor",
++  "name": "leaflet-styleeditor-minfied",
+   "author": "Dennis Wilhelm",
+   "version": "0.1.16",
+   "description": "Edit the style of features drawn within Leaflet.",
+   "license": "MIT",
+-  "main": "src/javascript/Leaflet.StyleEditor.js",
++  "main": "dist/javascript/Leaflet.StyleEditor.min.js",
+   "devDependencies": {
+     "@babel/core": "^7.6.4",
+     "@babel/preset-env": "^7.6.3",
