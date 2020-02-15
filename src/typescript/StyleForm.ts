@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { StyleEditor } from './Leaflet.StyleEditor'
+import { StyleEditor } from './StyleEditor'
 import Util from './Util'
 
 interface StyleFormOptions {

@@ -1,10 +1,12 @@
 import L from 'leaflet'
 import FormElement from './FormElement'
 import FormElementOptions from './FormElementOptions'
+import { Marker } from '../marker/Marker'
 
 interface IconElementOptions extends FormElementOptions {
   selectBoxImage,
-  selectOptions
+  selectOptions,
+  markerType: Marker
 }
 
 /**
@@ -28,11 +30,11 @@ export default class IconElement extends FormElement {
   }
 
   /** show the correct icon in the correct color if the icon or color changed */
-  style() {
-    let iconOptions = this.styleEditor.options.markerType.getIconOptions()
-    this._styleSelectInputImage(this.options.selectBoxImage,
+  style(currentElement) {
+    let iconOptions = this.options.markerType.getIconOptions(currentElement)
+    this._styleSelectInputImage(currentElement, this.options.selectBoxImage,
       iconOptions.icon, iconOptions.iconColor)
-    this._createColorSelect(this.styleEditor.options.markerType.options.iconOptions.iconColor)
+    this._createColorSelect(this.options.markerType.options.iconOptions.iconColor)
     this._hideSelectOptions()
   }
 
@@ -48,7 +50,7 @@ export default class IconElement extends FormElement {
   }
 
   /** create appropriate image for color and icon */
-  _styleSelectInputImage(image, icon, color) {
+  _styleSelectInputImage(currentElement, image, icon, color) {
     if (!icon) {
       icon = image.getAttribute('value')
       if (!icon) {
@@ -56,13 +58,13 @@ export default class IconElement extends FormElement {
       }
     }
 
-    let iconOptions = this.styleEditor.options.markerType.getIconOptions()
+    let iconOptions = this.options.markerType.getIconOptions(currentElement)
     if (color) {
       iconOptions.iconColor = color
     }
 
     image.innerHTML = ''
-    this.styleEditor.options.markerType.createSelectHTML(image, iconOptions, icon)
+    this.options.markerType.createSelectHTML(image, iconOptions, icon)
     image.setAttribute('value', icon)
   }
 
@@ -110,7 +112,7 @@ export default class IconElement extends FormElement {
   _toggleSelectInput(e) {
     let currentColorElement = this._getCurrentColorElement(
       this.util.rgbToHex(
-        this.styleEditor.options.markerType.options.iconOptions.iconColor
+        this.options.markerType.options.iconOptions.iconColor
       )
     )
 

@@ -1,4 +1,4 @@
-import { StyleEditor } from './Leaflet.StyleEditor';
+import { StyleEditor } from './StyleEditor';
 /**
  * Helper functions used throuhgout the project
  */

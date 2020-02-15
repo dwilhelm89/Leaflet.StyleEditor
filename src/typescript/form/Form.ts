@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { StyleEditor } from '../Leaflet.StyleEditor'
+import { StyleEditor } from '../StyleEditor'
 import Util from '../Util'
 
 
@@ -19,14 +19,8 @@ export class FormOptions {
  */
 export default class Form {
  
-  protected styleEditor: StyleEditor
-
   options: FormOptions
   protected util = Util.getInstance()
-
-  constructor(styleEditor: StyleEditor) {
-    this.styleEditor = styleEditor
-  }
 
   /** create every FormElement in the parentUiElement */
   create(parentUiElement) {
@@ -118,11 +112,7 @@ export default class Form {
    */
   getFormElements() {
     let formElements
-    if (this.options.formOptionKey in this.styleEditor.options.forms) {
-      formElements = this.styleEditor.options.forms[this.options.formOptionKey]
-    } else {
       formElements = this.options.formElements
-    }
     return formElements
   }
 

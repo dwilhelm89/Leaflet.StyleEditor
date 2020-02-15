@@ -1,16 +1,16 @@
 import L from 'leaflet'
-import { Marker } from '.'
+import { Marker } from './Marker'
 import { IconOptions, Size, Color } from '../types'
-import { StyleEditor } from '../Leaflet.StyleEditor'
+import { StyleEditor } from '../StyleEditor'
 
 /**
  * Example class showing how to implement new MarkerClasses
  * uses the glyphicons given by bootstrap
  */
-export default class GlyphiconMarker extends Marker {
+export class GlyphiconMarker extends Marker {
 
-  constructor(styleEditor: StyleEditor) {
-    super(styleEditor)
+  constructor() {
+    super()
     this.options.markers = markers
   }
 
@@ -38,7 +38,7 @@ export default class GlyphiconMarker extends Marker {
     })
   }
 
-  setStyle(styleOption, value) {
+  setStyle(currentElement, styleOption, value) {
     if (styleOption !== 'icon') {
       styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
     }
@@ -46,7 +46,7 @@ export default class GlyphiconMarker extends Marker {
     let iconOptions = this.options.iconOptions
     if (iconOptions[styleOption] !== value) {
       iconOptions[styleOption] = value
-      this.setNewMarker()
+      this.setNewMarker(currentElement)
     }
   }
 

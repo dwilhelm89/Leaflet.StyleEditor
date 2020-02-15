@@ -1,19 +1,13 @@
 import L from 'leaflet'
 import FormElementOptions from './FormElementOptions'
-import { StyleEditor } from '../Leaflet.StyleEditor'
 import Util from '../Util'
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export default class FormElement {
 
-  protected styleEditor: StyleEditor
   protected util = Util.getInstance()
 
   options: FormElementOptions
-
-  constructor(styleEditor: StyleEditor) {
-    this.styleEditor = styleEditor
-  }
 
   /* TODO
   // if no title is given use styling option
@@ -40,8 +34,8 @@ export default class FormElement {
   }
 
   /** style the FormElement and show it */
-  show() {
-    this.style()
+  show(currentElement) {
+    this.style(currentElement)
     this.showForm()
   }
 
@@ -56,7 +50,7 @@ export default class FormElement {
   }
 
   /** style the FormElement */
-  style() {
+  style(currentElement) {
   }
 
   /** what to do when lost focus */
@@ -76,7 +70,7 @@ export default class FormElement {
     for (let i = 0; i < layers.length; i++) {
       let layer = layers[i]
       if (layer instanceof L.Marker) {
-        this.styleEditor.options.markerType.setStyle(this.options.styleOption, value)
+        //TODO layer.setStyle(currentElement, this.options.styleOption, value)
       } else {
         let newStyle = {}
         newStyle[this.options.styleOption] = value

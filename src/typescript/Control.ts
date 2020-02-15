@@ -1,11 +1,11 @@
-import L from 'leaflet'
+import L, { Control } from 'leaflet'
 import Util from './Util'
 import LeafletOptions from './interfaces/LeafletOptions'
-import { DefaultMarker } from './marker'
-import { StyleEditor } from './Leaflet.StyleEditor'
+import { DefaultMarker } from './marker/DefaultMarker'
+import { StyleEditor } from './StyleEditor'
 import StyleForm from './StyleForm'
 
-class StyleEditorControl extends L.Control {
+export class StyleEditorControl extends Control {
   private util = Util.getInstance()
 
   styleEditor = new StyleEditor()
@@ -14,7 +14,6 @@ class StyleEditorControl extends L.Control {
 
   constructor(options: LeafletOptions = defaultOptions) {
     super()
-    //this.styleEditor.setOptions(options)
     this.options = options
   }
 
@@ -40,7 +39,7 @@ class StyleEditorControl extends L.Control {
     this.util.fireEvent(eventName, element)
   }
 
-  createUi() {
+  createUi(): HTMLElement {
     this.controlDiv = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
     this.controlUI = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior', this.controlDiv)
     this.controlUI.title = 'Style Editor'
@@ -302,7 +301,7 @@ class StyleEditorControl extends L.Control {
     this.fireEvent('editing', layer)
     if (layer instanceof L.Marker) {
       // ensure iconOptions are set for Leaflet.Draw created Markers
-      this.options.markerType.resetIconOptions()
+      this.options.markerType.resetIconOptions(layer)
       // marker
       this.showMarkerForm(layer)
     } else {
@@ -415,5 +414,5 @@ const defaultOptions: LeafletOptions = {
     forms: {},
     styleEditorEventPrefix: 'styleeditor:',
 
-    markerType: new DefaultMarker(this.styleEditor)
+    markerType: new DefaultMarker()
   }

@@ -2,34 +2,30 @@ import L from 'leaflet'
 
 import { MarkerForm } from '../form'
 import Util from '../Util'
-import { StyleEditor } from '../Leaflet.StyleEditor'
 import MarkerOptions from './MarkerOptions'
 import { IconOptions, Size } from '../types'
 
 /**
  * The Base class for different markers
  */
-export default abstract class Marker {
+export class Marker {
   protected util = Util.getInstance()
-  protected styleEditor: StyleEditor
 
-  constructor(styleEditor: StyleEditor) {
-    this.styleEditor = styleEditor
-    
+  constructor() {
     if (this.options.selectIconClass !== '' && !this.options.selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
       this.options.selectIconClass = 'leaflet-styleeditor-select-image-' + this.options.selectIconClass
     }
   }
 
   /** define markerForm used to style the Marker */
-  markerForm = new MarkerForm(this.styleEditor)
+  markerForm = new MarkerForm()
 
   options: MarkerOptions
 
   /** create new Marker and show it */
-  setNewMarker() {
-    let newIcon = this._createMarkerIcon()
-    let currentElement = this.styleEditor.currentElement.target
+  setNewMarker(currentElement) {
+    let newIcon = this._createMarkerIcon(currentElement)
+    currentElement = currentElement.target
     currentElement.setIcon(newIcon)
     if (currentElement instanceof L.LayerGroup) {
       currentElement.eachLayer(function (layer) {
@@ -42,23 +38,23 @@ export default abstract class Marker {
   }
 
   /** set styling options */
-  setStyle(styleOption, value) {
+  setStyle(currentElement, styleOption, value) {
     if (styleOption !== 'icon') {
       styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
     }
-    this.setIconOptions(styleOption, value)
-    this.setNewMarker()
+    this.setIconOptions(currentElement, styleOption, value)
+    this.setNewMarker(currentElement)
   }
 
   /** create HTML used to */
-  abstract createSelectHTML(parentUiElement, iconOptions, icon)
+  createSelectHTML(parentUiElement, iconOptions, icon) {}
 
   /** get the current iconOptions
    *  if not set set them
    */
-  getIconOptions() {
+  getIconOptions(currentElement) {
     try {
-      this.options.iconOptions = this.styleEditor.currentElement.target.options.icon.options
+      this.options.iconOptions = currentElement.target.options.icon.options
     } catch (e) {
       // if a new marker is created it may be the currentItem is still set, but is no marker
     }
@@ -75,24 +71,24 @@ export default abstract class Marker {
     return this.options.iconOptions
   }
 
-  resetIconOptions() {
-    Object.keys(this.getIconOptions()).forEach((key) =>
-      this.setStyle(key, this.options.iconOptions[key])
+  resetIconOptions(currentElement) {
+    Object.keys(this.getIconOptions(currentElement)).forEach((key) =>
+      this.setStyle(currentElement, key, this.options.iconOptions[key])
     )
   }
 
-  setIconOptions(key, value) {
-    let iconOptions = this.getIconOptions()
+  setIconOptions(currentElement, key, value) {
+    let iconOptions = this.getIconOptions(currentElement)
     iconOptions[key] = value
   }
 
   /** call createMarkerIcon with the correct iconOptions */
-  _createMarkerIcon() {
-    let iconOptions = this.getIconOptions()
+  _createMarkerIcon(currentElement) {
+    let iconOptions = this.getIconOptions(currentElement)
     return this.createMarkerIcon(iconOptions)
   }
 
-  abstract createMarkerIcon(iconOptions: IconOptions, iconClass?: string)
+  createMarkerIcon(iconOptions: IconOptions, iconClass?: string) {}
 
   /** check that the icon set in the iconOptions exists
    *  else set default icon
@@ -118,7 +114,7 @@ export default abstract class Marker {
    * */
   _getDefaultMarkerColor() {
     let markerTypeColorRamp: string[] = this.options.colorRamp
-    let generalColorRamp: string[] = this.styleEditor.options.colorRamp
+    let generalColorRamp: string[] = ["#000"] // TODO this.styleEditor.options.colorRamp
     let intersectedColorRamp: string[] = []
 
     if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
@@ -130,13 +126,13 @@ export default abstract class Marker {
       intersectedColorRamp = generalColorRamp
     }
 
-    let color = this.styleEditor.options.defaultMarkerColor
+    let color = "#000" //TOOD this.styleEditor.options.defaultMarkerColor
     if (color !== null && intersectedColorRamp.includes(color)) {
       color = null
     }
 
     if (color === null) {
-      color = this.styleEditor.options.defaultColor
+      color = "#000" // TODO this.styleEditor.options.defaultColor
       if (color !== null && !intersectedColorRamp.includes(color)) {
         color = null
       }

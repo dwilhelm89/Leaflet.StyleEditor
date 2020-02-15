@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import { StyleEditor } from './Leaflet.StyleEditor'
+import { StyleEditor } from './StyleEditor'
 
 /**
  * Helper functions used throuhgout the project
@@ -110,7 +110,7 @@ export default class Util {
   setStyle(option, value) {
     let currentElement = this.getCurrentElement()
     if (currentElement instanceof L.Marker) {
-      this.styleEditor.options.markerType.setStyle(option, value)
+      this.styleEditor.options.markerType.setStyle(currentElement, option, value)
     } else {
       let newStyle = {}
       newStyle[option] = value

@@ -1,11 +1,17 @@
 import L from 'leaflet'
-import { Marker } from '.'
+import { Marker } from './Marker'
 import { IconOptions, Size, Color } from '../types'
+import { StyleEditor } from '../StyleEditor'
 /**
  * The "old" marker style used by L.StyleEditor
  * used the mapbox API v3
  */
-export default class DefaultMarker extends Marker {
+export class DefaultMarker extends Marker {
+
+  constructor() {
+    super()
+  }
+
   createMarkerIcon(iconOptions: IconOptions, iconClass?: string) {
     if (!iconClass) {
       iconClass = ''

@@ -6,22 +6,21 @@ import OpacityElement from '../formElements/OpacityElement'
 import PopupContentElement from '../formElements/PopupContentElement'
 import WeightElement from '../formElements/WeightElement'
 import FormElement from '../formElements/FormElement'
-import { StyleEditor } from '../Leaflet.StyleEditor'
 
 class GeometryFormOptions extends FormOptions {
   formOptionKey = 'geometry'
   formElements: Record<string, FormElement>
 
-  constructor(styleEditor: StyleEditor) {
+  constructor() {
     super()
     this.formElements = {
-      'color': new ColorElement(styleEditor),
-      'opacity': new OpacityElement(styleEditor),
-      'weight': new WeightElement(styleEditor),
-      'dashArray': new DashElement(styleEditor),
-      'fillColor': new ColorElement(styleEditor),
-      'fillOpacity': new OpacityElement(styleEditor),
-      'popupContent': new PopupContentElement(styleEditor)
+      'color': new ColorElement(),
+      'opacity': new OpacityElement(),
+      'weight': new WeightElement(),
+      'dashArray': new DashElement(),
+      'fillColor': new ColorElement(),
+      'fillOpacity': new OpacityElement(),
+      'popupContent': new PopupContentElement()
     }
   }
 }
@@ -30,7 +29,7 @@ class GeometryFormOptions extends FormOptions {
 /** Form used to enable modification of a Geometry */
 export default class GeometryForm extends Form {
 
-  options = new GeometryFormOptions(this.styleEditor)
+  options = new GeometryFormOptions()
 
   /** show the fillOptions (fillColor and fillOpacity) only if the Element can be filled */
   showFormElements() {
