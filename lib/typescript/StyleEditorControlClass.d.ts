@@ -1,3 +1,4 @@
-export declare class StyleEditorControlClass extends L.Control {
+export declare class StyleEditorControl extends L.Control {
     onAdd(map: L.Map): HTMLElement;
+    createUI(map: L.Map): HTMLElement;
 }

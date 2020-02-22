@@ -1,6 +1,8 @@
 import 'leaflet'
 import { StyleEditorClass } from './StyleEditorClass'
-import { StyleEditorControlClass } from './StyleEditorControlClass'
+import { StyleEditorControl, StyleEditorControlOptions } from './StyleEditorControl'
+
+require('../css/Leaflet.StyleEditor.css')
 
 declare module 'leaflet' {
   type StyleEditor = StyleEditorClass
@@ -9,12 +11,12 @@ declare module 'leaflet' {
   let styleEditor: (...args: ConstructorParameters<typeof StyleEditorClass>) => StyleEditorClass
 
   module Control {
-    type StyleEditor = StyleEditorControlClass
-    let StyleEditor: typeof StyleEditorControlClass
+    type StyleEditor = StyleEditorControl
+    let StyleEditor: typeof StyleEditorControl
   }
 
   module control {
-    let styleEditor: () => StyleEditorControlClass
+    let styleEditor: (options: StyleEditorControlOptions) => StyleEditorControl
   }
 
 }
@@ -23,7 +25,7 @@ declare module 'leaflet' {
 L.StyleEditor = StyleEditorClass
 L.styleEditor = function () { return new StyleEditorClass() }
 
-L.Control.StyleEditor = StyleEditorControlClass
-L.control.styleEditor = function () { return new StyleEditorControlClass() }
+L.Control.StyleEditor = StyleEditorControl
+L.control.styleEditor = function (options: StyleEditorControlOptions) { return new StyleEditorControl(options) }
 
 export default L
