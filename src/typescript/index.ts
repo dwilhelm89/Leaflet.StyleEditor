@@ -1,6 +1,8 @@
 import 'leaflet'
 import { StyleEditorClass } from './StyleEditorClass'
-import { StyleEditorControl, StyleEditorControlOptions } from './StyleEditorControl'
+import { StyleEditorControl } from './StyleEditorControl'
+import { StyleEditorOptions, StyleEditorControlOptions } from './options'
+import { Map } from 'leaflet'
 
 require('../css/Leaflet.StyleEditor.css')
 
@@ -23,9 +25,10 @@ declare module 'leaflet' {
 
 
 L.StyleEditor = StyleEditorClass
-L.styleEditor = function () { return new StyleEditorClass() }
+L.styleEditor = function (map: Map, options: StyleEditorOptions) { return new StyleEditorClass(map, options) }
 
 L.Control.StyleEditor = StyleEditorControl
-L.control.styleEditor = function (options: StyleEditorControlOptions) { return new StyleEditorControl(options) }
+L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
+
 
 export default L
