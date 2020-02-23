@@ -1,5 +1,28 @@
+import { StyleForm } from './StyleForm'
+import { DefaultMarker } from './marker'
+import { GeometryForm, MarkerForm } from './form'
+import L from '.'
+import { Util } from './Util'
 
 export interface StyleEditorControlOptions extends L.ControlOptions {
+  position
+  colorRamp
+  defaultColor
+
+  markerForm
+  markerType
+  markers
+  defaultMarkerIcon
+  defaultMarkerColor
+
+  forms
+  geometryForm
+
+  openOnLeafletDraw
+  openOnLeafletEditable
+
+  styleEditorEventPrefix
+
   strings: {
     cancel: string
     cancelTitle: string
@@ -12,6 +35,42 @@ export interface StyleEditorControlOptions extends L.ControlOptions {
   useGrouping: Boolean
 }
 
+const DefaultOptions: StyleEditorControlOptions = {
+  position: 'topleft',
+
+  colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
+    '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
+    '#bdc3c7', '#7f8c8d'],
+  defaultColor: null,
+
+  markerType: DefaultMarker,
+  markers: null,
+  defaultMarkerIcon: null,
+  defaultMarkerColor: null,
+
+  markerForm: MarkerForm,
+  geometryForm: GeometryForm,
+
+  ignoreLayerTypes: [],
+
+  forms: {},
+
+  events: [],
+  openOnLeafletDraw: true,
+  openOnLeafletEditable: true,
+
+  showTooltip: true,
+
+  strings: {
+    cancel: 'Cancel',
+    cancelTitle: 'Cancel Styling',
+    tooltip: 'Click on the element you want to style',
+    tooltipNext: 'Choose another element you want to style'
+  },
+  useGrouping: true,
+
+  styleEditorEventPrefix: 'styleeditor:',
+}
 
 export class StyleEditorControl extends L.Control {
   options: StyleEditorControlOptions
@@ -23,12 +82,14 @@ export class StyleEditorControl extends L.Control {
   private tooltipUI: HTMLElement
 
   constructor(options: StyleEditorControlOptions) {
-    super(options)
-    this.options = options
+    const opt: StyleEditorControlOptions= { ...DefaultOptions, ...options }
+    super(opt)
+    this.options = opt
   }
 
   onAdd(map: L.Map): HTMLElement {
     // create Control element
+    Util.createInstance(map, this.options)
     const controlUI = this.controlUI = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
     const controlDiv = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior', controlUI)
     controlDiv.title = 'Style Editor'
@@ -40,7 +101,7 @@ export class StyleEditorControl extends L.Control {
     const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', map.getContainer())
 
     const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
-    L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
+    const styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
 
     const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', styleEditorHeader)
     buttonNext.title = this.options.strings.tooltipNext
@@ -70,13 +131,9 @@ export class StyleEditorControl extends L.Control {
     L.DomEvent.on(buttonNext, 'click', this.onNext)
 
     this.addEventListeners(map)
-    /*
-        this.options.styleForm = new L.StyleForm({
-          styleEditorDiv: styleEditorDiv,
-          styleEditorInterior: styleEditorInterior,
-          styleEditorOptions: this.options
-        })
-    */
+
+    new StyleForm(map, editorUI, styleEditorInterior, new this.options.markerForm(), new this.options.geometryForm())
+
     return controlUI
   }
 

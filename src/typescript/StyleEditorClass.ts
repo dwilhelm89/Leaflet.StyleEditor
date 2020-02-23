@@ -1,2 +1,5 @@
+export class StyleEditorClass extends L.Class {
 
-export class StyleEditorClass {}
+
+
+}
