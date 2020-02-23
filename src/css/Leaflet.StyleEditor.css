@@ -182,7 +182,7 @@ textarea.leaflet-styleeditor-input {
     color: #FFFFFF;
     cursor: pointer;
 }
-.styleeditor-nextBtn {
+.styleeditor-hideBtn {
     float: right;
     margin-right: 0px;
     background-image: url('../img/icon.png');

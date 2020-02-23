@@ -53,7 +53,7 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
 
   strings: {
     tooltip: 'Click on the element you want to style',
-    tooltipNext: 'Choose another element you want to style',
+    hide: 'Hide Style Editor',
   },
 
   useGrouping: true,

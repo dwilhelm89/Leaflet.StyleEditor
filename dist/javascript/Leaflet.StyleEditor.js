@@ -121,8 +121,8 @@ class StyleEditorClass extends L.Class {
         const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer());
         const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI);
         const styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI);
-        const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', styleEditorHeader);
-        buttonNext.title = this.options.strings.tooltipNext;
+        const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader);
+        buttonNext.title = this.options.strings.hide;
         const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer());
         const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
         tooltip.innerHTML = this.options.strings.tooltip;
@@ -448,7 +448,7 @@ exports.DefaultStyleEditorClassOptions = {
     showTooltip: true,
     strings: {
         tooltip: 'Click on the element you want to style',
-        tooltipNext: 'Choose another element you want to style',
+        hide: 'Hide Style Editor',
     },
     useGrouping: true,
     styleEditorEventPrefix: 'styleeditor:',
@@ -463,7 +463,13 @@ exports.DefaultStyleEditorClassOptions = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const _1 = __webpack_require__(0);
-exports.DefaultStyleEditorOptions = Object.assign(Object.assign({}, _1.DefaultStyleEditorClassOptions), _1.DefaultStyleEditorControlOptions);
+exports.DefaultStyleEditorOptions = Object.assign(Object.assign(Object.assign({}, _1.DefaultStyleEditorClassOptions), _1.DefaultStyleEditorControlOptions), { strings: {
+        title: _1.DefaultStyleEditorControlOptions.strings.title,
+        cancel: _1.DefaultStyleEditorControlOptions.strings.cancel,
+        cancelTitle: _1.DefaultStyleEditorControlOptions.strings.cancelTitle,
+        tooltip: _1.DefaultStyleEditorClassOptions.strings.tooltip,
+        hide: _1.DefaultStyleEditorClassOptions.strings.hide
+    } });
 
 
 /***/ }),

@@ -14,7 +14,6 @@ export class StyleEditorClass extends L.Class {
     super()
     
     this.map = map
-
     this.options = { ...DefaultStyleEditorOptions, ...options }
     Util.createInstance(map, this.options)
   
@@ -27,8 +26,8 @@ export class StyleEditorClass extends L.Class {
     const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
     const styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
 
-    const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', styleEditorHeader)
-    buttonNext.title = this.options.strings.tooltipNext
+    const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader)
+    buttonNext.title = this.options.strings.hide
 
     const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
     const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)

@@ -3,5 +3,5 @@ export type Strings = {
   cancel?: string
   cancelTitle?: string
   tooltip?: string
-  tooltipNext?: string
+  hide?: string
 }
