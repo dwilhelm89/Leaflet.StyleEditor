@@ -28,11 +28,11 @@ export class StyleEditorClass extends L.Class {
     const styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
 
     const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', styleEditorHeader)
-    buttonNext.title = this.options.tooltipNext
+    buttonNext.title = this.options.strings.tooltipNext
 
     const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
     const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
-    tooltip.innerHTML = this.options.tooltip
+    tooltip.innerHTML = this.options.strings.tooltip
 
     // do not propagate scrolling events on the ui to the map
     L.DomEvent.disableScrollPropagation(editorUI)

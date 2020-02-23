@@ -45,11 +45,11 @@ export class StyleEditorControl extends L.Control {
   createUI() {
     const controlUI = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
     const controlDiv = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior', controlUI)
-    controlDiv.title = this.options.title
+    controlDiv.title = this.options.strings.title
 
     const cancelUI = this.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlUI)
-    cancelUI.innerHTML = this.options.cancel
-    cancelUI.title = this.options.cancelTitle
+    cancelUI.innerHTML = this.options.strings.cancel
+    cancelUI.title = this.options.strings.cancelTitle
 
     L.DomEvent.disableScrollPropagation(controlUI)
     L.DomEvent.disableScrollPropagation(cancelUI)

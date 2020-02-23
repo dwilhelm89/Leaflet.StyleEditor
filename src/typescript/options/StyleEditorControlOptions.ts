@@ -1,15 +1,16 @@
 import { ControlOptions } from "leaflet";
+import { Strings } from '../types'
 
 export interface StyleEditorControlOptions extends ControlOptions {
-  title?: string
-  cancel?: string
-  cancelTitle?: string
+  strings: Strings 
 }
 
-export const DefaultStyleEditorControlOptions : StyleEditorControlOptions = {
+export const DefaultStyleEditorControlOptions: StyleEditorControlOptions = {
   position: 'topleft',
-  title: 'Style Editor',
-  cancel: 'cancel',
-  cancelTitle: 'cancel'
+  strings: {
+    title: 'Style Editor',
+    cancel: 'cancel',
+    cancelTitle: 'cancel'
+  }
 }
 

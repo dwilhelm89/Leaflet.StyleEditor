@@ -1,4 +1,4 @@
-import { Map } from "leaflet";
+import {Strings} from '../types'
 
 export interface StyleEditorClassOptions extends L.ControlOptions {
   colorRamp
@@ -18,8 +18,7 @@ export interface StyleEditorClassOptions extends L.ControlOptions {
 
   styleEditorEventPrefix
 
-  tooltip: string
-  tooltipNext: string
+  strings: Strings
   events: [],
   showTooltip: Boolean
   ignoreLayerTypes: string[]
@@ -52,8 +51,10 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
 
   showTooltip: true,
 
-  tooltip: 'Click on the element you want to style',
-  tooltipNext: 'Choose another element you want to style',
+  strings: {
+    tooltip: 'Click on the element you want to style',
+    tooltipNext: 'Choose another element you want to style',
+  },
 
   useGrouping: true,
 

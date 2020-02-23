@@ -1,6 +1,7 @@
 import 'leaflet';
 import { StyleEditorClass } from './StyleEditorClass';
-import { StyleEditorControl, StyleEditorControlOptions } from './StyleEditorControl';
+import { StyleEditorControl } from './StyleEditorControl';
+import { StyleEditorControlOptions } from './options';
 declare module 'leaflet' {
     type StyleEditor = StyleEditorClass;
     let StyleEditor: typeof StyleEditorClass;
