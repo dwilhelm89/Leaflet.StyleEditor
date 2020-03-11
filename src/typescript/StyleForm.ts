@@ -1,25 +1,23 @@
-import { Util }  from './Util'
+import { Util } from './Util'
 import { Map } from 'leaflet'
+import { Form, FormClass} from './form'
 
 export class StyleForm {
   private util = Util.getInstance()
 
-  markerForm
-  geometryForm
-  map
-  styleEditorInterior
-  styleEditorDiv
+  markerForm: Form
+  geometryForm: Form
+  map: Map
+  styleEditorInterior: HTMLElement
+  styleEditorDiv: HTMLElement
 
-  constructor(map: Map, styleEditorDiv: HTMLElement,  styleEditorInterior: HTMLElement, markerForm, geometryForm) {
+  constructor(map: Map, styleEditorDiv: HTMLElement, styleEditorInterior: HTMLElement, markerForm: FormClass, geometryForm: FormClass) {
     this.map = map
     this.styleEditorDiv = styleEditorDiv
     this.styleEditorInterior = styleEditorInterior
 
-    this.markerForm = markerForm
-    this.geometryForm = geometryForm
-
-    this.createMarkerForm()
-    this.createGeometryForm()
+    this.markerForm = this.createMarkerForm(markerForm)
+    this.geometryForm = this.createGeometryForm(geometryForm)
 
     this.addDOMEvents()
   }
@@ -34,16 +32,16 @@ export class StyleForm {
     this.geometryForm.hide()
   }
 
-  createMarkerForm() {
+  createMarkerForm(markerForm: FormClass): Form {
     let markerDiv = L.DomUtil.create(
       'div', 'leaflet-styleeditor-interior-marker', this.styleEditorInterior)
-    this.markerForm.create(markerDiv)
+    return new markerForm(markerDiv)
   }
 
-  createGeometryForm() {
+  createGeometryForm(geometryForm: FormClass): Form {
     let markerDiv = L.DomUtil.create(
       'div', 'leaflet-styleeditor-interior-geometry', this.styleEditorInterior)
-    this.geometryForm.create(markerDiv)
+    return new geometryForm(markerDiv)
   }
 
   showMarkerForm() {

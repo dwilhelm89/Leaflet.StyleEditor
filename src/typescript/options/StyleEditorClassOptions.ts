@@ -1,17 +1,18 @@
 import {Strings} from '../types'
+import {MarkerForm, FormClass } from '../form'
 
 export interface StyleEditorClassOptions extends L.ControlOptions {
   colorRamp
   defaultColor
 
-  markerForm
+  markerForm: FormClass
   markerType
   markers
   defaultMarkerIcon
   defaultMarkerColor
 
   forms
-  geometryForm
+  geometryForm: FormClass
 
   openOnLeafletDraw
   openOnLeafletEditable
@@ -38,8 +39,8 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
   defaultMarkerIcon: null,
   defaultMarkerColor: null,
 
-  markerForm: undefined, // TODO MarkerForm,
-  geometryForm: undefined, // TODO GeometryForm,
+  markerForm: MarkerForm,
+  geometryForm: MarkerForm, // TODO GeometryForm,
 
   ignoreLayerTypes: [],
 

@@ -46,7 +46,7 @@ export class StyleEditorClass extends L.Class {
 
     this.addEventListeners(this.map)
 
-    //new StyleForm(map, editorUI, styleEditorInterior, new this.options.markerForm(), new this.options.geometryForm())
+    new StyleForm(this.map, editorUI, styleEditorInterior, this.options.markerForm, this.options.geometryForm)
   }
 
   addEventListeners(map: L.Map) {
