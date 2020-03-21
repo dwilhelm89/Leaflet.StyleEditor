@@ -102,6 +102,7 @@ module.exports = undefined;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external {"commonjs":"leaflet","amd":"leaflet","root":"L"}
@@ -1376,6 +1377,8 @@ function setupControl() {
       var nextBtn = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-nextBtn', this.options.styleEditorHeader);
       nextBtn.title = this.options.strings.tooltipNext;
       L.DomEvent.on(nextBtn, 'click', function (e) {
+        e.preventDefault(); // Prevent form submit
+
         this.hideEditor();
 
         if (L.DomUtil.hasClass(this.options.controlUI, 'enabled')) {
