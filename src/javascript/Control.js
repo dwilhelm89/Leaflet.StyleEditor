@@ -187,6 +187,8 @@ export default function setupControl () {
       nextBtn.title = this.options.strings.tooltipNext
 
       L.DomEvent.on(nextBtn, 'click', function (e) {
+        e.preventDefault() // Prevent form submit
+
         this.hideEditor()
 
         if (L.DomUtil.hasClass(this.options.controlUI, 'enabled')) {
