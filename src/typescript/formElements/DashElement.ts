@@ -1,4 +1,4 @@
-import { FormElement } from '.'
+import { FormElement } from './FormElement'
 
 /**
  * FormElement used for styling the dash attribute

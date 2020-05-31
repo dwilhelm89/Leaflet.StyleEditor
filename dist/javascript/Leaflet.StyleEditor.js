@@ -1365,11 +1365,11 @@ exports.StyleEditorControl = StyleEditorControl;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashElement = void 0;
-const _1 = __webpack_require__(14);
+const FormElement_1 = __webpack_require__(5);
 /**
  * FormElement used for styling the dash attribute
  */
-class DashElement extends _1.FormElement {
+class DashElement extends FormElement_1.FormElement {
     /** create the three standard dash options */
     createContent() {
         let stroke = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', this.uiElement);
@@ -1630,17 +1630,19 @@ class SizeElement extends _1.FormElement {
     }
     /** create the 3 standard icon sizes */
     createContent() {
+        // TODO 
+        const markerType = new this.styleEditor.options.markerType(this.styleEditor);
         let select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-small', this.uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle(this.options.styleEditorOptions.markerType.options.size.small);
+            this.setStyle(markerType.size.small);
         }, this);
         select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-medium', this.uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle(this.options.styleEditorOptions.markerType.options.size.medium);
+            this.setStyle(markerType.size.medium);
         }, this);
         select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-large', this.uiElement);
         L.DomEvent.addListener(select, 'click', function () {
-            this.setStyle(this.options.styleEditorOptions.markerType.options.size.large);
+            this.setStyle(markerType.size.large);
         }, this);
     }
 }
