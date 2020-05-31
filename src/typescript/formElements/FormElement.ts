@@ -1,6 +1,5 @@
 import { Form } from '../form'
 import { StyleEditorClass } from '../StyleEditorClass'
-import { StyleEditorImpl } from '../StyleEditorImpl'
 
 export interface FormElementClass {
   new(parentForm: Form, parentUiElement: HTMLElement): FormElement
@@ -9,16 +8,14 @@ export interface FormElementClass {
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
 
-  styleOption: string
+  protected styleOption: string
   protected title: string
   protected uiElement: HTMLElement
   protected parentForm: Form
   
-  constructor(styleOption: string, parentForm: Form, parentUiElement: HTMLElement, title?: string) {
+  constructor(parentForm: Form, parentUiElement: HTMLElement) {
     super(parentForm.styleEditor)
-    this.styleOption = styleOption
     // if no title is given use styling option
-    this.title = title || styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
     this.parentForm = parentForm
     this.create(parentUiElement)
   }
@@ -34,7 +31,7 @@ export abstract class FormElement extends StyleEditorClass {
   /** create title */
   createTitle() {
     let title = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement)
-    title.innerHTML = this.title + ':'
+    title.innerHTML = this.title || this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1)
   }
 
   /** create content (where the actual modification takes place) */

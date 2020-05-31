@@ -1,19 +1,14 @@
 import { FormElement } from './FormElement'
-import { Form } from '../form'
 import { MarkerForm } from '../form/MarkerForm'
 
-const title = "color"
-const styleOption = "color"
 /**
  *  FormElement used to style the color
  */
 export class ColorElement extends FormElement {
-
   private colorPickerDiv: HTMLElement
 
-  constructor(parentForm: Form, parentUiElement: HTMLElement) {
-    super(styleOption, parentForm, parentUiElement, title)
-  }
+  title = "color"
+  styleOption = "color"
 
   createContent() {
     this.colorPickerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-colorpicker',

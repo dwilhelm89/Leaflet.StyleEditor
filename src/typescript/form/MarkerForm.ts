@@ -1,13 +1,13 @@
 import { Form } from '.'
-import { ColorElement, FormElementClass, SizeElement}  from '../formElements'
+import { ColorElement, FormElementClass, SizeElement, PopupContentElement, IconElement}  from '../formElements'
 import { StyleEditorImpl } from '../StyleEditorImpl'
 
 const formOptionKey = 'marker'
 const formElements: Record<string, FormElementClass> = {
-  //'icon': new IconElement(),
+  'icon': IconElement,
   'color': ColorElement,
-  'size': SizeElement
-  //'popupContent': new PopupContentElement()
+  'size': SizeElement,
+  'popupContent': PopupContentElement
 }
 
 /** Form used to enable modification of a Geometry */

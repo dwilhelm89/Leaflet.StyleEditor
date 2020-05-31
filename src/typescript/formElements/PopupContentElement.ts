@@ -1,13 +1,14 @@
-import { FormElement } from "."
+import { FormElement } from '.'
 
 /**
  * FormElement used for adding a description to marker or geometry.
  */
 export class PopupContentElement extends FormElement {
-
-  title: 'Description'
   private textArea: HTMLTextAreaElement
 
+  styleOption = 'popupContent'
+  title = 'Description'
+  
   createContent() {
     this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
     L.DomEvent.addListener(this.textArea, 'change', this._setStyle, this)

@@ -276,10 +276,10 @@ const _1 = __webpack_require__(3);
 const formElements_1 = __webpack_require__(14);
 const formOptionKey = 'marker';
 const formElements = {
-    //'icon': new IconElement(),
+    'icon': formElements_1.IconElement,
     'color': formElements_1.ColorElement,
-    'size': formElements_1.SizeElement
-    //'popupContent': new PopupContentElement()
+    'size': formElements_1.SizeElement,
+    'popupContent': formElements_1.PopupContentElement
 };
 /** Form used to enable modification of a Geometry */
 class MarkerForm extends _1.Form {
@@ -1401,10 +1401,14 @@ exports.DashElement = DashElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IconElement = void 0;
 const _1 = __webpack_require__(14);
+const styleOption = 'icon';
 /**
  * FormElement used for styling the icon
  */
 class IconElement extends _1.FormElement {
+    constructor(parentForm, parentUiElement) {
+        super(styleOption, parentForm, parentUiElement);
+    }
     /** create the icon selectBoxes */
     createContent() {
         let selectBox = L.DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement);
@@ -1569,10 +1573,15 @@ exports.OpacityElement = OpacityElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PopupContentElement = void 0;
 const _1 = __webpack_require__(14);
+const styleOption = 'popupContent';
+const title = 'Description';
 /**
  * FormElement used for adding a description to marker or geometry.
  */
 class PopupContentElement extends _1.FormElement {
+    constructor(parentForm, parentUiElement) {
+        super(styleOption, parentForm, parentUiElement, title);
+    }
     createContent() {
         this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement);
         L.DomEvent.addListener(this.textArea, 'change', this._setStyle, this);

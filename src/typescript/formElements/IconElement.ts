@@ -1,9 +1,13 @@
-import { FormElement } from "."
+import { FormElement } from '.'
+
 
 /**
  * FormElement used for styling the icon
  */
 export class IconElement extends FormElement {
+
+  styleOption = 'icon'
+
   // private classed used in the code
   private selectOptionWrapperClasses: 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden'
   private selectOptionClasses: 'leaflet-styleeditor-select-option'
@@ -80,7 +84,7 @@ export class IconElement extends FormElement {
 
     L.DomEvent.addListener(selectOptionWrapper, 'click', function (e) {
       e.stopPropagation()
-      let target = e.target as HTMLElement 
+      let target = e.target as HTMLElement
       if (target.nodeName === 'UL') {
         return
       }
