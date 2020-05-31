@@ -1,5 +1,5 @@
 import { Map } from "leaflet";
-import { StyleEditorClass } from "./StyleEditorClass";
+import { StyleEditorImpl } from "./StyleEditorImpl";
 import { StyleEditorControlOptions, StyleEditorOptions, StyleEditorClassOptions, DefaultStyleEditorControlOptions, DefaultStyleEditorClassOptions } from './options'
 
 /**
@@ -9,12 +9,12 @@ import { StyleEditorControlOptions, StyleEditorOptions, StyleEditorClassOptions,
 export class StyleEditorControl extends L.Control {
   options: StyleEditorControlOptions
 
-  private styleEditor: StyleEditorClass
+  private styleEditor: StyleEditorImpl
   private styleEditorClassOptions: StyleEditorClassOptions
 
   constructor(styleEditorOptions: StyleEditorOptions)
-  constructor(options: StyleEditorControlOptions, styleEditor: StyleEditorClass)
-  constructor(options?: StyleEditorControlOptions, styleEditor?: StyleEditorClass, styleEditorOptions?: StyleEditorOptions) {
+  constructor(options: StyleEditorControlOptions, styleEditor: StyleEditorImpl)
+  constructor(options?: StyleEditorControlOptions, styleEditor?: StyleEditorImpl, styleEditorOptions?: StyleEditorOptions) {
     super()
     if (styleEditorOptions === undefined) {
       this.options = { ...DefaultStyleEditorControlOptions, ...options }
@@ -34,7 +34,7 @@ export class StyleEditorControl extends L.Control {
    */
   onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
-      this.styleEditor = new StyleEditorClass(map, this.styleEditorClassOptions as StyleEditorClassOptions)
+      this.styleEditor = new StyleEditorImpl(map, this.styleEditorClassOptions as StyleEditorClassOptions)
     }
     // disable styleEditor if using control element
     this.styleEditor.disable()

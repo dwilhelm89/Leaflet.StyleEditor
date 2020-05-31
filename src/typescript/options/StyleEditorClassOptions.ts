@@ -1,12 +1,13 @@
-import {Strings} from '../types'
-import {MarkerForm, FormClass } from '../form'
+import { Strings } from '../types'
+import { MarkerForm, FormClass } from '../form'
+import { DefaultMarker, MarkerClass } from '../marker'
 
 export interface StyleEditorClassOptions extends L.ControlOptions {
   colorRamp
   defaultColor
 
   markerForm: FormClass
-  markerType
+  markerType: MarkerClass
   markers
   defaultMarkerIcon
   defaultMarkerColor
@@ -34,7 +35,7 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
     '#bdc3c7', '#7f8c8d'],
   defaultColor: null,
 
-  markerType: undefined, // TODO DefaultMarker,
+  markerType: DefaultMarker,
   markers: null,
   defaultMarkerIcon: null,
   defaultMarkerColor: null,

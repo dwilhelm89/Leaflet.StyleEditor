@@ -1,16 +1,15 @@
 import 'leaflet'
-import { StyleEditorClass } from './StyleEditorClass'
+import { StyleEditorImpl } from './StyleEditorImpl'
 import { StyleEditorControl } from './StyleEditorControl'
 import { StyleEditorOptions, StyleEditorControlOptions } from './options'
-import { Map } from 'leaflet'
 
 require('../css/Leaflet.StyleEditor.css')
 
 declare module 'leaflet' {
-  type StyleEditor = StyleEditorClass
+  type StyleEditor = StyleEditorImpl
 
-  let StyleEditor: typeof StyleEditorClass
-  let styleEditor: (...args: ConstructorParameters<typeof StyleEditorClass>) => StyleEditorClass
+  let StyleEditor: typeof StyleEditorImpl
+  let styleEditor: (...args: ConstructorParameters<typeof StyleEditor>) => StyleEditor
 
   module Control {
     type StyleEditor = StyleEditorControl
@@ -21,11 +20,16 @@ declare module 'leaflet' {
     let styleEditor: (options: StyleEditorControlOptions) => StyleEditorControl
   }
 
+  interface MarkerOptions {
+    iconColor?: String
+    iconSize?: String
+  }
+
 }
 
 
-L.StyleEditor = StyleEditorClass
-L.styleEditor = function (map: Map, options: StyleEditorOptions) { return new StyleEditorClass(map, options) }
+L.StyleEditor = StyleEditorImpl
+L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new StyleEditorImpl(map, options) }
 
 L.Control.StyleEditor = StyleEditorControl
 L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }

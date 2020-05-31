@@ -1,28 +1,24 @@
-import { Util } from '../Util'
 import { Form } from '../form'
+import { StyleEditorClass } from '../StyleEditorClass'
+import { StyleEditorImpl } from '../StyleEditorImpl'
 
 export interface FormElementClass {
   new(parentForm: Form, parentUiElement: HTMLElement): FormElement
 }
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
-export abstract class FormElement {
+export abstract class FormElement extends StyleEditorClass {
 
   styleOption: string
   protected title: string
-  protected util = Util.getInstance()
   protected uiElement: HTMLElement
   protected parentForm: Form
 
-  /* TODO
-  // if no title is given use styling option
-  if(!this.options.title && !!this.options.styleOption) {
-  this.options.title = this.options.styleOption.charAt(0).toUpperCase() + this.options.styleOption.slice(1)
-}*/
-
   constructor(styleOption: string, parentForm: Form, parentUiElement: HTMLElement, title?: string) {
+    super(parentForm.styleEditor)
     this.styleOption = styleOption
-    this.title = title || styleOption
+    // if no title is given use styling option
+    this.title = title || styleOption.charAt(0).toUpperCase() + styleOption.slice(1)
     this.parentForm = parentForm
     this.create(parentUiElement)
   }
@@ -70,19 +66,14 @@ export abstract class FormElement {
   }
 
   /** set style - used when the FormElement wants to change the styling option */
-  setStyle(value: string, currentElement?) {
-    // check whether a layer is part of a layerGroup
-    let layers = L.Layer[currentElement]
-    if (currentElement instanceof L.LayerGroup) {
-      layers = currentElement.getLayers
-    }
-
-    // update layer (or all layers of a layerGroup)
+  setStyle(value: string) {
+    const layers = this.parentForm.styleEditor.getCurrentLayers()
+    // update layers
     for (let i = 0; i < layers.length; i++) {
       let layer = layers[i]
       if (layer instanceof L.Marker) {
-        //TODO layer.setStyle(currentElement, this.options.styleOption, value)
-      } else {
+        new this.styleEditor.options.markerType(this.styleEditor).setStyle(this.styleOption, value)
+      } else if (layer instanceof L.Path) {
         let newStyle: Record<string, string> = {}
         newStyle[this.styleOption] = value
         layer.setStyle(newStyle)

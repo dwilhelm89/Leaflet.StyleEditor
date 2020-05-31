@@ -1,9 +1,10 @@
-import { Util } from '../Util'
 import { FormElement, FormElementClass } from '../formElements'
+import { StyleEditorClass } from '../StyleEditorClass'
+import { StyleEditorImpl } from '../StyleEditorImpl'
 
 
 export interface FormClass {
-  new(parentUiElement: HTMLElement): Form
+  new(styleEditor: StyleEditorImpl, parentUiElement: HTMLElement): Form
 }
 
 /**
@@ -13,8 +14,9 @@ export interface FormClass {
  *     - path: https://leafletjs.com/reference.html#path-options
  *     - icon: https://leafletjs.com/reference.html#icon
  */
-export abstract class Form {
-  constructor(formOptionKey: string, parentUiElement: HTMLElement, formElements: Record<string, FormElementClass>) {
+export abstract class Form extends StyleEditorClass {
+  constructor(styleEditor: StyleEditorImpl, formOptionKey: string, parentUiElement: HTMLElement, formElements: Record<string, FormElementClass>) {
+    super(styleEditor)
     this.formOptionsKey = formOptionKey
     this.parentUiElement = parentUiElement
     this.formElements = formElements
@@ -26,8 +28,6 @@ export abstract class Form {
 
   private parentUiElement: HTMLElement
   private initializedElements: Record<string, FormElement> = {}
-
-  protected util = Util.getInstance()
 
   /** create every FormElement in the parentUiElement */
   protected create() {

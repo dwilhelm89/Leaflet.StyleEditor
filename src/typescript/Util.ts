@@ -1,32 +1,24 @@
-import { Map } from "leaflet"
-
 /**
  * Helper functions used throuhgout the project
  */
 
- export class UtilOptions {
+import { StyleEditorImpl } from "./StyleEditorImpl"
 
+ export class UtilOptions {
   defaultColor
   styleEditorEventPrefix: string
  }
 
 export class Util {
-  private static instance: Util
 
-  map: Map
+  map: L.Map
   options: UtilOptions
+  styleEditor: StyleEditorImpl
 
-  constructor(map, options) {
-    this.map = map
-    this.options = options
-  }
-
-  public static createInstance(map, options) {
-    Util.instance = new Util(map, options)
-  }
-
-  public static getInstance(): Util {
-    return Util.instance;
+  constructor(styleEditor: StyleEditorImpl) {
+    this.styleEditor = styleEditor
+    this.map = styleEditor.map
+    this.options = styleEditor.options
   }
 
 // TODO element type
@@ -83,22 +75,6 @@ export class Util {
     return '#' + withoutHash
   }
 
-  /** get element selected to be styled */
-  getCurrentElement() {
-    /**if (!this.styleEditor.currentElement) {
-      return null
-    }
-    if (this.styleEditor.currentElement.target !== undefined) {
-      return this.styleEditor.currentElement.target
-    }
-    return this.styleEditor.currentElement */
-  }
-
-  /** set which element is selected to be styled */
-  setCurrentElement(currentElement) {
-    /*this.styleEditor.currentElement.target = currentElement*/
-  }
-
   /** get current style of current element */
   getStyle(currentElement, option) {
     let style = currentElement.options[option]
@@ -111,7 +87,7 @@ export class Util {
   /** set new style to current element */
   setStyle(currentElement, option, value) {
     if (currentElement instanceof L.Marker) {
-      //this.styleEditor.options.markerType.setStyle(currentElement, option, value)
+      new this.styleEditor.options.markerType(this.styleEditor).setStyle(option, value)
     } else {
       let newStyle = {}
       newStyle[option] = value
@@ -138,8 +114,8 @@ export class Util {
   getMarkersForColor(color) {
     color = this.rgbToHex(color)
 
-    let markers = [] // TODOthis.styleEditor.options.markerType.options.markers
-    let controlMarkers = [] // TODO this.styleEditor.options.markers
+    let markers = new this.styleEditor.options.markerType(this.styleEditor).markers
+    let controlMarkers = this.styleEditor.options.markers
 
     if (!Array.isArray(markers)) {
       // if color is specified return specific markers
@@ -175,7 +151,7 @@ export class Util {
 
     let defMarkers = []
 
-    let defaultMarker = undefined //TODO this.styleEditor.options.defaultMarkerIcon
+    let defaultMarker = this.styleEditor.options.defaultMarkerIcon
     if (defaultMarker !== null) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)
@@ -185,7 +161,7 @@ export class Util {
       }
     }
 
-    defaultMarker = undefined // TODO this.styleEditor.options.markerType.options.defaultMarkerIcon
+    defaultMarker = new this.styleEditor.options.markerType(this.styleEditor).defaultMarkerIcon
     if (defaultMarker !== undefined) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)

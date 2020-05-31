@@ -82,7 +82,7 @@ var leafletstyleeditor =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,22 +92,397 @@ var leafletstyleeditor =
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StyleEditorClass = void 0;
+class StyleEditorClass extends L.Class {
+    constructor(styleEditor) {
+        super();
+        this.styleEditor = styleEditor;
+        this.map = styleEditor.map;
+        this.util = styleEditor.util;
+    }
+}
+exports.StyleEditorClass = StyleEditorClass;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultStyleEditorOptions = exports.DefaultStyleEditorClassOptions = exports.DefaultStyleEditorControlOptions = void 0;
+const StyleEditorControlOptions_1 = __webpack_require__(11);
+Object.defineProperty(exports, "DefaultStyleEditorControlOptions", { enumerable: true, get: function () { return StyleEditorControlOptions_1.DefaultStyleEditorControlOptions; } });
+const StyleEditorClassOptions_1 = __webpack_require__(12);
+Object.defineProperty(exports, "DefaultStyleEditorClassOptions", { enumerable: true, get: function () { return StyleEditorClassOptions_1.DefaultStyleEditorClassOptions; } });
+const StyleEditorOptions_1 = __webpack_require__(18);
+Object.defineProperty(exports, "DefaultStyleEditorOptions", { enumerable: true, get: function () { return StyleEditorOptions_1.DefaultStyleEditorOptions; } });
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StyleEditorImpl = void 0;
+const StyleForm_1 = __webpack_require__(9);
+const Util_1 = __webpack_require__(10);
+const options_1 = __webpack_require__(1);
+class StyleEditorImpl extends L.Class {
+    constructor(map, options) {
+        super();
+        this.map = map;
+        this.options = Object.assign(Object.assign({}, options_1.DefaultStyleEditorOptions), options);
+        this.util = new Util_1.Util(this);
+        this.createUi();
+    }
+    createUi() {
+        const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer());
+        const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI);
+        const styleEditorInterior = this.interiorEditorUI = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI);
+        const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader);
+        buttonNext.title = this.options.strings.hide;
+        const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer());
+        const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
+        tooltip.innerHTML = this.options.strings.tooltip;
+        // do not propagate scrolling events on the ui to the map
+        L.DomEvent.disableScrollPropagation(editorUI);
+        L.DomEvent.disableScrollPropagation(buttonNext);
+        // do not propagate click events on the ui to the map
+        L.DomEvent.disableClickPropagation(editorUI);
+        L.DomEvent.disableClickPropagation(buttonNext);
+        // select next layer to style
+        L.DomEvent.on(buttonNext, 'click', this.onNext, this);
+        this.addEventListeners(this.map);
+        new StyleForm_1.StyleForm(this);
+    }
+    addEventListeners(map) {
+        this.options.events.forEach(event => map.on(event, this.onEvent));
+    }
+    onEvent(event) {
+        // TODO
+    }
+    onNext(event) {
+        this.hideEditor();
+        this.showTooltip();
+        event.stopPropagation();
+    }
+    removeIndicators() {
+        const children = this.map.getPanes().markerPane.children;
+        for (let index = 0; index < children.length; index++) {
+            const element = children[index];
+            L.DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected');
+        }
+    }
+    addClickEvents() {
+        this.map.eachLayer(this.addClickEvent, this);
+    }
+    addClickEvent(layer) {
+        if (this.layerIsIgnored(layer)) {
+            return;
+        }
+        if (this.options.useGrouping && layer instanceof L.LayerGroup) {
+            //this.options._layerGroups.push(layer)
+        }
+        else if (layer instanceof L.Marker || layer instanceof L.Path) {
+            //let evt = layer.on('click', this.initChangeStyle, this)
+            //this.options._editLayers.push(evt)
+        }
+        layer.on('click', this.showEditor, this);
+    }
+    removeClickEvents() {
+        this.map.eachLayer(this.removeClickEvent, this);
+    }
+    removeClickEvent(layer) {
+        layer.off('click', this.showEditor, this);
+    }
+    layerIsIgnored(layer) {
+        if (layer === undefined) {
+            return false;
+        }
+        return this.options.ignoreLayerTypes.some(layerType => layer.styleEditor && layer.styleEditor.type.toUpperCase() === layerType.toUpperCase());
+    }
+    hideEditor() {
+        L.DomUtil.removeClass(this.editorUI, 'editor-enabled');
+        this.removeIndicators();
+        this.fireEvent('hidden');
+    }
+    // TODO what type is event?!
+    showEditor(event) {
+        if (event) {
+            this.currentElement = event;
+        }
+        L.DomUtil.addClass(this.editorUI, 'editor-enabled');
+        this.fireEvent('visible');
+    }
+    showTooltip() {
+        L.DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
+    }
+    hideTooltip() {
+        L.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
+    }
+    fireEvent(eventName, layer) {
+    }
+    enable() {
+        this.addClickEvents();
+        this.showTooltip();
+        this.showEditor();
+    }
+    disable() {
+        this.removeClickEvents();
+        this.hideTooltip();
+        this.hideEditor();
+    }
+    getCurrentLayers() {
+        // TODO !!!! currentelemnt target?!
+        if (this.currentElement.target instanceof L.LayerGroup)
+            return this.currentElement.target.getLayers();
+        else
+            return [this.currentElement.target];
+    }
+}
+exports.StyleEditorImpl = StyleEditorImpl;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarkerForm = exports.Form = void 0;
+const Form_1 = __webpack_require__(13);
+Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return Form_1.Form; } });
+const MarkerForm_1 = __webpack_require__(4);
+Object.defineProperty(exports, "MarkerForm", { enumerable: true, get: function () { return MarkerForm_1.MarkerForm; } });
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarkerForm = void 0;
+const _1 = __webpack_require__(3);
+const formElements_1 = __webpack_require__(14);
+const formOptionKey = 'marker';
+const formElements = {
+    //'icon': new IconElement(),
+    'color': formElements_1.ColorElement
+    //'size': new SizeElement(),
+    //'popupContent': new PopupContentElement()
+};
+/** Form used to enable modification of a Geometry */
+class MarkerForm extends _1.Form {
+    constructor(styleEditor, parentUiElement) {
+        super(styleEditor, formOptionKey, parentUiElement, formElements);
+    }
+}
+exports.MarkerForm = MarkerForm;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FormElement = void 0;
+const StyleEditorClass_1 = __webpack_require__(0);
+/** FormElements are part of a Form for a specific styling option (i.e. color) */
+class FormElement extends StyleEditorClass_1.StyleEditorClass {
+    constructor(styleOption, parentForm, parentUiElement, title) {
+        super(parentForm.styleEditor);
+        this.styleOption = styleOption;
+        // if no title is given use styling option
+        this.title = title || styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
+        this.parentForm = parentForm;
+        this.create(parentUiElement);
+    }
+    /** create uiElement and content */
+    create(parentUiElement) {
+        this.uiElement =
+            L.DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement);
+        this.createTitle();
+        this.createContent();
+    }
+    /** create title */
+    createTitle() {
+        let title = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement);
+        title.innerHTML = this.title + ':';
+    }
+    /** create content (where the actual modification takes place) */
+    createContent() {
+    }
+    /** style the FormElement and show it */
+    show(currentElement) {
+        this.style(currentElement);
+        this.showForm();
+    }
+    /** show the FormElement */
+    showForm() {
+        this.util.showElement(this.uiElement);
+    }
+    /** hide the FormElement */
+    hide() {
+        this.util.hideElement(this.uiElement);
+    }
+    /** style the FormElement */
+    style(currentElement) {
+    }
+    /** what to do when lost focus */
+    lostFocus() {
+    }
+    /** set style - used when the FormElement wants to change the styling option */
+    setStyle(value) {
+        const layers = this.parentForm.styleEditor.getCurrentLayers();
+        // update layers
+        for (let i = 0; i < layers.length; i++) {
+            let layer = layers[i];
+            if (layer instanceof L.Marker) {
+                new this.styleEditor.options.markerType(this.styleEditor).setStyle(this.styleOption, value);
+            }
+            else if (layer instanceof L.Path) {
+                let newStyle = {};
+                newStyle[this.styleOption] = value;
+                layer.setStyle(newStyle);
+                layer.options[this.styleOption] = value;
+            }
+            // fire event for changed layer
+            this.util.fireChangeEvent(layer);
+        }
+        // notify form styling value has changed
+        this.parentForm.style();
+    }
+}
+exports.FormElement = FormElement;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultMarker = exports.Marker = void 0;
+const Marker_1 = __webpack_require__(16);
+Object.defineProperty(exports, "Marker", { enumerable: true, get: function () { return Marker_1.Marker; } });
+const DefaultMarker_1 = __webpack_require__(17);
+Object.defineProperty(exports, "DefaultMarker", { enumerable: true, get: function () { return DefaultMarker_1.DefaultMarker; } });
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(8);
+const StyleEditorImpl_1 = __webpack_require__(2);
+const StyleEditorControl_1 = __webpack_require__(19);
+__webpack_require__(20);
+L.StyleEditor = StyleEditorImpl_1.StyleEditorImpl;
+L.styleEditor = function (map, options) { return new StyleEditorImpl_1.StyleEditorImpl(map, options); };
+L.Control.StyleEditor = StyleEditorControl_1.StyleEditorControl;
+L.control.styleEditor = function (options) { return new StyleEditorControl_1.StyleEditorControl(options); };
+exports.default = L;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = undefined;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StyleForm = void 0;
+const StyleEditorClass_1 = __webpack_require__(0);
+class StyleForm extends StyleEditorClass_1.StyleEditorClass {
+    constructor(styleEditor) {
+        super(styleEditor);
+        this.markerForm = this.createMarkerForm();
+        this.geometryForm = this.createGeometryForm();
+        this.addDOMEvents();
+    }
+    addDOMEvents() {
+        L.DomEvent.addListener(this.map, 'click', this.lostFocus, this);
+        L.DomEvent.addListener(this.styleEditor.editorUI, 'click', this.lostFocus, this);
+    }
+    clearForm() {
+        this.markerForm.hide();
+        this.geometryForm.hide();
+    }
+    createMarkerForm() {
+        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-marker', this.styleEditor.interiorEditorUI);
+        return new this.styleEditor.options.markerForm(this.styleEditor, markerDiv);
+    }
+    createGeometryForm() {
+        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-geometry', this.styleEditor.interiorEditorUI);
+        return new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv);
+    }
+    showMarkerForm() {
+        this.clearForm();
+        this.markerForm.show();
+    }
+    showGeometryForm() {
+        this.clearForm();
+        this.geometryForm.show();
+    }
+    fireChangeEvent(element) {
+        this.util.fireChangeEvent(element);
+    }
+    lostFocus(e) {
+        let parent = e.target;
+        for (let i = 0; i < 10; i++) {
+            if (!parent) {
+                break;
+            }
+            if (!!parent.className && L.DomUtil.hasClass(parent, 'leaflet-styleeditor-interior')) {
+                return;
+            }
+            parent = parent.parentNode;
+        }
+        this.markerForm.lostFocus();
+        this.geometryForm.lostFocus();
+    }
+}
+exports.StyleForm = StyleForm;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 /**
  * Helper functions used throuhgout the project
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Util = exports.UtilOptions = void 0;
 class UtilOptions {
 }
 exports.UtilOptions = UtilOptions;
 class Util {
-    constructor(map, options) {
-        this.map = map;
-        this.options = options;
-    }
-    static createInstance(map, options) {
-        Util.instance = new Util(map, options);
-    }
-    static getInstance() {
-        return Util.instance;
+    constructor(styleEditor) {
+        this.styleEditor = styleEditor;
+        this.map = styleEditor.map;
+        this.options = styleEditor.options;
     }
     // TODO element type
     fireEvent(eventName, element) {
@@ -152,20 +527,6 @@ class Util {
         }
         return '#' + withoutHash;
     }
-    /** get element selected to be styled */
-    getCurrentElement() {
-        /**if (!this.styleEditor.currentElement) {
-          return null
-        }
-        if (this.styleEditor.currentElement.target !== undefined) {
-          return this.styleEditor.currentElement.target
-        }
-        return this.styleEditor.currentElement */
-    }
-    /** set which element is selected to be styled */
-    setCurrentElement(currentElement) {
-        /*this.styleEditor.currentElement.target = currentElement*/
-    }
     /** get current style of current element */
     getStyle(currentElement, option) {
         let style = currentElement.options[option];
@@ -177,7 +538,7 @@ class Util {
     /** set new style to current element */
     setStyle(currentElement, option, value) {
         if (currentElement instanceof L.Marker) {
-            //this.styleEditor.options.markerType.setStyle(currentElement, option, value)
+            new this.styleEditor.options.markerType(this.styleEditor).setStyle(option, value);
         }
         else {
             let newStyle = {};
@@ -200,8 +561,8 @@ class Util {
     /** get the markers for a specific color **/
     getMarkersForColor(color) {
         color = this.rgbToHex(color);
-        let markers = []; // TODOthis.styleEditor.options.markerType.options.markers
-        let controlMarkers = []; // TODO this.styleEditor.options.markers
+        let markers = new this.styleEditor.options.markerType(this.styleEditor).markers;
+        let controlMarkers = this.styleEditor.options.markers;
         if (!Array.isArray(markers)) {
             // if color is specified return specific markers
             if (Object.keys(markers).includes(color)) {
@@ -233,7 +594,7 @@ class Util {
         color = this.rgbToHex(color);
         let markers = this.getMarkersForColor(color);
         let defMarkers = [];
-        let defaultMarker = undefined; //TODO this.styleEditor.options.defaultMarkerIcon
+        let defaultMarker = this.styleEditor.options.defaultMarkerIcon;
         if (defaultMarker !== null) {
             if (typeof defaultMarker === 'string') {
                 defMarkers.push(defaultMarker);
@@ -242,7 +603,7 @@ class Util {
                 defMarkers.push(defaultMarker[color]);
             }
         }
-        defaultMarker = undefined; // TODO this.styleEditor.options.markerType.options.defaultMarkerIcon
+        defaultMarker = new this.styleEditor.options.markerType(this.styleEditor).defaultMarkerIcon;
         if (defaultMarker !== undefined) {
             if (typeof defaultMarker === 'string') {
                 defMarkers.push(defaultMarker);
@@ -262,317 +623,13 @@ exports.Util = Util;
 
 
 /***/ }),
-/* 1 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const StyleEditorControlOptions_1 = __webpack_require__(8);
-exports.DefaultStyleEditorControlOptions = StyleEditorControlOptions_1.DefaultStyleEditorControlOptions;
-const StyleEditorClassOptions_1 = __webpack_require__(9);
-exports.DefaultStyleEditorClassOptions = StyleEditorClassOptions_1.DefaultStyleEditorClassOptions;
-const StyleEditorOptions_1 = __webpack_require__(14);
-exports.DefaultStyleEditorOptions = StyleEditorOptions_1.DefaultStyleEditorOptions;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const StyleForm_1 = __webpack_require__(7);
-const Util_1 = __webpack_require__(0);
-const options_1 = __webpack_require__(1);
-class StyleEditorClass extends L.Class {
-    constructor(map, options) {
-        super();
-        this.map = map;
-        this.options = Object.assign(Object.assign({}, options_1.DefaultStyleEditorOptions), options);
-        Util_1.Util.createInstance(map, this.options);
-        this.createUi();
-    }
-    createUi() {
-        const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer());
-        const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI);
-        const styleEditorInterior = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI);
-        const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader);
-        buttonNext.title = this.options.strings.hide;
-        const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer());
-        const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
-        tooltip.innerHTML = this.options.strings.tooltip;
-        // do not propagate scrolling events on the ui to the map
-        L.DomEvent.disableScrollPropagation(editorUI);
-        L.DomEvent.disableScrollPropagation(buttonNext);
-        // do not propagate click events on the ui to the map
-        L.DomEvent.disableClickPropagation(editorUI);
-        L.DomEvent.disableClickPropagation(buttonNext);
-        // select next layer to style
-        L.DomEvent.on(buttonNext, 'click', this.onNext, this);
-        this.addEventListeners(this.map);
-        new StyleForm_1.StyleForm(this.map, editorUI, styleEditorInterior, this.options.markerForm, this.options.geometryForm);
-    }
-    addEventListeners(map) {
-        this.options.events.forEach(event => map.on(event, this.onEvent));
-    }
-    onEvent(event) {
-        // TODO
-    }
-    onNext(event) {
-        this.hideEditor();
-        this.showTooltip();
-        event.stopPropagation();
-    }
-    removeIndicators() {
-        const children = this.map.getPanes().markerPane.children;
-        for (let index = 0; index < children.length; index++) {
-            const element = children[index];
-            L.DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected');
-        }
-    }
-    addEditClickEvents(layer) {
-        if (this.layerIsIgnored(layer)) {
-            return;
-        }
-        if (this.options.useGrouping && layer instanceof L.LayerGroup) {
-            //this.options._layerGroups.push(layer)
-        }
-        else if (layer instanceof L.Marker || layer instanceof L.Path) {
-            //let evt = layer.on('click', this.initChangeStyle, this)
-            //this.options._editLayers.push(evt)
-        }
-    }
-    layerIsIgnored(layer) {
-        if (layer === undefined) {
-            return false;
-        }
-        return this.options.ignoreLayerTypes.some(layerType => layer.styleEditor && layer.styleEditor.type.toUpperCase() === layerType.toUpperCase());
-    }
-    hideEditor() {
-        L.DomUtil.removeClass(this.editorUI, 'editor-enabled');
-        this.removeIndicators();
-        this.fireEvent('hidden');
-    }
-    showEditor() {
-        L.DomUtil.addClass(this.editorUI, 'editor-enabled');
-        this.fireEvent('visible');
-    }
-    showTooltip() {
-        L.DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
-    }
-    hideTooltip() {
-        L.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
-    }
-    fireEvent(eventName) {
-    }
-    enable() {
-        //TODO this.addClickEvents()
-        this.showTooltip();
-        this.showEditor();
-    }
-    disable() {
-        //TODO this.removeClickEvents()
-        this.hideTooltip();
-        this.hideEditor();
-    }
-}
-exports.StyleEditorClass = StyleEditorClass;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const Form_1 = __webpack_require__(10);
-exports.Form = Form_1.Form;
-const MarkerForm_1 = __webpack_require__(11);
-exports.MarkerForm = MarkerForm_1.MarkerForm;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const Util_1 = __webpack_require__(0);
-/** FormElements are part of a Form for a specific styling option (i.e. color) */
-class FormElement {
-    /* TODO
-    // if no title is given use styling option
-    if(!this.options.title && !!this.options.styleOption) {
-    this.options.title = this.options.styleOption.charAt(0).toUpperCase() + this.options.styleOption.slice(1)
-  }*/
-    constructor(styleOption, parentForm, parentUiElement, title) {
-        this.util = Util_1.Util.getInstance();
-        this.styleOption = styleOption;
-        this.title = title || styleOption;
-        this.parentForm = parentForm;
-        this.create(parentUiElement);
-    }
-    /** create uiElement and content */
-    create(parentUiElement) {
-        this.uiElement =
-            L.DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement);
-        this.createTitle();
-        this.createContent();
-    }
-    /** create title */
-    createTitle() {
-        let title = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement);
-        title.innerHTML = this.title + ':';
-    }
-    /** create content (where the actual modification takes place) */
-    createContent() {
-    }
-    /** style the FormElement and show it */
-    show(currentElement) {
-        this.style(currentElement);
-        this.showForm();
-    }
-    /** show the FormElement */
-    showForm() {
-        this.util.showElement(this.uiElement);
-    }
-    /** hide the FormElement */
-    hide() {
-        this.util.hideElement(this.uiElement);
-    }
-    /** style the FormElement */
-    style(currentElement) {
-    }
-    /** what to do when lost focus */
-    lostFocus() {
-    }
-    /** set style - used when the FormElement wants to change the styling option */
-    setStyle(value, currentElement) {
-        // check whether a layer is part of a layerGroup
-        let layers = L.Layer[currentElement];
-        if (currentElement instanceof L.LayerGroup) {
-            layers = currentElement.getLayers;
-        }
-        // update layer (or all layers of a layerGroup)
-        for (let i = 0; i < layers.length; i++) {
-            let layer = layers[i];
-            if (layer instanceof L.Marker) {
-                //TODO layer.setStyle(currentElement, this.options.styleOption, value)
-            }
-            else {
-                let newStyle = {};
-                newStyle[this.styleOption] = value;
-                layer.setStyle(newStyle);
-                layer.options[this.styleOption] = value;
-            }
-            // fire event for changed layer
-            this.util.fireChangeEvent(layer);
-        }
-        // notify form styling value has changed
-        this.parentForm.style();
-    }
-}
-exports.FormElement = FormElement;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(6);
-const StyleEditorClass_1 = __webpack_require__(2);
-const StyleEditorControl_1 = __webpack_require__(15);
-__webpack_require__(16);
-L.StyleEditor = StyleEditorClass_1.StyleEditorClass;
-L.styleEditor = function (map, options) { return new StyleEditorClass_1.StyleEditorClass(map, options); };
-L.Control.StyleEditor = StyleEditorControl_1.StyleEditorControl;
-L.control.styleEditor = function (options) { return new StyleEditorControl_1.StyleEditorControl(options); };
-exports.default = L;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = undefined;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const Util_1 = __webpack_require__(0);
-class StyleForm {
-    constructor(map, styleEditorDiv, styleEditorInterior, markerForm, geometryForm) {
-        this.util = Util_1.Util.getInstance();
-        this.map = map;
-        this.styleEditorDiv = styleEditorDiv;
-        this.styleEditorInterior = styleEditorInterior;
-        this.markerForm = this.createMarkerForm(markerForm);
-        this.geometryForm = this.createGeometryForm(geometryForm);
-        this.addDOMEvents();
-    }
-    addDOMEvents() {
-        L.DomEvent.addListener(this.map, 'click', this.lostFocus, this);
-        L.DomEvent.addListener(this.styleEditorDiv, 'click', this.lostFocus, this);
-    }
-    clearForm() {
-        this.markerForm.hide();
-        this.geometryForm.hide();
-    }
-    createMarkerForm(markerForm) {
-        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-marker', this.styleEditorInterior);
-        return new markerForm(markerDiv);
-    }
-    createGeometryForm(geometryForm) {
-        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-geometry', this.styleEditorInterior);
-        return new geometryForm(markerDiv);
-    }
-    showMarkerForm() {
-        this.clearForm();
-        this.markerForm.show();
-    }
-    showGeometryForm() {
-        this.clearForm();
-        this.geometryForm.show();
-    }
-    fireChangeEvent(element) {
-        this.util.fireChangeEvent(element);
-    }
-    lostFocus(e) {
-        let parent = e.target;
-        for (let i = 0; i < 10; i++) {
-            if (!parent) {
-                break;
-            }
-            if (!!parent.className && L.DomUtil.hasClass(parent, 'leaflet-styleeditor-interior')) {
-                return;
-            }
-            parent = parent.parentNode;
-        }
-        this.markerForm.lostFocus();
-        this.geometryForm.lostFocus();
-    }
-}
-exports.StyleForm = StyleForm;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultStyleEditorControlOptions = void 0;
 exports.DefaultStyleEditorControlOptions = {
     position: 'topleft',
     strings: {
@@ -584,20 +641,22 @@ exports.DefaultStyleEditorControlOptions = {
 
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultStyleEditorClassOptions = void 0;
 const form_1 = __webpack_require__(3);
+const marker_1 = __webpack_require__(6);
 exports.DefaultStyleEditorClassOptions = {
     position: 'topleft',
     colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
         '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
         '#bdc3c7', '#7f8c8d'],
     defaultColor: null,
-    markerType: undefined,
+    markerType: marker_1.DefaultMarker,
     markers: null,
     defaultMarkerIcon: null,
     defaultMarkerColor: null,
@@ -619,13 +678,14 @@ exports.DefaultStyleEditorClassOptions = {
 
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Util_1 = __webpack_require__(0);
+exports.Form = void 0;
+const StyleEditorClass_1 = __webpack_require__(0);
 /**
  * Forms consist of FormElements and are shown in the StyleForm
  * There exists a MarkerForm to modify Markers and a GeometryForm to modify Geometries (i.e. rectangles...)
@@ -633,10 +693,10 @@ const Util_1 = __webpack_require__(0);
  *     - path: https://leafletjs.com/reference.html#path-options
  *     - icon: https://leafletjs.com/reference.html#icon
  */
-class Form {
-    constructor(formOptionKey, parentUiElement, formElements) {
+class Form extends StyleEditorClass_1.StyleEditorClass {
+    constructor(styleEditor, formOptionKey, parentUiElement, formElements) {
+        super(styleEditor);
         this.initializedElements = {};
-        this.util = Util_1.Util.getInstance();
         this.formOptionsKey = formOptionKey;
         this.parentUiElement = parentUiElement;
         this.formElements = formElements;
@@ -780,32 +840,7 @@ exports.Form = Form;
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const _1 = __webpack_require__(3);
-const formElements_1 = __webpack_require__(12);
-const formOptionKey = 'marker';
-const formElements = {
-    //'icon': new IconElement(),
-    'color': formElements_1.ColorElement
-    //'size': new SizeElement(),
-    //'popupContent': new PopupContentElement()
-};
-/** Form used to enable modification of a Geometry */
-class MarkerForm extends _1.Form {
-    constructor(parentUiElement) {
-        super(formOptionKey, parentUiElement, formElements);
-    }
-}
-exports.MarkerForm = MarkerForm;
-
-
-/***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -814,20 +849,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ColorElement_1 = __importDefault(__webpack_require__(13));
+exports.FormElement = exports.ColorElement = void 0;
+const ColorElement_1 = __importDefault(__webpack_require__(15));
 exports.ColorElement = ColorElement_1.default;
-const FormElement_1 = __webpack_require__(4);
-exports.FormElement = FormElement_1.FormElement;
+const FormElement_1 = __webpack_require__(5);
+Object.defineProperty(exports, "FormElement", { enumerable: true, get: function () { return FormElement_1.FormElement; } });
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const FormElement_1 = __webpack_require__(4);
+const FormElement_1 = __webpack_require__(5);
+const MarkerForm_1 = __webpack_require__(4);
 const title = "color";
 const styleOption = "color";
 /**
@@ -843,18 +880,14 @@ class ColorElement extends FormElement_1.FormElement {
     }
     /** create of get already created colorRamp */
     getColorRamp() {
-        /* TODO
-        if (!this.options.colorRamp) {
-          // if markers have own colorRamp use it
-          if (this.options.parentForm instanceof MarkerForm && !!this.styleEditor.options.markerType.options.colorRamp) {
-            this.options.colorRamp = this.styleEditor.options.markerType.options.colorRamp
-            // else use the default
-          } else {
-            this.options.colorRamp = this.styleEditor.options.colorRamp
-          }
+        // if markers have own colorRamp use it
+        if (this.parentForm instanceof MarkerForm_1.MarkerForm) {
+            const mt = new this.styleEditor.options.markerType(this.styleEditor);
+            if (!!mt.colorRamp) {
+                return mt.colorRamp;
+            }
         }
-        return this.options.colorRamp */
-        return ['#000'];
+        return this.styleEditor.options.colorRamp;
     }
     /** define what to do when color is changed */
     setSelectCallback(color) {
@@ -863,25 +896,351 @@ class ColorElement extends FormElement_1.FormElement {
         L.DomEvent.addListener(elem, 'click', this.selectColor, this);
     }
     /** set style for chosen color */
-    selectColor(e) {
-        e.stopPropagation();
-        this.setStyle(this.util.rgbToHex(e.target.style.backgroundColor));
-        // marker styling needs additional function calls
-        if (e.target instanceof L.Marker) {
-            // TODO this.styleEditor.options.markerType.setNewMarker(e)
-        }
+    selectColor(event) {
+        event.stopPropagation();
+        this.setStyle(this.util.rgbToHex(event.target.style.backgroundColor));
     }
 }
 exports.default = ColorElement;
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Marker = void 0;
+const StyleEditorClass_1 = __webpack_require__(0);
+class Marker extends StyleEditorClass_1.StyleEditorClass {
+    constructor(styleEditor, selectIconClass) {
+        super(styleEditor);
+        this.size = {
+            'small': [20, 50],
+            'medium': [30, 70],
+            'large': [35, 90]
+        };
+        /** set standard icon */
+        if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
+            this.selectIconClass = 'leaflet-styleeditor-select-image-' + selectIconClass;
+        }
+    }
+    /** create new Marker and show it */
+    setNewMarker(markerOptions) {
+        let newIcon = this.createMarkerIcon(markerOptions);
+        this.styleEditor.getCurrentLayers().forEach((currentElement) => {
+            if (currentElement instanceof L.Marker) {
+                currentElement.setIcon(newIcon);
+                if (currentElement instanceof L.LayerGroup) {
+                    currentElement.eachLayer(function (layer) {
+                        if (layer instanceof L.Marker)
+                            L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected');
+                    });
+                }
+                else {
+                    L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected');
+                }
+            }
+        });
+    }
+    /** set styling options */
+    setStyle(styleOption, value) {
+        if (styleOption !== 'icon') {
+            styleOption = 'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
+        }
+        this.setNewMarker(this.getNewMarkerOptions(styleOption, value));
+    }
+    /** create HTML used to */
+    createSelectHTML(parentUiElement, iconOptions, icon) {
+    }
+    /** get the current iconOptions
+     *  if not set set them
+     */
+    getIconOptions() {
+        let markerOptions = {};
+        const layers = this.styleEditor.getCurrentLayers();
+        const marker = layers.find((layer) => layer instanceof L.Marker);
+        if (marker) {
+            markerOptions = marker.options.icon.options;
+        }
+        if (Object.keys(markerOptions).length > 0) {
+            return markerOptions;
+        }
+        markerOptions.iconColor = this._getDefaultMarkerColor();
+        markerOptions.iconSize = this.size.small;
+        markerOptions.icon = this.util.getDefaultMarkerForColor(markerOptions.iconColor);
+        markerOptions = this._ensureMarkerIcon(markerOptions);
+        return markerOptions;
+    }
+    getNewMarkerOptions(key, value) {
+        let iconOptions = this.getIconOptions();
+        iconOptions[key] = value;
+        return iconOptions;
+    }
+    /** check that the icon set in the iconOptions exists
+     *  else set default icon
+     */
+    _ensureMarkerIcon(iconOptions) {
+        let markers = this.util.getMarkersForColor(iconOptions.iconColor);
+        if (markers.includes(iconOptions.icon)) {
+            return iconOptions;
+        }
+        iconOptions.icon = this.util.getDefaultMarkerForColor(iconOptions.iconColor);
+        return iconOptions;
+    }
+    /** return default marker color
+     *
+     * will return the first of the following which is set and supported by the markers
+     * 1. styleEditorOptions.defaultMarkerColor
+     * 2. styleEditorOptions.defaultColor
+     * 3. first color of the marker's colorRamp which is in the styleeditor.colorRamp
+     * 4. first color of the marker's colorRamp
+     * */
+    _getDefaultMarkerColor() {
+        let markerTypeColorRamp = this.colorRamp;
+        let generalColorRamp = this.styleEditor.options.colorRamp;
+        let intersectedColorRamp = [];
+        if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
+            intersectedColorRamp = markerTypeColorRamp.filter((n) => generalColorRamp.includes(n));
+            if (intersectedColorRamp.length === 0) {
+                intersectedColorRamp = markerTypeColorRamp;
+            }
+        }
+        else {
+            intersectedColorRamp = generalColorRamp;
+        }
+        let color = this.styleEditor.options.defaultMarkerColor;
+        if (color !== null && !intersectedColorRamp.includes(color)) {
+            color = null;
+        }
+        if (color === null) {
+            color = this.styleEditor.options.defaultColor;
+            if (color !== null && !intersectedColorRamp.includes(color)) {
+                color = null;
+            }
+            if (color === null) {
+                color = intersectedColorRamp[0];
+            }
+        }
+        return this.util.rgbToHex(color);
+    }
+    /** return size as keyword */
+    sizeToName(size) {
+        let keys = Object.keys(this.size);
+        if (typeof size === 'string') {
+            if (size === 's') {
+                size = 'small';
+            }
+            else if (size === 'm') {
+                size = 'medium';
+            }
+            else if (size === 'l') {
+                size = 'large';
+            }
+            for (let i = 0; i < keys.length; i++) {
+                if (this.size[keys[i]] === size) {
+                    return keys[i];
+                }
+            }
+        }
+        let values = Object.values(this.size);
+        for (let i = 0; i < values.length; i++) {
+            if (JSON.stringify(size) === JSON.stringify(values[i])) {
+                return keys[i];
+            }
+        }
+        return keys[0];
+    }
+    /** return size as [x,y] */
+    sizeToPixel(size) {
+        size = this.sizeToName(size);
+        return this.size[size];
+    }
+}
+exports.Marker = Marker;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultMarker = void 0;
+const _1 = __webpack_require__(6);
+/**
+ * The "old" marker style used by L.StyleEditor
+ * used the mapbox API v3
+ */
+class DefaultMarker extends _1.Marker {
+    constructor(styleEdtior) {
+        super(styleEdtior, "defaultmarker");
+        this.markers = [
+            'circle-stroked',
+            'circle',
+            'square-stroked',
+            'square',
+            'triangle-stroked', 'triangle',
+            'star-stroked',
+            'star',
+            'cross',
+            'marker-stroked',
+            'marker',
+            'religious-jewish',
+            'religious-christian',
+            'religious-muslim',
+            'cemetery',
+            'rocket',
+            'airport',
+            'heliport',
+            'rail',
+            'rail-metro',
+            'rail-light',
+            'bus',
+            'fuel',
+            'parking',
+            'parking-garage',
+            'airfield',
+            'roadblock',
+            'ferry',
+            'harbor',
+            'bicycle',
+            'park',
+            'park2',
+            'museum',
+            'lodging',
+            'monument',
+            'zoo',
+            'garden',
+            'campsite',
+            'theatre',
+            'art-gallery',
+            'pitch',
+            'soccer',
+            'america-football',
+            'tennis',
+            'basketball',
+            'baseball',
+            'golf',
+            'swimming',
+            'cricket',
+            'skiing',
+            'school',
+            'college',
+            'library',
+            'post',
+            'fire-station',
+            'town-hall',
+            'police',
+            'prison',
+            'embassy',
+            'beer',
+            'restaurant',
+            'cafe',
+            'shop',
+            'fast-food',
+            'bar',
+            'bank',
+            'grocery',
+            'cinema',
+            'pharmacy',
+            'hospital',
+            'danger',
+            'industrial',
+            'warehouse',
+            'commercial',
+            'building',
+            'place-of-worship',
+            'alcohol-shop',
+            'logging',
+            'oil-well',
+            'slaughterhouse',
+            'dam',
+            'water',
+            'wetland',
+            'disability',
+            'telephone',
+            'emergency-telephone',
+            'toilets',
+            'waste-basket',
+            'music',
+            'land-use',
+            'city',
+            'town',
+            'village',
+            'farm',
+            'bakery',
+            'dog-park',
+            'lighthouse',
+            'clothing-store',
+            'polling-place',
+            'playground',
+            'entrance',
+            'heart',
+            'london-underground',
+            'minefield',
+            'rail-underground',
+            'rail-above',
+            'camera',
+            'laundry',
+            'car',
+            'suitcase',
+            'hairdresser',
+            'chemist',
+            'mobilephone',
+            'scooter'
+        ];
+    }
+    createMarkerIcon(iconOptions) {
+        let iconSize = iconOptions.iconSize;
+        return new L.Icon({
+            iconUrl: this._getMarkerUrlForStyle(iconOptions),
+            iconSize: iconOptions.iconSize,
+            iconColor: iconOptions.iconColor,
+            icon: iconOptions.icon,
+            className: this.selectIconClass,
+            iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
+            popupAnchor: [0, -iconSize[1] / 2]
+        });
+    }
+    createSelectHTML(parentUiElement, iconOptions, icon) {
+        let tmpOptions = {};
+        tmpOptions.iconSize = this.size.small;
+        tmpOptions.icon = icon;
+        tmpOptions.iconColor = iconOptions.iconColor;
+        parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions).createIcon().outerHTML;
+    }
+    _getMarkerUrlForStyle(iconOptions) {
+        return this._getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon);
+    }
+    _getMarkerUrl(size, color, icon) {
+        size = this.sizeToName(size)[0];
+        if (color.indexOf('#') === 0) {
+            color = color.replace('#', '');
+        }
+        else {
+            color = this.util.rgbToHex(color, true);
+        }
+        let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size;
+        if (icon) {
+            url += '-' + icon;
+        }
+        return url + '+' + color + '.png';
+    }
+}
+exports.DefaultMarker = DefaultMarker;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultStyleEditorOptions = void 0;
 const _1 = __webpack_require__(1);
 exports.DefaultStyleEditorOptions = Object.assign(Object.assign(Object.assign({}, _1.DefaultStyleEditorClassOptions), _1.DefaultStyleEditorControlOptions), { strings: {
         title: _1.DefaultStyleEditorControlOptions.strings.title,
@@ -893,13 +1252,14 @@ exports.DefaultStyleEditorOptions = Object.assign(Object.assign(Object.assign({}
 
 
 /***/ }),
-/* 15 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const StyleEditorClass_1 = __webpack_require__(2);
+exports.StyleEditorControl = void 0;
+const StyleEditorImpl_1 = __webpack_require__(2);
 const options_1 = __webpack_require__(1);
 /**
  * StyleEditorControl creates a { L.Control }
@@ -924,7 +1284,7 @@ class StyleEditorControl extends L.Control {
      */
     onAdd(map) {
         if (this.styleEditor === undefined) {
-            this.styleEditor = new StyleEditorClass_1.StyleEditorClass(map, this.styleEditorClassOptions);
+            this.styleEditor = new StyleEditorImpl_1.StyleEditorImpl(map, this.styleEditorClassOptions);
         }
         // disable styleEditor if using control element
         this.styleEditor.disable();
@@ -976,7 +1336,7 @@ exports.StyleEditorControl = StyleEditorControl;
 
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin

@@ -1,30 +1,27 @@
-import { Util } from './Util'
-import { Map } from 'leaflet'
-import { Form, FormClass} from './form'
+import { Form } from './form'
+import { StyleEditorClass } from './StyleEditorClass'
+import { StyleEditorImpl } from './StyleEditorImpl'
 
-export class StyleForm {
-  private util = Util.getInstance()
+export class StyleForm extends StyleEditorClass {
 
   markerForm: Form
   geometryForm: Form
-  map: Map
+  map: L.Map
   styleEditorInterior: HTMLElement
   styleEditorDiv: HTMLElement
 
-  constructor(map: Map, styleEditorDiv: HTMLElement, styleEditorInterior: HTMLElement, markerForm: FormClass, geometryForm: FormClass) {
-    this.map = map
-    this.styleEditorDiv = styleEditorDiv
-    this.styleEditorInterior = styleEditorInterior
-
-    this.markerForm = this.createMarkerForm(markerForm)
-    this.geometryForm = this.createGeometryForm(geometryForm)
+  constructor(styleEditor: StyleEditorImpl) {
+    super(styleEditor)
+    
+    this.markerForm = this.createMarkerForm()
+    this.geometryForm = this.createGeometryForm()
 
     this.addDOMEvents()
   }
 
   addDOMEvents() {
     L.DomEvent.addListener(this.map as any, 'click', this.lostFocus, this)
-    L.DomEvent.addListener(this.styleEditorDiv, 'click', this.lostFocus, this)
+    L.DomEvent.addListener(this.styleEditor.editorUI, 'click', this.lostFocus, this)
   }
 
   clearForm() {
@@ -32,16 +29,16 @@ export class StyleForm {
     this.geometryForm.hide()
   }
 
-  createMarkerForm(markerForm: FormClass): Form {
+  createMarkerForm(): Form {
     let markerDiv = L.DomUtil.create(
-      'div', 'leaflet-styleeditor-interior-marker', this.styleEditorInterior)
-    return new markerForm(markerDiv)
+      'div', 'leaflet-styleeditor-interior-marker', this.styleEditor.interiorEditorUI)
+    return new this.styleEditor.options.markerForm(this.styleEditor, markerDiv)
   }
 
-  createGeometryForm(geometryForm: FormClass): Form {
+  createGeometryForm(): Form {
     let markerDiv = L.DomUtil.create(
-      'div', 'leaflet-styleeditor-interior-geometry', this.styleEditorInterior)
-    return new geometryForm(markerDiv)
+      'div', 'leaflet-styleeditor-interior-geometry', this.styleEditor.interiorEditorUI)
+    return new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv)
   }
 
   showMarkerForm() {

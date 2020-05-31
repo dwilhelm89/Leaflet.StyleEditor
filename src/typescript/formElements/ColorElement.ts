@@ -1,9 +1,7 @@
 import { FormElement } from './FormElement'
 import { Form } from '../form'
-
-interface ColorElementOptions {
-  colorRamp
-}
+import { MarkerForm } from '../form/MarkerForm'
+import { styleEditor } from 'leaflet'
 
 const title = "color"
 const styleOption = "color"
@@ -26,18 +24,14 @@ export default class ColorElement extends FormElement {
 
   /** create of get already created colorRamp */
   private getColorRamp() {
-    /* TODO
-    if (!this.options.colorRamp) {
-      // if markers have own colorRamp use it
-      if (this.options.parentForm instanceof MarkerForm && !!this.styleEditor.options.markerType.options.colorRamp) {
-        this.options.colorRamp = this.styleEditor.options.markerType.options.colorRamp
-        // else use the default
-      } else {
-        this.options.colorRamp = this.styleEditor.options.colorRamp
+    // if markers have own colorRamp use it
+    if (this.parentForm instanceof MarkerForm) {
+      const mt = new this.styleEditor.options.markerType(this.styleEditor)
+      if (!!mt.colorRamp) {
+        return mt.colorRamp
       }
     }
-    return this.options.colorRamp */
-    return ['#000']
+    return this.styleEditor.options.colorRamp
   }
 
   /** define what to do when color is changed */
@@ -48,17 +42,12 @@ export default class ColorElement extends FormElement {
   }
 
   /** set style for chosen color */
-  private selectColor(e) {
-    e.stopPropagation()
+  private selectColor(event) {
+    event.stopPropagation()
     this.setStyle(
       this.util.rgbToHex(
-        e.target.style.backgroundColor
+        event.target.style.backgroundColor
       )
     )
-
-    // marker styling needs additional function calls
-    if (e.target instanceof L.Marker) {
-      // TODO this.styleEditor.options.markerType.setNewMarker(e)
-    }
   }
 }
