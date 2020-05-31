@@ -126,12 +126,16 @@ Object.defineProperty(exports, "DefaultStyleEditorOptions", { enumerable: true, 
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StyleEditorImpl = void 0;
 const StyleForm_1 = __webpack_require__(9);
 const Util_1 = __webpack_require__(10);
 const options_1 = __webpack_require__(1);
-class StyleEditorImpl extends L.Class {
+const _1 = __importDefault(__webpack_require__(7));
+class StyleEditorImpl extends _1.default.Class {
     constructor(map, options) {
         super();
         this.map = map;
@@ -140,22 +144,22 @@ class StyleEditorImpl extends L.Class {
         this.createUi();
     }
     createUi() {
-        const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer());
-        const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI);
-        const styleEditorInterior = this.interiorEditorUI = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI);
-        const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader);
+        const editorUI = this.editorUI = _1.default.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer());
+        const styleEditorHeader = _1.default.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI);
+        const styleEditorInterior = this.interiorEditorUI = _1.default.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI);
+        const buttonNext = _1.default.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader);
         buttonNext.title = this.options.strings.hide;
-        const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer());
-        const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
+        const tooltipWrapper = this.tooltipUI = _1.default.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer());
+        const tooltip = _1.default.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper);
         tooltip.innerHTML = this.options.strings.tooltip;
         // do not propagate scrolling events on the ui to the map
-        L.DomEvent.disableScrollPropagation(editorUI);
-        L.DomEvent.disableScrollPropagation(buttonNext);
+        _1.default.DomEvent.disableScrollPropagation(editorUI);
+        _1.default.DomEvent.disableScrollPropagation(buttonNext);
         // do not propagate click events on the ui to the map
-        L.DomEvent.disableClickPropagation(editorUI);
-        L.DomEvent.disableClickPropagation(buttonNext);
+        _1.default.DomEvent.disableClickPropagation(editorUI);
+        _1.default.DomEvent.disableClickPropagation(buttonNext);
         // select next layer to style
-        L.DomEvent.on(buttonNext, 'click', this.onNext, this);
+        _1.default.DomEvent.on(buttonNext, 'click', this.onNext, this);
         this.addEventListeners(this.map);
         new StyleForm_1.StyleForm(this);
     }
@@ -174,7 +178,7 @@ class StyleEditorImpl extends L.Class {
         const children = this.map.getPanes().markerPane.children;
         for (let index = 0; index < children.length; index++) {
             const element = children[index];
-            L.DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected');
+            _1.default.DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected');
         }
     }
     addClickEvents() {
@@ -184,10 +188,10 @@ class StyleEditorImpl extends L.Class {
         if (this.layerIsIgnored(layer)) {
             return;
         }
-        if (this.options.useGrouping && layer instanceof L.LayerGroup) {
+        if (this.options.useGrouping && layer instanceof _1.default.LayerGroup) {
             //this.options._layerGroups.push(layer)
         }
-        else if (layer instanceof L.Marker || layer instanceof L.Path) {
+        else if (layer instanceof _1.default.Marker || layer instanceof _1.default.Path) {
             //let evt = layer.on('click', this.initChangeStyle, this)
             //this.options._editLayers.push(evt)
         }
@@ -206,7 +210,7 @@ class StyleEditorImpl extends L.Class {
         return this.options.ignoreLayerTypes.some(layerType => layer.styleEditor && layer.styleEditor.type.toUpperCase() === layerType.toUpperCase());
     }
     hideEditor() {
-        L.DomUtil.removeClass(this.editorUI, 'editor-enabled');
+        _1.default.DomUtil.removeClass(this.editorUI, 'editor-enabled');
         this.removeIndicators();
         this.fireEvent('hidden');
     }
@@ -215,14 +219,14 @@ class StyleEditorImpl extends L.Class {
         if (event) {
             this.currentElement = event;
         }
-        L.DomUtil.addClass(this.editorUI, 'editor-enabled');
+        _1.default.DomUtil.addClass(this.editorUI, 'editor-enabled');
         this.fireEvent('visible');
     }
     showTooltip() {
-        L.DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
+        _1.default.DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
     }
     hideTooltip() {
-        L.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
+        _1.default.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden');
     }
     fireEvent(eventName, layer) {
     }
@@ -238,10 +242,13 @@ class StyleEditorImpl extends L.Class {
     }
     getCurrentLayers() {
         // TODO !!!! currentelemnt target?!
-        if (this.currentElement.target instanceof L.LayerGroup)
+        if (this.currentElement.target instanceof _1.default.LayerGroup)
             return this.currentElement.target.getLayers();
         else
             return [this.currentElement.target];
+    }
+    getCurrentMarker() {
+        return this.getCurrentLayers().filter((layer) => { layer instanceof _1.default.Marker; });
     }
 }
 exports.StyleEditorImpl = StyleEditorImpl;
@@ -528,11 +535,13 @@ class Util {
         return '#' + withoutHash;
     }
     /** get current style of current element */
-    getStyle(currentElement, option) {
-        let style = currentElement.options[option];
+    getStyle(option) {
+        /* TODO?!?!?
+        let style = this.styleEditor.getCurrentLayers()[0].options[option]
         if (style) {
-            return style;
+          return style
         }
+    */
         return null;
     }
     /** set new style to current element */

@@ -21,8 +21,9 @@ declare module 'leaflet' {
   }
 
   interface MarkerOptions {
-    iconColor?: String
-    iconSize?: String
+    iconColor?: string
+    iconSize?: string
+    popupContent?: string
   }
 
 }

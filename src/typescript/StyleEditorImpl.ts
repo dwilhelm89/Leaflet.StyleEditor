@@ -2,6 +2,7 @@ import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
 import { styleEditor } from 'leaflet'
+import L from '.'
 
 export class StyleEditorImpl extends L.Class {
 
@@ -159,6 +160,10 @@ export class StyleEditorImpl extends L.Class {
       return this.currentElement.target.getLayers()
     else
       return [this.currentElement.target]
+  }
+
+  getCurrentMarker(): L.Marker[] {
+    return this.getCurrentLayers().filter((layer) => { layer instanceof L.Marker }) as L.Marker[]
   }
 
 }

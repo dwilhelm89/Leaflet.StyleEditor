@@ -76,11 +76,13 @@ export class Util {
   }
 
   /** get current style of current element */
-  getStyle(currentElement, option) {
-    let style = currentElement.options[option]
+  getStyle(option) {
+    /* TODO?!?!?
+    let style = this.styleEditor.getCurrentLayers()[0].options[option]
     if (style) {
       return style
     }
+*/
     return null
   }
 

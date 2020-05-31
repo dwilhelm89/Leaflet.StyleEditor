@@ -14,8 +14,9 @@ declare module 'leaflet' {
         let styleEditor: (options: StyleEditorControlOptions) => StyleEditorControl;
     }
     interface MarkerOptions {
-        iconColor?: String;
-        iconSize?: String;
+        iconColor?: string;
+        iconSize?: string;
+        popupContent?: string;
     }
 }
 export default L;
