@@ -1,8 +1,6 @@
 import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
-import { styleEditor } from 'leaflet'
-import L from '.'
 
 export class StyleEditorImpl extends L.Class {
 

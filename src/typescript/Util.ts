@@ -77,6 +77,7 @@ export class Util {
 
   /** get current style of current element */
   getStyle(option) {
+    debugger
     /* TODO?!?!?
     let style = this.styleEditor.getCurrentLayers()[0].options[option]
     if (style) {

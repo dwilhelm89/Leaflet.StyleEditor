@@ -1,12 +1,12 @@
 import { Form } from '.'
-import { ColorElement, FormElementClass}  from '../formElements'
+import { ColorElement, FormElementClass, SizeElement}  from '../formElements'
 import { StyleEditorImpl } from '../StyleEditorImpl'
 
 const formOptionKey = 'marker'
 const formElements: Record<string, FormElementClass> = {
   //'icon': new IconElement(),
-  'color': ColorElement
-  //'size': new SizeElement(),
+  'color': ColorElement,
+  'size': SizeElement
   //'popupContent': new PopupContentElement()
 }
 

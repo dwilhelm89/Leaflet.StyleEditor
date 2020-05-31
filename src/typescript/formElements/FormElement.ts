@@ -13,7 +13,7 @@ export abstract class FormElement extends StyleEditorClass {
   protected title: string
   protected uiElement: HTMLElement
   protected parentForm: Form
-
+  
   constructor(styleOption: string, parentForm: Form, parentUiElement: HTMLElement, title?: string) {
     super(parentForm.styleEditor)
     this.styleOption = styleOption

@@ -1,14 +1,13 @@
 import { FormElement } from './FormElement'
 import { Form } from '../form'
 import { MarkerForm } from '../form/MarkerForm'
-import { styleEditor } from 'leaflet'
 
 const title = "color"
 const styleOption = "color"
 /**
  *  FormElement used to style the color
  */
-export default class ColorElement extends FormElement {
+export class ColorElement extends FormElement {
 
   private colorPickerDiv: HTMLElement
 
