@@ -2,19 +2,20 @@ import { Form } from '../form'
 import { StyleEditorClass } from '../StyleEditorClass'
 
 export interface FormElementClass {
-  new(parentForm: Form, parentUiElement: HTMLElement): FormElement
+  new(parentForm: Form, parentUiElement: HTMLElement, styleOption: string): FormElement
 }
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
 
-  protected styleOption: string
+  styleOption: string
   protected title: string
   protected uiElement: HTMLElement
   protected parentForm: Form
   
-  constructor(parentForm: Form, parentUiElement: HTMLElement) {
+  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
     super(parentForm.styleEditor)
+    this.styleOption = styleOption
     // if no title is given use styling option
     this.parentForm = parentForm
     this.create(parentUiElement)

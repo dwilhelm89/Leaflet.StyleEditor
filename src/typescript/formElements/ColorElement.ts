@@ -8,7 +8,6 @@ export class ColorElement extends FormElement {
   private colorPickerDiv: HTMLElement
 
   title = "color"
-  styleOption = "color"
 
   createContent() {
     this.colorPickerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-colorpicker',

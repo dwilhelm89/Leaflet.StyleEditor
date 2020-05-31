@@ -6,7 +6,6 @@ import { FormElement } from '.'
 export class PopupContentElement extends FormElement {
   private textArea: HTMLTextAreaElement
 
-  styleOption = 'popupContent'
   title = 'Description'
   
   createContent() {

@@ -15,26 +15,23 @@ export interface FormClass {
  *     - icon: https://leafletjs.com/reference.html#icon
  */
 export abstract class Form extends StyleEditorClass {
-  constructor(styleEditor: StyleEditorImpl, formOptionKey: string, parentUiElement: HTMLElement, formElements: Record<string, FormElementClass>) {
+  constructor(styleEditor: StyleEditorImpl, parentUiElement: HTMLElement) {
     super(styleEditor)
-    this.formOptionsKey = formOptionKey
     this.parentUiElement = parentUiElement
-    this.formElements = formElements
-    this.create()
   }
 
   protected formOptionsKey: String
   protected formElements: Record<string, FormElementClass>
 
   private parentUiElement: HTMLElement
-  private initializedElements: Record<string, FormElement> = {}
+  protected initializedElements: Record<string, FormElement> = {}
 
   /** create every FormElement in the parentUiElement */
-  protected create() {
+  create() {
     for (let key in this.formElements) {
       const formElement = this.getFormElementClass(key)
       if (formElement !== undefined) {
-        this.initializedElements[key] = new formElement(this, this.parentUiElement)
+        this.initializedElements[key] = new formElement(this, this.parentUiElement, key)
       }
     }
   }

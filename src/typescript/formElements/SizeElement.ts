@@ -5,7 +5,6 @@ import { Form } from '../form'
  * FormElement to set style of an icon
  */
 export class SizeElement extends FormElement {
-  styleOption = 'size'
   title = 'size'
 
   /** create the 3 standard icon sizes */

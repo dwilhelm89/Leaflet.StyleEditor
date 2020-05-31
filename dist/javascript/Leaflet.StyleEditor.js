@@ -274,17 +274,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MarkerForm = void 0;
 const _1 = __webpack_require__(3);
 const formElements_1 = __webpack_require__(14);
-const formOptionKey = 'marker';
-const formElements = {
-    'icon': formElements_1.IconElement,
-    'color': formElements_1.ColorElement,
-    'size': formElements_1.SizeElement,
-    'popupContent': formElements_1.PopupContentElement
-};
 /** Form used to enable modification of a Geometry */
 class MarkerForm extends _1.Form {
-    constructor(styleEditor, parentUiElement) {
-        super(styleEditor, formOptionKey, parentUiElement, formElements);
+    constructor() {
+        super(...arguments);
+        this.formOptionKey = 'marker';
+        this.formElements = {
+            'icon': formElements_1.IconElement,
+            'color': formElements_1.ColorElement,
+            'size': formElements_1.SizeElement,
+            'popupContent': formElements_1.PopupContentElement
+        };
     }
 }
 exports.MarkerForm = MarkerForm;
@@ -301,11 +301,10 @@ exports.FormElement = void 0;
 const StyleEditorClass_1 = __webpack_require__(0);
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 class FormElement extends StyleEditorClass_1.StyleEditorClass {
-    constructor(styleOption, parentForm, parentUiElement, title) {
+    constructor(parentForm, parentUiElement, styleOption) {
         super(parentForm.styleEditor);
         this.styleOption = styleOption;
         // if no title is given use styling option
-        this.title = title || styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
         this.parentForm = parentForm;
         this.create(parentUiElement);
     }
@@ -319,7 +318,7 @@ class FormElement extends StyleEditorClass_1.StyleEditorClass {
     /** create title */
     createTitle() {
         let title = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement);
-        title.innerHTML = this.title + ':';
+        title.innerHTML = this.title || this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1);
     }
     /** create content (where the actual modification takes place) */
     createContent() {
@@ -431,12 +430,16 @@ class StyleForm extends StyleEditorClass_1.StyleEditorClass {
         this.geometryForm.hide();
     }
     createMarkerForm() {
-        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-marker', this.styleEditor.interiorEditorUI);
-        return new this.styleEditor.options.markerForm(this.styleEditor, markerDiv);
+        const markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-marker', this.styleEditor.interiorEditorUI);
+        const markerForm = new this.styleEditor.options.markerForm(this.styleEditor, markerDiv);
+        markerForm.create();
+        return markerForm;
     }
     createGeometryForm() {
-        let markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-geometry', this.styleEditor.interiorEditorUI);
-        return new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv);
+        const markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-geometry', this.styleEditor.interiorEditorUI);
+        const markerForm = new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv);
+        markerForm.create();
+        return markerForm;
     }
     showMarkerForm() {
         this.clearForm();
@@ -700,20 +703,17 @@ const StyleEditorClass_1 = __webpack_require__(0);
  *     - icon: https://leafletjs.com/reference.html#icon
  */
 class Form extends StyleEditorClass_1.StyleEditorClass {
-    constructor(styleEditor, formOptionKey, parentUiElement, formElements) {
+    constructor(styleEditor, parentUiElement) {
         super(styleEditor);
         this.initializedElements = {};
-        this.formOptionsKey = formOptionKey;
         this.parentUiElement = parentUiElement;
-        this.formElements = formElements;
-        this.create();
     }
     /** create every FormElement in the parentUiElement */
     create() {
         for (let key in this.formElements) {
             const formElement = this.getFormElementClass(key);
             if (formElement !== undefined) {
-                this.initializedElements[key] = new formElement(this, this.parentUiElement);
+                this.initializedElements[key] = new formElement(this, this.parentUiElement, key);
             }
         }
     }
@@ -881,14 +881,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ColorElement = void 0;
 const FormElement_1 = __webpack_require__(5);
 const MarkerForm_1 = __webpack_require__(4);
-const title = "color";
-const styleOption = "color";
 /**
  *  FormElement used to style the color
  */
 class ColorElement extends FormElement_1.FormElement {
-    constructor(parentForm, parentUiElement) {
-        super(styleOption, parentForm, parentUiElement, title);
+    constructor() {
+        super(...arguments);
+        this.title = "color";
     }
     createContent() {
         this.colorPickerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement);
@@ -1401,13 +1400,13 @@ exports.DashElement = DashElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IconElement = void 0;
 const _1 = __webpack_require__(14);
-const styleOption = 'icon';
 /**
  * FormElement used for styling the icon
  */
 class IconElement extends _1.FormElement {
-    constructor(parentForm, parentUiElement) {
-        super(styleOption, parentForm, parentUiElement);
+    constructor() {
+        super(...arguments);
+        this.styleOption = 'icon';
     }
     /** create the icon selectBoxes */
     createContent() {
@@ -1573,14 +1572,13 @@ exports.OpacityElement = OpacityElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PopupContentElement = void 0;
 const _1 = __webpack_require__(14);
-const styleOption = 'popupContent';
-const title = 'Description';
 /**
  * FormElement used for adding a description to marker or geometry.
  */
 class PopupContentElement extends _1.FormElement {
-    constructor(parentForm, parentUiElement) {
-        super(styleOption, parentForm, parentUiElement, title);
+    constructor() {
+        super(...arguments);
+        this.title = 'Description';
     }
     createContent() {
         this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement);
@@ -1628,14 +1626,13 @@ exports.PopupContentElement = PopupContentElement;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SizeElement = void 0;
 const _1 = __webpack_require__(14);
-const styleOption = 'size';
-const title = 'size';
 /**
  * FormElement to set style of an icon
  */
 class SizeElement extends _1.FormElement {
-    constructor(parentForm, parentUiElement) {
-        super(styleOption, parentForm, parentUiElement, title);
+    constructor() {
+        super(...arguments);
+        this.title = 'size';
     }
     /** create the 3 standard icon sizes */
     createContent() {
