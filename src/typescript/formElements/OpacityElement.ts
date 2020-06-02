@@ -29,7 +29,7 @@ export class OpacityElement extends FormElement {
   /** set correct value */
   style() {
     this.slider.value = this.util.getStyle(this.styleOption)
-    this.label.innerText = (100 * parseInt(this.slider.value)).toString + '%'
+    this.label.innerText = (100 * parseInt(this.slider.value)).toString() + '%'
   }
 
   /** communicate opacity value */

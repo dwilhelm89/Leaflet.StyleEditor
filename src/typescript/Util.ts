@@ -4,10 +4,10 @@
 
 import { StyleEditorImpl } from "./StyleEditorImpl"
 
- export class UtilOptions {
+export class UtilOptions {
   defaultColor
   styleEditorEventPrefix: string
- }
+}
 
 export class Util {
 
@@ -21,15 +21,15 @@ export class Util {
     this.options = styleEditor.options
   }
 
-// TODO element type
-  fireEvent(eventName: string, element: any) {
+  // TODO element type
+  fireEvent(eventName: string, element?: any) {
     this.map.fireEvent(
       this.options.styleEditorEventPrefix + eventName,
       element
     )
   }
 
-// TODO element type
+  // TODO element type
   /** fire an event if Leaflet.StyleEditor changed something */
   fireChangeEvent(element: any) {
     this.fireEvent('changed', element)
@@ -77,13 +77,14 @@ export class Util {
 
   /** get current style of current element */
   getStyle(option) {
-    debugger
-    /* TODO?!?!?
-    let style = this.styleEditor.getCurrentLayers()[0].options[option]
-    if (style) {
-      return style
+    const layers = this.styleEditor.getCurrentLayers()
+    if (layers.length > 0) {
+      let style = layers[0].options[option]
+      if (style) {
+        return style
+      }
     }
-*/
+
     return null
   }
 

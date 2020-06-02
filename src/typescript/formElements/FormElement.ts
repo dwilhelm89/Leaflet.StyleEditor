@@ -40,8 +40,8 @@ export abstract class FormElement extends StyleEditorClass {
   }
 
   /** style the FormElement and show it */
-  show(currentElement?) {
-    this.style(currentElement)
+  show() {
+    this.style()
     this.showForm()
   }
 
@@ -56,8 +56,7 @@ export abstract class FormElement extends StyleEditorClass {
   }
 
   /** style the FormElement */
-  style(currentElement) {
-  }
+  style() {}
 
   /** what to do when lost focus */
   lostFocus() {

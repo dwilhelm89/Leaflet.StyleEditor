@@ -1,7 +1,9 @@
 import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
+import { LeafletEvent } from 'leaflet'
 
+// TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better? 
 export class StyleEditorImpl extends L.Class {
 
   // TODO event? LAyer?!
@@ -14,6 +16,8 @@ export class StyleEditorImpl extends L.Class {
   editorUI: HTMLElement
   interiorEditorUI: HTMLElement
   tooltipUI: HTMLElement
+
+  styleForm: StyleForm
 
   constructor(map: L.Map, options: StyleEditorOptions) {
     super()
@@ -30,7 +34,7 @@ export class StyleEditorImpl extends L.Class {
     const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer())
 
     const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
-    const styleEditorInterior = this.interiorEditorUI = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
+    this.interiorEditorUI = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
 
     const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader)
     buttonNext.title = this.options.strings.hide
@@ -52,7 +56,7 @@ export class StyleEditorImpl extends L.Class {
 
     this.addEventListeners(this.map)
 
-    new StyleForm(this)
+    this.styleForm = new StyleForm(this)
   }
 
   addEventListeners(map: L.Map) {
@@ -121,12 +125,16 @@ export class StyleEditorImpl extends L.Class {
   }
 
   // TODO what type is event?!
-  showEditor(event?) {
+  // TODO move to FORM?
+  showEditor(event? : LeafletEvent) {
     if (event) {
       this.currentElement = event
     }
+    if (this.currentElement) {
     L.DomUtil.addClass(this.editorUI, 'editor-enabled')
+    }
     this.fireEvent('visible')
+    this.styleForm.show()
   }
 
   showTooltip() {
@@ -152,16 +160,17 @@ export class StyleEditorImpl extends L.Class {
     this.hideEditor()
   }
 
-  getCurrentLayers(): L.Layer[] {
-    // TODO !!!! currentelemnt target?!
-    if (this.currentElement.target instanceof L.LayerGroup)
+  getCurrentLayers(): L.StyleableLayer[] {
+    if (!this.currentElement) {
+      return []
+    } else if (this.currentElement.target instanceof L.LayerGroup)
       return this.currentElement.target.getLayers()
     else
       return [this.currentElement.target]
   }
 
-  getCurrentMarker(): L.Marker[] {
-    return this.getCurrentLayers().filter((layer) => { layer instanceof L.Marker }) as L.Marker[]
+  getCurrentMarker() {
+    return this.getCurrentLayers().filter((layer) => layer instanceof L.Marker)
   }
 
 }

@@ -16,6 +16,8 @@ export class StyleForm extends StyleEditorClass {
     this.markerForm = this.createMarkerForm()
     this.geometryForm = this.createGeometryForm()
 
+    this.clearForm()
+
     this.addDOMEvents()
   }
 
@@ -38,9 +40,17 @@ export class StyleForm extends StyleEditorClass {
 
   createGeometryForm(): Form {
     const markerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-interior-geometry', this.styleEditor.interiorEditorUI)
-    const markerForm = new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv)
-    markerForm.create()
-    return markerForm
+    const geometryForm= new this.styleEditor.options.geometryForm(this.styleEditor, markerDiv)
+    geometryForm.create()
+    return geometryForm 
+  }
+
+  show() {
+    if (this.styleEditor.getCurrentMarker().length > 0) {
+      this.showMarkerForm()
+    } else {
+      this.showGeometryForm()
+    }
   }
 
   showMarkerForm() {

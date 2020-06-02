@@ -55,16 +55,15 @@ export abstract class Form extends StyleEditorClass {
   }
 
   /** make FormElements and Form visible */
-  show(currentElement?) {
+  show() {
     this.preShow()
     this.showFormElements()
     this.showForm()
-    this.style(currentElement)
+    this.style()
   }
 
   /** hook which is called at the beginning of the show function */
-  preShow() {
-  }
+  preShow() {}
 
   /** make every FormElement visible */
   showFormElements() {
@@ -79,9 +78,9 @@ export abstract class Form extends StyleEditorClass {
   }
 
   /** inform FormElements the selected style has changed, so they can adapt */
-  style(currentElement?) {
+  style() {
     for (let key in this.initializedElements) {
-      this.initializedElements[key].style(currentElement)
+      this.initializedElements[key].style()
     }
   }
 
@@ -164,7 +163,7 @@ export abstract class Form extends StyleEditorClass {
       return true
     }
     TODO */
-    return false
+    return true 
   }
 
   /**

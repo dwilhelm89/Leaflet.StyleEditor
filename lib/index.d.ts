@@ -18,5 +18,8 @@ declare module 'leaflet' {
         iconSize?: string;
         popupContent?: string;
     }
+    interface StyleableLayer extends Layer {
+        options?: any;
+    }
 }
 export default L;

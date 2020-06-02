@@ -26,6 +26,10 @@ declare module 'leaflet' {
     popupContent?: string
   }
 
+  interface StyleableLayer extends Layer {
+    options?
+  }
+
 }
 
 

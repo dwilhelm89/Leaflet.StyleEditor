@@ -1,5 +1,5 @@
 import { Strings } from '../types'
-import { MarkerForm, FormClass } from '../form'
+import { MarkerForm, FormClass, GeometryForm } from '../form'
 import { DefaultMarker, MarkerClass } from '../marker'
 
 export interface StyleEditorClassOptions extends L.ControlOptions {
@@ -41,7 +41,7 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
   defaultMarkerColor: null,
 
   markerForm: MarkerForm,
-  geometryForm: MarkerForm, // TODO GeometryForm,
+  geometryForm: GeometryForm,
 
   ignoreLayerTypes: [],
 
