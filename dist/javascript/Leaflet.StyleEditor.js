@@ -986,11 +986,14 @@ class IconElement extends _1.FormElement {
     constructor() {
         super(...arguments);
         this.styleOption = 'icon';
+        // private classed used in the code
+        this.selectOptionWrapperClasses = 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden';
+        this.selectOptionClasses = 'leaflet-styleeditor-select-option';
     }
     /** create the icon selectBoxes */
     createContent() {
         let selectBox = L.DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement);
-        this.selectBoxImage = this._createSelectInputImage(selectBox);
+        this.selectBoxImage = this.createSelectInputImage(selectBox);
         L.DomEvent.addListener(selectBox, 'click', this._toggleSelectInput, this);
     }
     /** show the correct icon in the correct color if the icon or color changed */
@@ -1005,7 +1008,7 @@ class IconElement extends _1.FormElement {
         this._hideSelectOptions();
     }
     /** create image container that hides/shows the iconSelectBox */
-    _createSelectInputImage(parentUiElement) {
+    createSelectInputImage(parentUiElement) {
         let wrapper = L.DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement);
         return L.DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper);
     }
@@ -1022,7 +1025,7 @@ class IconElement extends _1.FormElement {
             iconOptions.iconColor = color;
         }
         image.innerHTML = '';
-        // TODO ?!let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon)
+        new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon);
         image.setAttribute('value', icon);
     }
     /** create the selectBox with the icons in the correct color */
@@ -1035,8 +1038,8 @@ class IconElement extends _1.FormElement {
         }
         let selectOptionWrapper = L.DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement);
         this.util.getMarkersForColor(color).forEach(function (option) {
-            let selectOption = L.DomUtil.create('li', this._selectOptionClasses, selectOptionWrapper);
-            let selectImage = this._createSelectInputImage(selectOption);
+            let selectOption = L.DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper);
+            let selectImage = this.createSelectInputImage(selectOption);
             this._styleSelectInputImage(selectImage, option, color);
         }, this);
         this.selectOptions[color] = selectOptionWrapper;
@@ -1343,7 +1346,7 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
             'large': [35, 90]
         };
         /** set standard icon */
-        if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
+        if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image-')) {
             this.selectIconClass = 'leaflet-styleeditor-select-image-' + selectIconClass;
         }
     }

@@ -9,8 +9,8 @@ export class IconElement extends FormElement {
   styleOption = 'icon'
 
   // private classed used in the code
-  private selectOptionWrapperClasses: 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden'
-  private selectOptionClasses: 'leaflet-styleeditor-select-option'
+  private selectOptionWrapperClasses = 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden'
+  private selectOptionClasses = 'leaflet-styleeditor-select-option'
 
   private selectBoxImage
   private selectOptions
@@ -18,7 +18,7 @@ export class IconElement extends FormElement {
   /** create the icon selectBoxes */
   createContent() {
     let selectBox = L.DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement)
-    this.selectBoxImage = this._createSelectInputImage(selectBox)
+    this.selectBoxImage = this.createSelectInputImage(selectBox)
 
     L.DomEvent.addListener(selectBox, 'click', this._toggleSelectInput, this)
   }
@@ -38,7 +38,7 @@ export class IconElement extends FormElement {
   }
 
   /** create image container that hides/shows the iconSelectBox */
-  _createSelectInputImage(parentUiElement) {
+  private createSelectInputImage(parentUiElement) {
     let wrapper = L.DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement)
     return L.DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper)
   }
@@ -58,7 +58,7 @@ export class IconElement extends FormElement {
     }
 
     image.innerHTML = ''
-    // TODO ?!let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon)
+    new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon)
     image.setAttribute('value', icon)
   }
 
@@ -75,8 +75,8 @@ export class IconElement extends FormElement {
       L.DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
 
     this.util.getMarkersForColor(color).forEach(function (option) {
-      let selectOption = L.DomUtil.create('li', this._selectOptionClasses, selectOptionWrapper)
-      let selectImage = this._createSelectInputImage(selectOption)
+      let selectOption = L.DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
+      let selectImage = this.createSelectInputImage(selectOption)
       this._styleSelectInputImage(selectImage, option, color)
     }, this)
 

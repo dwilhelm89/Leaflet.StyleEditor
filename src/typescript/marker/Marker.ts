@@ -27,7 +27,7 @@ export abstract class Marker extends StyleEditorClass {
   constructor(styleEditor: StyleEditorImpl, selectIconClass: string) {
     super(styleEditor)
     /** set standard icon */
-    if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image')) {
+    if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image-')) {
       this.selectIconClass = 'leaflet-styleeditor-select-image-' + selectIconClass
     }
   }
