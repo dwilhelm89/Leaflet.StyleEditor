@@ -239,7 +239,7 @@ textarea.leaflet-styleeditor-input {
     text-align: center;
     bottom: 10%;
     width: 100%;
-    z-index: 1000;
+    z-index: 800;
 }
 .leaflet-styleeditor-tooltip {
     background-color: rgba(68, 68, 68, 0.2);
