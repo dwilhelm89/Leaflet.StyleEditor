@@ -1132,7 +1132,7 @@ class OpacityElement extends _1.FormElement {
     /** set correct value */
     style() {
         this.slider.value = this.util.getStyle(this.styleOption);
-        this.label.innerText = (100 * parseInt(this.slider.value)).toString() + '%';
+        this.label.innerText = Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
     }
     /** communicate opacity value */
     _setStyle() {
