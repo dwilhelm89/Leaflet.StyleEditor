@@ -20,10 +20,10 @@ export class OpacityElement extends FormElement {
     this.slider.value = '0.5'
 
     // add event listeners
-    L.DomEvent.addListener(this.slider, 'change', this._setStyle, this)
-    L.DomEvent.addListener(this.slider, 'input', this._setStyle, this)
-    L.DomEvent.addListener(this.slider, 'keyup', this._setStyle, this)
-    L.DomEvent.addListener(this.slider, 'mouseup', this._setStyle, this)
+    L.DomEvent.addListener(this.slider, 'change', this.updateStyle, this)
+    L.DomEvent.addListener(this.slider, 'input', this.updateStyle, this)
+    L.DomEvent.addListener(this.slider, 'keyup', this.updateStyle, this)
+    L.DomEvent.addListener(this.slider, 'mouseup', this.updateStyle, this)
   }
 
   /** set correct value */
@@ -33,7 +33,7 @@ export class OpacityElement extends FormElement {
   }
 
   /** communicate opacity value */
-  _setStyle() {
+  private updateStyle() {
     this.setStyle(this.slider.value)
   }
 }

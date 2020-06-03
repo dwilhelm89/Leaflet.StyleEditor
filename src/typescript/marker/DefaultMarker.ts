@@ -14,7 +14,7 @@ export class DefaultMarker extends Marker {
   createMarkerIcon(iconOptions: MarkerOptions) {
     let iconSize = iconOptions.iconSize
     return new L.Icon({
-      iconUrl: this._getMarkerUrlForStyle(iconOptions),
+      iconUrl: this.getMarkerUrlForStyle(iconOptions),
       iconSize: iconOptions.iconSize,
       iconColor: iconOptions.iconColor,
       icon: iconOptions.icon,
@@ -32,11 +32,11 @@ export class DefaultMarker extends Marker {
     parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions).createIcon().outerHTML
   }
 
-  _getMarkerUrlForStyle(iconOptions) {
-    return this._getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon)
+  private getMarkerUrlForStyle(iconOptions) {
+    return this.getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon)
   }
 
-  _getMarkerUrl(size, color, icon) {
+  private getMarkerUrl(size, color, icon) {
     size = this.sizeToName(size)[0]
     if (color.indexOf('#') === 0) {
       color = color.replace('#', '')

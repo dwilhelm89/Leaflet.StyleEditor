@@ -20,10 +20,10 @@ export class WeightElement extends FormElement {
     this.weight.value = '4'
 
     // add event listeners
-    L.DomEvent.addListener(this.weight, 'change', this._setStyle, this)
-    L.DomEvent.addListener(this.weight, 'input', this._setStyle, this)
-    L.DomEvent.addListener(this.weight, 'keyup', this._setStyle, this)
-    L.DomEvent.addListener(this.weight, 'mouseup', this._setStyle, this)
+    L.DomEvent.addListener(this.weight, 'change', this.updateStyle, this)
+    L.DomEvent.addListener(this.weight, 'input', this.updateStyle, this)
+    L.DomEvent.addListener(this.weight, 'keyup', this.updateStyle, this)
+    L.DomEvent.addListener(this.weight, 'mouseup', this.updateStyle, this)
   }
 
   /** set correct value */
@@ -33,7 +33,7 @@ export class WeightElement extends FormElement {
   }
 
   /** communicate weight value */
-  _setStyle() {
+  private updateStyle() {
     this.setStyle(this.weight.value)
   }
 }

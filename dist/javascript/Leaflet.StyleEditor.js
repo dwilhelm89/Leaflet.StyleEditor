@@ -569,8 +569,8 @@ class Util {
             return '#' + rgb;
         }
         let rgbArray = rgb.substring(4).replace(')', '').split(',');
-        let withoutHash = this._componentToHex(parseInt(rgbArray[0], 10)) + this._componentToHex(parseInt(rgbArray[1], 10)) +
-            this._componentToHex(parseInt(rgbArray[2], 10));
+        let withoutHash = this.componentToHex(parseInt(rgbArray[0], 10)) + this.componentToHex(parseInt(rgbArray[1], 10)) +
+            this.componentToHex(parseInt(rgbArray[2], 10));
         if (noHash) {
             return withoutHash;
         }
@@ -606,7 +606,7 @@ class Util {
         }
     }
     /** helper function to convert color to hex */
-    _componentToHex(color) {
+    componentToHex(color) {
         let hex = color.toString(16);
         return hex.length === 1 ? '0' + hex : hex;
     }
@@ -1127,10 +1127,10 @@ class OpacityElement extends _1.FormElement {
         this.slider.step = '0.01';
         this.slider.value = '0.5';
         // add event listeners
-        L.DomEvent.addListener(this.slider, 'change', this._setStyle, this);
-        L.DomEvent.addListener(this.slider, 'input', this._setStyle, this);
-        L.DomEvent.addListener(this.slider, 'keyup', this._setStyle, this);
-        L.DomEvent.addListener(this.slider, 'mouseup', this._setStyle, this);
+        L.DomEvent.addListener(this.slider, 'change', this.updateStyle, this);
+        L.DomEvent.addListener(this.slider, 'input', this.updateStyle, this);
+        L.DomEvent.addListener(this.slider, 'keyup', this.updateStyle, this);
+        L.DomEvent.addListener(this.slider, 'mouseup', this.updateStyle, this);
     }
     /** set correct value */
     style() {
@@ -1138,7 +1138,7 @@ class OpacityElement extends _1.FormElement {
         this.label.innerText = Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
     }
     /** communicate opacity value */
-    _setStyle() {
+    updateStyle() {
         this.setStyle(this.slider.value);
     }
 }
@@ -1164,7 +1164,7 @@ class PopupContentElement extends _1.FormElement {
     }
     createContent() {
         this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement);
-        L.DomEvent.addListener(this.textArea, 'change', this._setStyle, this);
+        L.DomEvent.addListener(this.textArea, 'change', this.updateStyle, this);
     }
     /** set correct value */
     style() {
@@ -1174,7 +1174,7 @@ class PopupContentElement extends _1.FormElement {
         }
     }
     /** communicate popupContent value */
-    _setStyle() {
+    updateStyle() {
         let layers = this.styleEditor.getCurrentLayers();
         let inputText = this.textArea.value;
         // update layer (or all layers of a layerGroup)
@@ -1260,10 +1260,10 @@ class WeightElement extends _1.FormElement {
         this.weight.step = '1';
         this.weight.value = '4';
         // add event listeners
-        L.DomEvent.addListener(this.weight, 'change', this._setStyle, this);
-        L.DomEvent.addListener(this.weight, 'input', this._setStyle, this);
-        L.DomEvent.addListener(this.weight, 'keyup', this._setStyle, this);
-        L.DomEvent.addListener(this.weight, 'mouseup', this._setStyle, this);
+        L.DomEvent.addListener(this.weight, 'change', this.updateStyle, this);
+        L.DomEvent.addListener(this.weight, 'input', this.updateStyle, this);
+        L.DomEvent.addListener(this.weight, 'keyup', this.updateStyle, this);
+        L.DomEvent.addListener(this.weight, 'mouseup', this.updateStyle, this);
     }
     /** set correct value */
     style() {
@@ -1271,7 +1271,7 @@ class WeightElement extends _1.FormElement {
         this.label.innerText = this.weight.value;
     }
     /** communicate weight value */
-    _setStyle() {
+    updateStyle() {
         this.setStyle(this.weight.value);
     }
 }
@@ -1391,10 +1391,10 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
         if (Object.keys(markerOptions).length > 0) {
             return markerOptions;
         }
-        markerOptions.iconColor = this._getDefaultMarkerColor();
+        markerOptions.iconColor = this.getDefaultMarkerColor();
         markerOptions.iconSize = this.size.small;
         markerOptions.icon = this.util.getDefaultMarkerForColor(markerOptions.iconColor);
-        markerOptions = this._ensureMarkerIcon(markerOptions);
+        markerOptions = this.ensureMarkerIcon(markerOptions);
         return markerOptions;
     }
     getNewMarkerOptions(key, value) {
@@ -1405,7 +1405,7 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
     /** check that the icon set in the iconOptions exists
      *  else set default icon
      */
-    _ensureMarkerIcon(iconOptions) {
+    ensureMarkerIcon(iconOptions) {
         let markers = this.util.getMarkersForColor(iconOptions.iconColor);
         if (markers.includes(iconOptions.icon)) {
             return iconOptions;
@@ -1421,7 +1421,7 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
      * 3. first color of the marker's colorRamp which is in the styleeditor.colorRamp
      * 4. first color of the marker's colorRamp
      * */
-    _getDefaultMarkerColor() {
+    getDefaultMarkerColor() {
         let markerTypeColorRamp = this.colorRamp;
         let generalColorRamp = this.styleEditor.options.colorRamp;
         let intersectedColorRamp = [];
@@ -1620,7 +1620,7 @@ class DefaultMarker extends _1.Marker {
     createMarkerIcon(iconOptions) {
         let iconSize = iconOptions.iconSize;
         return new L.Icon({
-            iconUrl: this._getMarkerUrlForStyle(iconOptions),
+            iconUrl: this.getMarkerUrlForStyle(iconOptions),
             iconSize: iconOptions.iconSize,
             iconColor: iconOptions.iconColor,
             icon: iconOptions.icon,
@@ -1636,10 +1636,10 @@ class DefaultMarker extends _1.Marker {
         tmpOptions.iconColor = iconOptions.iconColor;
         parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions).createIcon().outerHTML;
     }
-    _getMarkerUrlForStyle(iconOptions) {
-        return this._getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon);
+    getMarkerUrlForStyle(iconOptions) {
+        return this.getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon);
     }
-    _getMarkerUrl(size, color, icon) {
+    getMarkerUrl(size, color, icon) {
         size = this.sizeToName(size)[0];
         if (color.indexOf('#') === 0) {
             color = color.replace('#', '');

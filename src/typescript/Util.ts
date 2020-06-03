@@ -66,8 +66,8 @@ export class Util {
     }
 
     let rgbArray = rgb.substring(4).replace(')', '').split(',')
-    let withoutHash = this._componentToHex(parseInt(rgbArray[0], 10)) + this._componentToHex(parseInt(rgbArray[1], 10)) +
-      this._componentToHex(parseInt(rgbArray[2], 10))
+    let withoutHash = this.componentToHex(parseInt(rgbArray[0], 10)) + this.componentToHex(parseInt(rgbArray[1], 10)) +
+      this.componentToHex(parseInt(rgbArray[2], 10))
 
     if (noHash) {
       return withoutHash
@@ -109,7 +109,7 @@ export class Util {
   }
 
   /** helper function to convert color to hex */
-  _componentToHex(color) {
+  private componentToHex(color) {
     let hex = color.toString(16)
     return hex.length === 1 ? '0' + hex : hex
   }

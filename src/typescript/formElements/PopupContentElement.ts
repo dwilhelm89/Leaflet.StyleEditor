@@ -10,7 +10,7 @@ export class PopupContentElement extends FormElement {
   
   createContent() {
     this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
-    L.DomEvent.addListener(this.textArea, 'change', this._setStyle, this)
+    L.DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
   }
 
   /** set correct value */
@@ -23,7 +23,7 @@ export class PopupContentElement extends FormElement {
   }
 
   /** communicate popupContent value */
-  _setStyle() {
+  private updateStyle() {
     let layers = this.styleEditor.getCurrentLayers()
     let inputText = this.textArea.value
 

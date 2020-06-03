@@ -78,11 +78,11 @@ export abstract class Marker extends StyleEditorClass {
       return markerOptions
     }
 
-    markerOptions.iconColor = this._getDefaultMarkerColor()
+    markerOptions.iconColor = this.getDefaultMarkerColor()
     markerOptions.iconSize = this.size.small
     markerOptions.icon = this.util.getDefaultMarkerForColor(markerOptions.iconColor)
 
-    markerOptions = this._ensureMarkerIcon(markerOptions)
+    markerOptions = this.ensureMarkerIcon(markerOptions)
     return markerOptions
   }
 
@@ -97,7 +97,7 @@ export abstract class Marker extends StyleEditorClass {
   /** check that the icon set in the iconOptions exists
    *  else set default icon
    */
-  _ensureMarkerIcon(iconOptions) {
+  private ensureMarkerIcon(iconOptions) {
     let markers = this.util.getMarkersForColor(iconOptions.iconColor)
 
     if (markers.includes(iconOptions.icon)) {
@@ -116,7 +116,7 @@ export abstract class Marker extends StyleEditorClass {
    * 3. first color of the marker's colorRamp which is in the styleeditor.colorRamp
    * 4. first color of the marker's colorRamp
    * */
-  _getDefaultMarkerColor() {
+  private getDefaultMarkerColor() {
     let markerTypeColorRamp = this.colorRamp
     let generalColorRamp = this.styleEditor.options.colorRamp
     let intersectedColorRamp = []
