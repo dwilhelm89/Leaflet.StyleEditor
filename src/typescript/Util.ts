@@ -182,4 +182,8 @@ export class Util {
 
     return markers[0]
   }
+
+  canCurrentLayersBeFilled(): Boolean {
+    return this.styleEditor.getCurrentLayers().find((layer) => layer.options.fill) != undefined
+  }
 }

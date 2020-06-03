@@ -670,6 +670,9 @@ class Util {
         }
         return markers[0];
     }
+    canCurrentLayersBeFilled() {
+        return this.styleEditor.getCurrentLayers().find((layer) => layer.options.fill) != undefined;
+    }
 }
 exports.Util = Util;
 
@@ -1306,23 +1309,20 @@ class GeometryForm extends _1.Form {
     /** show the fillOptions (fillColor and fillOpacity) only if the Element can be filled */
     showFormElements() {
         super.showFormElements();
-        /* TODO hide const showFillOptions = this.util.canCurrentLayersBeFilled()
-    
-        if (showFillOptions) {
-          
-    
-          for (let i = 0; i < this.initializedElements.length; i++) {
-            if (this.initializedElements[i].styleOption.indexOf('fill') === 0) {
-              if (this.util.fillCurrentElement()) {
-                this.showFormElement(this.initializedElements[i])
-              } else {
-                this.initializedElements[i].hide()
-              }
-            } else {
-              this.showFormElement(this.initializedElements[i])
+        const showFillOptions = this.util.canCurrentLayersBeFilled();
+        Object.entries(this.initializedElements).forEach(([key, value]) => {
+            if (value.styleOption.indexOf('fill') === 0) {
+                if (showFillOptions) {
+                    this.showFormElement(value);
+                }
+                else {
+                    value.hide();
+                }
             }
-          }
-        }*/
+            else {
+                this.showFormElement(value);
+            }
+        });
     }
 }
 exports.GeometryForm = GeometryForm;
