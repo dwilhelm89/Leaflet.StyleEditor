@@ -209,7 +209,7 @@ textarea.leaflet-styleeditor-input {
     border:1px solid black;
 }
 .leaflet-styleeditor-sizeicon {
-    background-image: url('https://unpkg.com/leaflet@0.7.7/dist/images/marker-icon-2x.png');
+    background-image: url('../img/icon.png');
     background-repeat: no-repeat;
     float: left;
     margin-right: 15px;
