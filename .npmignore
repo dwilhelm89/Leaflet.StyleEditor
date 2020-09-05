@@ -12,3 +12,4 @@ package-lock.json
 .eslintignore
 .eslintrc
 .travis.yml
+src/
