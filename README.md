@@ -151,6 +151,10 @@ Leaflet.StyleEditor is also a registered [node module](https://www.npmjs.com/pac
 ```
 npm install leaflet-styleeditor
 ```
+or use the minified version if you do not use webpack or similar:
+```
+npm install leaflet-styleeditor-minified
+```
 
 # Leaflet.Draw
 When using [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw) most people will want to set `useGrouping: false` in the settings to prevent styling all added
