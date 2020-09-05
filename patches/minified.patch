@@ -14,7 +14,7 @@ index d4739b2..5d60eb8 100644
 @@ -1,10 +1,10 @@
  {
 -  "name": "leaflet-styleeditor",
-+  "name": "leaflet-styleeditor-minfied",
++  "name": "leaflet-styleeditor-minified",
    "author": "Dennis Wilhelm",
    "version": "0.1.16",
    "description": "Edit the style of features drawn within Leaflet.",
