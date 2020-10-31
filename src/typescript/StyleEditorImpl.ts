@@ -85,6 +85,7 @@ export class StyleEditorImpl extends L.Class {
   }
 
   addClickEvents() {
+    // TODO add to newly added layers?!
     this.map.eachLayer(this.addClickEvent, this)
   }
 
@@ -93,12 +94,10 @@ export class StyleEditorImpl extends L.Class {
       return
     }
     if (this.options.useGrouping && layer instanceof L.LayerGroup) {
-      //this.options._layerGroups.push(layer)
+      layer.on('click', this.showEditor, this)
     } else if (layer instanceof L.Marker || layer instanceof L.Path) {
-      //let evt = layer.on('click', this.initChangeStyle, this)
-      //this.options._editLayers.push(evt)
+      layer.on('click', this.showEditor, this)
     }
-    layer.on('click', this.showEditor, this)
   }
 
   removeClickEvents() {
@@ -131,7 +130,7 @@ export class StyleEditorImpl extends L.Class {
       this.currentElement = event
     }
     if (this.currentElement) {
-    L.DomUtil.addClass(this.editorUI, 'editor-enabled')
+      L.DomUtil.addClass(this.editorUI, 'editor-enabled')
     }
     this.fireEvent('visible')
     this.styleForm.show()
@@ -160,10 +159,11 @@ export class StyleEditorImpl extends L.Class {
     this.hideEditor()
   }
 
+  // get current layers
   getCurrentLayers(): L.StyleableLayer[] {
     if (!this.currentElement) {
       return []
-    } else if (this.currentElement.target instanceof L.LayerGroup) {
+    } else if (this.options.useGrouping && this.currentElement.target instanceof L.LayerGroup) {
       return this.currentElement.target.getLayers()
   } else {
       return [this.currentElement.target]

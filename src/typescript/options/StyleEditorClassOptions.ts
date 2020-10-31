@@ -58,7 +58,7 @@ export const DefaultStyleEditorClassOptions: StyleEditorClassOptions = {
     hide: 'Hide Style Editor',
   },
 
-  useGrouping: true,
+  useGrouping: false,
 
   styleEditorEventPrefix: 'styleeditor:',
 }

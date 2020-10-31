@@ -297,6 +297,7 @@ class StyleEditorImpl extends L.Class {
         }
     }
     addClickEvents() {
+        // TODO add to newly added layers?!
         this.map.eachLayer(this.addClickEvent, this);
     }
     addClickEvent(layer) {
@@ -304,13 +305,11 @@ class StyleEditorImpl extends L.Class {
             return;
         }
         if (this.options.useGrouping && layer instanceof L.LayerGroup) {
-            //this.options._layerGroups.push(layer)
+            layer.on('click', this.showEditor, this);
         }
         else if (layer instanceof L.Marker || layer instanceof L.Path) {
-            //let evt = layer.on('click', this.initChangeStyle, this)
-            //this.options._editLayers.push(evt)
+            layer.on('click', this.showEditor, this);
         }
-        layer.on('click', this.showEditor, this);
     }
     removeClickEvents() {
         this.map.eachLayer(this.removeClickEvent, this);
@@ -359,11 +358,12 @@ class StyleEditorImpl extends L.Class {
         this.hideTooltip();
         this.hideEditor();
     }
+    // get current layers
     getCurrentLayers() {
         if (!this.currentElement) {
             return [];
         }
-        else if (this.currentElement.target instanceof L.LayerGroup) {
+        else if (this.options.useGrouping && this.currentElement.target instanceof L.LayerGroup) {
             return this.currentElement.target.getLayers();
         }
         else {
@@ -729,7 +729,7 @@ exports.DefaultStyleEditorClassOptions = {
         tooltip: 'Click on the element you want to style',
         hide: 'Hide Style Editor',
     },
-    useGrouping: true,
+    useGrouping: false,
     styleEditorEventPrefix: 'styleeditor:',
 };
 
@@ -1315,11 +1315,9 @@ class GeometryForm extends _1.Form {
         const showFillOptions = this.util.canCurrentLayersBeFilled();
         Object.entries(this.initializedElements).forEach(([key, formElement]) => {
             if (!showFillOptions && key.startsWith('fill')) {
-                console.log(formElement + " hiding");
                 formElement.hide();
             }
             else {
-                console.log(formElement + " showing/hiding");
                 this.showOrHideFormElement(formElement);
             }
         });
