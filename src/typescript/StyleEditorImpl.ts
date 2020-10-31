@@ -163,10 +163,11 @@ export class StyleEditorImpl extends L.Class {
   getCurrentLayers(): L.StyleableLayer[] {
     if (!this.currentElement) {
       return []
-    } else if (this.currentElement.target instanceof L.LayerGroup)
+    } else if (this.currentElement.target instanceof L.LayerGroup) {
       return this.currentElement.target.getLayers()
-    else
+  } else {
       return [this.currentElement.target]
+    }
   }
 
   getCurrentMarker() {

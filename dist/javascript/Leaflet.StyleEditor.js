@@ -363,10 +363,12 @@ class StyleEditorImpl extends L.Class {
         if (!this.currentElement) {
             return [];
         }
-        else if (this.currentElement.target instanceof L.LayerGroup)
+        else if (this.currentElement.target instanceof L.LayerGroup) {
             return this.currentElement.target.getLayers();
-        else
+        }
+        else {
             return [this.currentElement.target];
+        }
     }
     getCurrentMarker() {
         return this.getCurrentLayers().filter((layer) => layer instanceof L.Marker);
@@ -781,16 +783,16 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
     /** make FormElements and Form visible */
     show() {
         this.preShow();
-        this.showFormElements();
+        this.showFormElement();
         this.showForm();
         this.style();
     }
     /** hook which is called at the beginning of the show function */
     preShow() { }
-    /** make every FormElement visible */
-    showFormElements() {
+    /** make every FormElement that should be visible visible */
+    showFormElement() {
         for (let key in this.initializedElements) {
-            this.showFormElement(this.initializedElements[key]);
+            this.showOrHideFormElement(this.initializedElements[key]);
         }
     }
     /** make the Form visible */
@@ -810,9 +812,9 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
         }
     }
     /**
-     * @returns a Boolean indicating if the @param formElement should be shown
+     * show or hide a formElement depending on style option
      */
-    showFormElement(formElement) {
+    showOrHideFormElement(formElement) {
         // check wether element should be shown or not
         if (this.showFormElementForStyleOption(formElement.styleOption)) {
             formElement.show();
@@ -845,6 +847,7 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
     /**
      * check whether a FormElement should be shown
      * @param {*} styleOption, the styleOption to check
+     * @returns Boolean indicating whether it should be shown or not
      */
     showFormElementForStyleOption(styleOption) {
         /*
@@ -1307,20 +1310,17 @@ class GeometryForm extends _1.Form {
         };
     }
     /** show the fillOptions (fillColor and fillOpacity) only if the Element can be filled */
-    showFormElements() {
-        super.showFormElements();
+    showFormElement() {
+        super.showFormElement();
         const showFillOptions = this.util.canCurrentLayersBeFilled();
-        Object.entries(this.initializedElements).forEach(([key, value]) => {
-            if (value.styleOption.indexOf('fill') === 0) {
-                if (showFillOptions) {
-                    this.showFormElement(value);
-                }
-                else {
-                    value.hide();
-                }
+        Object.entries(this.initializedElements).forEach(([key, formElement]) => {
+            if (!showFillOptions && key.startsWith('fill')) {
+                console.log(formElement + " hiding");
+                formElement.hide();
             }
             else {
-                this.showFormElement(value);
+                console.log(formElement + " showing/hiding");
+                this.showOrHideFormElement(formElement);
             }
         });
     }

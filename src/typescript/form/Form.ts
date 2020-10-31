@@ -57,7 +57,7 @@ export abstract class Form extends StyleEditorClass {
   /** make FormElements and Form visible */
   show() {
     this.preShow()
-    this.showFormElements()
+    this.showFormElement()
     this.showForm()
     this.style()
   }
@@ -65,10 +65,10 @@ export abstract class Form extends StyleEditorClass {
   /** hook which is called at the beginning of the show function */
   preShow() {}
 
-  /** make every FormElement visible */
-  showFormElements() {
+  /** make every FormElement that should be visible visible */
+  showFormElement() {
     for (let key in this.initializedElements) {
-      this.showFormElement(this.initializedElements[key])
+      this.showOrHideFormElement(this.initializedElements[key])
     }
   }
 
@@ -92,9 +92,9 @@ export abstract class Form extends StyleEditorClass {
   }
 
   /**
-   * @returns a Boolean indicating if the @param formElement should be shown
+   * show or hide a formElement depending on style option
    */
-  showFormElement(formElement: FormElement) {
+  showOrHideFormElement(formElement: FormElement) {
     // check wether element should be shown or not
     if (this.showFormElementForStyleOption(formElement.styleOption)) {
       formElement.show()
@@ -131,8 +131,9 @@ export abstract class Form extends StyleEditorClass {
   /**
    * check whether a FormElement should be shown
    * @param {*} styleOption, the styleOption to check
+   * @returns Boolean indicating whether it should be shown or not
    */
-  showFormElementForStyleOption(styleOption) {
+  showFormElementForStyleOption(styleOption): Boolean {
     /*
     if (styleOption in this.formElements) {
       let styleFormElement = this.initializedElements[styleOption]
