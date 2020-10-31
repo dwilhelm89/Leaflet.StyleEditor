@@ -1,0 +1,7 @@
+* correct style form for lines
+* marker jumps when selected
+* auto select new added stuff
+* form does not go to geo after marker
+* handle forms functions etc
+* implement showOrHideFormElementForStyleOption
+* enable useGrouping 
