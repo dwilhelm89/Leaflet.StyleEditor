@@ -1212,7 +1212,6 @@ class SizeElement extends _1.FormElement {
     }
     /** create the 3 standard icon sizes */
     createContent() {
-        // TODO 
         const markerType = new this.styleEditor.options.markerType(this.styleEditor);
         let select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-small', this.uiElement);
         L.DomEvent.addListener(select, 'click', function () {
