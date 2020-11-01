@@ -18,18 +18,18 @@ export class DefaultMarker extends Marker {
       iconSize: iconOptions.iconSize,
       iconColor: iconOptions.iconColor,
       icon: iconOptions.icon,
-      className: this.iconCssClass,
+      className: this.markerName,
       iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
       popupAnchor: [0, -iconSize[1] / 2]
     })
   }
 
-  createSelectHTML(parentUiElement, iconOptions, icon) {
-    let tmpOptions = {} as MarkerOptions
+  getSelectHTML(iconOptions, icon): HTMLElement {
+    const tmpOptions = {} as MarkerOptions
     tmpOptions.iconSize = this.size.small
     tmpOptions.icon = icon
     tmpOptions.iconColor = iconOptions.iconColor
-    parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions).createIcon().outerHTML
+    return this.createMarkerIcon(tmpOptions).createIcon()
   }
 
   private getMarkerUrlForStyle(iconOptions) {

@@ -19,17 +19,21 @@ export abstract class Marker extends StyleEditorClass {
 
   selectIconSize: []
   colorRamp?: []
-  iconCssClass: string
+  markerName: string
 
   defaultMarkerIcon?: L.Icon
   markers: string[]
 
-  constructor(styleEditor: StyleEditorImpl, iconCssClass: string) {
+  constructor(styleEditor: StyleEditorImpl, markerName: string) {
     super(styleEditor)
-    /** set standard icon */
-    if (iconCssClass !== '' && !iconCssClass.startsWith('leaflet-styleeditor-marker-')) {
-      this.iconCssClass = 'leaflet-styleeditor-marker-' + iconCssClass
+    this.markerName = markerName
+  }
+
+  getMarkerCssClass(): string {
+    if (this.markerName !== '' && !this.markerName.startsWith('leaflet-styleeditor-marker-')) {
+      return 'leaflet-styleeditor-marker-' + this.markerName
     }
+    return this.markerName
   }
 
   /** create new Marker and show it */
@@ -58,9 +62,12 @@ export abstract class Marker extends StyleEditorClass {
     this.setNewMarker(this.getNewMarkerOptions(styleOption, value))
   }
 
-  /** create HTML used to */
-  createSelectHTML(parentUiElement, iconOptions, icon) {
+  createSelectHTML(parentUiElement: HTMLElement, iconOptions, icon): void {
+    parentUiElement.appendChild(this.getSelectHTML(iconOptions, icon))
+    parentUiElement.classList.add('leaflet-styleeditor-select-' + this.markerName)
   }
+
+  abstract getSelectHTML(iconOptions, icon): HTMLElement
 
   /** get the current iconOptions
    *  if not set set them
@@ -98,7 +105,7 @@ export abstract class Marker extends StyleEditorClass {
    *  else set default icon
    */
   private ensureMarkerIcon(iconOptions) {
-    let markers = this.util.getMarkersForColor(iconOptions.iconColor)
+    let markers = this.util.getIconsForColor(iconOptions.iconColor)
 
     if (markers.includes(iconOptions.icon)) {
       return iconOptions

@@ -115,7 +115,7 @@ export class Util {
   }
 
   /** get the markers for a specific color **/
-  getMarkersForColor(color) {
+  getIconsForColor(color) : string[] {
     color = this.rgbToHex(color)
 
     let markers = new this.styleEditor.options.markerType(this.styleEditor).markers
@@ -151,7 +151,7 @@ export class Util {
   getDefaultMarkerForColor(color) {
     color = this.rgbToHex(color)
 
-    let markers = this.getMarkersForColor(color)
+    let markers = this.getIconsForColor(color)
 
     let defMarkers = []
 

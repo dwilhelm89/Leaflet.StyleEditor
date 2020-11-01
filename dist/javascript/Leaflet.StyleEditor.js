@@ -613,7 +613,7 @@ class Util {
         return hex.length === 1 ? '0' + hex : hex;
     }
     /** get the markers for a specific color **/
-    getMarkersForColor(color) {
+    getIconsForColor(color) {
         color = this.rgbToHex(color);
         let markers = new this.styleEditor.options.markerType(this.styleEditor).markers;
         let controlMarkers = this.styleEditor.options.markers;
@@ -646,7 +646,7 @@ class Util {
     /** get default marker for specific color **/
     getDefaultMarkerForColor(color) {
         color = this.rgbToHex(color);
-        let markers = this.getMarkersForColor(color);
+        let markers = this.getIconsForColor(color);
         let defMarkers = [];
         let defaultMarker = this.styleEditor.options.defaultMarkerIcon;
         if (defaultMarker !== null) {
@@ -1020,19 +1020,11 @@ class IconElement extends _1.FormElement {
     }
     /** create appropriate image for color and icon */
     styleSelectInputImage(image, icon, color) {
-        if (!icon) {
-            icon = image.getAttribute('value');
-            if (!icon) {
-                return;
-            }
-        }
         let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions();
         if (color) {
             iconOptions.iconColor = color;
         }
-        image.innerHTML = '';
         new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon);
-        image.setAttribute('value', icon);
     }
     /** create the selectBox with the icons in the correct color */
     createColorSelect(color) {
@@ -1043,10 +1035,11 @@ class IconElement extends _1.FormElement {
             return;
         }
         let selectOptionWrapper = L.DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement);
-        this.util.getMarkersForColor(color).forEach(function (option) {
+        this.util.getIconsForColor(color).forEach(function (icon) {
             let selectOption = L.DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper);
+            selectOption.setAttribute('value', icon);
             let selectImage = this.createSelectInputImage(selectOption);
-            this.styleSelectInputImage(selectImage, option, color);
+            this.styleSelectInputImage(selectImage, icon, color);
         }, this);
         this.selectOptions[color] = selectOptionWrapper;
         L.DomEvent.addListener(selectOptionWrapper, 'click', function (e) {
@@ -1055,14 +1048,9 @@ class IconElement extends _1.FormElement {
             if (target.nodeName === 'UL') {
                 return;
             }
-            const parentNode = target.parentNode;
-            if (parentNode.className === 'leaflet-styleeditor-select-image') {
-                target = parentNode;
-            }
-            else {
-                while (target && target.className !== 'leaflet-styleeditor-select-image') {
-                    target = target.childNodes[0];
-                }
+            console.log(target.className);
+            while (target && target.className !== 'leaflet-styleeditor-select-option') {
+                target = target.parentNode;
             }
             this.selectMarker({
                 'target': target
@@ -1336,17 +1324,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Marker = void 0;
 const StyleEditorClass_1 = __webpack_require__(1);
 class Marker extends StyleEditorClass_1.StyleEditorClass {
-    constructor(styleEditor, iconCssClass) {
+    constructor(styleEditor, markerName) {
         super(styleEditor);
         this.size = {
             'small': [20, 50],
             'medium': [30, 70],
             'large': [35, 90]
         };
-        /** set standard icon */
-        if (iconCssClass !== '' && !iconCssClass.startsWith('leaflet-styleeditor-marker-')) {
-            this.iconCssClass = 'leaflet-styleeditor-marker-' + iconCssClass;
+        this.markerName = markerName;
+    }
+    getMarkerCssClass() {
+        if (this.markerName !== '' && !this.markerName.startsWith('leaflet-styleeditor-marker-')) {
+            return 'leaflet-styleeditor-marker-' + this.markerName;
         }
+        return this.markerName;
     }
     /** create new Marker and show it */
     setNewMarker(markerOptions) {
@@ -1373,8 +1364,9 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
         }
         this.setNewMarker(this.getNewMarkerOptions(styleOption, value));
     }
-    /** create HTML used to */
     createSelectHTML(parentUiElement, iconOptions, icon) {
+        parentUiElement.appendChild(this.getSelectHTML(iconOptions, icon));
+        parentUiElement.classList.add('leaflet-styleeditor-select-' + this.markerName);
     }
     /** get the current iconOptions
      *  if not set set them
@@ -1404,7 +1396,7 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
      *  else set default icon
      */
     ensureMarkerIcon(iconOptions) {
-        let markers = this.util.getMarkersForColor(iconOptions.iconColor);
+        let markers = this.util.getIconsForColor(iconOptions.iconColor);
         if (markers.includes(iconOptions.icon)) {
             return iconOptions;
         }
@@ -1622,17 +1614,17 @@ class DefaultMarker extends _1.Marker {
             iconSize: iconOptions.iconSize,
             iconColor: iconOptions.iconColor,
             icon: iconOptions.icon,
-            className: this.iconCssClass,
+            className: this.markerName,
             iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
             popupAnchor: [0, -iconSize[1] / 2]
         });
     }
-    createSelectHTML(parentUiElement, iconOptions, icon) {
-        let tmpOptions = {};
+    getSelectHTML(iconOptions, icon) {
+        const tmpOptions = {};
         tmpOptions.iconSize = this.size.small;
         tmpOptions.icon = icon;
         tmpOptions.iconColor = iconOptions.iconColor;
-        parentUiElement.innerHTML = this.createMarkerIcon(tmpOptions).createIcon().outerHTML;
+        return this.createMarkerIcon(tmpOptions).createIcon();
     }
     getMarkerUrlForStyle(iconOptions) {
         return this.getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon);
