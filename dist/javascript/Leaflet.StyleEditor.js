@@ -391,7 +391,7 @@ const formElements_1 = __webpack_require__(0);
 class MarkerForm extends _1.Form {
     constructor() {
         super(...arguments);
-        this.formOptionKey = 'marker';
+        this.formOptionsKey = 'marker';
         this.formElements = {
             'icon': formElements_1.IconElement,
             'color': formElements_1.ColorElement,
@@ -744,12 +744,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Form = void 0;
 const StyleEditorClass_1 = __webpack_require__(1);
 /**
- * Forms consist of FormElements and are shown in the StyleForm
- * There exists a MarkerForm to modify Markers and a GeometryForm to modify Geometries (i.e. rectangles...)
- * Style options based on:
- *     - path: https://leafletjs.com/reference.html#path-options
- *     - icon: https://leafletjs.com/reference.html#icon
- */
+* Forms consist of FormElements and are shown in the StyleForm
+* There exists a MarkerForm to modify Markers and a GeometryForm to modify Geometries (i.e. rectangles...)
+* Style options based on:
+*     - path: https://leafletjs.com/reference.html#path-options
+*     - icon: https://leafletjs.com/reference.html#icon
+*/
 class Form extends StyleEditorClass_1.StyleEditorClass {
     constructor(styleEditor, parentUiElement) {
         super(styleEditor);
@@ -812,8 +812,8 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
         }
     }
     /**
-     * show or hide a formElement depending on style option
-     */
+    * show or hide a formElement depending on style option
+    */
     showOrHideFormElement(formElement) {
         // check wether element should be shown or not
         if (this.showFormElementForStyleOption(formElement.styleOption)) {
@@ -824,9 +824,9 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
         }
     }
     /**
-     * get the Class of the Formelement to instanciate
-     * @param {*} styleOption, the styleOption to get the FormElement for
-     */
+    * get the Class of the Formelement to instanciate
+    * @param {*} styleOption, the styleOption to get the FormElement for
+    */
     getFormElementClass(styleOption) {
         let formElementKeys = Object.keys(this.formElements);
         if (formElementKeys.indexOf(styleOption) >= 0) {
@@ -845,47 +845,44 @@ class Form extends StyleEditorClass_1.StyleEditorClass {
         }
     }
     /**
-     * check whether a FormElement should be shown
-     * @param {*} styleOption, the styleOption to check
-     * @returns Boolean indicating whether it should be shown or not
-     */
+    * check whether a FormElement should be shown
+    * @param {*} styleOption, the styleOption to check
+    * @returns Boolean indicating whether it should be shown or not
+    */
     showFormElementForStyleOption(styleOption) {
-        /*
         if (styleOption in this.formElements) {
-          let styleFormElement = this.initializedElements[styleOption]
-    
-          // maybe a function is given to declare when to show the FormElement
-          if (typeof styleFormElement === 'function') {
-            try {
-              return styleFormElement(this.util.getCurrentElement())
-            } catch (err) {
-              // the given function presumably is a constructor -> always show it
-              return true
+            const styleFormElement = this.styleEditor.options.forms[this.formOptionsKey][styleOption];
+            switch (typeof styleFormElement) {
+                case 'function': {
+                    try {
+                        return styleFormElement(this.styleEditor.getCurrentLayers());
+                    }
+                    catch (err) {
+                        // the given function presumably is a constructor -> always show it
+                        return true;
+                    }
+                }
+                case 'boolean': {
+                    return styleFormElement;
+                }
+                case 'object': {
+                    if ('boolean' in styleFormElement) {
+                        if (typeof styleFormElement['boolean'] === 'function') {
+                            return styleFormElement['boolean'](this.styleEditor.currentElement);
+                        }
+                        return styleFormElement['boolean'];
+                    }
+                }
+                default: {
+                    return false;
+                }
             }
-          }
-    
-          // maybe a boolean is given to indicate whether to show it
-          if (typeof styleFormElement === 'boolean') {
-            return styleFormElement
-          }
-    
-          // check for dictionary
-          if ('boolean' in styleFormElement) {
-            // in a dictionary boolean may be a function or boolean
-            if (typeof styleFormElement['boolean'] === 'function') {
-              return styleFormElement['boolean'](this.util.getCurrentElement())
-            }
-            return styleFormElement['boolean']
-          }
-          return true
         }
-        TODO */
-        return true;
     }
     /**
-     * get Leaflet.StyleEditor standard FormElement class for given styleOption
-     * @param {*} styleOption, the styleOption to get the standard class for
-     */
+    * get Leaflet.StyleEditor standard FormElement class for given styleOption
+    * @param {*} styleOption, the styleOption to get the standard class for
+    */
     getFormElementStandardClass(styleOption) {
         return this.formElements[styleOption];
     }
@@ -1285,7 +1282,7 @@ const formElements_1 = __webpack_require__(0);
 class GeometryForm extends _1.Form {
     constructor() {
         super(...arguments);
-        this.formOptionKey = 'geometry';
+        this.formOptionsKey = 'geometry';
         this.formElements = {
             'color': formElements_1.ColorElement,
             'opacity': formElements_1.OpacityElement,
@@ -1697,7 +1694,7 @@ class StyleEditorControl extends L.Control {
      */
     onAdd(map) {
         if (this.styleEditor === undefined) {
-            this.styleEditor = new StyleEditorImpl_1.StyleEditorImpl(map, this.styleEditorClassOptions);
+            this.styleEditor = new StyleEditorImpl_1.StyleEditorImpl(map, Object.assign(Object.assign({}, this.styleEditorClassOptions), this.options));
         }
         // disable styleEditor if using control element
         this.styleEditor.disable();

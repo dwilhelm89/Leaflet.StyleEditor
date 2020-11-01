@@ -6,7 +6,7 @@ import { StyleEditorImpl } from '../StyleEditorImpl'
 /** Form used to enable modification of a Geometry */
 export class MarkerForm extends Form {
 
-  formOptionKey = 'marker'
+  formOptionsKey = 'marker'
   formElements: Record<string, FormElementClass> = {
     'icon': IconElement,
     'color': ColorElement,

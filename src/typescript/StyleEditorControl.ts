@@ -10,6 +10,8 @@ export class StyleEditorControl extends L.Control {
   options: StyleEditorControlOptions
 
   private styleEditor: StyleEditorImpl
+
+  // TODO which options?
   private styleEditorClassOptions: StyleEditorClassOptions
 
   constructor(styleEditorOptions: StyleEditorOptions)
@@ -34,7 +36,7 @@ export class StyleEditorControl extends L.Control {
    */
   onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
-      this.styleEditor = new StyleEditorImpl(map, this.styleEditorClassOptions as StyleEditorClassOptions)
+      this.styleEditor = new StyleEditorImpl(map, {...this.styleEditorClassOptions, ...this.options} as StyleEditorClassOptions)
     }
     // disable styleEditor if using control element
     this.styleEditor.disable()

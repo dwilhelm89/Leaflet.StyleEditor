@@ -7,7 +7,7 @@ import { LeafletEvent } from 'leaflet'
 export class StyleEditorImpl extends L.Class {
 
   // TODO event? LAyer?!
-  private currentElement
+  currentElement: LeafletEvent // TODO why private?
 
   options: StyleEditorOptions
   util: Util

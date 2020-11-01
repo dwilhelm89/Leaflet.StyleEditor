@@ -3,7 +3,7 @@ import { ColorElement, OpacityElement, WeightElement, DashElement, PopupContentE
 
 /** Form used to enable modification of a Geometry */
 export class GeometryForm extends Form {
-  formOptionKey = 'geometry'
+  formOptionsKey = 'geometry'
   formElements = {
     'color': ColorElement,
     'opacity': OpacityElement,
