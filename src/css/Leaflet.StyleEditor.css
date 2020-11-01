@@ -264,7 +264,7 @@ textarea.leaflet-styleeditor-input {
   font: 20px/1"Helvetica Neue", Arial, Helvetica, sans-serif;
   padding: 10px;
   position: relative;
-  whitespace: no-wrap;
+  white-space: nowrap;
 }
 
 .leaflet-styleeditor-stroke {
