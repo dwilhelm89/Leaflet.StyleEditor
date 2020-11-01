@@ -1,7 +1,5 @@
-* correct style form for lines
-* marker jumps when selected
 * auto select new added stuff
-* form does not go to geo after marker
-* handle forms functions etc
+* handle forms functions etc (settings: forms: {})
 * implement showOrHideFormElementForStyleOption
-* enable useGrouping 
+* add click events to newly added layers
+* marker -4px top - where to put?!

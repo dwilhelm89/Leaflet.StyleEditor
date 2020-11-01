@@ -1336,7 +1336,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Marker = void 0;
 const StyleEditorClass_1 = __webpack_require__(1);
 class Marker extends StyleEditorClass_1.StyleEditorClass {
-    constructor(styleEditor, selectIconClass) {
+    constructor(styleEditor, iconCssClass) {
         super(styleEditor);
         this.size = {
             'small': [20, 50],
@@ -1344,8 +1344,8 @@ class Marker extends StyleEditorClass_1.StyleEditorClass {
             'large': [35, 90]
         };
         /** set standard icon */
-        if (selectIconClass !== '' && !selectIconClass.startsWith('leaflet-styleeditor-select-image-')) {
-            this.selectIconClass = 'leaflet-styleeditor-select-image-' + selectIconClass;
+        if (iconCssClass !== '' && !iconCssClass.startsWith('leaflet-styleeditor-marker-')) {
+            this.iconCssClass = 'leaflet-styleeditor-marker-' + iconCssClass;
         }
     }
     /** create new Marker and show it */
@@ -1622,7 +1622,7 @@ class DefaultMarker extends _1.Marker {
             iconSize: iconOptions.iconSize,
             iconColor: iconOptions.iconColor,
             icon: iconOptions.icon,
-            className: this.selectIconClass,
+            className: this.iconCssClass,
             iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
             popupAnchor: [0, -iconSize[1] / 2]
         });

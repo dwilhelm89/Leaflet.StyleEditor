@@ -18,7 +18,7 @@ export class DefaultMarker extends Marker {
       iconSize: iconOptions.iconSize,
       iconColor: iconOptions.iconColor,
       icon: iconOptions.icon,
-      className: this.selectIconClass,
+      className: this.iconCssClass,
       iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
       popupAnchor: [0, -iconSize[1] / 2]
     })
