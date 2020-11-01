@@ -1,5 +1,3 @@
 * auto select new added stuff
-* handle forms functions etc (settings: forms: {})
-* implement showOrHideFormElementForStyleOption
 * add click events to newly added layers
-* correctly set options…
+* correctly handle events
