@@ -20,7 +20,7 @@ export class DashElement extends FormElement {
     }, this)
 
     stroke = L.DomUtil.create('div', 'leaflet-styleeditor-stroke', this.uiElement)
-    stroke.style.backgroundPosition = '0px -115px'
+    stroke.style.backgroundPosition = '-10px -115px'
     L.DomEvent.addListener(stroke, 'click', function () {
       this.setStyle('15, 10, 1, 10')
     }, this)

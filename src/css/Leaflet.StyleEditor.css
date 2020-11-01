@@ -3,9 +3,11 @@
   background-position: 50% 50%;
   background-size: 50%;
 }
+
 .leaflet-control-styleeditor-interior:hover {
   background-color: #07C217;
 }
+
 .leaflet-control-styleeditor .leaflet-control-styleeditor-cancel {
   position: absolute;
   top: 0;
@@ -21,16 +23,20 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .leaflet-control-styleeditor .leaflet-control-styleeditor-cancel:hover {
   background-color: #a0a098;
   cursor: pointer;
 }
+
 .enabled {
   background-color: #b0de5c;
 }
+
 .enabled:hover {
   background-color: #07C217;
 }
+
 .leaflet-styleeditor {
   box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
   height: 100%;
@@ -51,24 +57,30 @@
   transform: translatex(0);
   z-index: 1000;
 }
+
 .editor-enabled {
   width: 200px;
 }
+
 .leaflet-styleeditor-hidden {
   display: none;
 }
+
 .leaflet-styleeditor-fill-horizontal{
   display: flex;
 }
+
 .leaflet-styleeditor-fill-vertical{
   flex-direction: column;
   display: flex;
 }
+
 .leaflet-styleeditor-fill {
   flex: 1;
   min-width: 1px;
   min-height: 1px;
 }
+
 .leaflet-styleeditor-header {
   position: relative;
   height: 40px;
@@ -77,6 +89,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .leaflet-styleeditor-interior {
   padding: 20px;
   overflow: auto;
@@ -89,20 +102,24 @@
   /* Firefox, other Gecko */
   box-sizing: border-box;
 }
+
 .leaflet-styleeditor-interior-geometry {
   margin-bottom: 24px;
 }
+
 .leaflet-styleeditor-label {
   width: 100px;
   display: block;
   font-size: medium;
 }
+
 .leaflet-styleeditor-input-span {
   width: 100%;
   display: inline-block;
   text-align: center;
   font-size: 0.8em;
 }
+
 input.leaflet-styleeditor-input {
   height: 30px;
   background: #fff;
@@ -110,11 +127,10 @@ input.leaflet-styleeditor-input {
   padding: 0;
   border: 0;
   outline: none;
-  width: 150px;
+  width: 160px;
+  box-sizing: border-box;
 }
-textarea.leaflet-styleeditor-input {
-  width: 100%;
-}
+
 .leaflet-styleeditor-select {
   position: relative;
   height: 32px;
@@ -123,7 +139,7 @@ textarea.leaflet-styleeditor-input {
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   outline: none;
-  width: 150px;
+  width: 160px;
   overflow: hidden;
   padding: 0;
 }
@@ -166,6 +182,10 @@ textarea.leaflet-styleeditor-input {
 
 .leaflet-styleeditor-select-defaultmarker {
   top: 11px;
+}
+
+.leaflet-styleeditor-uiElement {
+  width: 160px;
 }
 
 .leaflet-styleeditor-button {
@@ -273,7 +293,7 @@ textarea.leaflet-styleeditor-input {
 
 .leaflet-styleeditor-stroke {
   height: 20px;
-  width: 150px;
+  width: 160px;
   background-repeat: no-repeat;
   border: 1px solid white;
   background-image: url('../img/icon.png');
