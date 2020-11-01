@@ -1,7 +1,7 @@
 import 'leaflet';
 import { StyleEditorImpl } from './StyleEditorImpl';
 import { StyleEditorControl } from './StyleEditorControl';
-import { StyleEditorControlOptions } from './options';
+import { StyleEditorOptions } from './options';
 declare module 'leaflet' {
     type StyleEditor = StyleEditorImpl;
     let StyleEditor: typeof StyleEditorImpl;
@@ -11,7 +11,7 @@ declare module 'leaflet' {
         let StyleEditor: typeof StyleEditorControl;
     }
     module control {
-        let styleEditor: (options: StyleEditorControlOptions) => StyleEditorControl;
+        let styleEditor: (options: StyleEditorOptions) => StyleEditorControl;
     }
     interface MarkerOptions {
         iconColor?: string;

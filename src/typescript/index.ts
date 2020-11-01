@@ -1,7 +1,7 @@
 import 'leaflet'
 import { StyleEditorImpl } from './StyleEditorImpl'
 import { StyleEditorControl } from './StyleEditorControl'
-import { StyleEditorOptions, StyleEditorControlOptions } from './options'
+import { StyleEditorOptions} from './options'
 
 require('../css/Leaflet.StyleEditor.css')
 
@@ -17,7 +17,7 @@ declare module 'leaflet' {
   }
 
   module control {
-    let styleEditor: (options: StyleEditorControlOptions) => StyleEditorControl
+    let styleEditor: (options: StyleEditorOptions) => StyleEditorControl
   }
 
   interface MarkerOptions {

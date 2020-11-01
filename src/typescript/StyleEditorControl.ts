@@ -1,30 +1,20 @@
 import { Map } from "leaflet";
 import { StyleEditorImpl } from "./StyleEditorImpl";
-import { StyleEditorControlOptions, StyleEditorOptions, StyleEditorClassOptions, DefaultStyleEditorControlOptions, DefaultStyleEditorClassOptions } from './options'
+import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
 
 /**
  * StyleEditorControl creates a { L.Control }
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
 export class StyleEditorControl extends L.Control {
-  options: StyleEditorControlOptions
+  options: StyleEditorOptions
 
   private styleEditor: StyleEditorImpl
 
-  // TODO which options?
-  private styleEditorClassOptions: StyleEditorClassOptions
-
-  constructor(styleEditorOptions: StyleEditorOptions)
-  constructor(options: StyleEditorControlOptions, styleEditor: StyleEditorImpl)
-  constructor(options?: StyleEditorControlOptions, styleEditor?: StyleEditorImpl, styleEditorOptions?: StyleEditorOptions) {
+  constructor(styleEditorOptions: StyleEditorOptions, styleEditor?: StyleEditorImpl) {
     super()
-    if (styleEditorOptions === undefined) {
-      this.options = { ...DefaultStyleEditorControlOptions, ...options }
-      this.styleEditor = styleEditor
-    } else {
-      this.options = { ...DefaultStyleEditorControlOptions, ...styleEditorOptions as StyleEditorControlOptions }
-      this.styleEditorClassOptions = { ...DefaultStyleEditorClassOptions, ...styleEditorOptions as StyleEditorClassOptions }
-    }
+    this.options = { ...DefaultStyleEditorOptions, ...styleEditorOptions }
+    this.styleEditor = styleEditor
   }
 
   private isEnabled = false
@@ -36,7 +26,7 @@ export class StyleEditorControl extends L.Control {
    */
   onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
-      this.styleEditor = new StyleEditorImpl(map, {...this.styleEditorClassOptions, ...this.options} as StyleEditorClassOptions)
+      this.styleEditor = new StyleEditorImpl(map, this.options)
     }
     // disable styleEditor if using control element
     this.styleEditor.disable()

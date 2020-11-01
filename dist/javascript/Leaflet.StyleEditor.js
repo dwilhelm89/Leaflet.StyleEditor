@@ -137,11 +137,7 @@ exports.StyleEditorClass = StyleEditorClass;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultStyleEditorOptions = exports.DefaultStyleEditorClassOptions = exports.DefaultStyleEditorControlOptions = void 0;
-const StyleEditorControlOptions_1 = __webpack_require__(12);
-Object.defineProperty(exports, "DefaultStyleEditorControlOptions", { enumerable: true, get: function () { return StyleEditorControlOptions_1.DefaultStyleEditorControlOptions; } });
-const StyleEditorClassOptions_1 = __webpack_require__(13);
-Object.defineProperty(exports, "DefaultStyleEditorClassOptions", { enumerable: true, get: function () { return StyleEditorClassOptions_1.DefaultStyleEditorClassOptions; } });
+exports.DefaultStyleEditorOptions = void 0;
 const StyleEditorOptions_1 = __webpack_require__(25);
 Object.defineProperty(exports, "DefaultStyleEditorOptions", { enumerable: true, get: function () { return StyleEditorOptions_1.DefaultStyleEditorOptions; } });
 
@@ -680,61 +676,8 @@ exports.Util = Util;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultStyleEditorControlOptions = void 0;
-exports.DefaultStyleEditorControlOptions = {
-    position: 'topleft',
-    strings: {
-        title: 'Style Editor',
-        cancel: 'cancel',
-        cancelTitle: 'cancel'
-    }
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultStyleEditorClassOptions = void 0;
-const form_1 = __webpack_require__(3);
-const marker_1 = __webpack_require__(7);
-exports.DefaultStyleEditorClassOptions = {
-    position: 'topleft',
-    colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
-        '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
-        '#bdc3c7', '#7f8c8d'],
-    defaultColor: null,
-    markerType: marker_1.DefaultMarker,
-    markers: null,
-    defaultMarkerIcon: null,
-    defaultMarkerColor: null,
-    markerForm: form_1.MarkerForm,
-    geometryForm: form_1.GeometryForm,
-    ignoreLayerTypes: [],
-    forms: {},
-    events: [],
-    openOnLeafletDraw: true,
-    openOnLeafletEditable: true,
-    showTooltip: true,
-    strings: {
-        tooltip: 'Click on the element you want to style',
-        hide: 'Hide Style Editor',
-    },
-    useGrouping: false,
-    styleEditorEventPrefix: 'styleeditor:',
-};
-
-
-/***/ }),
+/* 12 */,
+/* 13 */,
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1651,14 +1594,36 @@ exports.DefaultMarker = DefaultMarker;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DefaultStyleEditorOptions = void 0;
-const _1 = __webpack_require__(2);
-exports.DefaultStyleEditorOptions = Object.assign(Object.assign(Object.assign({}, _1.DefaultStyleEditorClassOptions), _1.DefaultStyleEditorControlOptions), { strings: {
-        title: _1.DefaultStyleEditorControlOptions.strings.title,
-        cancel: _1.DefaultStyleEditorControlOptions.strings.cancel,
-        cancelTitle: _1.DefaultStyleEditorControlOptions.strings.cancelTitle,
-        tooltip: _1.DefaultStyleEditorClassOptions.strings.tooltip,
-        hide: _1.DefaultStyleEditorClassOptions.strings.hide
-    } });
+const form_1 = __webpack_require__(3);
+const marker_1 = __webpack_require__(7);
+exports.DefaultStyleEditorOptions = {
+    position: 'topleft',
+    colorRamp: ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad',
+        '#2c3e50', '#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6', '#f39c12', '#d35400', '#c0392b',
+        '#bdc3c7', '#7f8c8d'],
+    defaultColor: null,
+    markerType: marker_1.DefaultMarker,
+    markers: null,
+    defaultMarkerIcon: null,
+    defaultMarkerColor: null,
+    markerForm: form_1.MarkerForm,
+    geometryForm: form_1.GeometryForm,
+    ignoreLayerTypes: [],
+    forms: {},
+    events: [],
+    openOnLeafletDraw: true,
+    openOnLeafletEditable: true,
+    showTooltip: true,
+    strings: {
+        title: 'Style Editor',
+        cancel: 'cancel',
+        cancelTitle: 'cancel',
+        tooltip: 'Click on the element you want to style',
+        hide: 'Hide Style Editor',
+    },
+    useGrouping: false,
+    styleEditorEventPrefix: 'styleeditor:',
+};
 
 
 /***/ }),
@@ -1676,17 +1641,11 @@ const options_1 = __webpack_require__(2);
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
 class StyleEditorControl extends L.Control {
-    constructor(options, styleEditor, styleEditorOptions) {
+    constructor(styleEditorOptions, styleEditor) {
         super();
         this.isEnabled = false;
-        if (styleEditorOptions === undefined) {
-            this.options = Object.assign(Object.assign({}, options_1.DefaultStyleEditorControlOptions), options);
-            this.styleEditor = styleEditor;
-        }
-        else {
-            this.options = Object.assign(Object.assign({}, options_1.DefaultStyleEditorControlOptions), styleEditorOptions);
-            this.styleEditorClassOptions = Object.assign(Object.assign({}, options_1.DefaultStyleEditorClassOptions), styleEditorOptions);
-        }
+        this.options = Object.assign(Object.assign({}, options_1.DefaultStyleEditorOptions), styleEditorOptions);
+        this.styleEditor = styleEditor;
     }
     /**
      * Create the Control element and its HTMLElements
@@ -1694,7 +1653,7 @@ class StyleEditorControl extends L.Control {
      */
     onAdd(map) {
         if (this.styleEditor === undefined) {
-            this.styleEditor = new StyleEditorImpl_1.StyleEditorImpl(map, Object.assign(Object.assign({}, this.styleEditorClassOptions), this.options));
+            this.styleEditor = new StyleEditorImpl_1.StyleEditorImpl(map, this.options);
         }
         // disable styleEditor if using control element
         this.styleEditor.disable();
