@@ -49,6 +49,7 @@ export class IconElement extends FormElement {
       iconOptions.iconColor = color
     }
 
+    image.innerHTML = ''
     new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon)
   }
 
@@ -79,7 +80,6 @@ export class IconElement extends FormElement {
       if (target.nodeName === 'UL') {
         return
       }
-      console.log(target.className)
       while (target && target.className !== 'leaflet-styleeditor-select-option') {
         target = target.parentNode as HTMLElement
       }

@@ -1024,6 +1024,7 @@ class IconElement extends _1.FormElement {
         if (color) {
             iconOptions.iconColor = color;
         }
+        image.innerHTML = '';
         new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(image, iconOptions, icon);
     }
     /** create the selectBox with the icons in the correct color */
@@ -1048,7 +1049,6 @@ class IconElement extends _1.FormElement {
             if (target.nodeName === 'UL') {
                 return;
             }
-            console.log(target.className);
             while (target && target.className !== 'leaflet-styleeditor-select-option') {
                 target = target.parentNode;
             }
