@@ -35,12 +35,14 @@ export class ColorElement extends FormElement {
   }
 
   /** set style for chosen color */
-  private selectColor(event) {
+  private selectColor(event: Event) {
     event.stopPropagation()
-    this.setStyle(
-      this.util.rgbToHex(
-        event.target.style.backgroundColor
+    if (event.target instanceof HTMLElement) {
+      this.setStyle(
+        this.util.rgbToHex(
+          event.target.style.backgroundColor
+        )
       )
-    )
+    }
   }
 }
