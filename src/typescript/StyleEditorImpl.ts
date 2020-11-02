@@ -1,12 +1,14 @@
 import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
+import { StyleEditorControl } from './StyleEditorControl'
+import { Layer, LayerEvent, LeafletMouseEvent } from 'leaflet'
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better? 
 export class StyleEditorImpl extends L.Class {
-
+  controls: StyleEditorControl[] = []
   // TODO event? LAyer?!
-  currentElement: L.LayerEvent// TODO why private?
+  currentLayer: L.Layer | L.LayerGroup
 
   options: StyleEditorOptions
   util: Util
@@ -18,7 +20,9 @@ export class StyleEditorImpl extends L.Class {
 
   styleForm: StyleForm
 
-  constructor(map: L.Map, options: StyleEditorOptions) {
+  isEnabled: Boolean = false
+
+  constructor(map: L.Map, options: StyleEditorOptions, control?: StyleEditorControl) {
     super()
 
     this.map = map
@@ -27,6 +31,10 @@ export class StyleEditorImpl extends L.Class {
     this.util = new Util(this)
 
     this.createUi()
+
+    if(control) {
+      this.addControl(control)
+    }
   }
 
   createUi() {
@@ -59,14 +67,15 @@ export class StyleEditorImpl extends L.Class {
   }
 
   addEventListeners(map: L.Map) {
-    this.options.layerAddEvents.forEach(event =>
+    this.options.layerAddEvents.forEach(event => {
       map.on(event, this.onLayerAddEvent, this)
-    )
+    })
   }
 
   onLayerAddEvent(event: L.LayerEvent) {
+    this.enable()
     this.addClickEvent(event.layer)
-
+    this.showEditor(event.layer)
   }
 
   onNext(event: Event) {
@@ -93,11 +102,14 @@ export class StyleEditorImpl extends L.Class {
     if (this.layerIsIgnored(layer)) {
       return
     }
-    if (this.options.useGrouping && layer instanceof L.LayerGroup) {
-      layer.on('click', this.showEditor, this)
-    } else if (layer instanceof L.Marker || layer instanceof L.Path) {
-      layer.on('click', this.showEditor, this)
+    if (this.options.useGrouping && !(layer instanceof L.LayerGroup)) {
+      return
     }
+    if(!this.options.useGrouping && layer instanceof L.LayerGroup) {
+      return
+    }
+      
+    layer.on('click', this.onLayerClick, this)
   }
 
   removeClickEvents() {
@@ -105,7 +117,7 @@ export class StyleEditorImpl extends L.Class {
   }
 
   removeClickEvent(layer: L.Layer) {
-    layer.off('click', this.showEditor, this)
+    layer.off('click', this.onLayerClick, this)
   }
 
   private layerIsIgnored(layer) {
@@ -123,13 +135,16 @@ export class StyleEditorImpl extends L.Class {
     this.util.fireEvent('hidden')
   }
 
-  // TODO what type is event?!
-  // TODO move to FORM?
-  showEditor(event? : L.LayerEvent) {
-    if (event) {
-      this.currentElement = event
+  onLayerClick(event: LeafletMouseEvent) {
+    console.log(event)
+    this.showEditor(event.target)
+  }
+
+  showEditor(layer?: Layer) {
+    if (layer) {
+      this.currentLayer = layer
     }
-    if (this.currentElement) {
+    if (this.currentLayer) {
       L.DomUtil.addClass(this.editorUI, 'editor-enabled')
     }
     this.util.fireEvent('visible')
@@ -145,25 +160,33 @@ export class StyleEditorImpl extends L.Class {
   }
 
   enable() {
-    this.addClickEvents()
-    this.showTooltip()
-    this.showEditor()
+    if(!this.isEnabled) {
+      this.isEnabled = true
+      this.controls.forEach(control => control.enable())
+      this.addClickEvents()
+      this.showTooltip()
+      this.showEditor()
+    }
   }
 
   disable() {
-    this.removeClickEvents()
-    this.hideTooltip()
-    this.hideEditor()
+    if(this.isEnabled) {
+      this.controls.forEach(control => control.disable())
+      this.removeClickEvents()
+      this.hideTooltip()
+      this.hideEditor()
+      this.isEnabled = false
+    }
   }
 
   // get current layers
   getCurrentLayers(): L.StyleableLayer[] {
-    if (!this.currentElement) {
+    if (!this.currentLayer) {
       return []
-    } else if (this.options.useGrouping && this.currentElement.target instanceof L.LayerGroup) {
-      return this.currentElement.target.getLayers()
+    } else if (this.options.useGrouping && this.currentLayer instanceof L.LayerGroup) {
+      return this.currentLayer.getLayers()
   } else {
-      return [this.currentElement.target]
+      return [this.currentLayer]
     }
   }
 
@@ -171,4 +194,7 @@ export class StyleEditorImpl extends L.Class {
     return this.getCurrentLayers().filter((layer) => layer instanceof L.Marker)
   }
 
+  addControl(control: StyleEditorControl): number {
+    return this.controls.push(control)
+  }
 }

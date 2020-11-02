@@ -154,7 +154,7 @@ export abstract class Form extends StyleEditorClass {
         case 'object': {
           if ('boolean' in styleFormElement) {
             if (typeof styleFormElement['boolean'] === 'function') {
-              return styleFormElement['boolean'](this.styleEditor.currentElement)
+              return styleFormElement['boolean'](this.styleEditor.currentLayer)
             }
             return styleFormElement['boolean']
           }

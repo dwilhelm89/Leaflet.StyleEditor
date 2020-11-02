@@ -14,7 +14,10 @@ export class StyleEditorControl extends L.Control {
   constructor(styleEditorOptions: StyleEditorOptions, styleEditor?: StyleEditorImpl) {
     super()
     this.options = { ...DefaultStyleEditorOptions, ...styleEditorOptions }
-    this.styleEditor = styleEditor
+    if(styleEditor) {
+      this.styleEditor = styleEditor
+      this.styleEditor.addControl(this)
+    }
   }
 
   private isEnabled = false
@@ -26,7 +29,7 @@ export class StyleEditorControl extends L.Control {
    */
   onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
-      this.styleEditor = new StyleEditorImpl(map, this.options)
+      this.styleEditor = new StyleEditorImpl(map, this.options, this)
     }
     // disable styleEditor if using control element
     this.styleEditor.disable()
