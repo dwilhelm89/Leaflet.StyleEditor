@@ -29,12 +29,6 @@ export class Util {
     )
   }
 
-  // TODO element type
-  /** fire an event if Leaflet.StyleEditor changed something */
-  fireChangeEvent(element: any) {
-    this.fireEvent('changed', element)
-  }
-
   /** hide the given element */
   hideElement(element: HTMLElement) {
     if (element) {
@@ -98,7 +92,7 @@ export class Util {
       currentElement.setStyle(newStyle)
     }
 
-    this.fireChangeEvent(currentElement)
+    this.fireEvent('changed', currentElement)
   }
 
   /** show hidden element */

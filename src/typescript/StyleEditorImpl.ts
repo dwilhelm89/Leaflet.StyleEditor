@@ -1,13 +1,12 @@
 import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
-import { LeafletEvent } from 'leaflet'
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better? 
 export class StyleEditorImpl extends L.Class {
 
   // TODO event? LAyer?!
-  currentElement: LeafletEvent // TODO why private?
+  currentElement: L.LayerEvent// TODO why private?
 
   options: StyleEditorOptions
   util: Util
@@ -60,13 +59,14 @@ export class StyleEditorImpl extends L.Class {
   }
 
   addEventListeners(map: L.Map) {
-    this.options.events.forEach(event =>
-      map.on(event, this.onEvent)
+    this.options.layerAddEvents.forEach(event =>
+      map.on(event, this.onLayerAddEvent, this)
     )
   }
 
-  onEvent(event: L.LeafletEvent) {
-    // TODO
+  onLayerAddEvent(event: L.LayerEvent) {
+    this.addClickEvent(event.layer)
+
   }
 
   onNext(event: Event) {
@@ -120,19 +120,19 @@ export class StyleEditorImpl extends L.Class {
   hideEditor() {
     L.DomUtil.removeClass(this.editorUI, 'editor-enabled')
     this.removeIndicators()
-    this.fireEvent('hidden')
+    this.util.fireEvent('hidden')
   }
 
   // TODO what type is event?!
   // TODO move to FORM?
-  showEditor(event? : LeafletEvent) {
+  showEditor(event? : L.LayerEvent) {
     if (event) {
       this.currentElement = event
     }
     if (this.currentElement) {
       L.DomUtil.addClass(this.editorUI, 'editor-enabled')
     }
-    this.fireEvent('visible')
+    this.util.fireEvent('visible')
     this.styleForm.show()
   }
 
@@ -142,9 +142,6 @@ export class StyleEditorImpl extends L.Class {
 
   hideTooltip() {
     L.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden')
-  }
-
-  fireEvent(eventName: String, layer?: L.Layer) {
   }
 
   enable() {

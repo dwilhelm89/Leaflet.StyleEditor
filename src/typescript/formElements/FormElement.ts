@@ -78,7 +78,7 @@ export abstract class FormElement extends StyleEditorClass {
       }
 
       // fire event for changed layer
-      this.util.fireChangeEvent(layer)
+      this.util.fireEvent('changed', layer)
     }
 
     // notify form styling value has changed

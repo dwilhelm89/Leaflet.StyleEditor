@@ -63,6 +63,6 @@ export const DefaultStyleEditorOptions: StyleEditorOptions = {
 
   useGrouping: false,
 
-  styleEditorEventPrefix: 'styleeditor:',
+  styleEditorEventPrefix: 'styleeditor:'
 }
 

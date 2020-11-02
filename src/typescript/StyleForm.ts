@@ -63,10 +63,6 @@ export class StyleForm extends StyleEditorClass {
     this.geometryForm.show()
   }
 
-  fireChangeEvent(element) {
-    this.util.fireChangeEvent(element)
-  }
-
   lostFocus(e) {
     let parent = e.target
     for (let i = 0; i < 10; i++) {
