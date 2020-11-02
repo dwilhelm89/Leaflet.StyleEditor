@@ -1,5 +1,5 @@
-import { Strings } from './Strings'
+import { LeafletStyleEditorStrings } from './Strings'
 
 export {
-  Strings
+  LeafletStyleEditorStrings
 }

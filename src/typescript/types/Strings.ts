@@ -1,4 +1,4 @@
-export type Strings = {
+export type LeafletStyleEditorStrings = {
   title?: string
   cancel?: string
   cancelTitle?: string

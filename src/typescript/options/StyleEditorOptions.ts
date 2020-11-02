@@ -1,4 +1,4 @@
-import { Strings } from '../types'
+import { LeafletStyleEditorStrings } from '../types'
 import { MarkerForm, FormClass, GeometryForm } from '../form'
 import { DefaultMarker, MarkerClass } from '../marker'
 
@@ -18,10 +18,10 @@ export interface StyleEditorOptions extends L.ControlOptions {
   openOnLeafletDraw
   openOnLeafletEditable
 
-  styleEditorEventPrefix
+  styleEditorEventPrefix: string
 
-  strings: Strings
-  events: [],
+  strings: LeafletStyleEditorStrings
+  layerAddEvents: string[]
   showTooltip: Boolean
   ignoreLayerTypes: string[]
   useGrouping: Boolean
@@ -47,7 +47,7 @@ export const DefaultStyleEditorOptions: StyleEditorOptions = {
 
   forms: {},
 
-  events: [],
+  layerAddEvents: [L.Draw.Event.CREATED, 'editable:created'],
   openOnLeafletDraw: true,
   openOnLeafletEditable: true,
 
