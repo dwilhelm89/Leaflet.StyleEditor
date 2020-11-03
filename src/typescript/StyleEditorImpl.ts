@@ -2,7 +2,7 @@ import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
 import { StyleEditorControl } from './StyleEditorControl'
-import { Layer, LayerEvent, LeafletMouseEvent } from 'leaflet'
+import { Layer, LeafletMouseEvent } from 'leaflet'
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better? 
 export class StyleEditorImpl extends L.Class {
