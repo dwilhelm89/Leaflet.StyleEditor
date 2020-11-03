@@ -47,7 +47,7 @@ export const DefaultStyleEditorOptions: StyleEditorOptions = {
 
   forms: {},
 
-  layerAddEvents: [L.Draw.Event.CREATED, 'editable:created'],
+  layerAddEvents: ['draw:created', 'editable:created'],
   openOnLeafletDraw: true,
   openOnLeafletEditable: true,
 
