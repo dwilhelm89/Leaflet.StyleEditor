@@ -5,3 +5,7 @@
 * central point for storing style?
 * style form elements when initializing as well
 * add formElements etc. to L.StyleEditor   
+* forms -> decide on merkerForm and GeometryForm vs formlist and implement
+* maybe remove MarkerForm and GeometryForm
+* defaultStyle: L.Style {color: Color, etc}
+* logic add list with booleanFunction for Form etc
