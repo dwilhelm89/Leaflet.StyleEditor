@@ -4,4 +4,4 @@
 * find solution to compare colors ( https://github.com/dsteinman/ts-color-class )
 * central point for storing style?
 * style form elements when initializing as well
-*  
+* add formElements etc. to L.StyleEditor   
