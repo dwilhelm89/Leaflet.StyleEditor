@@ -237,7 +237,8 @@ input.leaflet-styleeditor-input {
   cursor: pointer;
 }
 
-.leaflet-styleeditor-color:hover {
+.leaflet-styleeditor-color:hover,
+.leaflet-styleeditor-color-selected {
   border:1px solid black;
 }
 
