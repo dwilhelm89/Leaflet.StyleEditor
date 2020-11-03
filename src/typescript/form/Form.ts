@@ -1,8 +1,6 @@
-import { type } from 'os'
 import { FormElement, FormElementClass } from '../formElements'
 import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditorImpl } from '../StyleEditorImpl'
-import { StyleForm } from '../StyleForm'
 
 
 export interface FormClass {
