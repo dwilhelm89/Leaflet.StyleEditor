@@ -1,6 +1,5 @@
 import { Form } from '.'
 import { ColorElement, FormElementClass, SizeElement, PopupContentElement, IconElement } from '../formElements'
-import { StyleEditorImpl } from '../StyleEditorImpl'
 
 
 /** Form used to enable modification of a Geometry */
