@@ -171,4 +171,6 @@ export abstract class Form extends StyleEditorClass {
   getFormElementStandardClass(styleOption: string): FormElementClass {
     return this.formElements[styleOption]
   }
+
+  abstract whenToShow(layer: L.Layer): Boolean
 }

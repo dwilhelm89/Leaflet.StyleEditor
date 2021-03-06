@@ -6,14 +6,12 @@ export interface StyleEditorOptions extends L.ControlOptions {
   colorRamp
   defaultColor
 
-  markerForm: FormClass
   markerType: MarkerClass
   markers
   defaultMarkerIcon
   defaultMarkerColor
 
-  forms
-  geometryForm: FormClass
+  forms: Record<string, FormClass>
 
   openOnLeafletDraw
   openOnLeafletEditable
@@ -40,12 +38,12 @@ export const DefaultStyleEditorOptions: StyleEditorOptions = {
   defaultMarkerIcon: null,
   defaultMarkerColor: null,
 
-  markerForm: MarkerForm,
-  geometryForm: GeometryForm,
-
   ignoreLayerTypes: [],
 
-  forms: {},
+  forms: {
+    marker: MarkerForm,
+    geometry: GeometryForm
+  },
 
   layerAddEvents: ['draw:created', 'editable:created'],
   openOnLeafletDraw: true,

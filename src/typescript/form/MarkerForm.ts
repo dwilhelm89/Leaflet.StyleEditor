@@ -5,6 +5,7 @@ import { ColorElement, FormElementClass, SizeElement, PopupContentElement, IconE
 /** Form used to enable modification of a Geometry */
 export class MarkerForm extends Form {
 
+
   formOptionsKey = 'marker'
   formElements: Record<string, FormElementClass> = {
     'icon': IconElement,
