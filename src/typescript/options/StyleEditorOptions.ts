@@ -1,5 +1,5 @@
 import { LeafletStyleEditorStrings } from '../types'
-import { MarkerForm, FormClass, GeometryForm } from '../forms'
+import { MarkerForm, FormClass, PathForm, FillableForm } from '../forms'
 import { DefaultMarker, MarkerClass } from '../marker'
 
 export interface StyleEditorOptions extends L.ControlOptions {
@@ -40,7 +40,7 @@ export const DefaultStyleEditorOptions: StyleEditorOptions = {
 
   ignoreLayerTypes: [],
 
-  forms: [MarkerForm, GeometryForm],
+  forms: [MarkerForm, FillableForm, PathForm],
 
   layerAddEvents: ['draw:created', 'editable:created'],
   openOnLeafletDraw: true,

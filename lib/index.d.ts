@@ -9,22 +9,16 @@ declare module 'leaflet' {
     type StyleEditor = SE.StyleEditor;
     let StyleEditor: typeof SE.StyleEditor;
     let styleEditor: (...args: ConstructorParameters<typeof StyleEditor>) => StyleEditor;
-    namespace Forms {
-        type Form = SEForm.Form;
-        let Form: typeof SEForm.Form;
-        type GeometryForm = SEForm.GeometryForm;
-        let GeometryForm: typeof SEForm.GeometryForm;
-        type MarkerForm = SEForm.MarkerForm;
-        let MarkerForm: typeof SEForm.MarkerForm;
-    }
     namespace StyleEditorClasses {
         namespace Forms {
             type Form = SEForm.Form;
             let Form: typeof SEForm.Form;
-            type GeometryForm = SEForm.GeometryForm;
-            let GeometryForm: typeof SEForm.GeometryForm;
             type MarkerForm = SEForm.MarkerForm;
             let MarkerForm: typeof SEForm.MarkerForm;
+            type PathForm = SEForm.PathForm;
+            let PathForm: typeof SEForm.PathForm;
+            type FillableForm = SEForm.FillableForm;
+            let FillableForm: typeof SEForm.FillableForm;
         }
         module FormElements {
             type ColorElement = SEFormElements.ColorElement;
