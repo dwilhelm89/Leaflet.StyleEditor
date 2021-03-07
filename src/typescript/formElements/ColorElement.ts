@@ -1,5 +1,5 @@
 import { FormElement } from './FormElement'
-import { MarkerForm } from '../form/MarkerForm'
+import { MarkerForm } from '../forms/MarkerForm'
 
 /**
  *  FormElement used to style the color

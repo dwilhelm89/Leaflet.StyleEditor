@@ -2,7 +2,7 @@
  * Helper functions used throuhgout the project
  */
 
-import { StyleEditorImpl } from "./StyleEditorImpl"
+import { StyleEditor } from "./StyleEditor"
 
 export class UtilOptions {
   defaultColor
@@ -13,9 +13,9 @@ export class Util {
 
   map: L.Map
   options: UtilOptions
-  styleEditor: StyleEditorImpl
+  styleEditor: StyleEditor
 
-  constructor(styleEditor: StyleEditorImpl) {
+  constructor(styleEditor: StyleEditor) {
     this.styleEditor = styleEditor
     this.map = styleEditor.map
     this.options = styleEditor.options

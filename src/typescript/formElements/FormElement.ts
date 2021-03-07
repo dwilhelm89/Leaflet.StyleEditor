@@ -1,4 +1,4 @@
-import { Form } from '../form'
+import { Form } from '../forms'
 import { StyleEditorClass } from '../StyleEditorClass'
 
 export interface FormElementClass {

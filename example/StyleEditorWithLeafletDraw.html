@@ -46,11 +46,28 @@
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map)
 
+    class RectangleForm extends L.StyleEditorClasses.Forms.Form {
+      formElements = {
+        'color': L.StyleEditorClasses.FormElements.ColorElement,
+      }
+
+      whenToShow = function(layers) {
+        for(const layer of layers) {
+          if (layer instanceof L.Rectangle) return true;
+        }
+        return false;
+      }
+  }
 
     //Initialize the StyleEditor
     let styleEditor = L.control.styleEditor({
       position: 'topleft',
-      useGrouping: false
+      useGrouping: false,
+      forms: [
+        RectangleForm,
+        L.StyleEditorClasses.Forms.MarkerForm,
+        L.StyleEditorClasses.Forms.GeometryForm
+       ]
     })
     map.addControl(styleEditor)
 

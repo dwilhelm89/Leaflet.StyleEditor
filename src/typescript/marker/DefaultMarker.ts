@@ -1,5 +1,5 @@
 import { Marker, MarkerOptions } from '.'
-import { StyleEditorImpl } from '../StyleEditorImpl'
+import { StyleEditor } from '../StyleEditor'
 
 /**
  * The "old" marker style used by L.StyleEditor
@@ -7,7 +7,7 @@ import { StyleEditorImpl } from '../StyleEditorImpl'
  */
 export class DefaultMarker extends Marker {
 
-  constructor(styleEdtior: StyleEditorImpl) {
+  constructor(styleEdtior: StyleEditor) {
     super(styleEdtior, "defaultmarker")
   }
 

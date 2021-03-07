@@ -1,6 +1,6 @@
-import { Form } from './form'
+import { Form } from './forms'
 import { StyleEditorClass } from './StyleEditorClass'
-import { StyleEditorImpl } from './StyleEditorImpl'
+import { StyleEditor } from './StyleEditor'
 
 export class StyleForm extends StyleEditorClass {
 
@@ -9,7 +9,7 @@ export class StyleForm extends StyleEditorClass {
   styleEditorDiv: HTMLElement
   forms: Form[] = []
 
-  constructor(styleEditor: StyleEditorImpl) {
+  constructor(styleEditor: StyleEditor) {
     super(styleEditor)
     
     this.createForms()
@@ -23,7 +23,7 @@ export class StyleForm extends StyleEditorClass {
   }
 
   createForms() {
-    Object.values(this.styleEditor.options.forms).forEach(formClass =>{
+    this.styleEditor.options.forms.forEach(formClass =>{
       const form = new formClass(this.styleEditor, this.styleEditor.interiorEditorUI)
       form.create()
       this.forms.push(form)
@@ -36,10 +36,11 @@ export class StyleForm extends StyleEditorClass {
       form.hide()
     })
     // show first form
-    this.forms.forEach(form => {
-      if(form.whenToShow(this.styleEditor.getCurrentLayers())) {
+    this.forms.some(form => {
+      const show = form.whenToShow(this.styleEditor.getCurrentLayers())
+      if (show) {
         form.show()
-        return
+        return true
       }
     })
   }

@@ -1,12 +1,12 @@
 import { StyleEditorClass } from '../StyleEditorClass'
-import { StyleEditorImpl } from '../StyleEditorImpl'
+import { StyleEditor } from '../StyleEditor'
 import { MarkerOptions } from './'
 
 /**
  * The Base class for different markers
  */
 export interface MarkerClass {
-  new(styleEditor: StyleEditorImpl): Marker
+  new(styleEditor: StyleEditor): Marker
 }
 
 export abstract class Marker extends StyleEditorClass {
@@ -24,7 +24,7 @@ export abstract class Marker extends StyleEditorClass {
   defaultMarkerIcon?: L.Icon
   markers: string[]
 
-  constructor(styleEditor: StyleEditorImpl, markerName: string) {
+  constructor(styleEditor: StyleEditor, markerName: string) {
     super(styleEditor)
     this.markerName = markerName
   }
