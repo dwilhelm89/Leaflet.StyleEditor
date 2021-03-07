@@ -190,10 +190,6 @@ export class StyleEditor extends L.Class {
     }
   }
 
-  getCurrentMarker() {
-    return this.getCurrentLayers().filter((layer) => layer instanceof L.Marker)
-  }
-
   addControl(control: StyleEditorControl): number {
     return this.controls.push(control)
   }

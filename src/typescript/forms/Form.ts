@@ -44,13 +44,6 @@ export abstract class Form extends StyleEditorClass {
     this.hideForm()
   }
   
-  /** hide the FormElements */
-  hideFormElements() {
-    for (let key in this.initializedElements) {
-      this.initializedElements[key].hide()
-    }
-  }
-  
   /** hide the Form */
   hideForm() {
     this.util.hideElement(this.uiElement)
