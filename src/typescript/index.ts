@@ -29,7 +29,6 @@ declare module 'leaflet' {
   interface StyleableLayer extends Layer {
     options?
   }
-
 }
 
 

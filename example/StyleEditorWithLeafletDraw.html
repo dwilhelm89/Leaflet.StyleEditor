@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="lib/leaflet/leaflet.ie.css"/>
   <link rel="stylesheet" href="leaflet.draw.ie.css"/>
   <![endif]-->
-    
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 
@@ -46,26 +46,11 @@
       attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map)
 
-    let forms = {
-      'geometry': {
-        'dashArray': (elems) => {
-          return elems.find(elem => elem instanceof L.Polygon) !== undefined
-        },
-        'color': true,
-        'weight': true,
-      },
-      'marker': {
-        'icon': {
-          'boolean': () => {return true}/*,
-          'formElement': L.StyleEditor.formElements.IconElement,*/
-        }
-      }
-    }
+
     //Initialize the StyleEditor
     let styleEditor = L.control.styleEditor({
       position: 'topleft',
-      useGrouping: false,
-      forms: forms,
+      useGrouping: false
     })
     map.addControl(styleEditor)
 

@@ -1,10 +1,11 @@
+import L from '..'
 import { FormElement, FormElementClass } from '../formElements'
 import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditorImpl } from '../StyleEditorImpl'
 
 
 export interface FormClass {
-  new(styleEditor: StyleEditorImpl, parentUiElement: HTMLElement): Form
+  new(...args: any[]): Form
 }
 
 /**
@@ -23,22 +24,24 @@ export abstract class Form extends StyleEditorClass {
   protected formOptionsKey: string
   protected formElements: Record<string, FormElementClass>
   
+  private uiElement: HTMLElement
   private parentUiElement: HTMLElement
   protected initializedElements: Record<string, FormElement> = {}
   
   /** create every FormElement in the parentUiElement */
   create() {
+    this.uiElement = L.DomUtil.create('div', '', this.parentUiElement)
     for (let key in this.formElements) {
       const formElement = this.getFormElementClass(key)
       if (formElement !== undefined) {
-        this.initializedElements[key] = new formElement(this, this.parentUiElement, key)
+        this.initializedElements[key] = new formElement(this, this.uiElement, key)
       }
     }
+    this.hide()
   }
   
   /** hide the Form including its FormElements */
   hide() {
-    this.hideFormElements()
     this.hideForm()
   }
   
@@ -51,13 +54,12 @@ export abstract class Form extends StyleEditorClass {
   
   /** hide the Form */
   hideForm() {
-    this.util.hideElement(this.parentUiElement)
+    this.util.hideElement(this.uiElement)
   }
   
   /** make FormElements and Form visible */
   show() {
     this.preShow()
-    this.showFormElement()
     this.showForm()
     this.style()
   }
@@ -74,7 +76,7 @@ export abstract class Form extends StyleEditorClass {
   
   /** make the Form visible */
   showForm() {
-    this.util.showElement(this.parentUiElement)
+    this.util.showElement(this.uiElement)
   }
   
   /** inform FormElements the selected style has changed, so they can adapt */
@@ -172,5 +174,5 @@ export abstract class Form extends StyleEditorClass {
     return this.formElements[styleOption]
   }
 
-  abstract whenToShow(layer: L.Layer): Boolean
+  abstract whenToShow(layers: L.StyleableLayer[]): Boolean
 }

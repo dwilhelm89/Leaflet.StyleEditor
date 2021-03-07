@@ -15,8 +15,8 @@ export class GeometryForm extends Form {
     'popupContent': PopupContentElement
   }
 
-  whenToShow(layer: L.Layer): Boolean {
-    return layer instanceof 
+  whenToShow(layers: L.StyleableLayer[]): Boolean {
+    return layers.some(layer => layer instanceof L.Path)
   }
 
   /** show the fillOptions (fillColor and fillOpacity) only if the Element can be filled */

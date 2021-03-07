@@ -7,11 +7,12 @@ export class StyleForm extends StyleEditorClass {
   map: L.Map
   styleEditorInterior: HTMLElement
   styleEditorDiv: HTMLElement
+  forms: Form[] = []
 
   constructor(styleEditor: StyleEditorImpl) {
     super(styleEditor)
     
-    this.clearForm()
+    this.createForms()
 
     this.addDOMEvents()
   }
@@ -21,24 +22,28 @@ export class StyleForm extends StyleEditorClass {
     L.DomEvent.addListener(this.styleEditor.editorUI, 'click', this.lostFocus, this)
   }
 
-  clearForm() {
+  createForms() {
+    Object.values(this.styleEditor.options.forms).forEach(formClass =>{
+      const form = new formClass(this.styleEditor, this.styleEditor.interiorEditorUI)
+      form.create()
+      this.forms.push(form)
+    })
   }
 
   show() {
-    if (this.styleEditor.getCurrentMarker().length > 0) {
-      this.showMarkerForm()
-    } else {
-      this.showGeometryForm()
-    }
+    // hide all forms
+    this.forms.forEach(form => {
+      form.hide()
+    })
+    // show first form
+    this.forms.forEach(form => {
+      if(form.whenToShow(this.styleEditor.getCurrentLayers())) {
+        form.show()
+        return
+      }
+    })
   }
 
-  showMarkerForm() {
-    this.clearForm()
-  }
-
-  showGeometryForm() {
-    this.clearForm()
-  }
 
   lostFocus(e) {
     let parent = e.target
