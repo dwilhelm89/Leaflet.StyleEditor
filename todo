@@ -7,3 +7,4 @@
 * style form elements when initializing as well
 * defaultStyle: L.Style {color: Color, etc}
 
+* change logic so all styleable things are set in layer.options

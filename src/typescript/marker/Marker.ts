@@ -78,7 +78,7 @@ export abstract class Marker extends StyleEditorClass {
     const layers = this.styleEditor.getCurrentLayers()
     const marker = layers.find((layer) => layer instanceof L.Marker) as L.Marker
     if (marker) {
-      markerOptions = marker.options.icon.options
+      markerOptions = marker.options.icon.options || {}
     }
 
     if (Object.keys(markerOptions).length > 0) {

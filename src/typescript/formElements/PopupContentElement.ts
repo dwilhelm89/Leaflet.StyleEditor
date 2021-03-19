@@ -22,7 +22,12 @@ export class PopupContentElement extends FormElement {
     selectedElements.forEach(layer => {
       if(layer.options.popupContent) {
         this.textArea.value = layer.options.popupContent
-        layer.openPopup(layer.options.popupContent)
+        const popup = layer.getPopup()
+        if(popup) {
+          popup.setContent(layer.options.popupContent)
+        } else {
+          layer.bindPopup(layer.options.popupContent)
+        }
       }
     })
   }
@@ -31,8 +36,13 @@ export class PopupContentElement extends FormElement {
   private updateStyle() {
     const inputText = this.textArea.value
     this.styleEditor.getCurrentLayers().forEach(layer => {
+      const popup = layer.getPopup()
+      if(popup) {
+        popup.setContent(inputText)
+      } else {
+        layer.bindPopup(inputText)
+      }
       layer.openPopup()
-      layer.getPopup().setContent(inputText)
     })
     this.setStyle(inputText)
   }
