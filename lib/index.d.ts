@@ -58,11 +58,6 @@ declare module 'leaflet' {
         type Marker = SEMarker.Marker;
         let Marker: typeof SEMarker.Marker;
     }
-    interface MarkerOptions {
-        iconColor?: string;
-        iconSize?: string;
-        popupContent?: string;
-    }
     interface StyleableLayer extends Layer {
         options?: any;
     }

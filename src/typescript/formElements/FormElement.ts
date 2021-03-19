@@ -63,23 +63,18 @@ export abstract class FormElement extends StyleEditorClass {
   }
 
   /** set style - used when the FormElement wants to change the styling option */
-  setStyle(value: string) {
-    const layers = this.parentForm.styleEditor.getCurrentLayers()
-    // update layers
-    for (let i = 0; i < layers.length; i++) {
-      let layer = layers[i]
-      if (layer instanceof L.Marker) {
+  setStyle(value) {
+    this.styleEditor.getCurrentLayers().forEach(layer => {
+      layer.options[this.styleOption] = value
+      if(layer instanceof L.Marker) {
         new this.styleEditor.options.markerType(this.styleEditor).setStyle(this.styleOption, value)
       } else if (layer instanceof L.Path) {
-        let newStyle: Record<string, string> = {}
-        newStyle[this.styleOption] = value
-        layer.setStyle(newStyle)
-        layer.options[this.styleOption] = value
+        layer.setStyle(layer.options)
       }
 
       // fire event for changed layer
       this.util.fireEvent('changed', layer)
-    }
+    })
 
     // notify form styling value has changed
     this.parentForm.style()

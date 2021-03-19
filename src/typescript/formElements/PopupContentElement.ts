@@ -4,6 +4,7 @@ import { FormElement } from '.'
  * FormElement used for adding a description to marker or geometry.
  */
 export class PopupContentElement extends FormElement {
+  styleOption: 'pupupContent'
   private textArea: HTMLTextAreaElement
 
   title = 'Description'
@@ -11,38 +12,28 @@ export class PopupContentElement extends FormElement {
   createContent() {
     this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
     L.DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
+    L.DomEvent.addListener(this.textArea, 'input', this.updateStyle, this)
   }
 
   /** set correct value */
   style() {
-    let selectedElement = this.styleEditor.getCurrentMarker()[0]
-
-    if (selectedElement && selectedElement.options) {
-      this.textArea.value = selectedElement.options.popupContent || ''
-    }
+    const selectedElements = this.styleEditor.getCurrentLayers()
+    this.textArea.value = ''
+    selectedElements.forEach(layer => {
+      if(layer.options.popupContent) {
+        this.textArea.value = layer.options.popupContent
+        layer.openPopup(layer.options.popupContent)
+      }
+    })
   }
 
   /** communicate popupContent value */
   private updateStyle() {
-    let layers = this.styleEditor.getCurrentLayers()
-    let inputText = this.textArea.value
-
-    // update layer (or all layers of a layerGroup)
-    for (let i = 0; i < layers.length; i++) {
-      let layer = layers[i]
-      if (layer && layer.getPopup && layer.bindPopup) {
-        let popup1 = layer.getPopup()
-        if (popup1) {
-          popup1.setContent(inputText)
-        } else {
-          layer.bindPopup(inputText)
-        }
-        /* TODO ?! tmp store the text content for init next time
-        layer.options = layer.options || {}
-        layer.options.popupContent = inputText */
-      }
-    }
-
+    const inputText = this.textArea.value
+    this.styleEditor.getCurrentLayers().forEach(layer => {
+      layer.openPopup()
+      layer.getPopup().setContent(inputText)
+    })
     this.setStyle(inputText)
   }
 }
