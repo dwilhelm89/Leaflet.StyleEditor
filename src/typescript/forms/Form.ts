@@ -1,7 +1,7 @@
-import L from '..'
 import { FormElement, FormElementClass } from '../formElements'
 import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditor } from '../StyleEditor'
+import { DomUtil, StyleableLayer } from 'leaflet'
 
 
 export interface FormClass {
@@ -29,7 +29,7 @@ export abstract class Form extends StyleEditorClass {
   
   /** create every FormElement in the parentUiElement */
   create() {
-    this.uiElement = L.DomUtil.create('div', '', this.parentUiElement)
+    this.uiElement = DomUtil.create('div', '', this.parentUiElement)
     for (let key in this.formElements) {
       const formElement = this.getFormElementClass(key)
       if (formElement !== undefined) {
@@ -93,10 +93,10 @@ export abstract class Form extends StyleEditorClass {
         if (typeof FormElement === 'boolean') {
           return this.getFormElementStandardClass(styleOption)
         }
-        
+        /* TODO: presumably not necesarry   
         if ('formElement' in FormElement && 'boolean' in FormElement) {
           FormElement = FormElement['formElement']
-        }
+        }*/
       }
       // if nothing works return it
       return this.getFormElementStandardClass(styleOption)
@@ -111,5 +111,5 @@ export abstract class Form extends StyleEditorClass {
     return this.formElements[styleOption]
   }
 
-  abstract whenToShow(layers: L.StyleableLayer[]): Boolean
+  abstract whenToShow(layers: StyleableLayer[]): Boolean
 }

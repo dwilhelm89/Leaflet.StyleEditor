@@ -1,3 +1,4 @@
+import { DomEvent, DomUtil } from 'leaflet'
 import { FormElement } from '.'
 
 
@@ -17,10 +18,10 @@ export class IconElement extends FormElement {
 
   /** create the icon selectBoxes */
   createContent() {
-    let selectBox = L.DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement)
+    let selectBox = DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement)
     this.selectBoxImage = this.createSelectInputImage(selectBox)
 
-    L.DomEvent.addListener(selectBox, 'click', this.toggleSelectInput, this)
+    DomEvent.addListener(selectBox, 'click', this.toggleSelectInput, this)
   }
 
   /** show the correct icon in the correct color if the icon or color changed */
@@ -38,8 +39,8 @@ export class IconElement extends FormElement {
 
   /** create image container that hides/shows the iconSelectBox */
   private createSelectInputImage(parentUiElement): HTMLElement {
-    let wrapper = L.DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement)
-    return L.DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper)
+    let wrapper = DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement)
+    return DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper)
   }
 
   /** create appropriate image for color and icon */
@@ -63,10 +64,10 @@ export class IconElement extends FormElement {
     }
 
     let selectOptionWrapper =
-      L.DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
+      DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
 
     this.util.getIconsForColor(color).forEach(function (icon) {
-      let selectOption = L.DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
+      let selectOption = DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
       selectOption.setAttribute('value', icon)
       let selectImage = this.createSelectInputImage(selectOption)
       this.styleSelectInputImage(selectImage, icon, color)
@@ -74,7 +75,7 @@ export class IconElement extends FormElement {
 
     this.selectOptions[color] = selectOptionWrapper
 
-    L.DomEvent.addListener(selectOptionWrapper, 'click', function (e) {
+    DomEvent.addListener(selectOptionWrapper, 'click', function (e) {
       e.stopPropagation()
       let target = e.target as HTMLElement
       if (target.nodeName === 'UL') {
@@ -99,7 +100,7 @@ export class IconElement extends FormElement {
 
     let show = false
     if (currentColorElement) {
-      show = L.DomUtil.hasClass(currentColorElement, 'leaflet-styleeditor-hidden')
+      show = DomUtil.hasClass(currentColorElement, 'leaflet-styleeditor-hidden')
     }
 
     this.hideSelectOptions()

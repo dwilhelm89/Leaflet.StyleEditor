@@ -1,3 +1,4 @@
+import { DomEvent, DomUtil } from 'leaflet'
 import { FormElement } from '.'
 
 /**
@@ -10,18 +11,18 @@ export class SizeElement extends FormElement {
   createContent() {
     const markerType = new this.styleEditor.options.markerType(this.styleEditor)
 
-    let select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-small', this.uiElement)
-    L.DomEvent.addListener(select, 'click', function () {
+    let select = DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-small', this.uiElement)
+    DomEvent.addListener(select, 'click', function () {
       this.setStyle(markerType.size.small)
     }, this)
 
-    select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-medium', this.uiElement)
-    L.DomEvent.addListener(select, 'click', function () {
+    select = DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-medium', this.uiElement)
+    DomEvent.addListener(select, 'click', function () {
       this.setStyle(markerType.size.medium)
     }, this)
 
-    select = L.DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-large', this.uiElement)
-    L.DomEvent.addListener(select, 'click', function () {
+    select = DomUtil.create('div', 'leaflet-styleeditor-sizeicon sizeicon-large', this.uiElement)
+    DomEvent.addListener(select, 'click', function () {
       this.setStyle(markerType.size.large)
     }, this)
   }

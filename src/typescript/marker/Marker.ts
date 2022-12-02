@@ -1,6 +1,7 @@
 import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditor } from '../StyleEditor'
 import { MarkerOptions } from './'
+import { Icon, Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
 
 /**
  * The Base class for different markers
@@ -21,7 +22,7 @@ export abstract class Marker extends StyleEditorClass {
   colorRamp?: []
   markerName: string
 
-  defaultMarkerIcon?: L.Icon
+  defaultMarkerIcon?: Icon
   markers: string[]
 
   constructor(styleEditor: StyleEditor, markerName: string) {
@@ -40,15 +41,15 @@ export abstract class Marker extends StyleEditorClass {
   setNewMarker(markerOptions: MarkerOptions) {
     let newIcon = this.createMarkerIcon(markerOptions)
     this.styleEditor.getCurrentLayers().forEach((currentElement) => {
-      if (currentElement instanceof L.Marker) {
+      if (currentElement instanceof LMarker) {
         currentElement.setIcon(newIcon)
-        if (currentElement instanceof L.LayerGroup) {
+        if (currentElement instanceof LayerGroup) {
           currentElement.eachLayer(function (layer) {
-            if (layer instanceof L.Marker)
-              L.DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected')
+            if (layer instanceof LMarker)
+              DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected')
           })
         } else {
-          L.DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected')
+          DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected')
         }
       }
     })
@@ -76,7 +77,7 @@ export abstract class Marker extends StyleEditorClass {
     let markerOptions = {} as MarkerOptions
 
     const layers = this.styleEditor.getCurrentLayers()
-    const marker = layers.find((layer) => layer instanceof L.Marker) as L.Marker
+    const marker = layers.find((layer) => layer instanceof LMarker) as LMarker
     if (marker) {
       markerOptions = marker.options.icon.options || {}
     }

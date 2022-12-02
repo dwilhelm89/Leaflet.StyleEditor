@@ -76,13 +76,13 @@
       },
 
       onAdd: function (map) {
-        var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
-        link = L.DomUtil.create('a', '', container);
+        var container = DomUtil.create('div', 'leaflet-control leaflet-bar'),
+        link = DomUtil.create('a', '', container);
         
         link.href = '#';
         link.title = 'Create a new ' + this.options.kind;
         link.innerHTML = this.options.html;
-        L.DomEvent.on(link, 'click', L.DomEvent.stop)
+        DomEvent.on(link, 'click', DomEvent.stop)
         .on(link, 'click', function () {
           window.LAYER = this.options.callback.call(map.editTools);
         }, this);

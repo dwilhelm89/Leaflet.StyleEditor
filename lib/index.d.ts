@@ -1,4 +1,3 @@
-import 'leaflet';
 import * as SE from './StyleEditor';
 import { StyleEditorControl } from './StyleEditorControl';
 import { StyleEditorOptions } from './options';
@@ -62,4 +61,3 @@ declare module 'leaflet' {
         options?: any;
     }
 }
-export default L;

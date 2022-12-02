@@ -2,6 +2,7 @@
  * Helper functions used throuhgout the project
  */
 
+import { DomUtil, Map, Marker as LMarker} from "leaflet"
 import { StyleEditor } from "./StyleEditor"
 
 export class UtilOptions {
@@ -11,7 +12,7 @@ export class UtilOptions {
 
 export class Util {
 
-  map: L.Map
+  map: Map
   options: UtilOptions
   styleEditor: StyleEditor
 
@@ -32,7 +33,7 @@ export class Util {
   /** hide the given element */
   hideElement(element: HTMLElement) {
     if (element) {
-      L.DomUtil.addClass(element, 'leaflet-styleeditor-hidden')
+      DomUtil.addClass(element, 'leaflet-styleeditor-hidden')
     }
   }
 
@@ -84,7 +85,7 @@ export class Util {
 
   /** set new style to current element */
   setStyle(currentElement, option, value) {
-    if (currentElement instanceof L.Marker) {
+    if (currentElement instanceof LMarker) {
       new this.styleEditor.options.markerType(this.styleEditor).setStyle(option, value)
     } else {
       let newStyle = {}
@@ -98,7 +99,7 @@ export class Util {
   /** show hidden element */
   showElement(element) {
     if (element) {
-      L.DomUtil.removeClass(element, 'leaflet-styleeditor-hidden')
+      DomUtil.removeClass(element, 'leaflet-styleeditor-hidden')
     }
   }
 

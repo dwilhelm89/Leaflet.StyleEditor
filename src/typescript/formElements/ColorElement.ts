@@ -1,6 +1,6 @@
 import { FormElement } from './FormElement'
 import { MarkerForm } from '../forms/MarkerForm'
-import L from '..'
+import { DomEvent, DomUtil } from 'leaflet'
 
 const selectedColorClass = 'leaflet-styleeditor-color-selected'
 const selectedColorIdPrefix = 'leaflet-styleeditor-color-'
@@ -16,13 +16,13 @@ export class ColorElement extends FormElement {
 
   createContent() {
     this.colorRampDivs = []
-    this.colorPickerDiv = L.DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
+    this.colorPickerDiv = DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
     this.getColorRamp().forEach(this.createAndSetSelectCallback, this)
   }
 
   style() {
     this.colorRampDivs.forEach(div => {
-      L.DomUtil.removeClass(div, selectedColorClass) 
+      DomUtil.removeClass(div, selectedColorClass) 
     })
     const layerWithColor = this.styleEditor.getCurrentLayers().find(layer => {
       return layer.options.color
@@ -30,9 +30,9 @@ export class ColorElement extends FormElement {
     if (!layerWithColor) return
     debugger
     const color = layerWithColor.options[this.styleOption]
-    const colorRampElement = L.DomUtil.get(selectedColorIdPrefix + color)
+    const colorRampElement = DomUtil.get(selectedColorIdPrefix + color)
     if(colorRampElement) {
-      L.DomUtil.addClass(colorRampElement, selectedColorClass) 
+      DomUtil.addClass(colorRampElement, selectedColorClass) 
     }
   }
 
@@ -50,10 +50,10 @@ export class ColorElement extends FormElement {
 
   /** define what to do when color is changed */
   private createAndSetSelectCallback(color) {
-    let element = L.DomUtil.create('div', 'leaflet-styleeditor-color', this.colorPickerDiv)
+    let element = DomUtil.create('div', 'leaflet-styleeditor-color', this.colorPickerDiv)
     element.id = selectedColorIdPrefix + color
     element.style.backgroundColor = color
-    L.DomEvent.addListener(element, 'click', this.selectColor, this)
+    DomEvent.addListener(element, 'click', this.selectColor, this)
     this.colorRampDivs.push(element)
   }
 

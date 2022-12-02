@@ -1,3 +1,4 @@
+import { DomEvent, DomUtil } from 'leaflet'
 import { FormElement } from '.'
 
 /**
@@ -10,9 +11,9 @@ export class PopupContentElement extends FormElement {
   title = 'Description'
   
   createContent() {
-    this.textArea = L.DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
-    L.DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
-    L.DomEvent.addListener(this.textArea, 'input', this.updateStyle, this)
+    this.textArea = DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
+    DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
+    DomEvent.addListener(this.textArea, 'input', this.updateStyle, this)
   }
 
   /** set correct value */

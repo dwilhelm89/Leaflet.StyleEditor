@@ -1,3 +1,4 @@
+import { Path, Marker as LMarker, DomUtil } from 'leaflet'
 import { Form } from '../forms'
 import { StyleEditorClass } from '../StyleEditorClass'
 
@@ -24,14 +25,14 @@ export abstract class FormElement extends StyleEditorClass {
   /** create uiElement and content */
   private create(parentUiElement: HTMLElement) {
     this.uiElement =
-      L.DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement)
+      DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement)
     this.createTitle()
     this.createContent()
   }
 
   /** create title */
   createTitle() {
-    let title = L.DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement)
+    let title = DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement)
     title.innerHTML = this.title || this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1)
   }
 
@@ -66,9 +67,9 @@ export abstract class FormElement extends StyleEditorClass {
   setStyle(value) {
     this.styleEditor.getCurrentLayers().forEach(layer => {
       layer.options[this.styleOption] = value
-      if(layer instanceof L.Marker) {
+      if(layer instanceof LMarker) {
         new this.styleEditor.options.markerType(this.styleEditor).setStyle(this.styleOption, value)
-      } else if (layer instanceof L.Path) {
+      } else if (layer instanceof Path) {
         layer.setStyle(layer.options)
       }
 

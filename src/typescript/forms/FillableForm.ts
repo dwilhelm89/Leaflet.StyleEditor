@@ -1,6 +1,6 @@
 import { Form } from '.'
-import L from '..'
 import { ColorElement, OpacityElement, WeightElement, DashElement, PopupContentElement } from '../formElements'
+import { StyleableLayer, Polygon, CircleMarker } from 'leaflet'
 
 /** Form used to enable modification of a Geometry */
 export class FillableForm extends Form {
@@ -14,7 +14,7 @@ export class FillableForm extends Form {
     'popupContent': PopupContentElement
   }
 
-  whenToShow(layers: L.StyleableLayer[]): Boolean {
-    return layers.some(layer => layer instanceof L.Polygon || layer instanceof L.CircleMarker)
+  whenToShow(layers: StyleableLayer[]): Boolean {
+    return layers.some(layer => layer instanceof Polygon || layer instanceof CircleMarker)
   }
 }

@@ -1,8 +1,9 @@
+import { Icon } from 'leaflet'
 import { Marker, MarkerOptions } from '.'
 import { StyleEditor } from '../StyleEditor'
 
 /**
- * The "old" marker style used by L.StyleEditor
+ * The "old" marker style used by StyleEditor
  * used the mapbox API v3
  */
 export class DefaultMarker extends Marker {
@@ -13,7 +14,7 @@ export class DefaultMarker extends Marker {
 
   createMarkerIcon(iconOptions: MarkerOptions) {
     let iconSize = iconOptions.iconSize
-    return new L.Icon({
+    return new Icon({
       iconUrl: this.getMarkerUrlForStyle(iconOptions),
       iconSize: iconOptions.iconSize,
       iconColor: iconOptions.iconColor,

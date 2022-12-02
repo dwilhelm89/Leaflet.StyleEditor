@@ -1,8 +1,9 @@
+import { ControlOptions } from 'leaflet'
 import { LeafletStyleEditorStrings } from '../types'
 import { MarkerForm, FormClass, PathForm, FillableForm } from '../forms'
 import { DefaultMarker, MarkerClass } from '../marker'
 
-export interface StyleEditorOptions extends L.ControlOptions {
+export interface StyleEditorOptions extends ControlOptions {
   colorRamp
   defaultColor
 

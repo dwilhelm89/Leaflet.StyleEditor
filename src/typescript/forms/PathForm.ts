@@ -1,7 +1,6 @@
 import { Form } from '.'
-import L from '..'
-import { ColorElement, OpacityElement, WeightElement, DashElement, PopupContentElement } from '../formElements'
-
+import { ColorElement, OpacityElement, WeightElement, DashElement, PopupContentElement, } from '../formElements'
+import { StyleableLayer, Path } from 'leaflet'
 /** Form used to enable modification of a Geometry */
 export class PathForm extends Form {
   formElements = {
@@ -12,7 +11,7 @@ export class PathForm extends Form {
     'popupContent': PopupContentElement
   }
 
-  whenToShow(layers: L.StyleableLayer[]): Boolean {
-    return layers.some(layer => layer instanceof L.Path)
+  whenToShow(layers: StyleableLayer[]): Boolean {
+    return layers.some(layer => layer instanceof Path)
   }
 }

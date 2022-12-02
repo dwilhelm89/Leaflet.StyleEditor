@@ -1,10 +1,11 @@
 import { Form } from './forms'
 import { StyleEditorClass } from './StyleEditorClass'
 import { StyleEditor } from './StyleEditor'
+import { DomEvent, DomUtil, Map } from 'leaflet'
 
 export class StyleForm extends StyleEditorClass {
 
-  map: L.Map
+  map: Map
   styleEditorInterior: HTMLElement
   styleEditorDiv: HTMLElement
   forms: Form[] = []
@@ -18,8 +19,8 @@ export class StyleForm extends StyleEditorClass {
   }
 
   addDOMEvents() {
-    L.DomEvent.addListener(this.map as any, 'click', this.lostFocus, this)
-    L.DomEvent.addListener(this.styleEditor.editorUI, 'click', this.lostFocus, this)
+    DomEvent.addListener(this.map as any, 'click', this.lostFocus, this)
+    DomEvent.addListener(this.styleEditor.editorUI, 'click', this.lostFocus, this)
   }
 
   createForms() {
@@ -52,7 +53,7 @@ export class StyleForm extends StyleEditorClass {
       if (!parent) {
         break
       }
-      if (!!parent.className && L.DomUtil.hasClass(parent, 'leaflet-styleeditor-interior')) {
+      if (!!parent.className && DomUtil.hasClass(parent, 'leaflet-styleeditor-interior')) {
         return
       }
       parent = parent.parentNode

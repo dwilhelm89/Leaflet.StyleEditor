@@ -1,10 +1,10 @@
-import 'leaflet'
 import * as SE from './StyleEditor'
 import { StyleEditorControl } from './StyleEditorControl'
 import { StyleEditorOptions} from './options'
 import * as SEForm from './forms'
 import * as SEFormElements from './formElements'
 import * as SEMarker from './marker'
+import { Map , Layer } from 'leaflet'
 
 require('../css/Leaflet.StyleEditor.css')
 
@@ -85,13 +85,13 @@ declare module 'leaflet' {
 }
 
 
-L.StyleEditor = SE.StyleEditor
-L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
+const StyleEditor = SE.StyleEditor
+const styleEditor = function (map: Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
-L.Control.StyleEditor = StyleEditorControl
-L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
+//Control.StyleEditor = StyleEditorControl
+//control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
 
-L.StyleEditorClasses = {
+const StyleEditorClasses = {
   Forms: {
     Form: SEForm.Form,
     MarkerForm: SEForm.MarkerForm,
@@ -115,5 +115,3 @@ L.StyleEditorClasses = {
     DefaultMarker: SEMarker.DefaultMarker
   }
 }
-
-export default L

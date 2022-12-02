@@ -171,7 +171,7 @@ At a minimum a new Marker implementation **needs to provide these functions**:
 * createMarkerIcon(iconOptions)
 
    Creates an Icon for the given Options (icon, iconColor, iconSize)
-   Must return an instance of [L.Icon](https://leafletjs.com/reference-1.2.0.html#icon) (or subclasses)
+   Must return an instance of [Icon](https://leafletjs.com/reference-1.2.0.html#icon) (or subclasses)
 
 * createSelectHTML (parentUiElement, iconOptions, icon)
 

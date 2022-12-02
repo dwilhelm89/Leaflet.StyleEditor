@@ -1,12 +1,12 @@
-import { Map } from "leaflet";
 import { StyleEditor } from "./StyleEditor";
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
+import { Control, Map, DomUtil, DomEvent } from "leaflet";
 
 /**
- * StyleEditorControl creates a { L.Control }
+ * StyleEditorControl creates a { Control }
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
-export class StyleEditorControl extends L.Control {
+export class StyleEditorControl extends Control {
   options: StyleEditorOptions
 
   private styleEditor: StyleEditor
@@ -38,22 +38,22 @@ export class StyleEditorControl extends L.Control {
   }
 
   createUI() {
-    const controlUI = L.DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
-    const controlDiv = L.DomUtil.create('a', 'leaflet-control-styleeditor-interior', controlUI)
+    const controlUI = DomUtil.create('div', 'leaflet-control-styleeditor leaflet-control leaflet-bar')
+    const controlDiv = DomUtil.create('a', 'leaflet-control-styleeditor-interior', controlUI)
     controlDiv.title = this.options.strings.title
 
-    const cancelUI = this.cancelUI = L.DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlUI)
+    const cancelUI = this.cancelUI = DomUtil.create('div', 'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden', controlUI)
     cancelUI.innerHTML = this.options.strings.cancel
     cancelUI.title = this.options.strings.cancelTitle
 
-    L.DomEvent.disableScrollPropagation(controlUI)
-    L.DomEvent.disableScrollPropagation(cancelUI)
+    DomEvent.disableScrollPropagation(controlUI)
+    DomEvent.disableScrollPropagation(cancelUI)
 
-    L.DomEvent.disableClickPropagation(controlUI)
-    L.DomEvent.disableClickPropagation(cancelUI)
+    DomEvent.disableClickPropagation(controlUI)
+    DomEvent.disableClickPropagation(cancelUI)
 
     // toggle UI visibility
-    L.DomEvent.on(controlUI, 'click', this.toggle, this)
+    DomEvent.on(controlUI, 'click', this.toggle, this)
 
     return controlUI
   }
@@ -81,11 +81,11 @@ export class StyleEditorControl extends L.Control {
   }
 
   private showCancelButton() {
-    L.DomUtil.removeClass(this.cancelUI, 'leaflet-styleeditor-hidden')
+    DomUtil.removeClass(this.cancelUI, 'leaflet-styleeditor-hidden')
   }
 
   private hideCancelButton() {
-    L.DomUtil.addClass(this.cancelUI, 'leaflet-styleeditor-hidden')
+    DomUtil.addClass(this.cancelUI, 'leaflet-styleeditor-hidden')
   }
 
 }

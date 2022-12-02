@@ -2,18 +2,18 @@ import { StyleForm } from './StyleForm'
 import { Util } from './Util'
 import { StyleEditorOptions, DefaultStyleEditorOptions } from './options'
 import { StyleEditorControl } from './StyleEditorControl'
-import { Layer, LeafletMouseEvent } from 'leaflet'
+import { Layer, LeafletMouseEvent, Map,  DomUtil, DomEvent, LayerGroup, Class, LayerEvent, StyleableLayer } from 'leaflet'
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better? 
-export class StyleEditor extends L.Class {
+export class StyleEditor extends Class {
   controls: StyleEditorControl[] = []
   // TODO event? LAyer?!
-  currentLayer: L.Layer | L.LayerGroup
+  currentLayer: Layer | LayerGroup
 
   options: StyleEditorOptions
   util: Util
 
-  map: L.Map
+  map: Map
   editorUI: HTMLElement
   interiorEditorUI: HTMLElement
   tooltipUI: HTMLElement
@@ -22,7 +22,7 @@ export class StyleEditor extends L.Class {
 
   isEnabled: Boolean = false
 
-  constructor(map: L.Map, options: StyleEditorOptions, control?: StyleEditorControl) {
+  constructor(map: Map, options: StyleEditorOptions, control?: StyleEditorControl) {
     super()
 
     this.map = map
@@ -38,41 +38,41 @@ export class StyleEditor extends L.Class {
   }
 
   createUi() {
-    const editorUI = this.editorUI = L.DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer())
+    const editorUI = this.editorUI = DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer())
 
-    const styleEditorHeader = L.DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
-    this.interiorEditorUI = L.DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
+    const styleEditorHeader = DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
+    this.interiorEditorUI = DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
 
-    const buttonNext = L.DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader)
+    const buttonNext = DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader)
     buttonNext.title = this.options.strings.hide
 
-    const tooltipWrapper = this.tooltipUI = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
-    const tooltip = L.DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
+    const tooltipWrapper = this.tooltipUI = DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
+    const tooltip = DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
     tooltip.innerHTML = this.options.strings.tooltip
 
     // do not propagate scrolling events on the ui to the map
-    L.DomEvent.disableScrollPropagation(editorUI)
-    L.DomEvent.disableScrollPropagation(buttonNext)
+    DomEvent.disableScrollPropagation(editorUI)
+    DomEvent.disableScrollPropagation(buttonNext)
 
     // do not propagate click events on the ui to the map
-    L.DomEvent.disableClickPropagation(editorUI)
-    L.DomEvent.disableClickPropagation(buttonNext)
+    DomEvent.disableClickPropagation(editorUI)
+    DomEvent.disableClickPropagation(buttonNext)
 
     // select next layer to style
-    L.DomEvent.on(buttonNext, 'click', this.onNext, this)
+    DomEvent.on(buttonNext, 'click', this.onNext, this)
 
     this.addEventListeners(this.map)
 
     this.styleForm = new StyleForm(this)
   }
 
-  addEventListeners(map: L.Map) {
+  addEventListeners(map: Map) {
     this.options.layerAddEvents.forEach(event => {
       map.on(event, this.onLayerAddEvent, this)
     })
   }
 
-  onLayerAddEvent(event: L.LayerEvent) {
+  onLayerAddEvent(event: LayerEvent) {
     this.enable()
     this.addClickEvent(event.layer)
     this.showEditor(event.layer)
@@ -89,7 +89,7 @@ export class StyleEditor extends L.Class {
     const children = this.map.getPanes().markerPane.children
     for (let index = 0; index < children.length; index++) {
       const element = children[index] as HTMLEmbedElement
-      L.DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected')
+      DomUtil.removeClass(element, 'leaflet-styleeditor-marker-selected')
     }
   }
 
@@ -98,14 +98,14 @@ export class StyleEditor extends L.Class {
     this.map.eachLayer(this.addClickEvent, this)
   }
 
-  addClickEvent(layer: L.Layer) {
+  addClickEvent(layer: Layer) {
     if (this.layerIsIgnored(layer)) {
       return
     }
-    if (this.options.useGrouping && !(layer instanceof L.LayerGroup)) {
+    if (this.options.useGrouping && !(layer instanceof LayerGroup)) {
       return
     }
-    if(!this.options.useGrouping && layer instanceof L.LayerGroup) {
+    if(!this.options.useGrouping && layer instanceof LayerGroup) {
       return
     }
       
@@ -116,7 +116,7 @@ export class StyleEditor extends L.Class {
     this.map.eachLayer(this.removeClickEvent, this)
   }
 
-  removeClickEvent(layer: L.Layer) {
+  removeClickEvent(layer: Layer) {
     layer.off('click', this.onLayerClick, this)
   }
 
@@ -130,7 +130,7 @@ export class StyleEditor extends L.Class {
   }
 
   hideEditor() {
-    L.DomUtil.removeClass(this.editorUI, 'editor-enabled')
+    DomUtil.removeClass(this.editorUI, 'editor-enabled')
     this.removeIndicators()
     this.util.fireEvent('hidden')
   }
@@ -145,18 +145,18 @@ export class StyleEditor extends L.Class {
       this.currentLayer = layer
     }
     if (this.currentLayer) {
-      L.DomUtil.addClass(this.editorUI, 'editor-enabled')
+      DomUtil.addClass(this.editorUI, 'editor-enabled')
     }
     this.util.fireEvent('visible')
     this.styleForm.show()
   }
 
   showTooltip() {
-    L.DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden')
+    DomUtil.removeClass(this.tooltipUI, 'leaflet-styleeditor-hidden')
   }
 
   hideTooltip() {
-    L.DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden')
+    DomUtil.addClass(this.tooltipUI, 'leaflet-styleeditor-hidden')
   }
 
   enable() {
@@ -180,10 +180,10 @@ export class StyleEditor extends L.Class {
   }
 
   // get current layers
-  getCurrentLayers(): L.StyleableLayer[] {
+  getCurrentLayers(): StyleableLayer[] {
     if (!this.currentLayer) {
       return []
-    } else if (this.options.useGrouping && this.currentLayer instanceof L.LayerGroup) {
+    } else if (this.options.useGrouping && this.currentLayer instanceof LayerGroup) {
       return this.currentLayer.getLayers()
   } else {
       return [this.currentLayer]
