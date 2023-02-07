@@ -6,7 +6,7 @@ import { DomUtil, Map, Marker as LMarker} from "leaflet"
 import { StyleEditor } from "./StyleEditor"
 
 export class UtilOptions {
-  defaultColor
+  defaultColor?: string // TODO color
   styleEditorEventPrefix: string
 }
 
@@ -42,25 +42,26 @@ export class Util {
    * @param {boolean} noHash - define if return value should not include hash
    */
   rgbToHex(rgb: string, noHash: Boolean = false) {
-    if (!rgb) {
-      rgb = this.options.defaultColor
-      if (rgb.indexOf('#') !== 0) {
-        rgb = '#' + rgb
+    var color : string | undefined = rgb
+    if (!color) {
+      color = this.options.defaultColor
+      if (color && color.indexOf('#') !== 0) {
+        color = '#' + color
       }
     }
 
-    if (rgb.indexOf('#') === 0) {
+    if (color && color.indexOf('#') === 0) {
       if (noHash) {
-        rgb.replace('#', '')
+        color.replace('#', '')
       }
-      return rgb
+      return color
     }
 
-    if (rgb.indexOf('(') < 0) {
-      return '#' + rgb
+    if (color && color.indexOf('(') < 0) {
+      return '#' + color
     }
 
-    let rgbArray = rgb.substring(4).replace(')', '').split(',')
+    let rgbArray = color?.substring(4)?.replace(')', '')?.split(',') || []
     let withoutHash = this.componentToHex(parseInt(rgbArray[0], 10)) + this.componentToHex(parseInt(rgbArray[1], 10)) +
       this.componentToHex(parseInt(rgbArray[2], 10))
 

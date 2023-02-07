@@ -127,7 +127,7 @@ export abstract class Marker extends StyleEditorClass {
   private getDefaultMarkerColor() {
     let markerTypeColorRamp = this.colorRamp
     let generalColorRamp = this.styleEditor.options.colorRamp
-    let intersectedColorRamp = []
+    let intersectedColorRamp: string[] = []
 
     if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
       intersectedColorRamp = markerTypeColorRamp.filter((n) => generalColorRamp.includes(n))
@@ -139,17 +139,17 @@ export abstract class Marker extends StyleEditorClass {
     }
 
     let color = this.styleEditor.options.defaultMarkerColor
-    if (color !== null && !intersectedColorRamp.includes(color)) {
-      color = null
+    if (color && !intersectedColorRamp.includes(color)) {
+      color = undefined
     }
 
-    if (color === null) {
+    if (!color) {
       color = this.styleEditor.options.defaultColor
-      if (color !== null && !intersectedColorRamp.includes(color)) {
-        color = null
+      if (color && !intersectedColorRamp.includes(color)) {
+        color = undefined
       }
 
-      if (color === null) {
+      if (!color) {
         color = intersectedColorRamp[0]
       }
     }
