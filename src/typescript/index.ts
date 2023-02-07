@@ -81,15 +81,6 @@ declare module 'leaflet' {
   }
 }
 
-console.log("asdf")
-await (async() => {
-    console.log("waiting for variable");
-    while(!window.hasOwnProperty("L"))
-        await new Promise(resolve => setTimeout(resolve, 100));
-    console.log("variable is defined");
-})();
-
-
 L.StyleEditor = SE.StyleEditor
 L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
@@ -121,6 +112,5 @@ L.StyleEditorClasses = {
     DefaultMarker: SEMarker.DefaultMarker
   }
 }
-
 
 export default L
