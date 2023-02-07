@@ -168,27 +168,29 @@ L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new 
 
 L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
 
-L.StyleEditorClasses.Forms ={
-  Form: SEForm.Form,
-  MarkerForm: SEForm.MarkerForm,
-  PathForm: SEForm.PathForm,
-  FillableForm: SEForm.FillableForm
-};
-
-L.StyleEditorClasses.FormElements ={
-  ColorElement: SEFormElements.ColorElement,
-  DashElement: SEFormElements.DashElement,
-  FormElement: SEFormElements.FormElement,
-  IconElement: SEFormElements.IconElement,
-  OpacityElement: SEFormElements.OpacityElement,
-  PopupContentElement: SEFormElements.PopupContentElement,
-  SizeElement: SEFormElements.SizeElement,
-  WeightElement: SEFormElements.WeightElement
-};
-
-L.StyleEditorClasses.Marker = {
-  Marker: SEMarker.Marker,
-  DefaultMarker: SEMarker.DefaultMarker
-};
+L.StyleEditorClasses = {
+  Forms: {
+    Form: SEForm.Form,
+    MarkerForm: SEForm.MarkerForm,
+    PathForm: SEForm.PathForm,
+    FillableForm: SEForm.FillableForm
+  },
+  FormElements: {
+    ColorElement: SEFormElements.ColorElement,
+    DashElement: SEFormElements.DashElement,
+    FormElement: SEFormElements.FormElement,
+    IconElement: SEFormElements.IconElement,
+    OpacityElement: SEFormElements.OpacityElement,
+    PopupContentElement: SEFormElements.PopupContentElement,
+    SizeElement: SEFormElements.SizeElement,
+    WeightElement: SEFormElements.WeightElement
+  },
+  Marker: {
+    Marker: SEMarker.Marker,
+    DefaultMarker: SEMarker.DefaultMarker
+  }
+}
 
 L.asdf = 'qwer'
+
+export default L
