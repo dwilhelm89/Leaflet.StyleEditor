@@ -2,8 +2,8 @@ import { FormElement } from './FormElement'
 import { MarkerForm } from '../forms/MarkerForm'
 import { DomEvent, DomUtil } from 'leaflet'
 
-const selectedColorClass = 'leaflet-styleeditor-color-selected'
-const selectedColorIdPrefix = 'leaflet-styleeditor-color-'
+const selectedColorClass: string = 'leaflet-styleeditor-color-selected'
+const selectedColorIdPrefix: string  = 'leaflet-styleeditor-color-'
 
 /**
  *  FormElement used to style the color
@@ -14,13 +14,13 @@ export class ColorElement extends FormElement {
 
   title = "color"
 
-  createContent() {
+  createContent(): void {
     this.colorRampDivs = []
     this.colorPickerDiv = DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
     this.getColorRamp().forEach(this.createAndSetSelectCallback, this)
   }
 
-  style() {
+  style(): void {
     this.colorRampDivs.forEach(div => {
       DomUtil.removeClass(div, selectedColorClass) 
     })

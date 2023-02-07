@@ -10,8 +10,8 @@ export class IconElement extends FormElement {
   styleOption = 'icon'
 
   // private classed used in the code
-  private selectOptionWrapperClasses = 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden'
-  private selectOptionClasses = 'leaflet-styleeditor-select-option'
+  private selectOptionWrapperClasses: string = 'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden'
+  private selectOptionClasses: string = 'leaflet-styleeditor-select-option'
 
   private selectBoxImage: HTMLElement
   private selectOptions

@@ -2,6 +2,7 @@ import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditor } from '../StyleEditor'
 import { MarkerOptions } from './'
 import { Icon, Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
+import { MarkerSize } from '../types/MarkerSize'
 
 /**
  * The Base class for different markers
@@ -12,14 +13,14 @@ export interface MarkerClass {
 
 export abstract class Marker extends StyleEditorClass {
 
-  size = {
-    'small': [20, 50],
-    'medium': [30, 70],
-    'large': [35, 90]
-  }
+  size: Map<MarkerSize, number[]> =  new Map ([
+    ['small', [20, 50]],
+    ['medium', [30, 70]],
+    ['large', [35, 90]]
+  ])
 
-  selectIconSize: []
-  colorRamp?: []
+  selectIconSize: MarkerSize[]
+  colorRamp?: string[]
   markerName: string
 
   defaultMarkerIcon?: Icon
@@ -45,11 +46,16 @@ export abstract class Marker extends StyleEditorClass {
         currentElement.setIcon(newIcon)
         if (currentElement instanceof LayerGroup) {
           currentElement.eachLayer(function (layer) {
-            if (layer instanceof LMarker)
-              DomUtil.addClass(layer.getElement(), 'leaflet-styleeditor-marker-selected')
+            if (layer instanceof LMarker) {
+              const element = layer.getElement()
+              if (element)
+                DomUtil.addClass(element, 'leaflet-styleeditor-marker-selected')
+            }
           })
         } else {
-          DomUtil.addClass(currentElement.getElement(), 'leaflet-styleeditor-marker-selected')
+          const element = currentElement.getElement()
+          if (element)
+            DomUtil.addClass(element, 'leaflet-styleeditor-marker-selected')
         }
       }
     })
@@ -74,12 +80,12 @@ export abstract class Marker extends StyleEditorClass {
    *  if not set set them
    */
   getIconOptions(): MarkerOptions {
-    let markerOptions = {} as MarkerOptions
+    let markerOptions: MarkerOptions = {}
 
     const layers = this.styleEditor.getCurrentLayers()
     const marker = layers.find((layer) => layer instanceof LMarker) as LMarker
     if (marker) {
-      markerOptions = marker.options.icon.options || {}
+      markerOptions = marker?.options?.icon?.options || {}
     }
 
     if (Object.keys(markerOptions).length > 0) {
@@ -87,7 +93,7 @@ export abstract class Marker extends StyleEditorClass {
     }
 
     markerOptions.iconColor = this.getDefaultMarkerColor()
-    markerOptions.iconSize = this.size.small
+    markerOptions.iconSize = 'small' 
     markerOptions.icon = this.util.getDefaultMarkerForColor(markerOptions.iconColor)
 
     markerOptions = this.ensureMarkerIcon(markerOptions)

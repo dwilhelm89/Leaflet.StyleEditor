@@ -1,0 +1,1 @@
+export type MarkerSize = 'small' | 'medium' | 'large'
