@@ -1,9 +1,9 @@
-import { Class, Map } from "leaflet"
+import * as L from "leaflet"
 import { StyleEditor } from "./StyleEditor"
 import { Util } from "./Util"
 
-export class StyleEditorClass extends Class {
-  protected map: Map
+export class StyleEditorClass extends L.Class {
+  protected map: L.Map
   styleEditor: StyleEditor
   protected util: Util
   
