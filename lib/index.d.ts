@@ -61,3 +61,4 @@ declare module 'leaflet' {
         options?: any;
     }
 }
+export default L;

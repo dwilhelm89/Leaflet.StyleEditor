@@ -6,8 +6,10 @@
   "license": "MIT",
   "main": "src/javascript/Leaflet.StyleEditor.js",
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@types/leaflet": "^1.9.0",
     "@types/leaflet-draw": "^1.0.5",
     "@types/node": "^18.11.10",
@@ -46,12 +48,14 @@
   ],
   "dependencies": {
     "@types/leaflet-editable": "^1.2.1",
+    "http-server": "^14.1.1",
     "leaflet": "^1.9.3",
     "npm-check-updates": "^16.4.3"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint . ./**/*.js",
-    "es-check": "./node_modules/.bin/es-check es5 ./dist/javascript/Leaflet.StyleEditor.min.js"
+    "es-check": "./node_modules/.bin/es-check es5 ./dist/javascript/Leaflet.StyleEditor.min.js",
+    "transpile": "babel lib -d dist"
   },
   "publishConfig": {
     "access": "public"

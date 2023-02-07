@@ -7,7 +7,7 @@ import { Control, Map, DomUtil, DomEvent } from "leaflet";
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
 export class StyleEditorControl extends Control {
-  options: StyleEditorOptions
+  declare options: StyleEditorOptions
 
   private styleEditor: StyleEditor
 

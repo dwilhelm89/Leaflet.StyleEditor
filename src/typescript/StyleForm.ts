@@ -1,11 +1,10 @@
 import { Form } from './forms'
 import { StyleEditorClass } from './StyleEditorClass'
 import { StyleEditor } from './StyleEditor'
-import { DomEvent, DomUtil, Map } from 'leaflet'
+import { DomEvent, DomUtil } from 'leaflet'
 
 export class StyleForm extends StyleEditorClass {
 
-  map: Map
   styleEditorInterior: HTMLElement
   styleEditorDiv: HTMLElement
   forms: Form[] = []

@@ -4,9 +4,6 @@ import { StyleEditorOptions} from './options'
 import * as SEForm from './forms'
 import * as SEFormElements from './formElements'
 import * as SEMarker from './marker'
-import { Map , Layer } from 'leaflet'
-
-require('../css/Leaflet.StyleEditor.css')
 
 declare module 'leaflet' {
   type StyleEditor = SE.StyleEditor
@@ -84,14 +81,23 @@ declare module 'leaflet' {
   }
 }
 
+console.log("asdf")
+await (async() => {
+    console.log("waiting for variable");
+    while(!window.hasOwnProperty("L"))
+        await new Promise(resolve => setTimeout(resolve, 100));
+    console.log("variable is defined");
+})();
 
-const StyleEditor = SE.StyleEditor
-const styleEditor = function (map: Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
-//Control.StyleEditor = StyleEditorControl
-//control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
+L.StyleEditor = SE.StyleEditor
+L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
-const StyleEditorClasses = {
+L.Control.StyleEditor = StyleEditorControl
+L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
+
+
+L.StyleEditorClasses = {
   Forms: {
     Form: SEForm.Form,
     MarkerForm: SEForm.MarkerForm,
@@ -115,3 +121,6 @@ const StyleEditorClasses = {
     DefaultMarker: SEMarker.DefaultMarker
   }
 }
+
+
+export default L
