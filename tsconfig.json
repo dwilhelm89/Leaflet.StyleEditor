@@ -4,7 +4,8 @@
   ],
   "exclude": [
     "node_modules",
-    "**/__tests__/*"
+    "**/__tests__/*",
+    "dist"
   ],
   "compilerOptions": {
     /* Basic Options */
@@ -19,7 +20,7 @@
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./dist/index.js",                       /* Concatenate and emit output to single file. */
-    "outDir": "./lib", /* Redirect output structure to the directory. */
+    "outDir": "dist",
     // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */

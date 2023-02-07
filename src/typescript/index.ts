@@ -4,12 +4,13 @@ import { StyleEditorOptions} from './options'
 import * as SEForm from './forms'
 import * as SEFormElements from './formElements'
 import * as SEMarker from './marker'
-import * as L from 'leaflet'
 
 declare module 'leaflet' {
   type StyleEditor = SE.StyleEditor
   var StyleEditor: typeof SE.StyleEditor
   var styleEditor: (...args: ConstructorParameters<typeof StyleEditor>) => StyleEditor
+
+  var asdf: string
 
   namespace StyleEditorClasses {
 
@@ -163,17 +164,16 @@ export namespace DomEvent {
 }
 }
 
-(L.styleEditor as any) = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
+L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
 L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
-
 
 L.StyleEditorClasses.Forms ={
   Form: SEForm.Form,
   MarkerForm: SEForm.MarkerForm,
   PathForm: SEForm.PathForm,
   FillableForm: SEForm.FillableForm
-}
+};
 
 L.StyleEditorClasses.FormElements ={
   ColorElement: SEFormElements.ColorElement,
@@ -184,11 +184,11 @@ L.StyleEditorClasses.FormElements ={
   PopupContentElement: SEFormElements.PopupContentElement,
   SizeElement: SEFormElements.SizeElement,
   WeightElement: SEFormElements.WeightElement
-}
+};
 
 L.StyleEditorClasses.Marker = {
   Marker: SEMarker.Marker,
   DefaultMarker: SEMarker.DefaultMarker
-}
+};
 
-export default L
+L.asdf = 'qwer'

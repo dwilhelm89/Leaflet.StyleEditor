@@ -8,6 +8,7 @@
   "type": "module",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/leaflet": "^1.9.0",
     "@types/leaflet-draw": "^1.0.6",
     "@types/node": "^18.13.0",
@@ -18,9 +19,10 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^4.1.0",
-    "leaflet": "^1.9.3",
+    "leaflet": "^1.9.0",
     "lint": "^1.1.2",
     "rollup": "^3.14.0",
+    "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   },
   "repository": {
