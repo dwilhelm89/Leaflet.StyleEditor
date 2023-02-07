@@ -8,8 +8,8 @@ export interface StyleEditorOptions extends ControlOptions {
   defaultColor?: string // TODO color
 
   markerType: MarkerClass
-  markers?
-  defaultMarkerIcon?: string
+  markers?: string[] | Record<string, string[]> // TODO better types with colors
+  defaultMarkerIcon?: string | Record<string, string> // TODO add color
   defaultMarkerColor?: string //TODO color
 
   forms: FormClass[]
@@ -21,9 +21,9 @@ export interface StyleEditorOptions extends ControlOptions {
 
   strings: LeafletStyleEditorStrings
   layerAddEvents: string[]
-  showTooltip: Boolean
+  showTooltip: boolean
   ignoreLayerTypes: string[]
-  useGrouping: Boolean
+  useGrouping: boolean
 }
 
 export const DefaultStyleEditorOptions: StyleEditorOptions = {

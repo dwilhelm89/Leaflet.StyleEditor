@@ -111,7 +111,7 @@ export class Util {
   }
 
   /** get the markers for a specific color **/
-  getIconsForColor(color: string) : string[] {
+  public getIconsForColor(color: string) : string[] {
     color = this.rgbToHex(color)
 
     let markers = new this.styleEditor.options.markerType(this.styleEditor).markers
@@ -126,7 +126,7 @@ export class Util {
       }
     }
 
-    if (controlMarkers !== null) {
+    if (controlMarkers) {
       if (!Array.isArray(controlMarkers)) {
         let keys = Object.keys(controlMarkers)
         if (keys.includes(color)) {
@@ -144,15 +144,18 @@ export class Util {
   }
 
   /** get default marker for specific color **/
-  getDefaultMarkerForColor(color) {
+  // TODO return color
+  getDefaultMarkerForColor(color: string): string {
     color = this.rgbToHex(color)
 
     let markers = this.getIconsForColor(color)
 
-    let defMarkers = []
+    let defMarkers: string[] = []
 
-    let defaultMarker = this.styleEditor.options.defaultMarkerIcon
-    if (defaultMarker !== null) {
+    let defaultMarker: string | Record<string, string> | undefined 
+      = this.styleEditor.options.defaultMarkerIcon
+
+    if (defaultMarker) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)
       }
@@ -162,7 +165,7 @@ export class Util {
     }
 
     defaultMarker = new this.styleEditor.options.markerType(this.styleEditor).defaultMarkerIcon
-    if (defaultMarker !== undefined) {
+    if (defaultMarker) {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker)
       }

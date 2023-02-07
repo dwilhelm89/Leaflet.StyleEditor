@@ -1,7 +1,7 @@
 import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditor } from '../StyleEditor'
 import { MarkerOptions } from './'
-import { Icon, Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
+import { Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
 
 /**
  * The Base class for different markers
@@ -12,17 +12,17 @@ export interface MarkerClass {
 
 export abstract class Marker extends StyleEditorClass {
 
-  size: Map<string, number[]> =  new Map ([
-    ['small', [20, 50]],
-    ['medium', [30, 70]],
-    ['large', [35, 90]]
-  ])
+  size: {
+    'small': [20, 50],
+    'medium': [30, 70],
+    'large': [35, 90]
+  }
 
   selectIconSize
   colorRamp?: string[]
   markerName: string
 
-  defaultMarkerIcon?: Icon
+  defaultMarkerIcon?
   markers: string[]
 
   constructor(styleEditor: StyleEditor, markerName: string) {
@@ -162,9 +162,7 @@ export abstract class Marker extends StyleEditorClass {
   }
 
   /** return size as keyword */
-  sizeToName(size) {
-    let keys = Object.keys(this.size)
-
+  protected sizeToName(size: string): string {
     if (typeof size === 'string') {
       if (size === 's') {
         size = 'small'
@@ -173,15 +171,12 @@ export abstract class Marker extends StyleEditorClass {
       } else if (size === 'l') {
         size = 'large'
       }
-
-      for (let i = 0; i < keys.length; i++) {
-        if (this.size[keys[i]] === size) {
-          return keys[i]
-        }
-      }
+      return size
     }
 
-    let values = Object.values(this.size)
+    const keys = Object.keys(this.size)
+    const values = Object.values(this.size)
+
     for (let i = 0; i < values.length; i++) {
       if (JSON.stringify(size) === JSON.stringify(values[i])) {
         return keys[i]
