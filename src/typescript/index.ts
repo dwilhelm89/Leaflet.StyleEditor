@@ -164,8 +164,10 @@ export namespace DomEvent {
 }
 }
 
+L.StyleEditor = SE.StyleEditor
 L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
 
+L.Control.StyleEditor = StyleEditorControl
 L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
 
 L.StyleEditorClasses = {
