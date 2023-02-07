@@ -2,7 +2,6 @@ import { StyleEditorClass } from '../StyleEditorClass'
 import { StyleEditor } from '../StyleEditor'
 import { MarkerOptions } from './'
 import { Icon, Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
-import { MarkerSize } from '../types/MarkerSize'
 
 /**
  * The Base class for different markers
@@ -13,13 +12,13 @@ export interface MarkerClass {
 
 export abstract class Marker extends StyleEditorClass {
 
-  size: Map<MarkerSize, number[]> =  new Map ([
+  size: Map<string, number[]> =  new Map ([
     ['small', [20, 50]],
     ['medium', [30, 70]],
     ['large', [35, 90]]
   ])
 
-  selectIconSize: MarkerSize[]
+  selectIconSize
   colorRamp?: string[]
   markerName: string
 

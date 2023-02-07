@@ -16,63 +16,56 @@ export interface FormClass {
 *     - icon: https://leafletjs.com/reference.html#icon
 */
 export abstract class Form extends StyleEditorClass {
+
+  private parentUiElement: HTMLElement
+
   constructor(styleEditor: StyleEditor, parentUiElement: HTMLElement) {
     super(styleEditor)
     this.parentUiElement = parentUiElement
   }
   
+
   protected formElements: Record<string, FormElementClass>
   
   private uiElement: HTMLElement
-  private parentUiElement: HTMLElement
   protected initializedElements: Record<string, FormElement> = {}
   
   /** create every FormElement in the parentUiElement */
-  create() {
+  create(): void {
     this.uiElement = DomUtil.create('div', '', this.parentUiElement)
     for (let key in this.formElements) {
       const formElement = this.getFormElementClass(key)
-      if (formElement !== undefined) {
+      if (formElement) {
         this.initializedElements[key] = new formElement(this, this.uiElement, key)
       }
     }
-    this.hide()
-  }
-  
-  /** hide the Form including its FormElements */
-  hide() {
-    this.hideForm()
   }
   
   /** hide the Form */
-  hideForm() {
+  public hide(): void {
     this.util.hideElement(this.uiElement)
   }
   
   /** make FormElements and Form visible */
-  show() {
-    this.preShow()
+  public show(): void {
     this.showForm()
     this.style()
   }
   
-  /** hook which is called at the beginning of the show function */
-  preShow() {}
-  
   /** make the Form visible */
-  showForm() {
+  protected showForm() {
     this.util.showElement(this.uiElement)
   }
   
   /** inform FormElements the selected style has changed, so they can adapt */
-  style() {
+  public style(): void {
     for (let key in this.initializedElements) {
       this.initializedElements[key].style()
     }
   }
   
   /** inform Form it lost it's focus */
-  lostFocus() {
+  protected lostFocus(): void {
     for (let key in this.initializedElements) {
       this.initializedElements[key].lostFocus()
     }
@@ -82,10 +75,10 @@ export abstract class Form extends StyleEditorClass {
   * get the Class of the Formelement to instanciate
   * @param {*} styleOption, the styleOption to get the FormElement for
   */
-  getFormElementClass(styleOption: string): FormElementClass {
+  private getFormElementClass(styleOption: string): FormElementClass | undefined {
     let formElementKeys = Object.keys(this.formElements)
     
-    if (formElementKeys.indexOf(styleOption) >= 0) {
+    if (formElementKeys.includes(styleOption)) {
       let FormElement = this.formElements[styleOption]
       
       if (FormElement) {
@@ -101,13 +94,15 @@ export abstract class Form extends StyleEditorClass {
       // if nothing works return it
       return this.getFormElementStandardClass(styleOption)
     }
+
+    return undefined
   }
   
   /**
   * get Leaflet.StyleEditor standard FormElement class for given styleOption
   * @param {*} styleOption, the styleOption to get the standard class for
   */
-  getFormElementStandardClass(styleOption: string): FormElementClass {
+  private getFormElementStandardClass(styleOption: string): FormElementClass {
     return this.formElements[styleOption]
   }
 

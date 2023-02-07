@@ -9,7 +9,7 @@ export interface FormElementClass {
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
 
-  styleOption: string
+  protected styleOption: string
   protected title: string
   protected uiElement: HTMLElement
   protected parentForm: Form
@@ -23,7 +23,7 @@ export abstract class FormElement extends StyleEditorClass {
   }
 
   /** create uiElement and content */
-  private create(parentUiElement: HTMLElement) {
+  private create(parentUiElement: HTMLElement): void {
     this.uiElement =
       DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement)
     this.createTitle()
@@ -31,40 +31,38 @@ export abstract class FormElement extends StyleEditorClass {
   }
 
   /** create title */
-  createTitle() {
+  private createTitle(): void {
     let title = DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement)
     title.innerHTML = this.title || this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1)
   }
 
   /** create content (where the actual modification takes place) */
-  createContent() {
-  }
+  public abstract createContent(): void
 
   /** style the FormElement and show it */
-  show() {
+  public show(): void {
     this.style()
     this.showForm()
   }
 
   /** show the FormElement */
-  showForm() {
+  private showForm(): void {
     this.util.showElement(this.uiElement)
   }
 
   /** hide the FormElement */
-  hide() {
+  public hide(): void {
     this.util.hideElement(this.uiElement)
   }
 
   /** style the FormElement */
-  style() {}
+  public abstract style(): void
 
   /** what to do when lost focus */
-  lostFocus() {
-  }
+  protected lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
-  setStyle(value) {
+  protected setStyle(value): void {
     this.styleEditor.getCurrentLayers().forEach(layer => {
       layer.options[this.styleOption] = value
       if(layer instanceof LMarker) {
@@ -80,5 +78,4 @@ export abstract class FormElement extends StyleEditorClass {
     // notify form styling value has changed
     this.parentForm.style()
   }
-
 }

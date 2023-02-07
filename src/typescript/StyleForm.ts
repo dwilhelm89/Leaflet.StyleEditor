@@ -46,7 +46,7 @@ export class StyleForm extends StyleEditorClass {
   }
 
 
-  lostFocus(e) {
+  private lostFocus(e) {
     let parent = e.target
     for (let i = 0; i < 10; i++) {
       if (!parent) {
