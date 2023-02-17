@@ -47,6 +47,8 @@ export class StyleEditor extends Class {
     buttonNext.title = this.options.strings.hide
 
     const tooltipWrapper = this.tooltipUI = DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
+    this.util.hideElement(tooltipWrapper)
+
     const tooltip = DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
     tooltip.innerHTML = this.options.strings.tooltip
 
