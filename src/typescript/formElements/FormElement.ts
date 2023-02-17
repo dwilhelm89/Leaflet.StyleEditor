@@ -27,7 +27,6 @@ export abstract class FormElement extends StyleEditorClass {
     this.uiElement =
       DomUtil.create('div', 'leaflet-styleeditor-uiElement', parentUiElement)
     this.createTitle()
-    this.createContent()
   }
 
   /** create title */
@@ -35,9 +34,6 @@ export abstract class FormElement extends StyleEditorClass {
     let title = DomUtil.create('label', 'leaflet-styleeditor-label', this.uiElement)
     title.innerHTML = this.title || this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1)
   }
-
-  /** create content (where the actual modification takes place) */
-  public abstract createContent(): void
 
   /** style the FormElement and show it */
   public show(): void {

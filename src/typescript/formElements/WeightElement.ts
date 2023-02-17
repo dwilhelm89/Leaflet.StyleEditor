@@ -1,5 +1,6 @@
 import { DomEvent, DomUtil } from "leaflet"
 import { FormElement } from "."
+import { Form } from "../forms"
 
 /**
  * FormElement used to style weight
@@ -9,22 +10,31 @@ export class WeightElement extends FormElement {
   private label: HTMLSpanElement
   private weight: HTMLInputElement
 
-  /** create number input box */
-  createContent() {
-    this.label = DomUtil.create('span', 'leaflet-styleeditor-input-span', this.uiElement)
+  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
+    super(parentForm, parentUiElement, styleOption)
+    this.label = this.createLabel()
+    this.weight = this.createWeightElement()
+  }
 
-    this.weight = DomUtil.create('input', 'leaflet-styleeditor-input',    this.uiElement) as HTMLInputElement
-    this.weight.type = 'range'
-    this.weight.min = '0'
-    this.weight.max = '20'
-    this.weight.step = '1'
-    this.weight.value = '4'
+  private createLabel() : HTMLSpanElement {
+    return DomUtil.create('span', 'leaflet-styleeditor-input-span', this.uiElement)
+  }
+
+  /** create number input box */
+  private createWeightElement(): HTMLInputElement {
+    const weight = DomUtil.create('input', 'leaflet-styleeditor-input',    this.uiElement) as HTMLInputElement
+    weight.type = 'range'
+    weight.min = '0'
+    weight.max = '20'
+    weight.step = '1'
+    weight.value = '4'
 
     // add event listeners
     DomEvent.addListener(this.weight, 'change', this.updateStyle, this)
     DomEvent.addListener(this.weight, 'input', this.updateStyle, this)
     DomEvent.addListener(this.weight, 'keyup', this.updateStyle, this)
     DomEvent.addListener(this.weight, 'mouseup', this.updateStyle, this)
+    return weight
   }
 
   /** set correct value */

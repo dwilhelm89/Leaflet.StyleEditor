@@ -1,5 +1,6 @@
 import { DomEvent, DomUtil } from 'leaflet'
 import { FormElement } from '.'
+import { Form } from '../forms'
 
 /**
  * FormElement used for adding a description to marker or geometry.
@@ -10,10 +11,16 @@ export class PopupContentElement extends FormElement {
 
   title = 'Description'
   
-  createContent() {
-    this.textArea = DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
+  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
+    super(parentForm, parentUiElement, styleOption)
+    this.textArea = this.createTextArea()
+  }
+
+  private createTextArea(): HTMLTextAreaElement {
+    const textArea = DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
     DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
     DomEvent.addListener(this.textArea, 'input', this.updateStyle, this)
+    return textArea
   }
 
   /** set correct value */

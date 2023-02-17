@@ -1,5 +1,6 @@
 import { DomEvent, DomUtil } from "leaflet"
 import { FormElement } from "."
+import { Form } from "../forms"
 
 /**
  * FormElement used to style opacity
@@ -9,22 +10,34 @@ export class OpacityElement extends FormElement {
   private label: HTMLSpanElement
   private slider: HTMLInputElement
 
-  /** create number input box */
-  createContent() {
-    this.label = DomUtil.create('span', 'leaflet-styleeditor-input-span', this.uiElement)
+  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
+    super(parentForm, parentUiElement, styleOption)
 
-    this.slider = DomUtil.create('input', 'leaflet-styleeditor-input', this.uiElement) as HTMLInputElement
-    this.slider.type = 'range'
-    this.slider.max = '1'
-    this.slider.min = '0'
-    this.slider.step = '0.01'
-    this.slider.value = '0.5'
+    this.label = this.createLabel()
+    this.slider = this.createSlider()
+  }
+
+  private createLabel(): HTMLSpanElement {
+    return DomUtil.create('span', 'leaflet-styleeditor-input-span', this.uiElement)
+  }
+
+  /** create number input box */
+  private createSlider() {
+
+    const slider = DomUtil.create('input', 'leaflet-styleeditor-input', this.uiElement) as HTMLInputElement
+    slider.type = 'range'
+    slider.max = '1'
+    slider.min = '0'
+    slider.step = '0.01'
+    slider.value = '0.5'
 
     // add event listeners
     DomEvent.addListener(this.slider, 'change', this.updateStyle, this)
     DomEvent.addListener(this.slider, 'input', this.updateStyle, this)
     DomEvent.addListener(this.slider, 'keyup', this.updateStyle, this)
     DomEvent.addListener(this.slider, 'mouseup', this.updateStyle, this)
+
+    return slider
   }
 
   /** set correct value */

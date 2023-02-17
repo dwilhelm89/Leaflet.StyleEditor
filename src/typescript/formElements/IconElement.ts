@@ -1,5 +1,6 @@
 import { DomEvent, DomUtil } from 'leaflet'
 import { FormElement } from '.'
+import { Form } from '../forms'
 
 
 /**
@@ -14,18 +15,24 @@ export class IconElement extends FormElement {
   private selectOptionClasses: string = 'leaflet-styleeditor-select-option'
 
   private selectBoxImage: HTMLElement
-  private selectOptions: Record<string, HTMLElement>
+  private selectOptions: Record<string, HTMLElement> = {}
+
+  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
+    super(parentForm, parentUiElement, styleOption)
+    this.selectBoxImage = this.createSelectBoxImage()
+  }
 
   /** create the icon selectBoxes */
-  createContent() {
-    let selectBox = DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement)
-    this.selectBoxImage = this.createSelectInputImage(selectBox)
+  private createSelectBoxImage(): HTMLElement {
+    const selectBox = DomUtil.create('div', 'leaflet-styleeditor-select', this.uiElement)
+    const selectBoxImage = this.createSelectInputImage(selectBox)
 
     DomEvent.addListener(selectBox, 'click', this.toggleSelectInput, this)
+    return selectBoxImage
   }
 
   /** show the correct icon in the correct color if the icon or color changed */
-  style() {
+  override style() {
     let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
     this.styleSelectInputImage(this.selectBoxImage, iconOptions.icon, iconOptions.iconColor)
     this.createColorSelect(iconOptions.iconColor)
@@ -33,7 +40,7 @@ export class IconElement extends FormElement {
   }
 
   /** if lost focus hide potentially open SelectOption */
-  lostFocus() {
+  override lostFocus() {
     this.hideSelectOptions()
   }
 
