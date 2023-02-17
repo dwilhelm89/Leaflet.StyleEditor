@@ -12,7 +12,7 @@ export interface MarkerClass {
 
 export abstract class Marker extends StyleEditorClass {
 
-  size: {
+  size = {
     'small': [20, 50],
     'medium': [30, 70],
     'large': [35, 90]
