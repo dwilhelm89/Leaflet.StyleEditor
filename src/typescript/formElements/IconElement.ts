@@ -63,7 +63,7 @@ export class IconElement extends FormElement {
 
   /** create the selectBox with the icons in the correct color */
   private createColorSelect(color) {
-    if (color in this.selectOptions) {
+    if (this.selectOptions.has(color)) {
       return
     }
 
@@ -71,13 +71,13 @@ export class IconElement extends FormElement {
       DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
 
     this.util.getIconsForColor(color).forEach((icon) => {
-      let selectOption: HTMLLIElement = DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
+      const selectOption: HTMLLIElement = DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
       selectOption.setAttribute('value', icon)
-      let selectImage = this.createSelectInputImage(selectOption)
+      const selectImage = this.createSelectInputImage(selectOption)
       this.styleSelectInputImage(selectImage, icon, color)
     }, this)
-    this.selectOptions.set(color, selectOptionWrapper)
 
+    this.selectOptions.set(color, selectOptionWrapper)
 
     DomEvent.addListener(selectOptionWrapper, 'click', (e) => {
       e.stopPropagation()
@@ -91,6 +91,7 @@ export class IconElement extends FormElement {
       this.selectMarker({
         'target': target
       })
+      this.util.hideElement(selectOptionWrapper)
     }, this)
   }
 
