@@ -32,10 +32,10 @@ export class OpacityElement extends FormElement {
     slider.value = '0.5'
 
     // add event listeners
-    DomEvent.addListener(this.slider, 'change', this.updateStyle, this)
-    DomEvent.addListener(this.slider, 'input', this.updateStyle, this)
-    DomEvent.addListener(this.slider, 'keyup', this.updateStyle, this)
-    DomEvent.addListener(this.slider, 'mouseup', this.updateStyle, this)
+    DomEvent.addListener(slider, 'change', this.updateStyle, this)
+    DomEvent.addListener(slider, 'input', this.updateStyle, this)
+    DomEvent.addListener(slider, 'keyup', this.updateStyle, this)
+    DomEvent.addListener(slider, 'mouseup', this.updateStyle, this)
 
     return slider
   }

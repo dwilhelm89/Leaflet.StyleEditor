@@ -30,10 +30,10 @@ export class WeightElement extends FormElement {
     weight.value = '4'
 
     // add event listeners
-    DomEvent.addListener(this.weight, 'change', this.updateStyle, this)
-    DomEvent.addListener(this.weight, 'input', this.updateStyle, this)
-    DomEvent.addListener(this.weight, 'keyup', this.updateStyle, this)
-    DomEvent.addListener(this.weight, 'mouseup', this.updateStyle, this)
+    DomEvent.addListener(weight, 'change', this.updateStyle, this)
+    DomEvent.addListener(weight, 'input', this.updateStyle, this)
+    DomEvent.addListener(weight, 'keyup', this.updateStyle, this)
+    DomEvent.addListener(weight, 'mouseup', this.updateStyle, this)
     return weight
   }
 

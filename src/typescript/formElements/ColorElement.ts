@@ -34,7 +34,7 @@ export class ColorElement extends FormElement {
       return layer.options.color
     })
     if (!layerWithColor) return
-    debugger
+
     const color = layerWithColor.options[this.styleOption]
     const colorRampElement = DomUtil.get(selectedColorIdPrefix + color)
     if(colorRampElement) {

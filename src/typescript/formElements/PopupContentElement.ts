@@ -18,13 +18,13 @@ export class PopupContentElement extends FormElement {
 
   private createTextArea(): HTMLTextAreaElement {
     const textArea = DomUtil.create('textarea', 'leaflet-styleeditor-input', this.uiElement) as HTMLTextAreaElement
-    DomEvent.addListener(this.textArea, 'change', this.updateStyle, this)
-    DomEvent.addListener(this.textArea, 'input', this.updateStyle, this)
+    DomEvent.addListener(textArea, 'change', this.updateStyle, this)
+    DomEvent.addListener(textArea, 'input', this.updateStyle, this)
     return textArea
   }
 
   /** set correct value */
-  style() {
+  override style() {
     const selectedElements = this.styleEditor.getCurrentLayers()
     this.textArea.value = ''
     selectedElements.forEach(layer => {
