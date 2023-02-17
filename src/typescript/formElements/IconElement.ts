@@ -33,7 +33,7 @@ export class IconElement extends FormElement {
 
   /** show the correct icon in the correct color if the icon or color changed */
   override style() {
-    let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
+    const iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
     this.styleSelectInputImage(this.selectBoxImage, iconOptions.icon, iconOptions.iconColor)
     this.createColorSelect(iconOptions.iconColor)
     this.hideSelectOptions()
@@ -52,7 +52,7 @@ export class IconElement extends FormElement {
 
   /** create appropriate image for color and icon */
   private styleSelectInputImage(image: HTMLElement, icon, color) {
-    let iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
+    const iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
     if (color) {
       iconOptions.iconColor = color
     }
@@ -67,7 +67,7 @@ export class IconElement extends FormElement {
       return
     }
 
-    let selectOptionWrapper: HTMLUListElement =
+    const selectOptionWrapper: HTMLUListElement =
       DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
 
     this.util.getIconsForColor(color).forEach((icon) => {
@@ -75,8 +75,8 @@ export class IconElement extends FormElement {
       selectOption.setAttribute('value', icon)
       let selectImage = this.createSelectInputImage(selectOption)
       this.styleSelectInputImage(selectImage, icon, color)
-      this.selectOptions.set(color, selectOption)
     }, this)
+    this.selectOptions.set(color, selectOptionWrapper)
 
 
     DomEvent.addListener(selectOptionWrapper, 'click', (e) => {
@@ -96,10 +96,10 @@ export class IconElement extends FormElement {
 
   /** show/hide iconSelectBox */
   private toggleSelectInput() {
-    let currentColorElement = this.getCurrentColorElement(
-      this.util.rgbToHex(
-        new this.styleEditor.options.markerType(this.styleEditor).getIconOptions().iconColor
-      )
+    const iconOptions = new this.styleEditor.options.markerType(this.styleEditor).getIconOptions()
+
+    const currentColorElement = this.getCurrentColorElement(
+      this.util.rgbToHex(iconOptions.iconColor)
     )
 
     let show = false
