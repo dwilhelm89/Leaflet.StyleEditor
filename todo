@@ -1,15 +1,17 @@
-* PopupFormElement doesn't work as expected (remove from path and poly?)
-* marker selection highlighing incorrect
-* highlight selected colors
 * set default marker when creating markers
 * find solution to compare colors ( https://github.com/dsteinman/ts-color-class )
 * central point for storing style?
-* style form elements when initializing as well
-* defaultStyle: L.Style {color: Color, etc}
-
 * change logic so all styleable things are set in layer.options
 
+Styling
+  * How to use Leaflet icon?
+PopUpElement
+  * retain text and allow more then 1 letter
 DashElement
   * Style the DashElement
 SizeElement
   * Style the SizeElement
+ColorElement
+  * Highlight selected color on Poly/path
+IconElement
+  * Highlight selected icon
