@@ -8,7 +8,7 @@ import { Layer, LeafletMouseEvent, Map,  DomUtil, DomEvent, LayerGroup, Class, L
 export class StyleEditor extends Class {
   controls: StyleEditorControl[] = []
   // TODO event? LAyer?!
-  currentLayer: Layer | LayerGroup
+  currentLayer?: Layer | LayerGroup
 
   options: StyleEditorOptions
   util: Util
@@ -30,42 +30,45 @@ export class StyleEditor extends Class {
     this.options = { ...DefaultStyleEditorOptions, ...options }
     this.util = new Util(this)
 
-    this.createUi()
+    this.editorUI = this.createEditorUi()
+    this.interiorEditorUI = DomUtil.create('div', 'leaflet-styleeditor-interior', this.editorUI)
+
+    this.tooltipUI = this.createToolTip()
+    this.createEditorHeader()
+
+    this.addEventListeners(this.map)
+    this.styleForm = new StyleForm(this)
 
     if(control) {
       this.addControl(control)
     }
   }
 
-  createUi() {
-    const editorUI = this.editorUI = DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer())
+  createToolTip(): HTMLElement {
+    const tooltipWrapper = DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
+    const tooltip = DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
+    tooltip.innerHTML = this.options.strings.tooltip
+    return tooltipWrapper
+  }
 
-    const styleEditorHeader = DomUtil.create('div', 'leaflet-styleeditor-header', editorUI)
-    this.interiorEditorUI = DomUtil.create('div', 'leaflet-styleeditor-interior', editorUI)
+  private createEditorUi() {
+    const editorUI = DomUtil.create('div', 'leaflet-styleeditor', this.map.getContainer())
+    DomEvent.disableScrollPropagation(editorUI)
+    DomEvent.disableClickPropagation(editorUI)
+    return editorUI
+  }
+
+  private createEditorHeader() {
+    const styleEditorHeader = DomUtil.create('div', 'leaflet-styleeditor-header', this.editorUI)
 
     const buttonNext = DomUtil.create('button', 'leaflet-styleeditor-button styleeditor-hideBtn', styleEditorHeader)
     buttonNext.title = this.options.strings.hide
 
-    const tooltipWrapper = this.tooltipUI = DomUtil.create('div', 'leaflet-styleeditor-tooltip-wrapper', this.map.getContainer())
-    this.util.hideElement(tooltipWrapper)
-
-    const tooltip = DomUtil.create('div', 'leaflet-styleeditor-tooltip', tooltipWrapper)
-    tooltip.innerHTML = this.options.strings.tooltip
-
-    // do not propagate scrolling events on the ui to the map
-    DomEvent.disableScrollPropagation(editorUI)
-    DomEvent.disableScrollPropagation(buttonNext)
-
-    // do not propagate click events on the ui to the map
-    DomEvent.disableClickPropagation(editorUI)
-    DomEvent.disableClickPropagation(buttonNext)
-
     // select next layer to style
     DomEvent.on(buttonNext, 'click', this.onNext, this)
 
-    this.addEventListeners(this.map)
-
-    this.styleForm = new StyleForm(this)
+    DomEvent.disableScrollPropagation(buttonNext)
+    DomEvent.disableClickPropagation(buttonNext)
   }
 
   addEventListeners(map: Map) {
@@ -122,7 +125,7 @@ export class StyleEditor extends Class {
     layer.off('click', this.onLayerClick, this)
   }
 
-  private layerIsIgnored(layer) {
+  private layerIsIgnored(layer: Layer) {
     if (layer === undefined) {
       return false
     }
