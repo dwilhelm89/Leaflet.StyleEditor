@@ -18,12 +18,15 @@ export class ColorElement extends FormElement {
   constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
     super(parentForm, parentUiElement, styleOption)
     this.colorPickerDiv = this.createColoPicker()
+    this.createColorPickerRamp()
   }
 
   private createColoPicker(): HTMLElement {
-    const colorPickerDiv = DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
+    return DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
+  }
+
+  private createColorPickerRamp() {
     this.getColorRamp().forEach(this.createAndSetSelectCallback, this)
-    return colorPickerDiv
   }
 
   style(): void {
@@ -42,7 +45,7 @@ export class ColorElement extends FormElement {
     }
   }
 
-  /** create of get already created colorRamp */
+  /** create or get already created colorRamp */
   private getColorRamp() {
     // if markers have own colorRamp use it
     if (this.parentForm instanceof MarkerForm) {

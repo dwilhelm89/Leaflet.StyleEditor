@@ -15,7 +15,7 @@ export class IconElement extends FormElement {
   private selectOptionClasses: string = 'leaflet-styleeditor-select-option'
 
   private selectBoxImage: HTMLElement
-  private selectOptions: Record<string, HTMLElement> = {}
+  private selectOptions: Map<string, HTMLElement> = new Map()
 
   constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
     super(parentForm, parentUiElement, styleOption)
@@ -45,7 +45,7 @@ export class IconElement extends FormElement {
   }
 
   /** create image container that hides/shows the iconSelectBox */
-  private createSelectInputImage(parentUiElement): HTMLElement {
+  private createSelectInputImage(parentUiElement: HTMLElement): HTMLElement {
     let wrapper = DomUtil.create('div', 'leaflet-styleeditor-select-image-wrapper', parentUiElement)
     return DomUtil.create('div', 'leaflet-styleeditor-select-image', wrapper)
   }
@@ -63,9 +63,6 @@ export class IconElement extends FormElement {
 
   /** create the selectBox with the icons in the correct color */
   private createColorSelect(color) {
-    if (!this.selectOptions) {
-      this.selectOptions = {}
-    }
     if (color in this.selectOptions) {
       return
     }
@@ -73,16 +70,16 @@ export class IconElement extends FormElement {
     let selectOptionWrapper: HTMLUListElement =
       DomUtil.create('ul', this.selectOptionWrapperClasses, this.uiElement)
 
-    this.util.getIconsForColor(color).forEach(function (icon) {
+    this.util.getIconsForColor(color).forEach((icon) => {
       let selectOption: HTMLLIElement = DomUtil.create('li', this.selectOptionClasses, selectOptionWrapper)
       selectOption.setAttribute('value', icon)
       let selectImage = this.createSelectInputImage(selectOption)
       this.styleSelectInputImage(selectImage, icon, color)
-      this.selectOptions[color] = selectOption
+      this.selectOptions.set(color, selectOption)
     }, this)
 
 
-    DomEvent.addListener(selectOptionWrapper, 'click', function (e) {
+    DomEvent.addListener(selectOptionWrapper, 'click', (e) => {
       e.stopPropagation()
       let target = e.target as HTMLElement
       if (target.nodeName === 'UL') {
@@ -93,7 +90,7 @@ export class IconElement extends FormElement {
       }
       this.selectMarker({
         'target': target
-      }, this)
+      })
     }, this)
   }
 
@@ -135,16 +132,16 @@ export class IconElement extends FormElement {
 
   /** return correct selectBox depending on which color is currently chosen */
   private getCurrentColorElement(color) {
-    if (!this.selectOptions[color]) {
+    if (!this.selectOptions.has(color)) {
       this.createColorSelect(color)
     }
-    return this.selectOptions[color]
+    return this.selectOptions.get(color)
   }
 
   /** hide open SelectOption */
   private hideSelectOptions() {
-    for (let selectOption in this.selectOptions) {
-      this.util.hideElement(this.selectOptions[selectOption])
-    }
+    this.selectOptions.forEach((value: HTMLElement) => {
+      this.util.hideElement(value)
+    })
   }
 }
