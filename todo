@@ -7,6 +7,7 @@ Styling
   * How to use Leaflet icon?
 PopUpElement
   * retain text and allow more then 1 letter
+  * TextArea does not fit into parent
 DashElement
   * Style the DashElement
 SizeElement
@@ -15,3 +16,4 @@ ColorElement
   * Highlight selected color on Poly/path
 IconElement
   * Highlight selected icon
+  * Fix color seelction
