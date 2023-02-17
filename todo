@@ -17,3 +17,6 @@ ColorElement
 IconElement
   * Highlight selected icon
   * Fix color seelction
+
+Map:
+  * Remove marker focus box when leaving focus
