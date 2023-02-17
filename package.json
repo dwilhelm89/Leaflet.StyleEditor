@@ -19,6 +19,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^4.1.0",
+    "http-server": "^14.1.1",
     "leaflet": "^1.9.0",
     "lint": "^1.1.2",
     "rollup": "^3.14.0",
@@ -40,7 +41,6 @@
   ],
   "dependencies": {
     "@types/leaflet-editable": "^1.2.2",
-    "http-server": "^14.1.1",
     "npm-check-updates": "^16.6.5"
   },
   "scripts": {
