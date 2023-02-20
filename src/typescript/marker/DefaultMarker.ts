@@ -7,11 +7,19 @@ import { StyleEditor } from '../StyleEditor';
  * used the mapbox API v3
  */
 export class DefaultMarker extends Marker {
-  constructor(styleEdtior: StyleEditor) {
+  public constructor(styleEdtior: StyleEditor) {
     super(styleEdtior, 'defaultmarker');
   }
 
-  createMarkerIcon(iconOptions: MarkerOptions) {
+  public override getSelectHTML(iconOptions, icon): HTMLElement {
+    const tmpOptions = {} as MarkerOptions;
+    tmpOptions.iconSize = this.size.small;
+    tmpOptions.icon = icon;
+    tmpOptions.iconColor = iconOptions.iconColor;
+    return this.createMarkerIcon(tmpOptions).createIcon();
+  }
+
+  private createMarkerIcon(iconOptions: MarkerOptions) {
     const iconSize = iconOptions.iconSize;
     return new Icon({
       iconUrl: this.getMarkerUrlForStyle(iconOptions),
@@ -22,14 +30,6 @@ export class DefaultMarker extends Marker {
       iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
       popupAnchor: [0, -iconSize[1] / 2],
     });
-  }
-
-  getSelectHTML(iconOptions, icon): HTMLElement {
-    const tmpOptions = {} as MarkerOptions;
-    tmpOptions.iconSize = this.size.small;
-    tmpOptions.icon = icon;
-    tmpOptions.iconColor = iconOptions.iconColor;
-    return this.createMarkerIcon(tmpOptions).createIcon();
   }
 
   private getMarkerUrlForStyle(iconOptions) {
@@ -54,7 +54,8 @@ export class DefaultMarker extends Marker {
     return url + '+' + color + '.png';
   }
 
-  markers = [
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public override markers = [
     'circle-stroked',
     'circle',
     'square-stroked',
