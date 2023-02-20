@@ -16,9 +16,8 @@ export abstract class Marker extends StyleEditorClass {
   };
 
   public colorRamp?: string[];
-  protected markerName: string;
 
-  public abstract defaultMarkerIcon?: string;
+  public defaultMarkerIcon?: string;
   public abstract markers: string[];
 
   public constructor(styleEditor: StyleEditor, markerName: string) {
