@@ -15,7 +15,6 @@
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
-    "es-check": "^7.1.0",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
@@ -51,8 +50,7 @@
     "npm-check-updates": "^16.6.5"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "es-check": "./node_modules/.bin/es-check es5 ./dist/javascript/Leaflet.StyleEditor.min.js"
+    "lint": "eslint -c .eslintrc.cjs --ext .ts src"
   },
   "publishConfig": {
     "access": "public"
