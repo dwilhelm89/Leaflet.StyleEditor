@@ -1,4 +1,4 @@
-export type LeafletStyleEditorStrings = {
+export interface LeafletStyleEditorStrings {
   title: string;
   cancel: string;
   cancelTitle: string;
