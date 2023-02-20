@@ -10,7 +10,7 @@ export interface StyleEditorOptions extends ControlOptions {
   markerType: MarkerClass
   markers?: string[] | Record<string, string[]> // TODO better types with colors
   defaultMarkerIcon?: string | Record<string, string> // TODO add color
-  defaultMarkerColor?: string //TODO color
+  defaultMarkerColor?: string // TODO color
 
   forms: FormClass[]
 
