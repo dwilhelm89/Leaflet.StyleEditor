@@ -21,7 +21,7 @@ export abstract class Marker extends StyleEditorClass {
   public abstract defaultMarkerIcon?: string;
   public abstract markers: string[];
 
-  constructor(styleEditor: StyleEditor, markerName: string) {
+  public constructor(styleEditor: StyleEditor, markerName: string) {
     super(styleEditor);
     this.markerName = markerName;
   }
