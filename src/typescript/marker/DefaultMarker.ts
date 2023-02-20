@@ -13,7 +13,7 @@ export class DefaultMarker extends Marker {
   }
 
   createMarkerIcon(iconOptions: MarkerOptions) {
-    let iconSize = iconOptions.iconSize
+    const iconSize = iconOptions.iconSize
     return new Icon({
       iconUrl: this.getMarkerUrlForStyle(iconOptions),
       iconSize: iconOptions.iconSize,
