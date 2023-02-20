@@ -6,9 +6,7 @@ import { Marker as LMarker, LayerGroup, DomUtil } from 'leaflet'
 /**
  * The Base class for different markers
  */
-export interface MarkerClass {
-  new(styleEditor: StyleEditor): Marker
-}
+export type MarkerClass = new(styleEditor: StyleEditor) => Marker
 
 export abstract class Marker extends StyleEditorClass {
 
@@ -39,12 +37,12 @@ export abstract class Marker extends StyleEditorClass {
 
   /** create new Marker and show it */
   setNewMarker(markerOptions: MarkerOptions) {
-    let newIcon = this.createMarkerIcon(markerOptions)
+    const newIcon = this.createMarkerIcon(markerOptions)
     this.styleEditor.getCurrentLayers().forEach((currentElement) => {
       if (currentElement instanceof LMarker) {
         currentElement.setIcon(newIcon)
         if (currentElement instanceof LayerGroup) {
-          currentElement.eachLayer(function (layer) {
+          currentElement.eachLayer((layer) => {
             if (layer instanceof LMarker) {
               const element = layer.getElement()
               if (element)
@@ -92,7 +90,7 @@ export abstract class Marker extends StyleEditorClass {
     }
 
     markerOptions.iconColor = this.getDefaultMarkerColor()
-    markerOptions.iconSize = 'small' 
+    markerOptions.iconSize = 'small'
     markerOptions.icon = this.util.getDefaultMarkerForColor(markerOptions.iconColor)
 
     markerOptions = this.ensureMarkerIcon(markerOptions)
@@ -100,7 +98,7 @@ export abstract class Marker extends StyleEditorClass {
   }
 
   getNewMarkerOptions(key, value): MarkerOptions {
-    let iconOptions = this.getIconOptions()
+    const iconOptions = this.getIconOptions()
     iconOptions[key] = value
     return iconOptions
   }
@@ -111,7 +109,7 @@ export abstract class Marker extends StyleEditorClass {
    *  else set default icon
    */
   private ensureMarkerIcon(iconOptions) {
-    let markers = this.util.getIconsForColor(iconOptions.iconColor)
+    const markers = this.util.getIconsForColor(iconOptions.iconColor)
 
     if (markers.includes(iconOptions.icon)) {
       return iconOptions
@@ -128,10 +126,10 @@ export abstract class Marker extends StyleEditorClass {
    * 2. styleEditorOptions.defaultColor
    * 3. first color of the marker's colorRamp which is in the styleeditor.colorRamp
    * 4. first color of the marker's colorRamp
-   * */
+   */
   private getDefaultMarkerColor() {
-    let markerTypeColorRamp = this.colorRamp
-    let generalColorRamp = this.styleEditor.options.colorRamp
+    const markerTypeColorRamp = this.colorRamp
+    const generalColorRamp = this.styleEditor.options.colorRamp
     let intersectedColorRamp: string[] = []
 
     if (typeof markerTypeColorRamp !== 'undefined' && markerTypeColorRamp !== null) {
