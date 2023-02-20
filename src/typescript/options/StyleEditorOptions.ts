@@ -26,7 +26,7 @@ export interface StyleEditorOptions extends ControlOptions {
   useGrouping: boolean;
 }
 
-export const DefaultStyleEditorOptions: StyleEditorOptions = {
+export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   position: 'topleft',
 
   colorRamp: [
