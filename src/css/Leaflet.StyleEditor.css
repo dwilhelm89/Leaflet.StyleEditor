@@ -5,7 +5,7 @@
 }
 
 .leaflet-control-styleeditor-interior:hover {
-  background-color: #07C217;
+  background-color: #07c217;
 }
 
 .leaflet-control-styleeditor .leaflet-control-styleeditor-cancel {
@@ -34,7 +34,7 @@
 }
 
 .enabled:hover {
-  background-color: #07C217;
+  background-color: #07c217;
 }
 
 .leaflet-styleeditor {
@@ -66,11 +66,11 @@
   display: none;
 }
 
-.leaflet-styleeditor-fill-horizontal{
+.leaflet-styleeditor-fill-horizontal {
   display: flex;
 }
 
-.leaflet-styleeditor-fill-vertical{
+.leaflet-styleeditor-fill-vertical {
   flex-direction: column;
   display: flex;
 }
@@ -195,17 +195,17 @@ input.leaflet-styleeditor-input {
   background: #b0de5c;
   height: 40px;
   margin-left: 0px;
-  -moz-transition: background-color .25s ease-in-out;
-  -webkit-transition: background-color .25s ease-in-out;
-  -o-transition: background-color .25s ease-in-out;
-  -ms-transition: background-color .25s ease-in-out;
-  transition: background-color .25s ease-in-out;
+  -moz-transition: background-color 0.25s ease-in-out;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  -o-transition: background-color 0.25s ease-in-out;
+  -ms-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
   letter-spacing: 2px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -239,7 +239,7 @@ input.leaflet-styleeditor-input {
 
 .leaflet-styleeditor-color:hover,
 .leaflet-styleeditor-color-selected {
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .leaflet-styleeditor-sizeicon {
@@ -263,13 +263,13 @@ input.leaflet-styleeditor-input {
 
 .sizeicon-medium {
   background-size: 25px 41px;
-  width:28px;
-  height:41px;
+  width: 28px;
+  height: 41px;
 }
 
 .sizeicon-large {
   background-size: 30px 49px;
-  width:32px;
+  width: 32px;
   height: 49px;
 }
 
@@ -286,7 +286,7 @@ input.leaflet-styleeditor-input {
   border: 3px solid rgba(68, 68, 68, 0.7);
   border-radius: 5px;
   display: inline-block;
-  font: 20px/1"Helvetica Neue", Arial, Helvetica, sans-serif;
+  font: 20px/1 'Helvetica Neue', Arial, Helvetica, sans-serif;
   padding: 10px;
   position: relative;
   white-space: nowrap;
@@ -345,7 +345,7 @@ input.leaflet-styleeditor-input {
 
 .leaflet-styleeditor-marker-selected {
   background-clip: padding-box;
-  background-color: rgba(254,87,161,0.1);
+  background-color: rgba(254, 87, 161, 0.1);
   box-sizing: content-box;
-  box-shadow: 0px 0px 0 1px rgba(254,87,161,0.6);
+  box-shadow: 0px 0px 0 1px rgba(254, 87, 161, 0.6);
 }

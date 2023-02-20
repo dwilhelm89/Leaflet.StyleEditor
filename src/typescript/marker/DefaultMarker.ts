@@ -1,19 +1,18 @@
-import { Icon } from 'leaflet'
-import { Marker, MarkerOptions } from '.'
-import { StyleEditor } from '../StyleEditor'
+import { Icon } from 'leaflet';
+import { Marker, MarkerOptions } from '.';
+import { StyleEditor } from '../StyleEditor';
 
 /**
  * The "old" marker style used by StyleEditor
  * used the mapbox API v3
  */
 export class DefaultMarker extends Marker {
-
   constructor(styleEdtior: StyleEditor) {
-    super(styleEdtior, "defaultmarker")
+    super(styleEdtior, 'defaultmarker');
   }
 
   createMarkerIcon(iconOptions: MarkerOptions) {
-    const iconSize = iconOptions.iconSize
+    const iconSize = iconOptions.iconSize;
     return new Icon({
       iconUrl: this.getMarkerUrlForStyle(iconOptions),
       iconSize: iconOptions.iconSize,
@@ -21,34 +20,38 @@ export class DefaultMarker extends Marker {
       icon: iconOptions.icon,
       className: this.markerName,
       iconAnchor: [iconSize[0] / 2, iconSize[1] / 2],
-      popupAnchor: [0, -iconSize[1] / 2]
-    })
+      popupAnchor: [0, -iconSize[1] / 2],
+    });
   }
 
   getSelectHTML(iconOptions, icon): HTMLElement {
-    const tmpOptions = {} as MarkerOptions
-    tmpOptions.iconSize = this.size.small
-    tmpOptions.icon = icon
-    tmpOptions.iconColor = iconOptions.iconColor
-    return this.createMarkerIcon(tmpOptions).createIcon()
+    const tmpOptions = {} as MarkerOptions;
+    tmpOptions.iconSize = this.size.small;
+    tmpOptions.icon = icon;
+    tmpOptions.iconColor = iconOptions.iconColor;
+    return this.createMarkerIcon(tmpOptions).createIcon();
   }
 
   private getMarkerUrlForStyle(iconOptions) {
-    return this.getMarkerUrl(iconOptions.iconSize, iconOptions.iconColor, iconOptions.icon)
+    return this.getMarkerUrl(
+      iconOptions.iconSize,
+      iconOptions.iconColor,
+      iconOptions.icon
+    );
   }
 
   private getMarkerUrl(size, color, icon) {
-    size = this.sizeToName(size)[0]
+    size = this.sizeToName(size)[0];
     if (color.indexOf('#') === 0) {
-      color = color.replace('#', '')
+      color = color.replace('#', '');
     } else {
-      color = this.util.rgbToHex(color, true)
+      color = this.util.rgbToHex(color, true);
     }
-    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size
+    let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size;
     if (icon) {
-      url += '-' + icon
+      url += '-' + icon;
     }
-    return url + '+' + color + '.png'
+    return url + '+' + color + '.png';
   }
 
   markers = [
@@ -56,7 +59,8 @@ export class DefaultMarker extends Marker {
     'circle',
     'square-stroked',
     'square',
-    'triangle-stroked', 'triangle',
+    'triangle-stroked',
+    'triangle',
     'star-stroked',
     'star',
     'cross',
@@ -164,6 +168,6 @@ export class DefaultMarker extends Marker {
     'hairdresser',
     'chemist',
     'mobilephone',
-    'scooter'
-  ]
+    'scooter',
+  ];
 }

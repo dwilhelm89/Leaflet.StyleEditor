@@ -1,86 +1,86 @@
-import * as SE from './StyleEditor'
-import { StyleEditorControl } from './StyleEditorControl'
-import { StyleEditorOptions} from './options'
-import * as SEForm from './forms'
-import * as SEFormElements from './formElements'
-import * as SEMarker from './marker'
+import * as SE from './StyleEditor';
+import { StyleEditorControl } from './StyleEditorControl';
+import { StyleEditorOptions } from './options';
+import * as SEForm from './forms';
+import * as SEFormElements from './formElements';
+import * as SEMarker from './marker';
 
 declare module 'leaflet' {
-  type StyleEditor = SE.StyleEditor
-  var StyleEditor: typeof SE.StyleEditor
-  var styleEditor: (...args: ConstructorParameters<typeof StyleEditor>) => StyleEditor
+  type StyleEditor = SE.StyleEditor;
+  var StyleEditor: typeof SE.StyleEditor;
+  var styleEditor: (
+    ...args: ConstructorParameters<typeof StyleEditor>
+  ) => StyleEditor;
 
-  var asdf: string
+  var asdf: string;
 
   namespace StyleEditorClasses {
-
     namespace Forms {
-      type Form = SEForm.Form
-      var Form: typeof SEForm.Form
+      type Form = SEForm.Form;
+      var Form: typeof SEForm.Form;
 
+      type MarkerForm = SEForm.MarkerForm;
+      var MarkerForm: typeof SEForm.MarkerForm;
+      type PathForm = SEForm.PathForm;
+      var PathForm: typeof SEForm.PathForm;
 
-      type MarkerForm = SEForm.MarkerForm
-      var MarkerForm: typeof SEForm.MarkerForm
-      type PathForm = SEForm.PathForm
-      var PathForm: typeof SEForm.PathForm
-
-      type FillableForm = SEForm.FillableForm
-      var FillableForm: typeof SEForm.FillableForm
+      type FillableForm = SEForm.FillableForm;
+      var FillableForm: typeof SEForm.FillableForm;
     }
 
     module FormElements {
-      type ColorElement = SEFormElements.ColorElement
-      var ColorElement: typeof SEFormElements.ColorElement
+      type ColorElement = SEFormElements.ColorElement;
+      var ColorElement: typeof SEFormElements.ColorElement;
 
-      type DashElement = SEFormElements.DashElement
-      var DashElement: typeof SEFormElements.DashElement
+      type DashElement = SEFormElements.DashElement;
+      var DashElement: typeof SEFormElements.DashElement;
 
-      type FormElement = SEFormElements.FormElement
-      var FormElement: typeof SEFormElements.FormElement
+      type FormElement = SEFormElements.FormElement;
+      var FormElement: typeof SEFormElements.FormElement;
 
-      type IconElement = SEFormElements.IconElement
-      var IconElement: typeof SEFormElements.IconElement
+      type IconElement = SEFormElements.IconElement;
+      var IconElement: typeof SEFormElements.IconElement;
 
-      type OpacityElement = SEFormElements.OpacityElement
-      var OpacityElement: typeof SEFormElements.OpacityElement
+      type OpacityElement = SEFormElements.OpacityElement;
+      var OpacityElement: typeof SEFormElements.OpacityElement;
 
-      type PopupContentElement = SEFormElements.PopupContentElement
-      var PopupContentElement: typeof SEFormElements.PopupContentElement
+      type PopupContentElement = SEFormElements.PopupContentElement;
+      var PopupContentElement: typeof SEFormElements.PopupContentElement;
 
-      type SizeElement = SEFormElements.SizeElement
-      var SizeElement: typeof SEFormElements.SizeElement
+      type SizeElement = SEFormElements.SizeElement;
+      var SizeElement: typeof SEFormElements.SizeElement;
 
-      type WeightElement = SEFormElements.WeightElement
-      var WeightElement: typeof SEFormElements.WeightElement
+      type WeightElement = SEFormElements.WeightElement;
+      var WeightElement: typeof SEFormElements.WeightElement;
     }
 
     module Marker {
-      type DefaultMarker = SEMarker.DefaultMarker
-      var DefaultMarker: typeof SEMarker.DefaultMarker
+      type DefaultMarker = SEMarker.DefaultMarker;
+      var DefaultMarker: typeof SEMarker.DefaultMarker;
 
-      type Marker = SEMarker.Marker
-      var Marker: typeof SEMarker.Marker
+      type Marker = SEMarker.Marker;
+      var Marker: typeof SEMarker.Marker;
     }
   }
 
   module Control {
-    type StyleEditor = StyleEditorControl
-    var StyleEditor: typeof StyleEditorControl
+    type StyleEditor = StyleEditorControl;
+    var StyleEditor: typeof StyleEditorControl;
   }
 
   module control {
-    var styleEditor: (options: StyleEditorOptions) => StyleEditorControl
+    var styleEditor: (options: StyleEditorOptions) => StyleEditorControl;
   }
 
   module Marker {
-    type DefaultMarker = SEMarker.DefaultMarker
-    var DefaultMarker: typeof SEMarker.DefaultMarker
+    type DefaultMarker = SEMarker.DefaultMarker;
+    var DefaultMarker: typeof SEMarker.DefaultMarker;
 
-    type Marker = SEMarker.Marker
-    var Marker: typeof SEMarker.Marker
+    type Marker = SEMarker.Marker;
+    var Marker: typeof SEMarker.Marker;
   }
   interface StyleableLayer extends Layer {
-    options?
+    options?;
   }
 
   export namespace DomUtil {
@@ -95,8 +95,16 @@ declare module 'leaflet' {
      * @param className The class to set on the created element.
      * @param container The container to append the created element to.
      */
-    function create<T extends keyof HTMLElementTagNameMap>(tagName: T, className?: string, container?: HTMLElement): HTMLElementTagNameMap[T];
-    function create(tagName: string, className?: string, container?: HTMLElement): HTMLElement;
+    function create<T extends keyof HTMLElementTagNameMap>(
+      tagName: T,
+      className?: string,
+      container?: HTMLElement
+    ): HTMLElementTagNameMap[T];
+    function create(
+      tagName: string,
+      className?: string,
+      container?: HTMLElement
+    ): HTMLElement;
     function remove(el: HTMLElement): void;
     function empty(el: HTMLElement): void;
     function toFront(el: HTMLElement): void;
@@ -111,7 +119,11 @@ declare module 'leaflet' {
     function setTransform(el: HTMLElement, offset: Point, scale?: number): void;
     function setPosition(el: HTMLElement, position: Point): void;
     function getPosition(el: HTMLElement): Point;
-    function getScale(el: HTMLElement): { x: number, y: number, boundingClientRect: DOMRect};
+    function getScale(el: HTMLElement): {
+      x: number;
+      y: number;
+      boundingClientRect: DOMRect;
+    };
     function getSizedParentNode(el: HTMLElement): HTMLElement;
     function disableTextSelection(): void;
     function enableTextSelection(): void;
@@ -119,63 +131,107 @@ declare module 'leaflet' {
     function enableImageDrag(): void;
     function preventOutline(el: HTMLElement): void;
     function restoreOutline(): void;
+  }
+
+  export namespace DomEvent {
+    type EventHandlerFn = (event: Event) => void;
+
+    type PropagableEvent =
+      | LeafletMouseEvent
+      | LeafletKeyboardEvent
+      | LeafletEvent
+      | Event;
+
+    function on(
+      el: HTMLElement,
+      types: string,
+      fn: EventHandlerFn,
+      context?: any
+    ): typeof L.DomEvent;
+
+    function on(
+      el: HTMLElement,
+      eventMap: { [eventName: string]: EventHandlerFn },
+      context?: any
+    ): typeof L.DomEvent;
+
+    // tslint:disable:unified-signatures
+    function off(el: HTMLElement): typeof L.DomEvent;
+
+    function off(
+      el: HTMLElement,
+      types: string,
+      fn: EventHandlerFn,
+      context?: any
+    ): typeof L.DomEvent;
+
+    function off(
+      el: HTMLElement,
+      eventMap: { [eventName: string]: EventHandlerFn },
+      context?: any
+    ): typeof L.DomEvent;
+    // tslint:enable:unified-signatures
+
+    function stopPropagation(ev: PropagableEvent): typeof L.DomEvent;
+
+    function disableScrollPropagation(el: HTMLElement): typeof L.DomEvent;
+
+    function disableClickPropagation(el: HTMLElement): typeof L.DomEvent;
+
+    function preventDefault(ev: Event): typeof L.DomEvent;
+
+    function stop(ev: PropagableEvent): typeof L.DomEvent;
+
+    function getMousePosition(ev: MouseEvent, container?: HTMLElement): Point;
+
+    function getWheelDelta(ev: Event): number;
+
+    function addListener(
+      el: HTMLElement,
+      types: string,
+      fn: EventHandlerFn,
+      context?: any
+    ): typeof L.DomEvent;
+
+    function addListener(
+      el: HTMLElement,
+      eventMap: { [eventName: string]: EventHandlerFn },
+      context?: any
+    ): typeof L.DomEvent;
+
+    function removeListener(
+      el: HTMLElement,
+      types: string,
+      fn: EventHandlerFn,
+      context?: any
+    ): typeof L.DomEvent;
+
+    function removeListener(
+      el: HTMLElement,
+      eventMap: { [eventName: string]: EventHandlerFn },
+      context?: any
+    ): typeof L.DomEvent;
+
+    function getPropagationPath(ev: Event): HTMLElement[];
+  }
 }
 
-export namespace DomEvent {
-  type EventHandlerFn = (event: Event) => void;
+L.StyleEditor = SE.StyleEditor;
+L.styleEditor = function (map: L.Map, options: StyleEditorOptions) {
+  return new SE.StyleEditor(map, options);
+};
 
-  type PropagableEvent = LeafletMouseEvent | LeafletKeyboardEvent | LeafletEvent | Event;
-
-  function on(el: HTMLElement, types: string, fn: EventHandlerFn, context?: any): typeof L.DomEvent;
-
-  function on(el: HTMLElement, eventMap: {[eventName: string]: EventHandlerFn}, context?: any): typeof L.DomEvent;
-
-  // tslint:disable:unified-signatures
-  function off(el: HTMLElement): typeof L.DomEvent;
-
-  function off(el: HTMLElement, types: string, fn: EventHandlerFn, context?: any): typeof L.DomEvent;
-
-  function off(el: HTMLElement, eventMap: {[eventName: string]: EventHandlerFn}, context?: any): typeof L.DomEvent;
-  // tslint:enable:unified-signatures
-
-  function stopPropagation(ev: PropagableEvent): typeof L.DomEvent;
-
-  function disableScrollPropagation(el: HTMLElement): typeof L.DomEvent;
-
-  function disableClickPropagation(el: HTMLElement): typeof L.DomEvent;
-
-  function preventDefault(ev: Event): typeof L.DomEvent;
-
-  function stop(ev: PropagableEvent): typeof L.DomEvent;
-
-  function getMousePosition(ev: MouseEvent, container?: HTMLElement): Point;
-
-  function getWheelDelta(ev: Event): number;
-
-  function addListener(el: HTMLElement, types: string, fn: EventHandlerFn, context?: any): typeof L.DomEvent;
-
-  function addListener(el: HTMLElement, eventMap: {[eventName: string]: EventHandlerFn}, context?: any): typeof L.DomEvent;
-
-  function removeListener(el: HTMLElement, types: string, fn: EventHandlerFn, context?: any): typeof L.DomEvent;
-
-  function removeListener(el: HTMLElement, eventMap: {[eventName: string]: EventHandlerFn}, context?: any): typeof L.DomEvent;
-
-  function getPropagationPath(ev: Event): HTMLElement[];
-}
-}
-
-L.StyleEditor = SE.StyleEditor
-L.styleEditor = function (map: L.Map, options: StyleEditorOptions) { return new SE.StyleEditor(map, options) }
-
-L.Control.StyleEditor = StyleEditorControl
-L.control.styleEditor = function (options: StyleEditorOptions) { return new StyleEditorControl(options) }
+L.Control.StyleEditor = StyleEditorControl;
+L.control.styleEditor = function (options: StyleEditorOptions) {
+  return new StyleEditorControl(options);
+};
 
 L.StyleEditorClasses = {
   Forms: {
     Form: SEForm.Form,
     MarkerForm: SEForm.MarkerForm,
     PathForm: SEForm.PathForm,
-    FillableForm: SEForm.FillableForm
+    FillableForm: SEForm.FillableForm,
   },
   FormElements: {
     ColorElement: SEFormElements.ColorElement,
@@ -185,14 +241,14 @@ L.StyleEditorClasses = {
     OpacityElement: SEFormElements.OpacityElement,
     PopupContentElement: SEFormElements.PopupContentElement,
     SizeElement: SEFormElements.SizeElement,
-    WeightElement: SEFormElements.WeightElement
+    WeightElement: SEFormElements.WeightElement,
   },
   Marker: {
     Marker: SEMarker.Marker,
-    DefaultMarker: SEMarker.DefaultMarker
-  }
-}
+    DefaultMarker: SEMarker.DefaultMarker,
+  },
+};
 
-L.asdf = 'qwer'
+L.asdf = 'qwer';
 
-export default L
+export default L;

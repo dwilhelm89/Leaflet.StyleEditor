@@ -1,6 +1,6 @@
-import { StyleEditorOptions, DefaultStyleEditorOptions } from './StyleEditorOptions'
-
-export {
+import {
   StyleEditorOptions,
-  DefaultStyleEditorOptions
-}
+  DefaultStyleEditorOptions,
+} from './StyleEditorOptions';
+
+export { StyleEditorOptions, DefaultStyleEditorOptions };

@@ -1,5 +1,3 @@
-import { LeafletStyleEditorStrings } from './Strings'
+import { LeafletStyleEditorStrings } from './Strings';
 
-export {
-  LeafletStyleEditorStrings
-}
+export { LeafletStyleEditorStrings };

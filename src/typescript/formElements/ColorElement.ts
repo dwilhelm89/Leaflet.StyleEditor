@@ -1,47 +1,55 @@
-import { FormElement } from './FormElement'
-import { MarkerForm } from '../forms/MarkerForm'
-import { DomEvent, DomUtil } from 'leaflet'
-import { Form } from '../forms'
+import { FormElement } from './FormElement';
+import { MarkerForm } from '../forms/MarkerForm';
+import { DomEvent, DomUtil } from 'leaflet';
+import { Form } from '../forms';
 
-const selectedColorClass: string = 'leaflet-styleeditor-color-selected'
-const selectedColorIdPrefix: string  = 'leaflet-styleeditor-color-'
+const selectedColorClass: string = 'leaflet-styleeditor-color-selected';
+const selectedColorIdPrefix: string = 'leaflet-styleeditor-color-';
 
 /**
  *  FormElement used to style the color
  */
 export class ColorElement extends FormElement {
-  private colorPickerDiv: HTMLElement
-  private colorRampDivs: HTMLElement[] = []
+  private colorPickerDiv: HTMLElement;
+  private colorRampDivs: HTMLElement[] = [];
 
-  title = "color"
+  title = 'color';
 
-  constructor(parentForm: Form, parentUiElement: HTMLElement, styleOption: string) {
-    super(parentForm, parentUiElement, styleOption)
-    this.colorPickerDiv = this.createColoPicker()
-    this.createColorPickerRamp()
+  constructor(
+    parentForm: Form,
+    parentUiElement: HTMLElement,
+    styleOption: string
+  ) {
+    super(parentForm, parentUiElement, styleOption);
+    this.colorPickerDiv = this.createColoPicker();
+    this.createColorPickerRamp();
   }
 
   private createColoPicker(): HTMLElement {
-    return DomUtil.create('div', 'leaflet-styleeditor-colorpicker', this.uiElement)
+    return DomUtil.create(
+      'div',
+      'leaflet-styleeditor-colorpicker',
+      this.uiElement
+    );
   }
 
   private createColorPickerRamp() {
-    this.getColorRamp().forEach(this.createAndSetSelectCallback, this)
+    this.getColorRamp().forEach(this.createAndSetSelectCallback, this);
   }
 
   style(): void {
-    this.colorRampDivs.forEach(div => {
-      DomUtil.removeClass(div, selectedColorClass) 
-    })
-    const layerWithColor = this.styleEditor.getCurrentLayers().find(layer => {
-      return layer.options.color
-    })
-    if (!layerWithColor) return
+    this.colorRampDivs.forEach((div) => {
+      DomUtil.removeClass(div, selectedColorClass);
+    });
+    const layerWithColor = this.styleEditor.getCurrentLayers().find((layer) => {
+      return layer.options.color;
+    });
+    if (!layerWithColor) return;
 
-    const color = layerWithColor.options[this.styleOption]
-    const colorRampElement = DomUtil.get(selectedColorIdPrefix + color)
-    if(colorRampElement) {
-      DomUtil.addClass(colorRampElement, selectedColorClass) 
+    const color = layerWithColor.options[this.styleOption];
+    const colorRampElement = DomUtil.get(selectedColorIdPrefix + color);
+    if (colorRampElement) {
+      DomUtil.addClass(colorRampElement, selectedColorClass);
     }
   }
 
@@ -49,32 +57,34 @@ export class ColorElement extends FormElement {
   private getColorRamp() {
     // if markers have own colorRamp use it
     if (this.parentForm instanceof MarkerForm) {
-      const markerType = new this.styleEditor.options.markerType(this.styleEditor)
+      const markerType = new this.styleEditor.options.markerType(
+        this.styleEditor
+      );
       if (!!markerType.colorRamp) {
-        return markerType.colorRamp
+        return markerType.colorRamp;
       }
     }
-    return this.styleEditor.options.colorRamp
+    return this.styleEditor.options.colorRamp;
   }
 
   /** define what to do when color is changed */
   private createAndSetSelectCallback(color) {
-    let element = DomUtil.create('div', 'leaflet-styleeditor-color', this.colorPickerDiv)
-    element.id = selectedColorIdPrefix + color
-    element.style.backgroundColor = color
-    DomEvent.addListener(element, 'click', this.selectColor, this)
-    this.colorRampDivs.push(element)
+    let element = DomUtil.create(
+      'div',
+      'leaflet-styleeditor-color',
+      this.colorPickerDiv
+    );
+    element.id = selectedColorIdPrefix + color;
+    element.style.backgroundColor = color;
+    DomEvent.addListener(element, 'click', this.selectColor, this);
+    this.colorRampDivs.push(element);
   }
 
   /** set style for chosen color */
   private selectColor(event: Event) {
-    event.stopPropagation()
+    event.stopPropagation();
     if (event.target instanceof HTMLElement) {
-      this.setStyle(
-        this.util.rgbToHex(
-          event.target.style.backgroundColor
-        )
-      )
+      this.setStyle(this.util.rgbToHex(event.target.style.backgroundColor));
     }
   }
 }
