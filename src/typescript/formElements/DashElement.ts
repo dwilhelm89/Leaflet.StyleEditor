@@ -6,13 +6,17 @@ import { FormElement } from './FormElement';
  * FormElement used for styling the dash attribute
  */
 export class DashElement extends FormElement {
-  constructor(
+  public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string
   ) {
     super(parentForm, parentUiElement, styleOption);
     this.createContent();
+  }
+
+  public override style(): void {
+    // TODO
   }
 
   /** create the three standard dash options */
@@ -63,7 +67,4 @@ export class DashElement extends FormElement {
     );
   }
 
-  public override style(): void {
-    // TODO
-  }
 }
