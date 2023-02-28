@@ -24,7 +24,7 @@ export class Util {
   }
 
   /** hide the given element */
-  hideElement(element: HTMLElement) {
+  public hideElement(element: HTMLElement): void {
     if (element) {
       DomUtil.addClass(element, 'leaflet-styleeditor-hidden');
     }
@@ -34,7 +34,7 @@ export class Util {
    * @param {string} rgb - rgb representation of the color
    * @param {boolean} noHash - define if return value should not include hash
    */
-  rgbToHex(rgb: string, noHash: Boolean = false) {
+  public rgbToHex(rgb: string, noHash: Boolean = false) {
     let color: string | undefined = rgb;
     if (!color) {
       color = this.styleEditor.options.defaultColor;
