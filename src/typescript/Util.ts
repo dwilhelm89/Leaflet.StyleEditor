@@ -5,26 +5,19 @@
 import { DomUtil, Map, Marker as LMarker } from 'leaflet';
 import { StyleEditor } from './StyleEditor';
 
-export class UtilOptions {
-  defaultColor?: string; // TODO color
-  styleEditorEventPrefix: string;
-}
-
 export class Util {
   map: Map;
-  options: UtilOptions;
   styleEditor: StyleEditor;
 
   constructor(styleEditor: StyleEditor) {
     this.styleEditor = styleEditor;
     this.map = styleEditor.map;
-    this.options = styleEditor.options;
   }
 
   // TODO element type
   fireEvent(eventName: string, element?: any) {
     this.map.fireEvent(
-      this.options.styleEditorEventPrefix + eventName,
+      this.styleEditor.options.styleEditorEventPrefix + eventName,
       element
     );
   }
