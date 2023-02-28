@@ -9,7 +9,7 @@ export class WeightElement extends FormElement {
   private label: HTMLSpanElement;
   private weight: HTMLInputElement;
 
-  constructor(
+  public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string
@@ -18,6 +18,13 @@ export class WeightElement extends FormElement {
     this.label = this.createLabel();
     this.weight = this.createWeightElement();
   }
+
+  /** set correct value */
+  public override style() {
+    this.weight.value = this.util.getStyle(this.styleOption);
+    this.label.innerText = this.weight.value;
+  }
+
 
   private createLabel(): HTMLSpanElement {
     return DomUtil.create(
@@ -47,13 +54,6 @@ export class WeightElement extends FormElement {
     DomEvent.addListener(weight, 'mouseup', this.updateStyle, this);
     return weight;
   }
-
-  /** set correct value */
-  style() {
-    this.weight.value = this.util.getStyle(this.styleOption);
-    this.label.innerText = this.weight.value;
-  }
-
   /** communicate weight value */
   private updateStyle() {
     this.setStyle(this.weight.value);
