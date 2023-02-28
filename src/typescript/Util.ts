@@ -41,7 +41,7 @@ export class Util {
    * @param {boolean} noHash - define if return value should not include hash
    */
   rgbToHex(rgb: string, noHash: Boolean = false) {
-    var color: string | undefined = rgb;
+    let color: string | undefined = rgb;
     if (!color) {
       color = this.options.defaultColor;
       if (color && color.indexOf('#') !== 0) {
@@ -60,8 +60,8 @@ export class Util {
       return '#' + color;
     }
 
-    let rgbArray = color?.substring(4)?.replace(')', '')?.split(',') || [];
-    let withoutHash =
+    const rgbArray = color?.substring(4)?.replace(')', '')?.split(',') || [];
+    const withoutHash =
       this.componentToHex(parseInt(rgbArray[0], 10)) +
       this.componentToHex(parseInt(rgbArray[1], 10)) +
       this.componentToHex(parseInt(rgbArray[2], 10));
@@ -76,7 +76,7 @@ export class Util {
   getStyle(option) {
     const layers = this.styleEditor.getCurrentLayers();
     if (layers.length > 0) {
-      let style = layers[0].options[option];
+      const style = layers[0].options[option];
       if (style) {
         return style;
       }
@@ -93,7 +93,7 @@ export class Util {
         value
       );
     } else {
-      let newStyle = {};
+      const newStyle = {};
       newStyle[option] = value;
       currentElement.setStyle(newStyle);
     }
@@ -110,7 +110,7 @@ export class Util {
 
   /** helper function to convert color to hex */
   private componentToHex(color) {
-    let hex = color.toString(16);
+    const hex = color.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   }
 
@@ -133,7 +133,7 @@ export class Util {
 
     if (controlMarkers) {
       if (!Array.isArray(controlMarkers)) {
-        let keys = Object.keys(controlMarkers);
+        const keys = Object.keys(controlMarkers);
         if (keys.includes(color)) {
           controlMarkers = controlMarkers[color];
         } else if (keys.includes('default')) {
@@ -153,9 +153,9 @@ export class Util {
   getDefaultMarkerForColor(color: string): string {
     color = this.rgbToHex(color);
 
-    let markers = this.getIconsForColor(color);
+    const markers = this.getIconsForColor(color);
 
-    let defMarkers: string[] = [];
+    const defMarkers: string[] = [];
 
     let defaultMarker: string | Record<string, string> | undefined =
       this.styleEditor.options.defaultMarkerIcon;

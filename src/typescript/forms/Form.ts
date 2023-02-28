@@ -3,9 +3,7 @@ import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { DomUtil, StyleableLayer } from 'leaflet';
 
-export interface FormClass {
-  new (...args: any[]): Form;
-}
+export type FormClass = new (...args: any[]) => Form;
 
 /**
  * Forms consist of FormElements and are shown in the StyleForm
@@ -30,7 +28,7 @@ export abstract class Form extends StyleEditorClass {
   /** create every FormElement in the parentUiElement */
   create(): void {
     this.uiElement = DomUtil.create('div', '', this.parentUiElement);
-    for (let key in this.formElements) {
+    for (const key in this.formElements) {
       const formElement = this.getFormElementClass(key);
       if (formElement) {
         this.initializedElements[key] = new formElement(
@@ -60,14 +58,14 @@ export abstract class Form extends StyleEditorClass {
 
   /** inform FormElements the selected style has changed, so they can adapt */
   public style(): void {
-    for (let key in this.initializedElements) {
+    for (const key in this.initializedElements) {
       this.initializedElements[key].style();
     }
   }
 
   /** inform Form it lost it's focus */
   protected lostFocus(): void {
-    for (let key in this.initializedElements) {
+    for (const key in this.initializedElements) {
       this.initializedElements[key].lostFocus();
     }
   }
@@ -79,17 +77,17 @@ export abstract class Form extends StyleEditorClass {
   private getFormElementClass(
     styleOption: string
   ): FormElementClass | undefined {
-    let formElementKeys = Object.keys(this.formElements);
+    const formElementKeys = Object.keys(this.formElements);
 
     if (formElementKeys.includes(styleOption)) {
-      let FormElement = this.formElements[styleOption];
+      const FormElement = this.formElements[styleOption];
 
       if (FormElement) {
         // may be a dictionary
         if (typeof FormElement === 'boolean') {
           return this.getFormElementStandardClass(styleOption);
         }
-        /* TODO: presumably not necesarry   
+        /* TODO: presumably not necesarry
         if ('formElement' in FormElement && 'boolean' in FormElement) {
           FormElement = FormElement['formElement']
         }*/

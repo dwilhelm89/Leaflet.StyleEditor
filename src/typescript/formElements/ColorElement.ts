@@ -3,8 +3,8 @@ import { MarkerForm } from '../forms/MarkerForm';
 import { DomEvent, DomUtil } from 'leaflet';
 import { Form } from '../forms';
 
-const selectedColorClass: string = 'leaflet-styleeditor-color-selected';
-const selectedColorIdPrefix: string = 'leaflet-styleeditor-color-';
+const selectedColorClass = 'leaflet-styleeditor-color-selected';
+const selectedColorIdPrefix = 'leaflet-styleeditor-color-';
 
 /**
  *  FormElement used to style the color
@@ -41,10 +41,10 @@ export class ColorElement extends FormElement {
     this.colorRampDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
     });
-    const layerWithColor = this.styleEditor.getCurrentLayers().find((layer) => {
-      return layer.options.color;
-    });
-    if (!layerWithColor) return;
+    const layerWithColor = this.styleEditor.getCurrentLayers().find((layer) => layer.options.color);
+    if (!layerWithColor) {
+      return;
+    }
 
     const color = layerWithColor.options[this.styleOption];
     const colorRampElement = DomUtil.get(selectedColorIdPrefix + color);
@@ -69,7 +69,7 @@ export class ColorElement extends FormElement {
 
   /** define what to do when color is changed */
   private createAndSetSelectCallback(color) {
-    let element = DomUtil.create(
+    const element = DomUtil.create(
       'div',
       'leaflet-styleeditor-color',
       this.colorPickerDiv

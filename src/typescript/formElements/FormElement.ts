@@ -2,13 +2,11 @@ import { Path, Marker as LMarker, DomUtil } from 'leaflet';
 import { Form } from '../forms';
 import { StyleEditorClass } from '../StyleEditorClass';
 
-export interface FormElementClass {
-  new (
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string
-  ): FormElement;
-}
+export type FormElementClass = new (
+  parentForm: Form,
+  parentUiElement: HTMLElement,
+  styleOption: string
+) => FormElement;
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
@@ -41,7 +39,7 @@ export abstract class FormElement extends StyleEditorClass {
 
   /** create title */
   private createTitle(): void {
-    let title = DomUtil.create(
+    const title = DomUtil.create(
       'label',
       'leaflet-styleeditor-label',
       this.uiElement

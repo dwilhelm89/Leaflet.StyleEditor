@@ -81,7 +81,7 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/member-ordering": "warn",
         "@typescript-eslint/naming-convention": [
             "error",
             {

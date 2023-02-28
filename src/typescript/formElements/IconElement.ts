@@ -9,9 +9,9 @@ export class IconElement extends FormElement {
   styleOption = 'icon';
 
   // private classed used in the code
-  private selectOptionWrapperClasses: string =
+  private selectOptionWrapperClasses =
     'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden';
-  private selectOptionClasses: string = 'leaflet-styleeditor-select-option';
+  private selectOptionClasses = 'leaflet-styleeditor-select-option';
 
   private selectBoxImage: HTMLElement;
   private selectOptions: Map<string, HTMLElement> = new Map();
@@ -59,7 +59,7 @@ export class IconElement extends FormElement {
 
   /** create image container that hides/shows the iconSelectBox */
   private createSelectInputImage(parentUiElement: HTMLElement): HTMLElement {
-    let wrapper = DomUtil.create(
+    const wrapper = DomUtil.create(
       'div',
       'leaflet-styleeditor-select-image-wrapper',
       parentUiElement
@@ -160,7 +160,7 @@ export class IconElement extends FormElement {
 
   /** called when user selects a marker */
   private selectMarker(e) {
-    let value = this.getValue(e.target);
+    const value = this.getValue(e.target);
 
     // update style
     this.selectBoxImage.setAttribute('value', value);
