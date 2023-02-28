@@ -61,6 +61,7 @@ module.exports = {
         "@angular-eslint/use-pipe-transform-interface": "error",
         "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-function-return-type": "error",
         "@typescript-eslint/explicit-member-accessibility": [
             "error",
             {
