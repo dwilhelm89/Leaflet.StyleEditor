@@ -10,12 +10,13 @@ const selectedColorIdPrefix = 'leaflet-styleeditor-color-';
  *  FormElement used to style the color
  */
 export class ColorElement extends FormElement {
+
+  public override title = 'color';
+
   private colorPickerDiv: HTMLElement;
   private colorRampDivs: HTMLElement[] = [];
 
-  title = 'color';
-
-  constructor(
+  public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string
@@ -25,19 +26,7 @@ export class ColorElement extends FormElement {
     this.createColorPickerRamp();
   }
 
-  private createColoPicker(): HTMLElement {
-    return DomUtil.create(
-      'div',
-      'leaflet-styleeditor-colorpicker',
-      this.uiElement
-    );
-  }
-
-  private createColorPickerRamp() {
-    this.getColorRamp().forEach(this.createAndSetSelectCallback, this);
-  }
-
-  style(): void {
+  public override style(): void {
     this.colorRampDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
     });
@@ -51,6 +40,18 @@ export class ColorElement extends FormElement {
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);
     }
+  }
+
+  private createColoPicker(): HTMLElement {
+    return DomUtil.create(
+      'div',
+      'leaflet-styleeditor-colorpicker',
+      this.uiElement
+    );
+  }
+
+  private createColorPickerRamp() {
+    this.getColorRamp().forEach(this.createAndSetSelectCallback, this);
   }
 
   /** create or get already created colorRamp */
