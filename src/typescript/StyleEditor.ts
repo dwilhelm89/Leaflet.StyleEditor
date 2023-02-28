@@ -16,11 +16,11 @@ import {
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better?
 export class StyleEditor extends Class {
-  controls: StyleEditorControl[] = [];
+  private controls: StyleEditorControl[] = [];
   // TODO event? LAyer?!
-  currentLayer?: Layer | LayerGroup;
+  private currentLayer?: Layer | LayerGroup;
 
-  options: StyleEditorOptions;
+  private options: StyleEditorOptions;
   util: Util;
 
   map: Map;
@@ -55,7 +55,7 @@ export class StyleEditor extends Class {
     this.createEditorHeader();
 
     this.addEventListeners(this.map);
-    this.styleForm = new StyleForm(this);
+    this.styleForm = new StyleForm(this, map, this.options.forms);
 
     if (control) {
       this.addControl(control);

@@ -1,23 +1,21 @@
-import { Form } from './forms';
+import { Form, FormClass } from './forms';
 import { StyleEditorClass } from './StyleEditorClass';
 import { StyleEditor } from './StyleEditor';
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Map } from 'leaflet';
 
 export class StyleForm extends StyleEditorClass {
   styleEditorInterior: HTMLElement;
   styleEditorDiv: HTMLElement;
   forms: Form[] = [];
 
-  constructor(styleEditor: StyleEditor) {
+  constructor(styleEditor: StyleEditor, map: Map, forms: FormClass[]) {
     super(styleEditor);
-
-    this.createForms();
-
-    this.addDOMEvents();
+    this.createForms(forms);
+    this.addDOMEvents(map);
   }
 
-  addDOMEvents() {
-    DomEvent.addListener(this.map as any, 'click', this.lostFocus, this);
+  addDOMEvents(map: Map) {
+    DomEvent.addListener(map as unknown as HTMLElement, 'click', this.lostFocus, this);
     DomEvent.addListener(
       this.styleEditor.editorUI,
       'click',
@@ -26,8 +24,8 @@ export class StyleForm extends StyleEditorClass {
     );
   }
 
-  createForms() {
-    this.styleEditor.options.forms.forEach((formClass) => {
+  createForms(forms: FormClass[]) {
+    forms.forEach((formClass: FormClass) => {
       const form = new formClass(
         this.styleEditor,
         this.styleEditor.interiorEditorUI
