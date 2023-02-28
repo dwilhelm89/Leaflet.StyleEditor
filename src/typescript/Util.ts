@@ -6,17 +6,15 @@ import { DomUtil, Map, Marker as LMarker } from 'leaflet';
 import { StyleEditor } from './StyleEditor';
 
 export class Util {
-  map: Map;
   styleEditor: StyleEditor;
 
-  constructor(styleEditor: StyleEditor) {
+  public constructor(styleEditor: StyleEditor) {
     this.styleEditor = styleEditor;
-    this.map = styleEditor.map;
   }
 
   // TODO element type
   fireEvent(eventName: string, element?: any) {
-    this.map.fireEvent(
+    this.styleEditor.map.fireEvent(
       this.styleEditor.options.styleEditorEventPrefix + eventName,
       element
     );
@@ -36,7 +34,7 @@ export class Util {
   rgbToHex(rgb: string, noHash: Boolean = false) {
     let color: string | undefined = rgb;
     if (!color) {
-      color = this.options.defaultColor;
+      color = this.styleEditor.options.defaultColor;
       if (color && color.indexOf('#') !== 0) {
         color = '#' + color;
       }
