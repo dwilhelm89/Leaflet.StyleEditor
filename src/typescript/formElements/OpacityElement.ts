@@ -9,7 +9,7 @@ export class OpacityElement extends FormElement {
   private label: HTMLSpanElement;
   private slider: HTMLInputElement;
 
-  constructor(
+  public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string
@@ -18,6 +18,13 @@ export class OpacityElement extends FormElement {
 
     this.label = this.createLabel();
     this.slider = this.createSlider();
+  }
+
+  /** set correct value */
+  public override style(): void {
+    this.slider.value = this.util.getStyle(this.styleOption);
+    this.label.innerText =
+      Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
   }
 
   private createLabel(): HTMLSpanElement {
@@ -48,13 +55,6 @@ export class OpacityElement extends FormElement {
     DomEvent.addListener(slider, 'mouseup', this.updateStyle, this);
 
     return slider;
-  }
-
-  /** set correct value */
-  style() {
-    this.slider.value = this.util.getStyle(this.styleOption);
-    this.label.innerText =
-      Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
   }
 
   /** communicate opacity value */
