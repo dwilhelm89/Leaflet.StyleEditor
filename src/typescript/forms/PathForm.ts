@@ -8,6 +8,7 @@ import {
 } from '../formElements';
 import { StyleableLayer, Path } from 'leaflet';
 /** Form used to enable modification of a Geometry */
+
 export class PathForm extends Form {
   protected override formElements = {
     color: ColorElement,
