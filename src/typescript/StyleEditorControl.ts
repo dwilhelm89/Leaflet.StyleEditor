@@ -7,7 +7,7 @@ import { Control, Map, DomUtil, DomEvent } from 'leaflet';
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
 export class StyleEditorControl extends Control {
-  public override options: StyleEditorOptions;
+  private styleEditorOptions: StyleEditorOptions;
 
   private styleEditor: StyleEditor;
   private cancelUI: HTMLElement;
@@ -19,7 +19,9 @@ export class StyleEditorControl extends Control {
     styleEditor?: StyleEditor
   ) {
     super();
-    this.options = { ...DefaultStyleEditorOptions, ...styleEditorOptions };
+    this.styleEditorOptions = { ...DefaultStyleEditorOptions, ...styleEditorOptions };
+    this.options = this.styleEditorOptions;
+
     if (styleEditor) {
       this.styleEditor = styleEditor;
       this.styleEditor.addControl(this);
@@ -32,7 +34,7 @@ export class StyleEditorControl extends Control {
    */
   public override onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
-      this.styleEditor = new StyleEditor(map, this.options, this);
+      this.styleEditor = new StyleEditor(map, this.styleEditorOptions, this);
     }
     // disable styleEditor if using control element
     this.styleEditor.disable();
@@ -50,15 +52,15 @@ export class StyleEditorControl extends Control {
       'leaflet-control-styleeditor-interior',
       controlUI
     );
-    controlDiv.title = this.options.strings.title;
+    controlDiv.title = this.styleEditorOptions.strings.title;
 
     const cancelUI = (this.cancelUI = DomUtil.create(
       'div',
       'leaflet-control-styleeditor-cancel leaflet-styleeditor-hidden',
       controlUI
     ));
-    cancelUI.innerHTML = this.options.strings.cancel;
-    cancelUI.title = this.options.strings.cancelTitle;
+    cancelUI.innerHTML = this.styleEditorOptions.strings.cancel;
+    cancelUI.title = this.styleEditorOptions.strings.cancelTitle;
 
     DomEvent.disableScrollPropagation(controlUI);
     DomEvent.disableScrollPropagation(cancelUI);
