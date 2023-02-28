@@ -7,11 +7,14 @@ import { Control, Map, DomUtil, DomEvent } from 'leaflet';
  * which enables the user to enable and disable Leaflet.StyleEditor
  */
 export class StyleEditorControl extends Control {
-  declare options: StyleEditorOptions;
+  public override options: StyleEditorOptions;
 
   private styleEditor: StyleEditor;
+  private cancelUI: HTMLElement;
 
-  constructor(
+  private isEnabled = false;
+
+  public constructor(
     styleEditorOptions: StyleEditorOptions,
     styleEditor?: StyleEditor
   ) {
@@ -23,14 +26,11 @@ export class StyleEditorControl extends Control {
     }
   }
 
-  private isEnabled = false;
-  private cancelUI: HTMLElement;
-
   /**
    * Create the Control element and its HTMLElements
    * @param map the map where the control should be added to
    */
-  onAdd(map: Map): HTMLElement {
+  public override onAdd(map: Map): HTMLElement {
     if (this.styleEditor === undefined) {
       this.styleEditor = new StyleEditor(map, this.options, this);
     }
@@ -40,7 +40,7 @@ export class StyleEditorControl extends Control {
     return this.createUI();
   }
 
-  createUI() {
+  private createUI() {
     const controlUI = DomUtil.create(
       'div',
       'leaflet-control-styleeditor leaflet-control leaflet-bar'
@@ -72,7 +72,7 @@ export class StyleEditorControl extends Control {
     return controlUI;
   }
 
-  toggle() {
+  private toggle() {
     if (this.isEnabled) {
       this.disable();
     } else {
@@ -80,13 +80,13 @@ export class StyleEditorControl extends Control {
     }
   }
 
-  enable() {
+  private enable() {
     this.isEnabled = true;
     this.showCancelButton();
     this.styleEditor.enable();
   }
 
-  disable() {
+  private disable() {
     if (this.isEnabled) {
       this.isEnabled = false;
       this.hideCancelButton();
