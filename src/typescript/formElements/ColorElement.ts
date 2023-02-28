@@ -4,7 +4,6 @@ import { DomEvent, DomUtil } from 'leaflet';
 import { Form } from '../forms';
 
 const selectedColorClass = 'leaflet-styleeditor-color-selected';
-const selectedColorIdPrefix = 'leaflet-styleeditor-color-';
 
 /**
  *  FormElement used to style the color
@@ -14,7 +13,7 @@ export class ColorElement extends FormElement {
   public override title = 'color';
 
   private colorPickerDiv: HTMLElement;
-  private colorRampDivs: HTMLElement[] = [];
+  private colorRampDivs: Map<string, HTMLElement> = new Map();
 
   public constructor(
     parentForm: Form,
@@ -30,13 +29,13 @@ export class ColorElement extends FormElement {
     this.colorRampDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
     });
-    const layerWithColor = this.styleEditor.getCurrentLayers().find((layer) => layer.options.color);
-    if (!layerWithColor) {
+    const layerWithStyleOption = this.styleEditor.getCurrentLayers().find((layer) => layer.options[this.styleOption]);
+    if (!layerWithStyleOption) {
       return;
     }
 
-    const color = layerWithColor.options[this.styleOption];
-    const colorRampElement = DomUtil.get(selectedColorIdPrefix + color);
+    const color = layerWithStyleOption.options[this.styleOption];
+    const colorRampElement = this.colorRampDivs.get(color);
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);
     }
@@ -75,10 +74,9 @@ export class ColorElement extends FormElement {
       'leaflet-styleeditor-color',
       this.colorPickerDiv
     );
-    element.id = selectedColorIdPrefix + color;
     element.style.backgroundColor = color;
     DomEvent.addListener(element, 'click', this.selectColor, this);
-    this.colorRampDivs.push(element);
+    this.colorRampDivs.set(color, element);
   }
 
   /** set style for chosen color */
