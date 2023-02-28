@@ -10,7 +10,7 @@ import { StyleableLayer, Polygon, CircleMarker } from 'leaflet';
 
 /** Form used to enable modification of a Geometry */
 export class FillableForm extends Form {
-  formElements = {
+  protected override formElements = {
     color: ColorElement,
     opacity: OpacityElement,
     weight: WeightElement,
@@ -20,7 +20,7 @@ export class FillableForm extends Form {
     popupContent: PopupContentElement,
   };
 
-  whenToShow(layers: StyleableLayer[]): Boolean {
+  public override whenToShow(layers: StyleableLayer[]): Boolean {
     return layers.some(
       (layer) => layer instanceof Polygon || layer instanceof CircleMarker
     );
