@@ -16,7 +16,6 @@ export class Util {
     this.styleEditor = styleEditor;
   }
 
-  // TODO element type
   public fireEvent(eventName: string, element?: StyleableLayer): void {
     this.styleEditor.map.fireEvent(
       this.styleEditor.options.styleEditorEventPrefix + eventName,
