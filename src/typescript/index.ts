@@ -4,6 +4,7 @@ import { StyleEditorOptions } from './options';
 import * as SEForm from './forms';
 import * as SEFormElements from './formElements';
 import * as SEMarker from './marker';
+import L from 'leaflet';
 
 declare module 'leaflet' {
   type StyleEditor = SE.StyleEditor;
