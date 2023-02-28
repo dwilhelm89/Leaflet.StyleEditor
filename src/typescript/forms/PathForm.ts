@@ -9,7 +9,7 @@ import {
 import { StyleableLayer, Path } from 'leaflet';
 /** Form used to enable modification of a Geometry */
 export class PathForm extends Form {
-  formElements = {
+  protected override formElements = {
     color: ColorElement,
     opacity: OpacityElement,
     weight: WeightElement,
@@ -17,7 +17,7 @@ export class PathForm extends Form {
     popupContent: PopupContentElement,
   };
 
-  whenToShow(layers: StyleableLayer[]): Boolean {
+  public override whenToShow(layers: StyleableLayer[]): Boolean {
     return layers.some((layer) => layer instanceof Path);
   }
 }
