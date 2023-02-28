@@ -2,7 +2,11 @@
  * Helper functions used throuhgout the project
  */
 
-import { DomUtil, Map, Marker as LMarker } from 'leaflet';
+import {
+  DomUtil,
+  Marker as LMarker,
+  StyleableLayer,
+} from 'leaflet';
 import { StyleEditor } from './StyleEditor';
 
 export class Util {
@@ -13,7 +17,7 @@ export class Util {
   }
 
   // TODO element type
-  fireEvent(eventName: string, element?: any) {
+  public fireEvent(eventName: string, element?: StyleableLayer): void {
     this.styleEditor.map.fireEvent(
       this.styleEditor.options.styleEditorEventPrefix + eventName,
       element
