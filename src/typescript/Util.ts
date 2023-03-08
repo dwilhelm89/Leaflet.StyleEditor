@@ -57,8 +57,8 @@ export class Util {
   }
 
   /** get the markers for a specific color **/
-  public getIconsForColor(color: string): string[] {
-    color = new Color(color).toString({format: 'hex'});
+  public getIconsForColor(color: Color): string[] {
+    const colorHex = new Color(color).toString({format: 'hex'});
 
     let markers = new this.styleEditor.options.markerType(this.styleEditor)
       .markers;
@@ -66,8 +66,8 @@ export class Util {
 
     if (!Array.isArray(markers)) {
       // if color is specified return specific markers
-      if (Object.keys(markers).includes(color)) {
-        markers = markers[color];
+      if (Object.keys(markers).includes(colorHex)) {
+        markers = markers[colorHex];
       } else {
         markers = markers['default'];
       }
@@ -76,8 +76,8 @@ export class Util {
     if (controlMarkers) {
       if (!Array.isArray(controlMarkers)) {
         const keys = Object.keys(controlMarkers);
-        if (keys.includes(color)) {
-          controlMarkers = controlMarkers[color];
+        if (keys.includes(colorHex)) {
+          controlMarkers = controlMarkers[colorHex];
         } else if (keys.includes('default')) {
           controlMarkers = controlMarkers['default'];
         } else {
@@ -92,8 +92,8 @@ export class Util {
 
   /** get default marker for specific color **/
   // TODO return color
-  getDefaultMarkerForColor(color: string): string {
-    color = new Color(color).toString({format: 'hex'});
+  getDefaultMarkerForColor(color: Color): string {
+    const colorHex: string = new Color(color).toString({format: 'hex'});
 
     const markers = this.getIconsForColor(color);
 
@@ -106,8 +106,8 @@ export class Util {
       if (typeof defaultMarker === 'string') {
         defMarkers.push(defaultMarker);
       }
-      if (Object.keys(defaultMarker).includes(color)) {
-        defMarkers.push(defaultMarker[color]);
+      if (Object.keys(defaultMarker).includes(colorHex)) {
+        defMarkers.push(defaultMarker[colorHex]);
       }
     }
 
