@@ -6,6 +6,8 @@ import * as SEFormElements from './formElements';
 import * as SEMarker from './marker';
 import L from 'leaflet';
 
+import '../css/Leaflet.StyleEditor.css'
+
 declare module 'leaflet' {
   type StyleEditor = SE.StyleEditor;
   var StyleEditor: typeof SE.StyleEditor;
