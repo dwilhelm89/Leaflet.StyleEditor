@@ -1,4 +1,4 @@
-import Color from 'colorjs.io';
+import Color from 'ts-color-class';
 import { Icon } from 'leaflet';
 import { Marker, MarkerOptions } from '.';
 import { StyleEditor } from '../StyleEditor';
@@ -43,7 +43,7 @@ export class DefaultMarker extends Marker {
 
   private getMarkerUrl(size, color, icon) {
     size = this.sizeToName(size)[0];
-    color = new Color(color).toString({format: 'hex'})
+    color = new Color(color).getHex()
     if (color.indexOf('#') === 0) {
       color = color.replace('#', '');
     }

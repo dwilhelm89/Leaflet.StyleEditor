@@ -2,12 +2,12 @@
  * Helper functions used throuhgout the project
  */
 
-import Color from 'colorjs.io';
 import {
   DomUtil,
   Map,
   StyleableLayer,
 } from 'leaflet';
+import Color from 'ts-color-class'
 import { StyleEditor } from './StyleEditor';
 
 export class Util {
@@ -58,7 +58,7 @@ export class Util {
 
   /** get the markers for a specific color **/
   public getIconsForColor(color: Color): string[] {
-    const colorHex = new Color(color).toString({format: 'hex'});
+    const colorHex = new Color(color).getHex();
 
     let markers = new this.styleEditor.options.markerType(this.styleEditor)
       .markers;
@@ -93,7 +93,7 @@ export class Util {
   /** get default marker for specific color **/
   // TODO return color
   getDefaultMarkerForColor(color: Color): string {
-    const colorHex: string = new Color(color).toString({format: 'hex'});
+    const colorHex: string = new Color(color).getHex();
 
     const markers = this.getIconsForColor(color);
 

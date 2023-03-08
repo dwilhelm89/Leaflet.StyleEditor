@@ -1,4 +1,4 @@
-import Color from 'colorjs.io';
+import Color from 'ts-color-class';
 import { DomEvent, DomUtil } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
@@ -141,7 +141,7 @@ export class IconElement extends FormElement {
     ).getIconOptions();
 
     const currentColorElement = this.getCurrentColorElement(
-      new Color(iconOptions.iconColor).toString({format: 'hex'})
+      new Color(iconOptions.iconColor).getHex()
     ); // TODO Color instead of hex
 
     let show = false;

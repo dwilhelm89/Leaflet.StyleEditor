@@ -2,7 +2,7 @@ import { FormElement } from './FormElement';
 import { MarkerForm } from '../forms/MarkerForm';
 import { DomEvent, DomUtil } from 'leaflet';
 import { Form } from '../forms';
-import Color from 'colorjs.io';
+import Color from 'ts-color-class';
 
 const selectedColorClass = 'leaflet-styleeditor-color-selected';
 
@@ -84,7 +84,7 @@ export class ColorElement extends FormElement {
   private selectColor(event: Event) {
     event.stopPropagation();
     if (event.target instanceof HTMLElement) {
-      this.setStyle(new Color(event.target.style.backgroundColor).toString({format: 'hex'}); // TODO hand over color
+      this.setStyle(new Color(event.target.style.backgroundColor).getHex()); // TODO hand over color
     }
   }
 }

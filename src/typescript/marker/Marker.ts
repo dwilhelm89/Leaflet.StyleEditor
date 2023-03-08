@@ -2,7 +2,7 @@ import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { MarkerOptions } from './';
 import { Marker as LMarker, LayerGroup, DomUtil } from 'leaflet';
-import Color from 'colorjs.io'
+import Color from 'ts-color-class'
 
 /**
  * The Base class for different markers
@@ -135,7 +135,7 @@ export abstract class Marker extends StyleEditorClass {
         color = intersectedColorRamp[0];
       }
     }
-    return new Color(color).toString(({format: 'hex'}); // TODO return Color instead of string
+    return new Color(color).getHex(); // TODO return Color instead of string
   }
 
   /** create new Marker and show it */
