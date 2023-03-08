@@ -2,25 +2,31 @@
  * Helper functions used throuhgout the project
  */
 
+import Color from 'colorjs.io';
 import {
   DomUtil,
-  Marker as LMarker,
+  Map,
   StyleableLayer,
 } from 'leaflet';
 import { StyleEditor } from './StyleEditor';
 
 export class Util {
-  styleEditor: StyleEditor;
+  private styleEditor: StyleEditor;
+  private map: Map;
+  private eventPrefix: string;
 
-  public constructor(styleEditor: StyleEditor) {
+  public constructor(
+    styleEditor: StyleEditor,
+    map: Map,
+    eventPrefix: string,
+  ) {
     this.styleEditor = styleEditor;
+    this.map = map;
+    this.eventPrefix = eventPrefix;
   }
 
   public fireEvent(eventName: string, element?: StyleableLayer): void {
-    this.styleEditor.map.fireEvent(
-      this.styleEditor.options.styleEditorEventPrefix + eventName,
-      element
-    );
+    this.map.fireEvent(this.eventPrefix + eventName, element);
   }
 
   /** hide the given element */
@@ -30,44 +36,8 @@ export class Util {
     }
   }
 
-  /** convert rgb to hex of a color
-   * @param {string} rgb - rgb representation of the color
-   * @param {boolean} noHash - define if return value should not include hash
-   */
-  public rgbToHex(rgb: string, noHash: Boolean = false) {
-    let color: string | undefined = rgb;
-    if (!color) {
-      color = this.styleEditor.options.defaultColor;
-      if (color && color.indexOf('#') !== 0) {
-        color = '#' + color;
-      }
-    }
-
-    if (color && color.indexOf('#') === 0) {
-      if (noHash) {
-        color.replace('#', '');
-      }
-      return color;
-    }
-
-    if (color && color.indexOf('(') < 0) {
-      return '#' + color;
-    }
-
-    const rgbArray = color?.substring(4)?.replace(')', '')?.split(',') || [];
-    const withoutHash =
-      this.componentToHex(parseInt(rgbArray[0], 10)) +
-      this.componentToHex(parseInt(rgbArray[1], 10)) +
-      this.componentToHex(parseInt(rgbArray[2], 10));
-
-    if (noHash) {
-      return withoutHash;
-    }
-    return '#' + withoutHash;
-  }
-
   /** get current style of current element */
-  getStyle(option) {
+  public getStyle(option): unknown {
     const layers = this.styleEditor.getCurrentLayers();
     if (layers.length > 0) {
       const style = layers[0].options[option];
@@ -79,38 +49,16 @@ export class Util {
     return null;
   }
 
-  /** set new style to current element */
-  setStyle(currentElement, option, value) {
-    if (currentElement instanceof LMarker) {
-      new this.styleEditor.options.markerType(this.styleEditor).setStyle(
-        option,
-        value
-      );
-    } else {
-      const newStyle = {};
-      newStyle[option] = value;
-      currentElement.setStyle(newStyle);
-    }
-
-    this.fireEvent('changed', currentElement);
-  }
-
   /** show hidden element */
-  showElement(element) {
+  public showElement(element): void {
     if (element) {
       DomUtil.removeClass(element, 'leaflet-styleeditor-hidden');
     }
   }
 
-  /** helper function to convert color to hex */
-  private componentToHex(color) {
-    const hex = color.toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
-  }
-
   /** get the markers for a specific color **/
   public getIconsForColor(color: string): string[] {
-    color = this.rgbToHex(color);
+    color = new Color(color).toString({format: 'hex'});
 
     let markers = new this.styleEditor.options.markerType(this.styleEditor)
       .markers;
@@ -145,7 +93,7 @@ export class Util {
   /** get default marker for specific color **/
   // TODO return color
   getDefaultMarkerForColor(color: string): string {
-    color = this.rgbToHex(color);
+    color = new Color(color).toString({format: 'hex'});
 
     const markers = this.getIconsForColor(color);
 

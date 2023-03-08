@@ -140,8 +140,8 @@ export class IconElement extends FormElement {
     ).getIconOptions();
 
     const currentColorElement = this.getCurrentColorElement(
-      this.util.rgbToHex(iconOptions.iconColor)
-    );
+      Color(iconOptions.iconColor).hex()
+    ); // TODO Color instead of hex
 
     let show = false;
     if (currentColorElement) {

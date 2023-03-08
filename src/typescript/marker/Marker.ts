@@ -2,6 +2,7 @@ import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { MarkerOptions } from './';
 import { Marker as LMarker, LayerGroup, DomUtil } from 'leaflet';
+import Color from 'colorjs.io'
 
 /**
  * The Base class for different markers
@@ -26,7 +27,7 @@ export abstract class Marker extends StyleEditorClass {
   }
 
   /** set styling options */
-  public setStyle(styleOption, value) {
+  public setStyle(styleOption, value): void {
     if (styleOption !== 'icon') {
       styleOption =
         'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
@@ -134,7 +135,7 @@ export abstract class Marker extends StyleEditorClass {
         color = intersectedColorRamp[0];
       }
     }
-    return this.util.rgbToHex(color);
+    return new Color(color).toString(({format: 'hex'}); // TODO return Color instead of string
   }
 
   /** create new Marker and show it */

@@ -23,7 +23,7 @@ export class StyleEditor extends Class {
   private options: StyleEditorOptions;
   util: Util;
 
-  map: Map;
+  private map: Map;
   editorUI: HTMLElement;
   interiorEditorUI: HTMLElement;
   tooltipUI: HTMLElement;
@@ -42,7 +42,11 @@ export class StyleEditor extends Class {
     this.map = map;
 
     this.options = { ...DefaultStyleEditorOptions, ...options };
-    this.util = new Util(this);
+    this.util = new Util(
+      this,
+      map,
+      options.styleEditorEventPrefix
+    );
 
     this.editorUI = this.createEditorUi();
     this.interiorEditorUI = DomUtil.create(

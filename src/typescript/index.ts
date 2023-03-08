@@ -250,6 +250,4 @@ L.StyleEditorClasses = {
   },
 };
 
-L.asdf = 'qwer';
-
 export default L;

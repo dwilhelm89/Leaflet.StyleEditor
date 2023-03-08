@@ -64,6 +64,11 @@ Here is a list of all possible options.
   example: *'circle'*  
   example: *{'default': ['circle'], '#f1c40f': ['square']}*
 
+* **defaultColor**  
+  The default color for markers and gemoetries.  
+  This can be overwritten for markers by **defaultMarkerColor**.  
+  example: *'#2c3e50'*
+
 * **defaultMarkerColor**  
   The default color for markers.  
   example: *'#2c3e50'*

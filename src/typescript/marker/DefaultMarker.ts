@@ -1,3 +1,4 @@
+import Color from 'colorjs.io';
 import { Icon } from 'leaflet';
 import { Marker, MarkerOptions } from '.';
 import { StyleEditor } from '../StyleEditor';
@@ -42,10 +43,9 @@ export class DefaultMarker extends Marker {
 
   private getMarkerUrl(size, color, icon) {
     size = this.sizeToName(size)[0];
+    color = new Color(color).toString({format: 'hex'})
     if (color.indexOf('#') === 0) {
       color = color.replace('#', '');
-    } else {
-      color = this.util.rgbToHex(color, true);
     }
     let url = 'https://api.tiles.mapbox.com/v3/marker/pin-' + size;
     if (icon) {
