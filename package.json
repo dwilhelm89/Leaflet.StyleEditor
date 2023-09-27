@@ -23,8 +23,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-standard": "^4.1.0",
-    "http-serve": "^1.0.1",
-    "http-server": "^14.1.1",
     "leaflet": "^1.9.4",
     "lint": "^1.1.2",
     "postcss": "^8.4.30",
@@ -51,12 +49,15 @@
   ],
   "dependencies": {
     "@types/leaflet-editable": "^1.2.3",
+    "minimist": "^1.2.8",
     "npm-check-updates": "^16.14.4"
   },
+  "peerDependencies": {},
   "scripts": {
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "build": "esbuild app.jsx --bundle --outfile=out.js --minify",
-    "build:dev": "esbuild app.jsx --bundle --outfile=out.js --sourcemap"
+    "build": "node scripts/build",
+    "build:minify": "node scripts/build.js --minify",
+    "build:dev": "node scripts/build.js --sourcemap"
   },
   "publishConfig": {
     "access": "public"
