@@ -120,7 +120,7 @@
   font-size: 0.8em;
 }
 
-input.leaflet-styleeditor-input {
+.leaflet-styleeditor-input {
   height: 30px;
   background: #fff;
   margin: 0;
