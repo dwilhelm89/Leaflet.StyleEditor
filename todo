@@ -12,11 +12,11 @@ DashElement
   * Style the DashElement
 SizeElement
   * Style the SizeElement
-ColorElement
-  * Highlight selected color on Poly/path
 IconElement
   * Highlight selected icon
-  * Fix color seelction
+  * Fix color seelction when selecting new icon
+Popup
+  * Fix text changes not reflected
 
 Map:
   * Remove marker focus box when leaving focus
