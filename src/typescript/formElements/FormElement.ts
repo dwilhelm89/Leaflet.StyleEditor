@@ -11,42 +11,40 @@ export type FormElementClass = new (
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
   protected styleOption: string;
-  protected title: string;
   protected uiElement: HTMLElement;
   protected parentForm: Form;
 
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: string,
+    title?: string
   ) {
     super(parentForm.styleEditor);
     this.styleOption = styleOption;
     // if no title is given use styling option
     this.parentForm = parentForm;
-    this.create(parentUiElement);
+    this.create(parentUiElement, title);
   }
 
   /** create uiElement and content */
-  private create(parentUiElement: HTMLElement): void {
+  private create(parentUiElement: HTMLElement, title: string): void {
     this.uiElement = DomUtil.create(
       'div',
       'leaflet-styleeditor-uiElement',
       parentUiElement
     );
-    this.createTitle();
+    this.createTitle(title);
   }
 
   /** create title */
-  private createTitle(): void {
-    const title = DomUtil.create(
+  private createTitle(title: string): void {
+    const titleDom = DomUtil.create(
       'label',
       'leaflet-styleeditor-label',
       this.uiElement
     );
-    title.innerHTML =
-      this.title ||
-      this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1);
+    titleDom.innerHTML = title ?? this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1);
   }
 
   /** style the FormElement and show it */

@@ -6,14 +6,12 @@ import { Form } from '../forms';
  * FormElement to set style of an icon
  */
 export class SizeElement extends FormElement {
-  title = 'size';
-
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, 'Size');
     this.createContent();
   }
 

@@ -11,8 +11,6 @@ const selectedColorClass = 'leaflet-styleeditor-color-selected';
  */
 export class ColorElement extends FormElement {
 
-  public override title = 'color';
-
   private colorPickerDiv: HTMLElement;
   private colorRampDivs: Map<string, HTMLElement> = new Map();
 
@@ -21,7 +19,7 @@ export class ColorElement extends FormElement {
     parentUiElement: HTMLElement,
     styleOption: string
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, 'Color');
     this.colorPickerDiv = this.createColoPicker();
     this.createColorPickerRamp();
   }
