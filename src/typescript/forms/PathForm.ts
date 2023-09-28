@@ -6,7 +6,7 @@ import {
   DashElement,
   PopupContentElement,
 } from '../formElements';
-import { StyleableLayer, Path } from 'leaflet';
+import { Layer, Path } from 'leaflet';
 /** Form used to enable modification of a Geometry */
 
 export class PathForm extends Form {
@@ -18,7 +18,7 @@ export class PathForm extends Form {
     popupContent: PopupContentElement,
   };
 
-  public override whenToShow(layers: StyleableLayer[]): Boolean {
+  public override whenToShow(layers: Layer[]): Boolean {
     return layers.some((layer) => layer instanceof Path);
   }
 }

@@ -82,11 +82,6 @@ declare module 'leaflet' {
     type Marker = SEMarker.Marker;
     var Marker: typeof SEMarker.Marker;
   }
-  interface StyleableLayer extends Layer {
-    options?;
-  }
-
-  }
 
   export namespace DomEvent {
     type EventHandlerFn = (event: Event) => void;

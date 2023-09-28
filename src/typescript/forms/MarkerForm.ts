@@ -6,7 +6,7 @@ import {
   PopupContentElement,
   IconElement,
 } from '../formElements';
-import { StyleableLayer, Marker as LMarker } from 'leaflet';
+import { Layer, Marker as LMarker } from 'leaflet';
 
 /** Form used to enable modification of a Geometry */
 export class MarkerForm extends Form {
@@ -18,7 +18,7 @@ export class MarkerForm extends Form {
     popupContent: PopupContentElement,
   };
 
-  public whenToShow(layers: StyleableLayer[]): Boolean {
+  public whenToShow(layers: Layer[]): Boolean {
     return layers.some((layer) => layer instanceof LMarker);
   }
 

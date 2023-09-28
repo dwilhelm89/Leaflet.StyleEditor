@@ -11,7 +11,6 @@ import {
   LayerGroup,
   Class,
   LayerEvent,
-  StyleableLayer,
 } from 'leaflet';
 
 // TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better?
@@ -228,7 +227,7 @@ export class StyleEditor extends Class {
   }
 
   // get current layers
-  getCurrentLayers(): StyleableLayer[] {
+  getCurrentLayers(): Layer[] {
     if (!this.currentLayer) {
       return [];
     } else if (

@@ -6,7 +6,7 @@ import {
   DashElement,
   PopupContentElement,
 } from '../formElements';
-import { StyleableLayer, Polygon, CircleMarker } from 'leaflet';
+import { Polygon, CircleMarker, Layer } from 'leaflet';
 
 /** Form used to enable modification of a Geometry */
 export class FillableForm extends Form {
@@ -20,7 +20,7 @@ export class FillableForm extends Form {
     popupContent: PopupContentElement,
   };
 
-  public override whenToShow(layers: StyleableLayer[]): Boolean {
+  public override whenToShow(layers: Layer[]): Boolean {
     return layers.some(
       (layer) => layer instanceof Polygon || layer instanceof CircleMarker
     );

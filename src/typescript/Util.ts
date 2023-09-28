@@ -4,8 +4,8 @@
 
 import {
   DomUtil,
+  Layer,
   Map,
-  StyleableLayer,
 } from 'leaflet';
 import Color from 'ts-color-class'
 import { StyleEditor } from './StyleEditor';
@@ -25,7 +25,7 @@ export class Util {
     this.eventPrefix = eventPrefix;
   }
 
-  public fireEvent(eventName: string, element?: StyleableLayer): void {
+  public fireEvent(eventName: string, element?: Layer): void {
     this.map.fireEvent(this.eventPrefix + eventName, element);
   }
 

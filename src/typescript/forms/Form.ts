@@ -1,7 +1,7 @@
 import { FormElement, FormElementClass } from '../formElements';
 import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
-import { DomUtil, StyleableLayer } from 'leaflet';
+import { DomUtil, Layer } from 'leaflet';
 
 export type FormClass = new (...args: any[]) => Form;
 
@@ -107,5 +107,5 @@ export abstract class Form extends StyleEditorClass {
     return this.formElements[styleOption];
   }
 
-  abstract whenToShow(layers: StyleableLayer[]): Boolean;
+  abstract whenToShow(layers: Layer[]): Boolean;
 }
