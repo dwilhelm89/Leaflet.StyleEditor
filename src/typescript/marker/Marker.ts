@@ -20,6 +20,7 @@ export abstract class Marker extends StyleEditorClass {
 
   public defaultMarkerIcon?: string;
   public abstract markers: string[];
+  public markerName: string;
 
   public constructor(styleEditor: StyleEditor, markerName: string) {
     super(styleEditor);
@@ -27,7 +28,7 @@ export abstract class Marker extends StyleEditorClass {
   }
 
   /** set styling options */
-  public setStyle(styleOption, value): void {
+  public setStyle(styleOption: string, value: string): void {
     if (styleOption !== 'icon') {
       styleOption =
         'icon' + styleOption.charAt(0).toUpperCase() + styleOption.slice(1);
