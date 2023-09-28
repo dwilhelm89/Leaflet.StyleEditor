@@ -12,7 +12,7 @@ PopUpElement
   * retain text and allow more then 1 letter
   * TextArea does not fit into parent
 DashElement
-  * Style the DashElement
+  * Set default value?
 SizeElement
   * Style the SizeElement
 IconElement
@@ -20,6 +20,8 @@ IconElement
   * Fix color seelction when selecting new icon
 Popup
   * Fix text changes not reflected
+MakiMarker
+  * Replace calls to mapbox api
 
 Map:
   * Remove marker focus box when leaving focus
