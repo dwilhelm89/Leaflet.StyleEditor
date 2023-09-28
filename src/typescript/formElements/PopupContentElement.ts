@@ -7,7 +7,6 @@ import { Form } from '../forms';
  */
 export class PopupContentElement extends FormElement {
 
-  override title: string = 'Description';
   override styleOption = 'popupContent';
 
   private textArea: HTMLTextAreaElement;
@@ -17,7 +16,7 @@ export class PopupContentElement extends FormElement {
     parentUiElement: HTMLElement,
     styleOption: string
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, 'Description');
     this.textArea = this.createTextArea();
   }
 
