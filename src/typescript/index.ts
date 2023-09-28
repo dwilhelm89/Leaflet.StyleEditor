@@ -86,54 +86,6 @@ declare module 'leaflet' {
     options?;
   }
 
-  export namespace DomUtil {
-    /**
-     * Get Element by its ID or with the given HTML-Element
-     */
-    function get(element: string | HTMLElement): HTMLElement | null;
-    function getStyle(el: HTMLElement, styleAttrib: string): string | null;
-    /**
-     * Creates an HTML element with `tagName`, sets its class to `className`, and optionally appends it to `container` element.
-     * @param tagName The name of the tag to create (for example: `div` or `canvas`).
-     * @param className The class to set on the created element.
-     * @param container The container to append the created element to.
-     */
-    function create<T extends keyof HTMLElementTagNameMap>(
-      tagName: T,
-      className?: string,
-      container?: HTMLElement
-    ): HTMLElementTagNameMap[T];
-    function create(
-      tagName: string,
-      className?: string,
-      container?: HTMLElement
-    ): HTMLElement;
-    function remove(el: HTMLElement): void;
-    function empty(el: HTMLElement): void;
-    function toFront(el: HTMLElement): void;
-    function toBack(el: HTMLElement): void;
-    function hasClass(el: HTMLElement, name: string): boolean;
-    function addClass(el: HTMLElement, name: string): void;
-    function removeClass(el: HTMLElement, name: string): void;
-    function setClass(el: HTMLElement, name: string): void;
-    function getClass(el: HTMLElement): string;
-    function setOpacity(el: HTMLElement, opacity: number): void;
-    function testProp(props: string[]): string | false;
-    function setTransform(el: HTMLElement, offset: Point, scale?: number): void;
-    function setPosition(el: HTMLElement, position: Point): void;
-    function getPosition(el: HTMLElement): Point;
-    function getScale(el: HTMLElement): {
-      x: number;
-      y: number;
-      boundingClientRect: DOMRect;
-    };
-    function getSizedParentNode(el: HTMLElement): HTMLElement;
-    function disableTextSelection(): void;
-    function enableTextSelection(): void;
-    function disableImageDrag(): void;
-    function enableImageDrag(): void;
-    function preventOutline(el: HTMLElement): void;
-    function restoreOutline(): void;
   }
 
   export namespace DomEvent {
