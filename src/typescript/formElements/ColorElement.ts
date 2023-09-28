@@ -19,7 +19,7 @@ export class ColorElement extends FormElement {
     parentUiElement: HTMLElement,
     styleOption: string
   ) {
-    super(parentForm, parentUiElement, styleOption, 'Color');
+    super(parentForm, parentUiElement, styleOption);
     this.colorPickerDiv = this.createColoPicker();
     this.createColorPickerRamp();
   }
