@@ -1,4 +1,4 @@
-import { Path, Marker as LMarker, DomUtil } from 'leaflet';
+import { Path, Marker as LMarker, DomUtil, Layer } from 'leaflet';
 import { Form } from '../forms';
 import { StyleEditorClass } from '../StyleEditorClass';
 
@@ -70,7 +70,7 @@ export abstract class FormElement extends StyleEditorClass {
   public lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
-  protected setStyle(value): void {
+  protected setStyle(value: Layer): void {
     this.styleEditor.getCurrentLayers().forEach((layer) => {
       layer.options[this.styleOption] = value;
       if (layer instanceof LMarker) {
