@@ -6,10 +6,11 @@ import { Form } from '../forms';
  * FormElement used for adding a description to marker or geometry.
  */
 export class PopupContentElement extends FormElement {
-  styleOption = 'pupupContent';
-  private textArea: HTMLTextAreaElement;
 
-  title = 'Description';
+  override title = 'Description';
+  override styleOption = 'pupupContent';
+
+  private textArea: HTMLTextAreaElement;
 
   constructor(
     parentForm: Form,
@@ -34,15 +35,16 @@ export class PopupContentElement extends FormElement {
   /** set correct value */
   override style() {
     const selectedElements = this.styleEditor.getCurrentLayers();
-    this.textArea.value = '';
     selectedElements.forEach((layer) => {
-      if (layer.options.popupContent) {
-        this.textArea.value = layer.options.popupContent;
+      const popupContent = layer.getPopup()?.getContent().toString() ?? layer.options.popupContent
+      if (popupContent) {
+        this.textArea.value = popupContent;
+
         const popup = layer.getPopup();
         if (popup) {
-          popup.setContent(layer.options.popupContent);
+          popup.setContent(popupContent);
         } else {
-          layer.bindPopup(layer.options.popupContent);
+          layer.bindPopup(popupContent);
         }
       }
     });
