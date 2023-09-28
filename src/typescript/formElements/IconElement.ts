@@ -7,7 +7,7 @@ import { Form } from '../forms';
  * FormElement used for styling the icon
  */
 export class IconElement extends FormElement {
-  styleOption = 'icon';
+  override styleOption = 'icon';
 
   // private classed used in the code
   private selectOptionWrapperClasses =
