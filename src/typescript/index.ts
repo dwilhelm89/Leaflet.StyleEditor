@@ -15,8 +15,6 @@ declare module 'leaflet' {
     ...args: ConstructorParameters<typeof StyleEditor>
   ) => StyleEditor;
 
-  var asdf: string;
-
   namespace StyleEditorClasses {
     namespace Forms {
       type Form = SEForm.Form;
@@ -116,7 +114,5 @@ L.StyleEditorClasses = {
     DefaultMarker: SEMarker.DefaultMarker,
   },
 };
-
-L.asdf = 'qwer';
 
 export default L;
