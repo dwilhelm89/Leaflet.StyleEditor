@@ -4,7 +4,7 @@ import { DomEvent, DomUtil } from 'leaflet';
 import { Form } from '../forms';
 import Color from 'ts-color-class';
 
-const selectedColorClass = 'leaflet-styleeditor-color-selected';
+const selectedColorClass = 'leaflet-styleeditor-selected';
 
 /**
  *  FormElement used to style the color
