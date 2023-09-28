@@ -13,10 +13,9 @@ import {
   LayerEvent,
 } from 'leaflet';
 
-// TODO merge STYLEFORM AND STYLE EDITORIMPL? or seperate better?
 export class StyleEditor extends Class {
   private controls: StyleEditorControl[] = [];
-  // TODO event? LAyer?!
+
   private currentLayer?: Layer | LayerGroup;
 
   private options: StyleEditorOptions;
