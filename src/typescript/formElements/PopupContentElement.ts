@@ -33,7 +33,7 @@ export class PopupContentElement extends FormElement {
 
   /** set correct value */
   override style() {
-    const selectedElements = this.styleEditor.getCurrentLayers();
+    const selectedElements = this.styleEditor.currentLayer;
     selectedElements.forEach((layer) => {
       const popupContent = layer.getPopup()?.getContent().toString() ?? layer.options.popupContent
       if (popupContent) {
@@ -52,7 +52,7 @@ export class PopupContentElement extends FormElement {
   /** communicate popupContent value */
   private updateStyle() {
     const inputText = this.textArea.value;
-    this.styleEditor.getCurrentLayers().forEach((layer) => {
+    this.styleEditor.currentLayer.forEach((layer) => {
       const popup = layer.getPopup();
       if (popup) {
         popup.setContent(inputText);

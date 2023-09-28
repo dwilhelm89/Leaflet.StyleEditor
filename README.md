@@ -87,9 +87,6 @@ Here is a list of all possible options.
 * **strings**  
   Overwrite the strings *cancel*, *cancelTitle*, *tooltip* and *tooltipNext*
 
-* **geometryForm**  
-  You may define another Form to style Geometries. 
-
 * **useGrouping**  
   Define if grouped elements should be styled together.
   
@@ -99,26 +96,6 @@ Here is a list of all possible options.
 * **ignoreLayerTypes**
   An Array indicating which layer types to ignore.
   Possible options are "Marker", "Polyline", "Polygon" and "Rectangle".
-
-* **forms**  
-  A dictionary defining when to show what form for which option.  
-  example: *{'marker': {'icon': CustomIconFormElement }}*  
-  example: *{'geometry': {'color': false, opacity: true }}*  
-  example: *{'marker': {'size': () => return {new Date().getSecond()%2 == 0 }}*  
-  example: *{'geometry': {'opacity': (elem) => {return elem.target instanceof L.Polygon }}}*  
-  example: *{'marker': {'size': {'boolean': () => {return true }, 'formElement': 'L.StyleEditor.formElement.DashElement' }}}*
-
-  Only predefined styleOptions of the Geometry- and Markerform are supported.
-  For every styleOption You may provide a boolean, function, [FormElement](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/FormElements/FormElement.js) or dictionary.
- 
-  If you decide to customize forms **only** the formElements listed will be rendered (and shown).
- 
-  The **boolean** indicates if a FormElement will be shown. Setting this to false will generate the formElement in the HTML but hide it by adding `leaflet-styleeditor-hidden` class.
-  A **function** will be called to determine if a FormElement should be shown. The return value should be a boolean.
-  A **FormElement** overrides the predefined FormElement.
-  A **dictionary** should contain **boolean** and **formElement** combining obove mentionend options.
-  'boolean' can be a function or a boolean.
-
 
 ### Events
 
@@ -190,22 +167,6 @@ If a list is defined all colors will support the same icons.
 If a dictionary is defined you may define supported icons for every color individually.
 'default' is the fallback in the dictionary. I.e. if a color is not defined specifically the value for the key 'default' will be returned.
 
-The **markerForm** can be individually set.
-
-### Forms
-
-The StyleForm consists of different Forms, which consist of different FormElements.
-
-Forms need to extend [L.StyleEditor.forms.Form](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/Form/Form.js),
-every FormElement [L.StyleEditor.formElements.FormElement](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/FormElements/FormElement.js).
-
-Forms consist of FormElements defined in options.formElements as a dictionary mapping the "styleOption" (e.g. icon, color, dash,...) to the FormElement.
-A FormElement needs to implement **createContent**, where the select options are created.
-
-**style** and **lostFocus** may be useful as well.
-
-For a simple FormElement see [DashElement](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/FormElements/DashElement.js),
-for a more complicated one see [IconElement](https://github.com/dwilhelm89/Leaflet.StyleEditor/blob/master/src/javascript/FormElements/IconElement.js)
 
 Authors
 -----

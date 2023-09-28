@@ -70,21 +70,21 @@ export abstract class FormElement extends StyleEditorClass {
   public lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
-  protected setStyle(value: Layer): void {
-    this.styleEditor.getCurrentLayers().forEach((layer) => {
-      layer.options[this.styleOption] = value;
-      if (layer instanceof LMarker) {
-        new this.styleEditor.options.markerType(this.styleEditor).setStyle(
-          this.styleOption,
-          value
-        );
-      } else if (layer instanceof Path) {
-        layer.setStyle(layer.options);
-      }
+  protected setStyle(value: string): void {
+    debugger
+    const layer: Layer = this.styleEditor.currentLayer
+    layer.options[this.styleOption] = value;
+    if (layer instanceof LMarker) {
+      new this.styleEditor.options.markerType(this.styleEditor).setStyle(
+        this.styleOption,
+        value
+      );
+    } else if (layer instanceof Path) {
+      layer.setStyle(layer.options);
+    }
 
-      // fire event for changed layer
-      this.util.fireEvent('changed', layer);
-    });
+    // fire event for changed layer
+    this.util.fireEvent('changed', layer);
 
     // notify form styling value has changed
     this.parentForm.style();

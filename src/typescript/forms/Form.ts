@@ -1,9 +1,7 @@
-import { FormElement, FormElementClass } from '../formElements';
+import { ColorElement, DashElement, FormElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
 import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { DomUtil, Layer } from 'leaflet';
-
-export type FormClass = new (...args: any[]) => Form;
 
 /**
  * Forms consist of FormElements and are shown in the StyleForm
@@ -12,21 +10,23 @@ export type FormClass = new (...args: any[]) => Form;
  *     - path: https://leafletjs.com/reference.html#path-options
  *     - icon: https://leafletjs.com/reference.html#icon
  */
-export abstract class Form extends StyleEditorClass {
+export class Form extends StyleEditorClass {
   private parentUiElement: HTMLElement;
+  private get formElements(): Record<string, FormElementClass> {
+    return this.styleEditor.options.formElements;
+  }
 
   constructor(styleEditor: StyleEditor, parentUiElement: HTMLElement) {
     super(styleEditor);
     this.parentUiElement = parentUiElement;
   }
 
-  protected formElements: Record<string, FormElementClass>;
-
   private uiElement: HTMLElement;
   protected initializedElements: Record<string, FormElement> = {};
 
   /** create every FormElement in the parentUiElement */
   create(): void {
+    debugger
     this.uiElement = DomUtil.create('div', '', this.parentUiElement);
     for (const key in this.formElements) {
       const formElement = this.getFormElementClass(key);
@@ -107,5 +107,4 @@ export abstract class Form extends StyleEditorClass {
     return this.formElements[styleOption];
   }
 
-  abstract whenToShow(layers: Layer[]): Boolean;
 }

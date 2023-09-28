@@ -1,8 +1,8 @@
 import { FormElement } from './FormElement';
-import { MarkerForm } from '../forms/MarkerForm';
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Path } from 'leaflet';
 import { Form } from '../forms';
 import Color from 'ts-color-class';
+import { Marker } from '../marker';
 
 const selectedColorClass = 'leaflet-styleeditor-selected';
 
@@ -17,7 +17,7 @@ export class ColorElement extends FormElement {
   public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: 'color' | 'fillColor' 
   ) {
     super(parentForm, parentUiElement, styleOption);
     this.colorPickerDiv = this.createColoPicker();
@@ -27,13 +27,15 @@ export class ColorElement extends FormElement {
   public override style(): void {
     this.colorRampDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
-    });
-    const layerWithStyleOption = this.styleEditor.getCurrentLayers().find((layer) => layer.options[this.styleOption]);
-    if (!layerWithStyleOption) {
+    })
+
+    const layer = this.styleEditor.currentLayer;
+    /* TODO Add hanling for MARKER */
+    if(!(layer instanceof Path)) {
       return;
     }
 
-    const color = layerWithStyleOption.options[this.styleOption];
+    const color = layer.options[this.styleOption];
     const colorRampElement = this.colorRampDivs.get(color);
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);
@@ -55,6 +57,8 @@ export class ColorElement extends FormElement {
   /** create or get already created colorRamp */
   private getColorRamp() {
     // if markers have own colorRamp use it
+    /*
+    TODO distinguish which colors to show
     if (this.parentForm instanceof MarkerForm) {
       const markerType = new this.styleEditor.options.markerType(
         this.styleEditor
@@ -62,7 +66,7 @@ export class ColorElement extends FormElement {
       if (!!markerType.colorRamp) {
         return markerType.colorRamp;
       }
-    }
+    } */ 
     return this.styleEditor.options.colorRamp;
   }
 

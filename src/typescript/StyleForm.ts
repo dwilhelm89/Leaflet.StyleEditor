@@ -1,36 +1,27 @@
-import { Form, FormClass } from './forms';
+import { Form } from './forms';
 import { StyleEditorClass } from './StyleEditorClass';
 import { StyleEditor } from './StyleEditor';
-import { Map } from 'leaflet';
 
 export class StyleForm extends StyleEditorClass {
   styleEditorInterior: HTMLElement;
   styleEditorDiv: HTMLElement;
-  forms: Form[] = [];
+  private form: Form
 
-  constructor(styleEditor: StyleEditor, map: Map, forms: FormClass[]) {
+  constructor(styleEditor: StyleEditor) {
     super(styleEditor);
-    this.createForms(forms);
+    this.createForm();
   }
 
-  createForms(forms: FormClass[]) {
-    forms.forEach((formClass: FormClass) => {
-      const form = new formClass(
-        this.styleEditor,
-        this.styleEditor.interiorEditorUI
-      );
-      form.create();
-      this.forms.push(form);
-    });
+  private createForm() {
+    this.form = new Form(
+      this.styleEditor,
+      this.styleEditor.interiorEditorUI
+    );
+    this.form.create();
   }
 
   show() {
-    // hide all forms
-    this.forms.forEach((form) => {
-      form.hide();
-    });
-    // show first form
-    this.forms.find((form: Form) => form.whenToShow(this.styleEditor.getCurrentLayers()))?.show()
+    this.form.show();
   }
 
 }

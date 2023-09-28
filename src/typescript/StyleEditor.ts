@@ -16,9 +16,9 @@ import {
 export class StyleEditor extends Class {
   private controls: StyleEditorControl[] = [];
 
-  private currentLayer?: Layer | LayerGroup;
+  public currentLayer?: Layer;
 
-  private options: StyleEditorOptions;
+  public options: StyleEditorOptions;
   util: Util;
 
   private map: Map;
@@ -57,7 +57,7 @@ export class StyleEditor extends Class {
     this.createEditorHeader();
 
     this.addEventListeners(this.map);
-    this.styleForm = new StyleForm(this, map, this.options.forms);
+    this.styleForm = new StyleForm(this);
 
     if (control) {
       this.addControl(control);
@@ -222,20 +222,6 @@ export class StyleEditor extends Class {
       this.hideTooltip();
       this.hideEditor();
       this.isEnabled = false;
-    }
-  }
-
-  // get current layers
-  getCurrentLayers(): Layer[] {
-    if (!this.currentLayer) {
-      return [];
-    } else if (
-      this.options.useGrouping &&
-      this.currentLayer instanceof LayerGroup
-    ) {
-      return this.currentLayer.getLayers();
-    } else {
-      return [this.currentLayer];
     }
   }
 

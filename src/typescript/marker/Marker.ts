@@ -49,7 +49,7 @@ export abstract class Marker extends StyleEditorClass {
   public getIconOptions(): MarkerOptions {
     let markerOptions: MarkerOptions = {};
 
-    const layers = this.styleEditor.getCurrentLayers();
+    const layers = this.styleEditor.currentLayer;
     const marker = layers.find((layer) => layer instanceof LMarker) as LMarker;
     if (marker) {
       markerOptions = marker?.options?.icon?.options || {};
@@ -142,7 +142,7 @@ export abstract class Marker extends StyleEditorClass {
   /** create new Marker and show it */
   private setNewMarker(markerOptions: MarkerOptions) {
     const newIcon = this.createMarkerIcon(markerOptions);
-    this.styleEditor.getCurrentLayers().forEach((currentElement) => {
+    this.styleEditor.currentLayer.forEach((currentElement) => {
       if (currentElement instanceof LMarker) {
         currentElement.setIcon(newIcon);
         if (currentElement instanceof LayerGroup) {

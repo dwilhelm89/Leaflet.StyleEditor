@@ -5,6 +5,7 @@
 import {
   DomUtil,
   Layer,
+  LayerGroup,
   Map,
 } from 'leaflet';
 import Color from 'ts-color-class'
@@ -37,8 +38,9 @@ export class Util {
   }
 
   /** get current style of current element */
-  public getStyle(option): unknown {
-    const layers = this.styleEditor.getCurrentLayers();
+  public getStyle(option: string): string{
+    const layer: Layer = this.styleEditor.currentLayer
+    const layers: Layer[] = (this.styleEditor.currentLayer instanceof LayerGroup) ? (layer as LayerGroup).getLayers() : [layer]
     if (layers.length > 0) {
       const style = layers[0].options[option];
       if (style) {
@@ -132,7 +134,7 @@ export class Util {
 
   canCurrentLayersBeFilled(): Boolean {
     return (
-      this.styleEditor.getCurrentLayers().find((layer) => layer.options.fill) !=
+      this.styleEditor.currentLayer.find((layer) => layer.options.fill) !=
       undefined
     );
   }

@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Layer, Path } from 'leaflet';
 import { Form } from '../forms';
 import { FormElement } from './FormElement';
 
@@ -23,12 +23,13 @@ export class DashElement extends FormElement {
     this.dashDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
     });
-    const layerWithStyleOption = this.styleEditor.getCurrentLayers().find((layer) => layer.options[this.styleOption]);
-    if (!layerWithStyleOption) {
+
+    const layer: Layer = this.styleEditor.currentLayer;
+    if(!(layer instanceof Path)) {
       return;
     }
 
-    const dashStyle = layerWithStyleOption.options[this.styleOption];
+    const dashStyle = layer.options[this.styleOption];
     const colorRampElement: HTMLElement= this.dashDivs.get(dashStyle);
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);

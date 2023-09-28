@@ -1,5 +1,5 @@
 import Color from 'ts-color-class';
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Layer } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 
@@ -189,4 +189,5 @@ export class IconElement extends FormElement {
       this.util.hideElement(value);
     });
   }
+  
 }

@@ -1,7 +1,7 @@
 import { ControlOptions } from 'leaflet';
 import { LeafletStyleEditorStrings } from '../types';
-import { MarkerForm, FormClass, PathForm, FillableForm } from '../forms';
 import { DefaultMarker, MarkerClass } from '../marker';
+import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
 
 export interface StyleEditorOptions extends ControlOptions {
   colorRamp: string[]; // TODO colors
@@ -12,7 +12,7 @@ export interface StyleEditorOptions extends ControlOptions {
   defaultMarkerIcon?: string | Record<string, string>; // TODO add color
   defaultMarkerColor?: string; // TODO color
 
-  forms: FormClass[];
+  formElements: Record<string, FormElementClass>;
 
   openOnLeafletDraw: boolean;
   openOnLeafletEditable: boolean;
@@ -52,11 +52,21 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
     '#7f8c8d',
   ],
 
+  formElements: {
+    icon: IconElement,
+    color: ColorElement,
+    size: SizeElement,
+    opacity: OpacityElement,
+    weight: WeightElement,
+    dashArray: DashElement,
+    fillColor: ColorElement,
+    fillOpacity: OpacityElement,
+    popupContent: PopupContentElement,
+  },
+
   markerType: DefaultMarker,
 
   ignoreLayerTypes: [],
-
-  forms: [MarkerForm, FillableForm, PathForm],
 
   layerAddEvents: ['draw:created', 'editable:created'],
   openOnLeafletDraw: true,

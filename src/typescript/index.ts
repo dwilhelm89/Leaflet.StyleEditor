@@ -16,19 +16,8 @@ declare module 'leaflet' {
   ) => StyleEditor;
 
   namespace StyleEditorClasses {
-    namespace Forms {
-      type Form = SEForm.Form;
-      var Form: typeof SEForm.Form;
-
-      type MarkerForm = SEForm.MarkerForm;
-      var MarkerForm: typeof SEForm.MarkerForm;
-      type PathForm = SEForm.PathForm;
-      var PathForm: typeof SEForm.PathForm;
-
-      type FillableForm = SEForm.FillableForm;
-      var FillableForm: typeof SEForm.FillableForm;
-    }
-
+    type Form = SEForm.Form;
+    var Form: typeof SEForm.Form;
     module FormElements {
       type ColorElement = SEFormElements.ColorElement;
       var ColorElement: typeof SEFormElements.ColorElement;
@@ -93,12 +82,7 @@ L.control.styleEditor = function (options: StyleEditorOptions) {
 };
 
 L.StyleEditorClasses = {
-  Forms: {
-    Form: SEForm.Form,
-    MarkerForm: SEForm.MarkerForm,
-    PathForm: SEForm.PathForm,
-    FillableForm: SEForm.FillableForm,
-  },
+  Form: SEForm.Form,
   FormElements: {
     ColorElement: SEFormElements.ColorElement,
     DashElement: SEFormElements.DashElement,
