@@ -82,13 +82,13 @@ export class StyleEditorControl extends Control {
     }
   }
 
-  private enable() {
+  public enable() {
     this.isEnabled = true;
     this.showCancelButton();
     this.styleEditor.enable();
   }
 
-  private disable() {
+  public disable() {
     if (this.isEnabled) {
       this.isEnabled = false;
       this.hideCancelButton();
