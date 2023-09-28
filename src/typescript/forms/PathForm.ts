@@ -19,6 +19,6 @@ export class PathForm extends Form {
   };
 
   public override whenToShow(layers: Layer[]): Boolean {
-    return layers.some((layer) => layer instanceof Path);
+    return layers.some((layer) => layer instanceof Path && !layer.options.fill);
   }
 }
