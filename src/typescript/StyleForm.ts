@@ -41,13 +41,7 @@ export class StyleForm extends StyleEditorClass {
       form.hide();
     });
     // show first form
-    this.forms.some((form) => {
-      const show = form.whenToShow(this.styleEditor.getCurrentLayers());
-      if (show) {
-        form.show();
-        return true;
-      }
-    });
+    this.forms.find((form: Form) => form.whenToShow(this.styleEditor.getCurrentLayers()))?.show()
   }
 
   private lostFocus(e) {
