@@ -11,7 +11,7 @@ import { Layer, Marker as LMarker } from 'leaflet';
 /** Form used to enable modification of a Geometry */
 export class MarkerForm extends Form {
 
-  protected formElements: Record<string, FormElementClass> = {
+  protected override formElements: Record<string, FormElementClass> = {
     icon: IconElement,
     color: ColorElement,
     size: SizeElement,
