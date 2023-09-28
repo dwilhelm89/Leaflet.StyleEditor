@@ -67,7 +67,7 @@ export abstract class FormElement extends StyleEditorClass {
   public abstract style(): void;
 
   /** what to do when lost focus */
-  protected lostFocus(): void {}
+  public lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
   protected setStyle(value): void {
