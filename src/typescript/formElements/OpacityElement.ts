@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil, Layer } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Path } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 
@@ -6,6 +6,12 @@ import { Form } from '../forms';
  * FormElement used to style opacity
  */
 export class OpacityElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return  layer instanceof LayerGroup
+      ? layer.getLayers().some((layer: Layer) => layer instanceof Path)
+      : layer instanceof Path;
+  }
+
   private label: HTMLSpanElement;
   private slider: HTMLInputElement;
 

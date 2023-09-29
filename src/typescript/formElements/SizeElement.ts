@@ -1,11 +1,18 @@
-import { DomEvent, DomUtil, Layer } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
+import { Marker } from '../marker';
 
 /**
  * FormElement to set style of an icon
  */
 export class SizeElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return  layer instanceof LayerGroup
+      ? layer.getLayers().some((layer: Layer) => layer instanceof Marker)
+      : layer instanceof Marker;
+  }
+
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,

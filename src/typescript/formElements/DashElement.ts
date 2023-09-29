@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil, Layer, Path } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Path } from 'leaflet';
 import { Form } from '../forms';
 import { FormElement } from './FormElement';
 
@@ -8,6 +8,12 @@ const selectedColorClass = 'leaflet-styleeditor-selected';
  * FormElement used for styling the dash attribute
  */
 export class DashElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return  layer instanceof LayerGroup
+      ? layer.getLayers().some((layer: Layer) => layer instanceof Path)
+      : layer instanceof Path;
+  }
+
   private dashDivs: Map<string, HTMLElement> = new Map();
 
   public constructor(

@@ -1,12 +1,19 @@
 import Color from 'ts-color-class';
-import { DomEvent, DomUtil, Layer } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
+import { Marker } from '../marker';
 
 /**
  * FormElement used for styling the icon
  */
 export class IconElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return  layer instanceof LayerGroup
+      ? layer.getLayers().some((layer: Layer) => layer instanceof Marker)
+      : layer instanceof Marker;
+  }
+
   override styleOption = 'icon';
 
   // private classed used in the code

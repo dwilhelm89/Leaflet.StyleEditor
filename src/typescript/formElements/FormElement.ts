@@ -15,11 +15,10 @@ export abstract class FormElement extends StyleEditorClass {
   protected uiElement: HTMLElement;
   protected parentForm: Form;
 
-  protected abstract defaultShowForLayer: (layer: Layer) => boolean;
+  protected abstract defaultShowForLayer(layer: Layer): boolean;
   private userDefinedShowForLayer : (layer: Layer) => boolean;
 
   protected showForLayer(layer: Layer): boolean {
-    debugger
     return typeof this.userDefinedShowForLayer === 'function' ? this.userDefinedShowForLayer(layer) : this.defaultShowForLayer(layer); 
   }
 

@@ -6,6 +6,9 @@ import { Form } from '../forms';
  * FormElement used for adding a description to marker or geometry.
  */
 export class PopupContentElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return true;
+  }
 
   override styleOption = 'popupContent';
 

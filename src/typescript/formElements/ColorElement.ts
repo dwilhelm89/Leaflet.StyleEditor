@@ -10,6 +10,9 @@ const selectedColorClass = 'leaflet-styleeditor-selected';
  *  FormElement used to style the color
  */
 export class ColorElement extends FormElement {
+  protected override defaultShowForLayer(layer: Layer): boolean {
+    return true;
+  }
 
   private colorPickerDiv: HTMLElement;
   private colorRampDivs: Map<string, HTMLElement> = new Map();
