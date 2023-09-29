@@ -19,12 +19,12 @@ export class StyleEditor extends Class {
   public currentLayer?: Layer;
 
   public options: StyleEditorOptions;
-  util: Util;
+  public util: Util;
 
   private map: Map;
-  editorUI: HTMLElement;
-  interiorEditorUI: HTMLElement;
-  tooltipUI: HTMLElement;
+  private editorUI: HTMLElement;
+  private interiorEditorUI: HTMLElement;
+  private tooltipUI: HTMLElement;
 
   styleForm: StyleForm;
 
@@ -57,7 +57,7 @@ export class StyleEditor extends Class {
     this.createEditorHeader();
 
     this.addEventListeners(this.map);
-    this.styleForm = new StyleForm(this);
+    this.styleForm = new StyleForm(this, this.interiorEditorUI);
 
     if (control) {
       this.addControl(control);

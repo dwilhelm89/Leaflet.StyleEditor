@@ -7,15 +7,15 @@ export class StyleForm extends StyleEditorClass {
   styleEditorDiv: HTMLElement;
   private form: Form
 
-  constructor(styleEditor: StyleEditor) {
+  constructor(styleEditor: StyleEditor, parentUiElement: HTMLElement) {
     super(styleEditor);
-    this.createForm();
+    this.createForm(parentUiElement);
   }
 
-  private createForm() {
+  private createForm(parentUiElement: HTMLElement) {
     this.form = new Form(
       this.styleEditor,
-      this.styleEditor.interiorEditorUI
+      parentUiElement
     );
     this.form.create();
   }
