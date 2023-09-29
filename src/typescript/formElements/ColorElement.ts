@@ -2,7 +2,6 @@ import { FormElement } from './FormElement';
 import { DomEvent, DomUtil, Layer, Path } from 'leaflet';
 import { Form } from '../forms';
 import Color from 'ts-color-class';
-import { Marker } from '../marker';
 
 const selectedColorClass = 'leaflet-styleeditor-selected';
 
@@ -20,7 +19,7 @@ export class ColorElement extends FormElement {
   public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: 'color' | 'fillColor',
+    styleOption: string,
     showForLayer?: (layer: Layer) => boolean,
   ) {
     super(parentForm, parentUiElement, styleOption, showForLayer);
