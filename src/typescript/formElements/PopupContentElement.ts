@@ -54,15 +54,16 @@ export class PopupContentElement extends FormElement {
   /** communicate popupContent value */
   private updateStyle() {
     const inputText = this.textArea.value;
-    this.styleEditor.currentLayer.forEach((layer) => {
-      const popup = layer.getPopup();
-      if (popup) {
-        popup.setContent(inputText);
-      } else {
-        layer.bindPopup(inputText);
-      }
-      layer.openPopup();
-    });
+    const layer: Layer = this.styleEditor.currentLayer;
+
+    const popup = layer.getPopup();
+    if (popup) {
+      popup.setContent(inputText);
+    } else {
+      layer.bindPopup(inputText);
+    }
+    layer.openPopup();
+
     this.setStyle(inputText);
   }
 }

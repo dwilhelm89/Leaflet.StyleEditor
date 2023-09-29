@@ -142,29 +142,28 @@ export abstract class Marker extends StyleEditorClass {
   /** create new Marker and show it */
   private setNewMarker(markerOptions: MarkerOptions) {
     const newIcon = this.createMarkerIcon(markerOptions);
-    this.styleEditor.currentLayer.forEach((currentElement) => {
-      if (currentElement instanceof LMarker) {
-        currentElement.setIcon(newIcon);
-        if (currentElement instanceof LayerGroup) {
-          currentElement.eachLayer((layer) => {
-            if (layer instanceof LMarker) {
-              const element = layer.getElement();
-              if (element) {
-                DomUtil.addClass(
-                  element,
-                  'leaflet-styleeditor-marker-selected'
-                );
-              }
+    const currentElement: Layer = this.styleEditor.currentLayer;
+    if (currentElement instanceof LMarker) {
+      currentElement.setIcon(newIcon);
+      if (currentElement instanceof LayerGroup) {
+        currentElement.eachLayer((layer) => {
+          if (layer instanceof LMarker) {
+            const element = layer.getElement();
+            if (element) {
+              DomUtil.addClass(
+                element,
+                'leaflet-styleeditor-marker-selected'
+              );
             }
-          });
-        } else {
-          const element = currentElement.getElement();
-          if (element) {
-            DomUtil.addClass(element, 'leaflet-styleeditor-marker-selected');
           }
+        });
+      } else {
+        const element = currentElement.getElement();
+        if (element) {
+          DomUtil.addClass(element, 'leaflet-styleeditor-marker-selected');
         }
       }
-    });
+    }
   }
 
   private getNewMarkerOptions(key, value): MarkerOptions {
