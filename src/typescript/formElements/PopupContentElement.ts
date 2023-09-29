@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Layer } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 
@@ -14,9 +14,10 @@ export class PopupContentElement extends FormElement {
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: string,
+    showForLayer: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption, 'Description');
+    super(parentForm, parentUiElement, styleOption, showForLayer, 'Description');
     this.textArea = this.createTextArea();
   }
 
@@ -33,20 +34,18 @@ export class PopupContentElement extends FormElement {
 
   /** set correct value */
   override style() {
-    const selectedElements = this.styleEditor.currentLayer;
-    selectedElements.forEach((layer) => {
-      const popupContent = layer.getPopup()?.getContent().toString() ?? layer.options.popupContent
-      if (popupContent) {
-        this.textArea.value = popupContent;
+    const layer: Layer = this.styleEditor.currentLayer;
+    const popupContent = layer?.getPopup()?.getContent().toString() ?? layer?.options?.popupContent
+    if (popupContent) {
+      this.textArea.value = popupContent;
 
-        const popup = layer.getPopup();
-        if (popup) {
-          popup.setContent(popupContent);
-        } else {
-          layer.bindPopup(popupContent);
-        }
+      const popup = layer.getPopup();
+      if (popup) {
+        popup.setContent(popupContent);
+      } else {
+        layer.bindPopup(popupContent);
       }
-    });
+    }
   }
 
   /** communicate popupContent value */

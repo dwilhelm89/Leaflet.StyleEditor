@@ -5,7 +5,8 @@ import { StyleEditorClass } from '../StyleEditorClass';
 export type FormElementClass = new (
   parentForm: Form,
   parentUiElement: HTMLElement,
-  styleOption: string
+  styleOption: string,
+  whenToShow: (layer: Layer) => boolean,
 ) => FormElement;
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
@@ -14,16 +15,27 @@ export abstract class FormElement extends StyleEditorClass {
   protected uiElement: HTMLElement;
   protected parentForm: Form;
 
+  protected abstract defaultShowForLayer: (layer: Layer) => boolean;
+  private userDefinedShowForLayer : (layer: Layer) => boolean;
+
+  protected showForLayer(layer: Layer): boolean {
+    debugger
+    return typeof this.userDefinedShowForLayer === 'function' ? this.userDefinedShowForLayer(layer) : this.defaultShowForLayer(layer); 
+  }
+
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
     styleOption: string,
-    title?: string
+    showForLayer: (layer: Layer) => boolean,
+    title?: string,
   ) {
     super(parentForm.styleEditor);
     this.styleOption = styleOption;
     // if no title is given use styling option
     this.parentForm = parentForm;
+    this.userDefinedShowForLayer = showForLayer
+
     this.create(parentUiElement, title);
   }
 
@@ -49,17 +61,22 @@ export abstract class FormElement extends StyleEditorClass {
 
   /** style the FormElement and show it */
   public show(): void {
-    this.style();
-    this.showForm();
+    debugger
+    if(this.showForLayer(this.styleEditor.currentLayer)) {
+      this.style();
+      this.showFormElement();
+    } else {
+      this.hideFormElement();
+    }
   }
 
   /** show the FormElement */
-  private showForm(): void {
+  private showFormElement(): void {
     this.util.showElement(this.uiElement);
   }
 
   /** hide the FormElement */
-  public hide(): void {
+  public hideFormElement(): void {
     this.util.hideElement(this.uiElement);
   }
 
@@ -71,7 +88,6 @@ export abstract class FormElement extends StyleEditorClass {
 
   /** set style - used when the FormElement wants to change the styling option */
   protected setStyle(value: string): void {
-    debugger
     const layer: Layer = this.styleEditor.currentLayer
     layer.options[this.styleOption] = value;
     if (layer instanceof LMarker) {

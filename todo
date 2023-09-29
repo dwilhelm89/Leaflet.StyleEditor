@@ -6,6 +6,7 @@
 FormElements
   * Allow configuration of the titles (by strings inthe config)
   * Let the FormElements decide when they should be shown
+  * Remove title from constructor and read from options
 Styling
   * How to use Leaflet icon?
 PopUpElement

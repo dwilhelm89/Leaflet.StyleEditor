@@ -38,8 +38,12 @@ export class Util {
   }
 
   /** get current style of current element */
-  public getStyle(option: string): string{
+  public getStyle(option: string): string {
     const layer: Layer = this.styleEditor.currentLayer
+    if(layer === undefined) {
+      return null
+    }
+
     const layers: Layer[] = (this.styleEditor.currentLayer instanceof LayerGroup) ? (layer as LayerGroup).getLayers() : [layer]
     if (layers.length > 0) {
       const style = layers[0].options[option];

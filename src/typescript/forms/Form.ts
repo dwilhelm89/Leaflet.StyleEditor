@@ -23,13 +23,12 @@ export class Form extends StyleEditorClass {
 
   /** create every FormElement in the parentUiElement */
   create(): void {
-    debugger
     this.uiElement = DomUtil.create('div', '', this.parentUiElement);
 
     // TODO use whenToShow fun
     this.styleEditor.options.formElements.forEach(
       ([styleOption, formElementClass, whenToShow] : [string, FormElementClass, (layer: Layer) => boolean]) => {
-        this.initializedElements[styleOption] = new formElementClass(this, this.uiElement, styleOption)
+        this.initializedElements[styleOption] = new formElementClass(this, this.uiElement, styleOption, whenToShow)
       }
     )
   }
@@ -53,7 +52,7 @@ export class Form extends StyleEditorClass {
   /** inform FormElements the selected style has changed, so they can adapt */
   public style(): void {
     for (const key in this.initializedElements) {
-      this.initializedElements[key].style();
+      this.initializedElements[key].show();
     }
   }
 

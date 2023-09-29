@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Layer } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 
@@ -9,9 +9,10 @@ export class SizeElement extends FormElement {
   constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: string,
+    showForLayer: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption, 'Size');
+    super(parentForm, parentUiElement, styleOption, showForLayer, 'Size');
     this.createContent();
   }
 

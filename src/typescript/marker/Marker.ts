@@ -1,7 +1,7 @@
 import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { MarkerOptions } from './';
-import { Marker as LMarker, LayerGroup, DomUtil } from 'leaflet';
+import { Marker as LMarker, LayerGroup, DomUtil, Layer } from 'leaflet';
 import Color from 'ts-color-class'
 
 /**
@@ -49,8 +49,8 @@ export abstract class Marker extends StyleEditorClass {
   public getIconOptions(): MarkerOptions {
     let markerOptions: MarkerOptions = {};
 
-    const layers = this.styleEditor.currentLayer;
-    const marker = layers.find((layer) => layer instanceof LMarker) as LMarker;
+    const layer: Layer = this.styleEditor.currentLayer;
+    const marker = layer as LMarker;
     if (marker) {
       markerOptions = marker?.options?.icon?.options || {};
     }

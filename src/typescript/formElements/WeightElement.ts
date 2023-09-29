@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil } from 'leaflet';
+import { DomEvent, DomUtil, Layer } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 
@@ -12,9 +12,10 @@ export class WeightElement extends FormElement {
   public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: string,
+    showForLayer: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, showForLayer);
     this.label = this.createLabel();
     this.weight = this.createWeightElement();
   }

@@ -1,5 +1,5 @@
 import { FormElement } from './FormElement';
-import { DomEvent, DomUtil, Path } from 'leaflet';
+import { DomEvent, DomUtil, Layer, Path } from 'leaflet';
 import { Form } from '../forms';
 import Color from 'ts-color-class';
 import { Marker } from '../marker';
@@ -17,9 +17,10 @@ export class ColorElement extends FormElement {
   public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: 'color' | 'fillColor' 
+    styleOption: 'color' | 'fillColor',
+    showForLayer?: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, showForLayer);
     this.colorPickerDiv = this.createColoPicker();
     this.createColorPickerRamp();
   }

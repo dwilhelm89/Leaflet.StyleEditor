@@ -13,9 +13,10 @@ export class DashElement extends FormElement {
   public constructor(
     parentForm: Form,
     parentUiElement: HTMLElement,
-    styleOption: string
+    styleOption: string,
+    showForLayer?: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption);
+    super(parentForm, parentUiElement, styleOption, showForLayer);
     this.createContent();
   }
 
