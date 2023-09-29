@@ -3,8 +3,10 @@ import { LeafletStyleEditorStrings } from '../types';
 import { DefaultMarker, MarkerClass } from '../marker';
 import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
 
+export type ShowForLayerFun = (layer: Layer) => boolean
+
 export interface StyleEditorOptions extends ControlOptions {
-  colorRamp: string[]; // TODO colors
+  colorRamp: [ string[], ShowForLayerFun? ][]; // TODO colors
   defaultColor?: string; // TODO color
 
   markerType: MarkerClass;
@@ -12,7 +14,7 @@ export interface StyleEditorOptions extends ControlOptions {
   defaultMarkerIcon?: string | Record<string, string>; // TODO add color
   defaultMarkerColor?: string; // TODO color
 
-  formElements: [ string, FormElementClass, ((layer: Layer) => boolean)? ][];
+  formElements: [ string, FormElementClass, ShowForLayerFun? ][];
 
   openOnLeafletDraw: boolean;
   openOnLeafletEditable: boolean;
@@ -29,27 +31,31 @@ export interface StyleEditorOptions extends ControlOptions {
 export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   position: 'topleft',
 
+  markerType: DefaultMarker,
+
   colorRamp: [
-    '#1abc9c',
-    '#2ecc71',
-    '#3498db',
-    '#9b59b6',
-    '#34495e',
-    '#16a085',
-    '#27ae60',
-    '#2980b9',
-    '#8e44ad',
-    '#2c3e50',
-    '#f1c40f',
-    '#e67e22',
-    '#e74c3c',
-    '#ecf0f1',
-    '#95a5a6',
-    '#f39c12',
-    '#d35400',
-    '#c0392b',
-    '#bdc3c7',
-    '#7f8c8d',
+    [[
+      '#1abc9c',
+      '#2ecc71',
+      '#3498db',
+      '#9b59b6',
+      '#34495e',
+      '#16a085',
+      '#27ae60',
+      '#2980b9',
+      '#8e44ad',
+      '#2c3e50',
+      '#f1c40f',
+      '#e67e22',
+      '#e74c3c',
+      '#ecf0f1',
+      '#95a5a6',
+      '#f39c12',
+      '#d35400',
+      '#c0392b',
+      '#bdc3c7',
+      '#7f8c8d',
+    ], () => true ],
   ],
 
   formElements: [
@@ -63,8 +69,6 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
     [ 'fillOpacity', OpacityElement],
     [ 'popupContent', PopupContentElement],
   ],
-
-  markerType: DefaultMarker,
 
   ignoreLayerTypes: [],
 

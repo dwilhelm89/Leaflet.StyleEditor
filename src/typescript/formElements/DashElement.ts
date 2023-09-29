@@ -37,9 +37,9 @@ export class DashElement extends FormElement {
     }
 
     const dashStyle = layer.options[this.styleOption];
-    const colorRampElement: HTMLElement= this.dashDivs.get(dashStyle);
-    if (colorRampElement) {
-      DomUtil.addClass(colorRampElement, selectedColorClass);
+    const dashElement: HTMLElement= this.dashDivs.get(dashStyle);
+    if (dashElement) {
+      DomUtil.addClass(dashElement, selectedColorClass);
     }
   }
 

@@ -10,6 +10,7 @@ import {
 } from 'leaflet';
 import Color from 'ts-color-class'
 import { StyleEditor } from './StyleEditor';
+import { ShowForLayerFun } from './options/StyleEditorOptions';
 
 export class Util {
   private styleEditor: StyleEditor;
@@ -134,6 +135,20 @@ export class Util {
     }
 
     return markers[0];
+  }
+
+  public getColorRampForLayer(layer: Layer): string[] {
+    const firstMatchingColorRamp: string [] = this.styleEditor.options.colorRamp.find(
+      ([_, showForLayer]: [string[], ShowForLayerFun?]) => showForLayer(layer)
+    )?.[0]
+
+    if (layer instanceof L.Marker) {
+      const markerColorRamp: string [] = new this.styleEditor.options.markerType(this.styleEditor).colorRamp ?? firstMatchingColorRamp
+      const filteredColors: string[] = firstMatchingColorRamp.filter((color: string) => markerColorRamp.includes(color))
+      return filteredColors.length > 0 ? filteredColors : firstMatchingColorRamp
+    } else {
+      return firstMatchingColorRamp;
+    }
   }
 
 }

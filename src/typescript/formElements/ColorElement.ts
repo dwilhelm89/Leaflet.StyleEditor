@@ -14,7 +14,7 @@ export class ColorElement extends FormElement {
   }
 
   private colorPickerDiv: HTMLElement;
-  private colorRampDivs: Map<string, HTMLElement> = new Map();
+  private colorRampDivs: Map<string, HTMLDivElement> = new Map();
 
   public constructor(
     parentForm: Form,
@@ -24,13 +24,11 @@ export class ColorElement extends FormElement {
   ) {
     super(parentForm, parentUiElement, styleOption, showForLayer);
     this.colorPickerDiv = this.createColoPicker();
-    this.createColorPickerRamp();
   }
 
   public override style(): void {
-    this.colorRampDivs.forEach((div) => {
-      DomUtil.removeClass(div, selectedColorClass);
-    })
+    this.hideAllColors();
+    this.showNeededColors();
 
     const layer = this.styleEditor.currentLayer;
     /* TODO Add hanling for MARKER */
@@ -53,36 +51,32 @@ export class ColorElement extends FormElement {
     );
   }
 
-  private createColorPickerRamp() {
-    this.getColorRamp().forEach(this.createAndSetSelectCallback, this);
+  private hideAllColors() {
+    this.colorRampDivs.forEach((div: HTMLDivElement) => {
+      this.util.hideElement(div);
+      DomUtil.removeClass(div, selectedColorClass);
+    })
   }
 
-  /** create or get already created colorRamp */
-  private getColorRamp() {
-    // if markers have own colorRamp use it
-    /*
-    TODO distinguish which colors to show
-    if (this.parentForm instanceof MarkerForm) {
-      const markerType = new this.styleEditor.options.markerType(
-        this.styleEditor
-      );
-      if (!!markerType.colorRamp) {
-        return markerType.colorRamp;
+
+  private showNeededColors() {
+    const layer = this.styleEditor.currentLayer;
+    this.util.getColorRampForLayer(layer)?.forEach((color: string) => {
+      const colorRampDiv: HTMLDivElement = this.colorRampDivs.get(color)
+      if(colorRampDiv) {
+        this.util.showElement(colorRampDiv)
+        return;
       }
-    } */ 
-    return this.styleEditor.options.colorRamp;
-  }
 
-  /** define what to do when color is changed */
-  private createAndSetSelectCallback(color) {
-    const element = DomUtil.create(
-      'div',
-      'leaflet-styleeditor-color',
-      this.colorPickerDiv
-    );
-    element.style.backgroundColor = color;
-    DomEvent.addListener(element, 'click', this.selectColor, this);
-    this.colorRampDivs.set(color, element);
+      const element = DomUtil.create(
+        'div',
+        'leaflet-styleeditor-color',
+        this.colorPickerDiv
+      );
+      element.style.backgroundColor = color;
+      DomEvent.addListener(element, 'click', this.selectColor, this);
+      this.colorRampDivs.set(color, element);
+    })
   }
 
   /** set style for chosen color */
