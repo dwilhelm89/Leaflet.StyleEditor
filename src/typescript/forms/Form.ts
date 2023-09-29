@@ -1,7 +1,7 @@
-import { ColorElement, DashElement, FormElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
+import { FormElement, FormElementClass, } from '../formElements';
 import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
-import { DomUtil, Layer } from 'leaflet';
+import { DomUtil, Layer, } from 'leaflet';
 
 /**
  * Forms consist of FormElements and are shown in the StyleForm
@@ -12,9 +12,6 @@ import { DomUtil, Layer } from 'leaflet';
  */
 export class Form extends StyleEditorClass {
   private parentUiElement: HTMLElement;
-  private get formElements(): Record<string, FormElementClass> {
-    return this.styleEditor.options.formElements;
-  }
 
   constructor(styleEditor: StyleEditor, parentUiElement: HTMLElement) {
     super(styleEditor);
@@ -28,16 +25,13 @@ export class Form extends StyleEditorClass {
   create(): void {
     debugger
     this.uiElement = DomUtil.create('div', '', this.parentUiElement);
-    for (const key in this.formElements) {
-      const formElement = this.getFormElementClass(key);
-      if (formElement) {
-        this.initializedElements[key] = new formElement(
-          this,
-          this.uiElement,
-          key
-        );
+
+    // TODO use whenToShow fun
+    this.styleEditor.options.formElements.forEach(
+      ([styleOption, formElementClass, whenToShow] : [string, FormElementClass, (layer: Layer) => boolean]) => {
+        this.initializedElements[styleOption] = new formElementClass(this, this.uiElement, styleOption)
       }
-    }
+    )
   }
 
   /** hide the Form */
@@ -68,35 +62,6 @@ export class Form extends StyleEditorClass {
     for (const key in this.initializedElements) {
       this.initializedElements[key].lostFocus();
     }
-  }
-
-  /**
-   * get the Class of the Formelement to instanciate
-   * @param {*} styleOption, the styleOption to get the FormElement for
-   */
-  private getFormElementClass(
-    styleOption: string
-  ): FormElementClass | undefined {
-    const formElementKeys = Object.keys(this.formElements);
-
-    if (formElementKeys.includes(styleOption)) {
-      const FormElement = this.formElements[styleOption];
-
-      if (FormElement) {
-        // may be a dictionary
-        if (typeof FormElement === 'boolean') {
-          return this.getFormElementStandardClass(styleOption);
-        }
-        /* TODO: presumably not necesarry
-        if ('formElement' in FormElement && 'boolean' in FormElement) {
-          FormElement = FormElement['formElement']
-        }*/
-      }
-      // if nothing works return it
-      return this.getFormElementStandardClass(styleOption);
-    }
-
-    return undefined;
   }
 
   /**

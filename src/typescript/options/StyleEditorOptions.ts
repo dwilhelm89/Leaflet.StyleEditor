@@ -1,4 +1,4 @@
-import { ControlOptions } from 'leaflet';
+import { ControlOptions, Layer, Marker, Path } from 'leaflet';
 import { LeafletStyleEditorStrings } from '../types';
 import { DefaultMarker, MarkerClass } from '../marker';
 import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
@@ -12,7 +12,7 @@ export interface StyleEditorOptions extends ControlOptions {
   defaultMarkerIcon?: string | Record<string, string>; // TODO add color
   defaultMarkerColor?: string; // TODO color
 
-  formElements: Record<string, FormElementClass>;
+  formElements: [ string, FormElementClass, ((layer: Layer) => boolean)? ][];
 
   openOnLeafletDraw: boolean;
   openOnLeafletEditable: boolean;
@@ -52,17 +52,17 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
     '#7f8c8d',
   ],
 
-  formElements: {
-    icon: IconElement,
-    color: ColorElement,
-    size: SizeElement,
-    opacity: OpacityElement,
-    weight: WeightElement,
-    dashArray: DashElement,
-    fillColor: ColorElement,
-    fillOpacity: OpacityElement,
-    popupContent: PopupContentElement,
-  },
+  formElements: [
+    [ 'icon', IconElement, (layer: Layer) => layer instanceof Marker ],
+    [ 'color', ColorElement, (_: Layer) => true ],
+    [ 'size', SizeElement, (layer: Layer) => layer instanceof Marker ],
+    [ 'opacity', OpacityElement, (layer: Layer) => layer instanceof Path ],
+    [ 'weight', WeightElement, (layer: Layer) => layer instanceof Path ],
+    [ 'dashArray', DashElement, (layer: Layer) => layer instanceof Path ],
+    [ 'fillColor', ColorElement, (layer: Layer) => layer instanceof Path ],
+    [ 'fillOpacity', OpacityElement,(layer: Layer) => layer instanceof Path  ],
+    [ 'popupContent', PopupContentElement, (_: Layer) => true ],
+  ],
 
   markerType: DefaultMarker,
 
