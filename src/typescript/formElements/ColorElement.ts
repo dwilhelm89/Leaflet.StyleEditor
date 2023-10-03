@@ -10,7 +10,7 @@ const selectedColorClass = 'leaflet-styleeditor-selected';
  */
 export class ColorElement extends FormElement {
   protected override defaultShowForLayer(layer: Layer): boolean {
-    return true;
+    return layer instanceof Path;
   }
 
   private colorPickerDiv: HTMLElement;

@@ -1,8 +1,8 @@
 import Color from 'ts-color-class';
-import { DomEvent, DomUtil, Layer, LayerGroup } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Marker } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
-import { Marker } from '../marker';
+import { RemoteMakiIcon, RemoteMakiIconIconOptions, RemoteMakiMarker } from '../marker/Icon';
 
 /**
  * FormElement used for styling the icon
@@ -16,6 +16,10 @@ export class IconElement extends FormElement {
 
   override styleOption = 'icon';
 
+
+  // TODO this should be done somewhere else
+  private remoteMakiMarker = new RemoteMakiMarker({defaultIcon: 'circle',  defaultColor: '#3498db', defaultSize: [20, 50] })
+
   // private classed used in the code
   private selectOptionWrapperClasses =
     'leaflet-styleeditor-select-option-wrapper leaflet-styleeditor-hidden';
@@ -23,6 +27,16 @@ export class IconElement extends FormElement {
 
   private selectBoxImage: HTMLElement;
   private selectOptions: Map<string, HTMLElement> = new Map();
+
+  private get icon(): RemoteMakiIcon {
+    const layer: Marker = this.styleEditor.currentLayer as Marker
+
+    if(!(layer.options.icon instanceof RemoteMakiIcon)) {
+      layer.options.icon = this.remoteMakiMarker.getIcon() 
+    }
+
+    return layer.options.icon as RemoteMakiIcon
+  }
 
   constructor(
     parentForm: Form,
@@ -49,15 +63,13 @@ export class IconElement extends FormElement {
 
   /** show the correct icon in the correct color if the icon or color changed */
   override style() {
-    const iconOptions = new this.styleEditor.options.markerType(
-      this.styleEditor
-    ).getIconOptions();
+    const icon: RemoteMakiIcon = this.icon
     this.styleSelectInputImage(
       this.selectBoxImage,
-      iconOptions.icon,
-      iconOptions.iconColor
+      icon.options.icon,
+      icon.options.color
     );
-    this.createColorSelect(iconOptions.iconColor);
+    this.createColorSelect(icon.options.color);
     this.hideSelectOptions();
   }
 
@@ -77,24 +89,13 @@ export class IconElement extends FormElement {
   }
 
   /** create appropriate image for color and icon */
-  private styleSelectInputImage(image: HTMLElement, icon, color) {
-    const iconOptions = new this.styleEditor.options.markerType(
-      this.styleEditor
-    ).getIconOptions();
-    if (color) {
-      iconOptions.iconColor = color;
-    }
-
-    image.innerHTML = '';
-    new this.styleEditor.options.markerType(this.styleEditor).createSelectHTML(
-      image,
-      iconOptions,
-      icon
-    );
+  private styleSelectInputImage(image: HTMLElement, icon: string, color: string) {
+    const html: HTMLElement = this.remoteMakiMarker.getIcon({ icon: icon, color: color, iconSize: [20, 50]}).createIcon()
+    image.appendChild(html)
   }
 
   /** create the selectBox with the icons in the correct color */
-  private createColorSelect(color) {
+  private createColorSelect(color: string) {
     if (this.selectOptions.has(color)) {
       return;
     }
@@ -105,7 +106,7 @@ export class IconElement extends FormElement {
       this.uiElement
     );
 
-    this.util.getIconsForColor(color).forEach((icon) => {
+    RemoteMakiIconIconOptions.forEach((icon) => {
       const selectOption: HTMLLIElement = DomUtil.create(
         'li',
         this.selectOptionClasses,
@@ -121,21 +122,9 @@ export class IconElement extends FormElement {
     DomEvent.addListener(
       selectOptionWrapper,
       'click',
-      (e) => {
+      (e: Event) => {
         e.stopPropagation();
-        let target = e.target as HTMLElement;
-        if (target.nodeName === 'UL') {
-          return;
-        }
-        while (
-          target &&
-          target.className !== 'leaflet-styleeditor-select-option'
-        ) {
-          target = target.parentNode as HTMLElement;
-        }
-        this.selectMarker({
-          target: target,
-        });
+        this.selectMarker(e);
         this.util.hideElement(selectOptionWrapper);
       },
       this
@@ -144,12 +133,8 @@ export class IconElement extends FormElement {
 
   /** show/hide iconSelectBox */
   private toggleSelectInput() {
-    const iconOptions = new this.styleEditor.options.markerType(
-      this.styleEditor
-    ).getIconOptions();
-
     const currentColorElement = this.getCurrentColorElement(
-      new Color(iconOptions.iconColor).getHex()
+      new Color(this.icon.options.color).getHex()
     ); // TODO Color instead of hex
 
     let show = false;
@@ -168,23 +153,26 @@ export class IconElement extends FormElement {
   }
 
   /** called when user selects a marker */
-  private selectMarker(e) {
-    const value = this.getValue(e.target);
+  private selectMarker(e: Event) {
+    const value = this.getValue(e.target as HTMLElement);
 
     // update style
     this.selectBoxImage.setAttribute('value', value);
-    this.setStyle(value);
+    this.setStyle(this.remoteMakiMarker.getIcon({
+      ...this.icon.options,
+      icon: value,
+    }));
 
     this.hideSelectOptions();
   }
 
   /** helper function to return attribute value of target */
-  private getValue(target) {
+  private getValue(target: HTMLElement) {
     return target.getAttribute('value');
   }
 
   /** return correct selectBox depending on which color is currently chosen */
-  private getCurrentColorElement(color) {
+  private getCurrentColorElement(color: string) {
     if (!this.selectOptions.has(color)) {
       this.createColorSelect(color);
     }

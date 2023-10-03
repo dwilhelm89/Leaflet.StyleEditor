@@ -1,6 +1,7 @@
 import { Path, Marker as LMarker, DomUtil, Layer } from 'leaflet';
 import { Form } from '../forms';
 import { StyleEditorClass } from '../StyleEditorClass';
+import { RemoteMakiMarker } from '../marker/Icon';
 
 export type FormElementClass = new (
   parentForm: Form,
@@ -60,7 +61,6 @@ export abstract class FormElement extends StyleEditorClass {
 
   /** style the FormElement and show it */
   public show(): void {
-    debugger
     if(this.showForLayer(this.styleEditor.currentLayer)) {
       this.style();
       this.showFormElement();
@@ -86,15 +86,13 @@ export abstract class FormElement extends StyleEditorClass {
   public lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
-  protected setStyle(value: string): void {
+  protected setStyle(value: unknown): void {
     const layer: Layer = this.styleEditor.currentLayer
-    layer.options[this.styleOption] = value;
     if (layer instanceof LMarker) {
-      new this.styleEditor.options.markerType(this.styleEditor).setStyle(
-        this.styleOption,
-        value
-      );
+      // TODO!!!!
+      layer.setIcon(value);
     } else if (layer instanceof Path) {
+      layer.options[this.styleOption] = value;
       layer.setStyle(layer.options);
     }
 

@@ -3,7 +3,6 @@ import { StyleEditorControl } from './StyleEditorControl';
 import { StyleEditorOptions } from './options';
 import * as SEForm from './forms';
 import * as SEFormElements from './formElements';
-import * as SEMarker from './marker';
 import L from 'leaflet';
 
 import '../css/Leaflet.StyleEditor.css'
@@ -37,19 +36,8 @@ declare module 'leaflet' {
       type PopupContentElement = SEFormElements.PopupContentElement;
       var PopupContentElement: typeof SEFormElements.PopupContentElement;
 
-      type SizeElement = SEFormElements.SizeElement;
-      var SizeElement: typeof SEFormElements.SizeElement;
-
       type WeightElement = SEFormElements.WeightElement;
       var WeightElement: typeof SEFormElements.WeightElement;
-    }
-
-    module Marker {
-      type DefaultMarker = SEMarker.DefaultMarker;
-      var DefaultMarker: typeof SEMarker.DefaultMarker;
-
-      type Marker = SEMarker.Marker;
-      var Marker: typeof SEMarker.Marker;
     }
   }
 
@@ -60,14 +48,6 @@ declare module 'leaflet' {
 
   module control {
     var styleEditor: (options: StyleEditorOptions) => StyleEditorControl;
-  }
-
-  module Marker {
-    type DefaultMarker = SEMarker.DefaultMarker;
-    var DefaultMarker: typeof SEMarker.DefaultMarker;
-
-    type Marker = SEMarker.Marker;
-    var Marker: typeof SEMarker.Marker;
   }
 }
 
@@ -90,12 +70,7 @@ L.StyleEditorClasses = {
     IconElement: SEFormElements.IconElement,
     OpacityElement: SEFormElements.OpacityElement,
     PopupContentElement: SEFormElements.PopupContentElement,
-    SizeElement: SEFormElements.SizeElement,
     WeightElement: SEFormElements.WeightElement,
-  },
-  Marker: {
-    Marker: SEMarker.Marker,
-    DefaultMarker: SEMarker.DefaultMarker,
   },
 };
 

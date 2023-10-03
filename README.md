@@ -48,31 +48,6 @@ Here is a list of all possible options.
   Markers will possibly overwrite these settings (e.g. if they do not support these colors)  
   example: *['#2c3e50', '#f1c40f', '#e67e22']* 
    
-* **markerType**  
-  Defines what kind of Markers you want to use.
-  [Create your own markerType](#marker)  
-  example: *L.StyleEditor.marker.DefaultMarker*
-
-* **markers**  
-  The markers that will be selectable in the IconElement. 
-  You may define a list (for all colors) or a dictionary.  
-  example: *['circle-stroked', 'circle', 'square-stroked', 'square']*  
-  example: *{'default': ['circle'], '#f1c40f': ['square']}*
-
-* **defaultMarkerIcon**  
-  The default icon selected at the beginning. A string or a dictionary.  
-  example: *'circle'*  
-  example: *{'default': ['circle'], '#f1c40f': ['square']}*
-
-* **defaultColor**  
-  The default color for markers and gemoetries.  
-  This can be overwritten for markers by **defaultMarkerColor**.  
-  example: *'#2c3e50'*
-
-* **defaultMarkerColor**  
-  The default color for markers.  
-  example: *'#2c3e50'*
-
 * **openOnLeafletDraw**  
   Define if Leaflet.StyleEditor should automatically show up if an element has been created with
   [Leaflet Draw](https://github.com/Leaflet/Leaflet.draw)

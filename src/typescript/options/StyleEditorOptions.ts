@@ -1,7 +1,7 @@
-import { ControlOptions, Layer, Marker, Path } from 'leaflet';
+import { ControlOptions, Layer, Path } from 'leaflet';
 import { LeafletStyleEditorStrings } from '../types';
-import { DefaultMarker, MarkerClass } from '../marker';
-import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, SizeElement, WeightElement } from '../formElements';
+import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElement, PopupContentElement, WeightElement } from '../formElements';
+import { RemoteMakiMarker, StyleEditorMarker } from '../marker/Icon';
 
 export type ShowForLayerFun = (layer: Layer) => boolean
 
@@ -11,10 +11,7 @@ export interface StyleEditorOptions extends ControlOptions {
   colorRamp: ColorRamp,
   defaultColor?: string; // TODO color
 
-  markerType: MarkerClass;
-  markers?: string[] | Record<string, string[]>; // TODO better types with colors
-  defaultMarkerIcon?: string | Record<string, string>; // TODO add color
-  defaultMarkerColor?: string; // TODO color
+  marker: typeof StyleEditorMarker,
 
   formElements: [ string, FormElementClass, ShowForLayerFun? ][];
 
@@ -33,7 +30,7 @@ export interface StyleEditorOptions extends ControlOptions {
 export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   position: 'topleft',
 
-  markerType: DefaultMarker,
+  marker: RemoteMakiMarker,
 
   colorRamp: [
     [[
@@ -63,7 +60,6 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   formElements: [
     [ 'icon', IconElement ],
     [ 'color', ColorElement ],
-    [ 'size', SizeElement ],
     [ 'opacity', OpacityElement ],
     [ 'weight', WeightElement ],
     [ 'dashArray', DashElement ],

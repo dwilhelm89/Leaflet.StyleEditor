@@ -63,46 +63,12 @@ export class Util {
     }
   }
 
-  /** get the markers for a specific color **/
-  public getIconsForColor(color: Color): string[] {
-    const colorHex = new Color(color).getHex();
-
-    let markers = new this.styleEditor.options.markerType(this.styleEditor)
-      .markers;
-    let controlMarkers = this.styleEditor.options.markers;
-
-    if (!Array.isArray(markers)) {
-      // if color is specified return specific markers
-      if (Object.keys(markers).includes(colorHex)) {
-        markers = markers[colorHex];
-      } else {
-        markers = markers['default'];
-      }
-    }
-
-    if (controlMarkers) {
-      if (!Array.isArray(controlMarkers)) {
-        const keys = Object.keys(controlMarkers);
-        if (keys.includes(colorHex)) {
-          controlMarkers = controlMarkers[colorHex];
-        } else if (keys.includes('default')) {
-          controlMarkers = controlMarkers['default'];
-        } else {
-          controlMarkers = markers;
-        }
-      }
-
-      return markers.filter((n) => controlMarkers.includes(n));
-    }
-    return markers;
-  }
 
   /** get default marker for specific color **/
   // TODO return color
   getDefaultMarkerForColor(color: Color): string {
     const colorHex: string = new Color(color).getHex();
 
-    const markers = this.getIconsForColor(color);
 
     const defMarkers: string[] = [];
 
@@ -142,13 +108,6 @@ export class Util {
       ([_, showForLayer]: [string[], ShowForLayerFun?]) => showForLayer?.(layer) ?? true
     )?.[0]
 
-    if (layer instanceof L.Marker) {
-      const markerColorRamp: string [] = new this.styleEditor.options.markerType(this.styleEditor).colorRamp ?? firstMatchingColorRamp
-      const filteredColors: string[] = firstMatchingColorRamp.filter((color: string) => markerColorRamp.includes(color))
-      return filteredColors.length > 0 ? filteredColors : firstMatchingColorRamp
-    } else {
-      return firstMatchingColorRamp;
-    }
+    return firstMatchingColorRamp;
   }
-
 }
