@@ -5,8 +5,10 @@ import { ColorElement, DashElement, FormElementClass, IconElement, OpacityElemen
 
 export type ShowForLayerFun = (layer: Layer) => boolean
 
+export type ColorRamp = [ string[], ShowForLayerFun? ][]; // TODO colors
+
 export interface StyleEditorOptions extends ControlOptions {
-  colorRamp: [ string[], ShowForLayerFun? ][]; // TODO colors
+  colorRamp: ColorRamp,
   defaultColor?: string; // TODO color
 
   markerType: MarkerClass;
@@ -55,7 +57,7 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
       '#c0392b',
       '#bdc3c7',
       '#7f8c8d',
-    ], () => true ],
+    ]],
   ],
 
   formElements: [
