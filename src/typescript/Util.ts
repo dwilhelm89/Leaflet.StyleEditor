@@ -139,7 +139,7 @@ export class Util {
 
   public getColorRampForLayer(layer: Layer): string[] {
     const firstMatchingColorRamp: string [] = this.styleEditor.options.colorRamp.find(
-      ([_, showForLayer]: [string[], ShowForLayerFun?]) => showForLayer(layer)
+      ([_, showForLayer]: [string[], ShowForLayerFun?]) => showForLayer?.(layer) ?? true
     )?.[0]
 
     if (layer instanceof L.Marker) {
