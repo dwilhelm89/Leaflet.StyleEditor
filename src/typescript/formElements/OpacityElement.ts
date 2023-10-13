@@ -24,7 +24,7 @@ export class OpacityElement extends FormElement {
   }
 
   /** set correct value */
-  private style(layer?: Layer): void {
+  private style(layer: Layer): void {
     this.slider.value = this.util.getStyle(this.styleOption);
     this.label.innerText =
       Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
@@ -33,7 +33,7 @@ export class OpacityElement extends FormElement {
   public override getHTML(layer?: Layer): HTMLElement {
     const uiElement: HTMLElement = super.getHTML()
     this.label = this.createLabel(uiElement);
-    this.slider = this.createSlider(uiElement);
+    this.slider = this.createSlider(layer, uiElement);
     this.style(layer)
     return uiElement
   }
@@ -47,7 +47,7 @@ export class OpacityElement extends FormElement {
   }
 
   /** create number input box */
-  private createSlider(uiElement: HTMLElement) {
+  private createSlider(layer: Layer, uiElement: HTMLElement) {
     const slider = DomUtil.create(
       'input',
       'leaflet-styleeditor-input',
@@ -60,16 +60,16 @@ export class OpacityElement extends FormElement {
     slider.value = '0.5';
 
     // add event listeners
-    DomEvent.addListener(slider, 'change', this.updateStyle, this);
-    DomEvent.addListener(slider, 'input', this.updateStyle, this);
-    DomEvent.addListener(slider, 'keyup', this.updateStyle, this);
-    DomEvent.addListener(slider, 'mouseup', this.updateStyle, this);
+    DomEvent.addListener(slider, 'change', () => this.updateStyle(layer));
+    DomEvent.addListener(slider, 'input', () => this.updateStyle(layer));
+    DomEvent.addListener(slider, 'keyup', () => this.updateStyle(layer));
+    DomEvent.addListener(slider, 'mouseup', () => this.updateStyle(layer));
 
     return slider;
   }
 
   /** communicate opacity value */
-  private updateStyle() {
-    this.setStyle(this.slider.value);
+  private updateStyle(layer: Layer) {
+    this.setStyle(layer, this.slider.value);
   }
 }
