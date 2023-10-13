@@ -17,7 +17,7 @@ export class WeightElement extends FormElement {
   public override getHTML(layer?: Layer): HTMLElement {
     const uiElement: HTMLElement = super.getHTML() 
     this.label = this.createLabel(uiElement);
-    this.weight = this.createWeightElement(uiElement);
+    this.weight = this.createWeightElement(layer, uiElement);
     this.style(layer)
     return uiElement
   }
@@ -38,7 +38,7 @@ export class WeightElement extends FormElement {
   }
 
   /** create number input box */
-  private createWeightElement(uiElement: HTMLElement): HTMLInputElement {
+  private createWeightElement(layer: Layer, uiElement: HTMLElement): HTMLInputElement {
     const weight = DomUtil.create(
       'input',
       'leaflet-styleeditor-input',
@@ -51,14 +51,15 @@ export class WeightElement extends FormElement {
     weight.value = '4';
 
     // add event listeners
-    DomEvent.addListener(weight, 'change', this.updateStyle, this);
-    DomEvent.addListener(weight, 'input', this.updateStyle, this);
-    DomEvent.addListener(weight, 'keyup', this.updateStyle, this);
-    DomEvent.addListener(weight, 'mouseup', this.updateStyle, this);
+    DomEvent.addListener(weight, 'change', () => this.updateStyle(layer), this);
+    DomEvent.addListener(weight, 'input', () => this.updateStyle(layer), this);
+    DomEvent.addListener(weight, 'keyup', () => this.updateStyle(layer), this);
+    DomEvent.addListener(weight, 'mouseup', () => this.updateStyle(layer), this);
     return weight;
   }
   /** communicate weight value */
-  private updateStyle() {
-    this.setStyle(this.weight.value);
+  private updateStyle(layer: Layer) {
+    this.label.innerText = this.weight.value;
+    this.setStyle(layer, this.weight.value);
   }
 }
