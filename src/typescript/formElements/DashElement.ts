@@ -1,7 +1,7 @@
 import { DomEvent, DomUtil, Layer, LayerGroup, Path, StyleEditor } from 'leaflet';
 import { FormElement } from './FormElement';
 
-const selectedColorClass = 'leaflet-styleeditor-selected';
+const selectedDashClass = 'leaflet-styleeditor-selected';
 
 /**
  * FormElement used for styling the dash attribute
@@ -13,16 +13,16 @@ export class DashElement extends FormElement {
       : layer instanceof Path;
   }
 
-  private style(layer?: Layer): void {
+  private style(layer: Layer, strokeHTMLElements: Map<string, HTMLElement>): void {
 
     if(!(layer instanceof Path)) {
       return;
     }
 
     const dashStyle = this.getStyle(layer)
-    const dashElement: HTMLElement= this.dashDivs.get(dashStyle);
+    const dashElement: HTMLElement= strokeHTMLElements.get(dashStyle);
     if (dashElement) {
-      DomUtil.addClass(dashElement, selectedColorClass);
+      DomUtil.addClass(dashElement, selectedDashClass);
     }
   }
 
@@ -30,7 +30,8 @@ export class DashElement extends FormElement {
   /** create the three standard dash options */
   override getHTML(layer?: Layer): HTMLElement {
     const uiElement: HTMLElement = super.getHTML();
-    const strokeHTMLElements: HTMLElement[] = this.createStrokeHTMLElements(layer, uiElement)
+    const strokeHTMLElements: Map<string, HTMLElement> = this.createStrokeHTMLElements(layer, uiElement)
+    this.style(layer, strokeHTMLElements)
     return uiElement
   }
 
@@ -51,7 +52,7 @@ export class DashElement extends FormElement {
         htmlElement,
         'click',
         () => {
-          this.setStyle(layer, dashArray);
+          this.setDashArray(layer, dashArray, map);
         },
         this
       );
@@ -60,8 +61,14 @@ export class DashElement extends FormElement {
     return map;
   }
 
-  protected override setStyle(layer: Layer, value: unknown): void {
-    super.setStyle(layer, value)
+  protected setDashArray(layer: Layer, value: string, strokeHTMLElements: Map<string, HTMLElement>): void {
+    const previousDash: string = this.getStyle(layer)
+    const previousElement: HTMLElement = strokeHTMLElements.get(previousDash)
+    if(previousElement)
+      DomUtil.removeClass(previousElement, selectedDashClass)
+
+    this.setStyle(layer, value)
+    DomUtil.addClass(strokeHTMLElements.get(value), selectedDashClass)
   }
 
   private createSVG(dashArray: string): SVGElement {
