@@ -12,8 +12,8 @@ export class ColorElement extends FormElement {
     return layer instanceof Path;
   }
 
-  private style(colorPickerDivs: Map<string, HTMLElement>, layer?: Layer): void {
-    const color = layer.options[this.styleOption];
+  private highlightSelectedColor(colorPickerDivs: Map<string, HTMLElement>, layer?: Layer): void {
+    const color = this.getStyle(layer) as string;
     const colorRampElement = colorPickerDivs.get(color);
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);
@@ -28,7 +28,7 @@ export class ColorElement extends FormElement {
       uiElement
     );
     const colorPickerDivs: Map<string, HTMLElement> = this.createColorPickers(layer, wrapper);
-    this.style(colorPickerDivs, layer)
+    this.highlightSelectedColor(colorPickerDivs, layer);
     return uiElement;
   }
 
@@ -40,7 +40,7 @@ export class ColorElement extends FormElement {
         'leaflet-styleeditor-color',
         colorPickerDiv
       );
-      DomEvent.addListener(colorElement, 'click', (event: Event) => this.selectColor(event))
+      DomEvent.addListener(colorElement, 'click', (event: Event) => this.selectColor(layer, event, map))
       colorElement.style.background = color;
       map.set(color, colorElement);
     })
@@ -49,10 +49,17 @@ export class ColorElement extends FormElement {
 
 
   /** set style for chosen color */
-  private selectColor(event: Event) {
+  private selectColor(layer: Layer, event: Event, colorPickerDivs: Map<string, HTMLElement>) {
     event.stopPropagation();
+
+    const previouslySelected: HTMLElement = colorPickerDivs.get(this.getStyle(layer) as string);
+    if(previouslySelected)
+      DomUtil.removeClass(previouslySelected, selectedColorClass);
+
+    const newColor: string = new Color((event.target as HTMLElement).style.backgroundColor).getHex()
     if (event.target instanceof HTMLElement) {
-      this.setStyle(new Color(event.target.style.backgroundColor).getHex()); // TODO hand over color
+      this.setStyle(layer, newColor);
     }
+    DomUtil.addClass(colorPickerDivs.get(newColor), selectedColorClass);
   }
 }

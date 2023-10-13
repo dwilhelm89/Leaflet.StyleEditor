@@ -57,8 +57,7 @@ export abstract class FormElement extends StyleEditorClass {
   public lostFocus(): void {}
 
   /** set style - used when the FormElement wants to change the styling option */
-  protected setStyle(value: unknown): void {
-    const layer: Layer = this.styleEditor.currentLayer
+  protected setStyle(layer: Layer, value: unknown): void {
     if (layer instanceof LMarker) {
       // TODO!!!!
       layer.setIcon(value);
@@ -71,5 +70,9 @@ export abstract class FormElement extends StyleEditorClass {
     this.util.fireEvent('changed', layer);
 
     //?! TODO readd form? this.parentForm.style();
+  }
+
+  protected getStyle(layer: Layer): unknown {
+    return this.styleOption in layer.options ? layer.options[this.styleOption] : undefined;
   }
 }
