@@ -1,4 +1,4 @@
-import { DomEvent, DomUtil, Layer, LayerGroup, Path } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Path, StyleEditor } from 'leaflet';
 import { Form } from '../forms';
 import { FormElement } from './FormElement';
 
@@ -16,22 +16,11 @@ export class DashElement extends FormElement {
 
   private dashDivs: Map<string, HTMLElement> = new Map();
 
-  public constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer?: (layer: Layer) => boolean,
-  ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer);
-    this.createContent();
-  }
-
-  public override style(): void {
+  private style(layer?: Layer): void {
     this.dashDivs.forEach((div) => {
       DomUtil.removeClass(div, selectedColorClass);
     });
 
-    const layer: Layer = this.styleEditor.currentLayer;
     if(!(layer instanceof Path)) {
       return;
     }
@@ -45,11 +34,12 @@ export class DashElement extends FormElement {
 
 
   /** create the three standard dash options */
-  private createContent() {
+  override getHTML(layer?: Layer) {
+    const uiElement: HTMLElement = super.getHTML();
     let stroke = DomUtil.create(
       'div',
       'leaflet-styleeditor-stroke',
-      this.uiElement
+      uiElement
     );
     stroke.style.backgroundPosition = '0px -75px';
     DomEvent.addListener(
@@ -65,7 +55,7 @@ export class DashElement extends FormElement {
     stroke = DomUtil.create(
       'div',
       'leaflet-styleeditor-stroke',
-      this.uiElement
+      uiElement
     );
     stroke.style.backgroundPosition = '0px -95px';
     DomEvent.addListener(
@@ -81,7 +71,7 @@ export class DashElement extends FormElement {
     stroke = DomUtil.create(
       'div',
       'leaflet-styleeditor-stroke',
-      this.uiElement
+      uiElement
     );
     stroke.style.backgroundPosition = '-10px -115px';
     DomEvent.addListener(
@@ -93,5 +83,7 @@ export class DashElement extends FormElement {
       this
     );
     this.dashDivs.set('15, 10, 1, 10', stroke)
+    this.style(layer)
+    return uiElement
   }
 }

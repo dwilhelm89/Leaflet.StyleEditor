@@ -1,86 +1,57 @@
-import { Path, Marker as LMarker, DomUtil, Layer } from 'leaflet';
-import { Form } from '../forms';
+import { Path, Marker as LMarker, DomUtil, Layer, StyleEditor } from 'leaflet';
 import { StyleEditorClass } from '../StyleEditorClass';
-import { RemoteMakiMarker } from '../marker/Icon';
 
 export type FormElementClass = new (
-  parentForm: Form,
-  parentUiElement: HTMLElement,
+  styleEditor: StyleEditor,
   styleOption: string,
   whenToShow: (layer: Layer) => boolean,
 ) => FormElement;
 
 /** FormElements are part of a Form for a specific styling option (i.e. color) */
 export abstract class FormElement extends StyleEditorClass {
-  protected styleOption: string;
-  protected uiElement: HTMLElement;
-  protected parentForm: Form;
-
   protected abstract defaultShowForLayer(layer: Layer): boolean;
   private userDefinedShowForLayer : (layer: Layer) => boolean;
 
-  protected showForLayer(layer: Layer): boolean {
+  public showForLayer(layer: Layer): boolean {
     return typeof this.userDefinedShowForLayer === 'function' ? this.userDefinedShowForLayer(layer) : this.defaultShowForLayer(layer); 
   }
 
   constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer: (layer: Layer) => boolean,
-    title?: string,
+    override styleEditor: StyleEditor,
+    protected styleOption: string,
+    showForLayer?: (layer: Layer) => boolean,
+    public title?: string,
   ) {
-    super(parentForm.styleEditor);
+    super(styleEditor);
     this.styleOption = styleOption;
     // if no title is given use styling option
-    this.parentForm = parentForm;
-    this.userDefinedShowForLayer = showForLayer
-
-    this.create(parentUiElement, title);
+    this.userDefinedShowForLayer = showForLayer;
+    this.title = title;
   }
 
   /** create uiElement and content */
-  private create(parentUiElement: HTMLElement, title: string): void {
-    this.uiElement = DomUtil.create(
+  public getHTML(layer?: Layer): HTMLElement {
+    const uiElement = DomUtil.create(
       'div',
       'leaflet-styleeditor-uiElement',
-      parentUiElement
     );
-    this.createTitle(title);
-  }
-
-  /** create title */
-  private createTitle(title: string): void {
+  
+    /** create title */
     const titleDom = DomUtil.create(
       'label',
       'leaflet-styleeditor-label',
-      this.uiElement
+      uiElement
     );
-    titleDom.innerHTML = title ?? this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1);
+    titleDom.innerHTML = this.title ?? this.styleOption.charAt(0).toUpperCase() + this.styleOption.slice(1);
+    return uiElement
   }
 
   /** style the FormElement and show it */
   public show(): void {
     if(this.showForLayer(this.styleEditor.currentLayer)) {
       this.style();
-      this.showFormElement();
-    } else {
-      this.hideFormElement();
     }
   }
-
-  /** show the FormElement */
-  private showFormElement(): void {
-    this.util.showElement(this.uiElement);
-  }
-
-  /** hide the FormElement */
-  public hideFormElement(): void {
-    this.util.hideElement(this.uiElement);
-  }
-
-  /** style the FormElement */
-  public abstract style(): void;
 
   /** what to do when lost focus */
   public lostFocus(): void {}
@@ -99,7 +70,6 @@ export abstract class FormElement extends StyleEditorClass {
     // fire event for changed layer
     this.util.fireEvent('changed', layer);
 
-    // notify form styling value has changed
-    this.parentForm.style();
+    //?! TODO readd form? this.parentForm.style();
   }
 }

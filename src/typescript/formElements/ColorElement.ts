@@ -1,6 +1,5 @@
 import { FormElement } from './FormElement';
-import { DomEvent, DomUtil, Layer, Path } from 'leaflet';
-import { Form } from '../forms';
+import { DomEvent, DomUtil, Layer, Path, StyleEditor } from 'leaflet';
 import Color from 'ts-color-class';
 
 const selectedColorClass = 'leaflet-styleeditor-selected';
@@ -13,71 +12,41 @@ export class ColorElement extends FormElement {
     return layer instanceof Path;
   }
 
-  private colorPickerDiv: HTMLElement;
-  private colorRampDivs: Map<string, HTMLDivElement> = new Map();
-
-  public constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer?: (layer: Layer) => boolean,
-  ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer);
-    this.colorPickerDiv = this.createColoPicker();
-  }
-
-  public override style(): void {
-    this.hideAllColors();
-    this.showNeededColors();
-
-    const layer = this.styleEditor.currentLayer;
-    /* TODO Add hanling for MARKER */
-    if(!(layer instanceof Path)) {
-      return;
-    }
-
+  private style(colorPickerDivs: Map<string, HTMLElement>, layer?: Layer): void {
     const color = layer.options[this.styleOption];
-    const colorRampElement = this.colorRampDivs.get(color);
+    const colorRampElement = colorPickerDivs.get(color);
     if (colorRampElement) {
       DomUtil.addClass(colorRampElement, selectedColorClass);
     }
   }
 
-  private createColoPicker(): HTMLElement {
-    return DomUtil.create(
+  override getHTML(layer?: Layer): HTMLElement {
+    const uiElement = super.getHTML(layer);
+    const wrapper = DomUtil.create(
       'div',
       'leaflet-styleeditor-colorpicker',
-      this.uiElement
+      uiElement
     );
+    const colorPickerDivs: Map<string, HTMLElement> = this.createColorPickers(layer, wrapper);
+    this.style(colorPickerDivs, layer)
+    return uiElement;
   }
 
-  private hideAllColors() {
-    this.colorRampDivs.forEach((div: HTMLDivElement) => {
-      this.util.hideElement(div);
-      DomUtil.removeClass(div, selectedColorClass);
-    })
-  }
-
-
-  private showNeededColors() {
-    const layer = this.styleEditor.currentLayer;
+  private createColorPickers(layer: Layer, colorPickerDiv: HTMLDivElement): Map<string, HTMLElement> {
+    const map: Map<string, HTMLElement> = new Map()
     this.util.getColorRampForLayer(layer)?.forEach((color: string) => {
-      const colorRampDiv: HTMLDivElement = this.colorRampDivs.get(color)
-      if(colorRampDiv) {
-        this.util.showElement(colorRampDiv)
-        return;
-      }
-
-      const element = DomUtil.create(
+      const colorElement: HTMLElement = DomUtil.create(
         'div',
         'leaflet-styleeditor-color',
-        this.colorPickerDiv
+        colorPickerDiv
       );
-      element.style.backgroundColor = color;
-      DomEvent.addListener(element, 'click', this.selectColor, this);
-      this.colorRampDivs.set(color, element);
+      DomEvent.addListener(colorElement, 'click', (event: Event) => this.selectColor(event))
+      colorElement.style.background = color;
+      map.set(color, colorElement);
     })
+    return map
   }
+
 
   /** set style for chosen color */
   private selectColor(event: Event) {

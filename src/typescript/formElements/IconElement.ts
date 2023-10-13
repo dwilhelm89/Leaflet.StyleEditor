@@ -1,11 +1,12 @@
 import Color from 'ts-color-class';
-import { DomEvent, DomUtil, Layer, LayerGroup, Marker } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Marker, StyleEditor } from 'leaflet';
 import { FormElement } from '.';
 import { Form } from '../forms';
 import { RemoteMakiIcon, RemoteMakiIconIconOptions, RemoteMakiMarker } from '../marker/Icon';
 
 /**
  * FormElement used for styling the icon
+ * TODO ADD DEFAULT ICON ETC
  */
 export class IconElement extends FormElement {
   protected override defaultShowForLayer(layer: Layer): boolean {
@@ -29,45 +30,38 @@ export class IconElement extends FormElement {
   private selectOptions: Map<string, HTMLElement> = new Map();
 
   private get icon(): RemoteMakiIcon {
-    const layer: Marker = this.styleEditor.currentLayer as Marker
+    const layer: Marker = this.styleEditor?.currentLayer as Marker
 
-    if(!(layer.options.icon instanceof RemoteMakiIcon)) {
+    if(layer?.options?.icon && !(layer.options.icon instanceof RemoteMakiIcon)) {
       layer.options.icon = this.remoteMakiMarker.getIcon() 
     }
 
-    return layer.options.icon as RemoteMakiIcon
+    return layer?.options?.icon as RemoteMakiIcon
   }
 
-  constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer?: (layer: Layer) => boolean,
-  ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer);
-    this.selectBoxImage = this.createSelectBoxImage();
-  }
 
   /** create the icon selectBoxes */
-  private createSelectBoxImage(): HTMLElement {
-    const selectBox = DomUtil.create(
+  public override getHTML(layer?: Layer): HTMLElement {
+    const uiElement: HTMLElement = super.getHTML()
+    const selectBox: HTMLElement  = DomUtil.create(
       'div',
       'leaflet-styleeditor-select',
-      this.uiElement
+      uiElement
     );
-    const selectBoxImage = this.createSelectInputImage(selectBox);
+    this.selectBoxImage = this.createSelectInputImage(selectBox);
 
     DomEvent.addListener(selectBox, 'click', this.toggleSelectInput, this);
-    return selectBoxImage;
+    this.style(layer)
+    return uiElement;
   }
 
   /** show the correct icon in the correct color if the icon or color changed */
-  override style() {
+  private style(layer?: Layer) {
     const icon: RemoteMakiIcon = this.icon
     this.styleSelectInputImage(
       this.selectBoxImage,
-      icon.options.icon,
-      icon.options.color
+      icon?.options?.icon,
+      icon?.options?.color
     );
     this.createColorSelect(icon.options.color);
     this.hideSelectOptions();

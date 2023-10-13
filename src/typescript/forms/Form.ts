@@ -2,6 +2,7 @@ import { FormElement, FormElementClass, } from '../formElements';
 import { StyleEditorClass } from '../StyleEditorClass';
 import { StyleEditor } from '../StyleEditor';
 import { DomUtil, Layer, } from 'leaflet';
+import { StyleEditorMarker } from '../marker/Icon';
 
 /**
  * Forms consist of FormElements and are shown in the StyleForm
@@ -25,10 +26,13 @@ export class Form extends StyleEditorClass {
   create(): void {
     this.uiElement = DomUtil.create('div', '', this.parentUiElement);
 
-    // TODO use whenToShow fun
+    this.styleEditor.options.marker.forEach((marker: StyleEditorMarker) => {
+      this.initializedElements['icon'] = new marker.iconFormElement(this, this.uiElement, 'icon')
+    })
+
     this.styleEditor.options.formElements.forEach(
       ([styleOption, formElementClass, whenToShow] : [string, FormElementClass, (layer: Layer) => boolean]) => {
-        this.initializedElements[styleOption] = new formElementClass(this, this.uiElement, styleOption, whenToShow)
+        this.initializedElements[styleOption] = new formElementClass(this.styleEditor, styleOption, whenToShow)
       }
     )
   }
@@ -50,9 +54,14 @@ export class Form extends StyleEditorClass {
   }
 
   /** inform FormElements the selected style has changed, so they can adapt */
-  public style(): void {
+  // TODO hand over layeras as param 
+  public style(layer?: Layer): void {
+    this.uiElement.replaceChildren()
     for (const key in this.initializedElements) {
-      this.initializedElements[key].show();
+      const formElement: FormElement = this.initializedElements[key] 
+      if(formElement.showForLayer(layer ?? this.styleEditor.currentLayer)) {
+        this.uiElement.appendChild(formElement.getHTML(layer ?? this.styleEditor.currentLayer))
+      }
     }
   }
 

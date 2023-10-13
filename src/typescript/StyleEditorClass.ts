@@ -3,7 +3,7 @@ import { StyleEditor } from './StyleEditor';
 import { Util } from './Util';
 
 export class StyleEditorClass extends L.Class {
-  public styleEditor: StyleEditor;
+  protected styleEditor: StyleEditor;
 
   protected util: Util;
 

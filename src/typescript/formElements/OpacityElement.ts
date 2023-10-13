@@ -1,6 +1,5 @@
-import { DomEvent, DomUtil, Layer, LayerGroup, Path } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Path, StyleEditor } from 'leaflet';
 import { FormElement } from '.';
-import { Form } from '../forms';
 
 /**
  * FormElement used to style opacity
@@ -16,38 +15,43 @@ export class OpacityElement extends FormElement {
   private slider: HTMLInputElement;
 
   public constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
+    override styleEditor: StyleEditor,
     styleOption: string,
     showForLayer?: (layer: Layer) => boolean,
   ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer);
+    super(styleEditor, styleOption, showForLayer);
 
-    this.label = this.createLabel();
-    this.slider = this.createSlider();
   }
 
   /** set correct value */
-  public override style(): void {
+  private style(layer?: Layer): void {
     this.slider.value = this.util.getStyle(this.styleOption);
     this.label.innerText =
       Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
   }
 
-  private createLabel(): HTMLSpanElement {
+  public override getHTML(layer?: Layer): HTMLElement {
+    const uiElement: HTMLElement = super.getHTML()
+    this.label = this.createLabel(uiElement);
+    this.slider = this.createSlider(uiElement);
+    this.style(layer)
+    return uiElement
+  }
+
+  private createLabel(uiElement: HTMLElement): HTMLSpanElement {
     return DomUtil.create(
       'span',
       'leaflet-styleeditor-input-span',
-      this.uiElement
+      uiElement
     );
   }
 
   /** create number input box */
-  private createSlider() {
+  private createSlider(uiElement: HTMLElement) {
     const slider = DomUtil.create(
       'input',
       'leaflet-styleeditor-input',
-      this.uiElement
+      uiElement
     ) as HTMLInputElement;
     slider.type = 'range';
     slider.max = '1';

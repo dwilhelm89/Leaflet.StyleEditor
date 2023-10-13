@@ -1,6 +1,5 @@
-import { DomEvent, DomUtil, Layer, LayerGroup, Path } from 'leaflet';
+import { DomEvent, DomUtil, Layer, LayerGroup, Path, StyleEditor } from 'leaflet';
 import { FormElement } from '.';
-import { Form } from '../forms';
 
 /**
  * FormElement used to style weight
@@ -15,38 +14,35 @@ export class WeightElement extends FormElement {
   private label: HTMLSpanElement;
   private weight: HTMLInputElement;
 
-  public constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer: (layer: Layer) => boolean,
-  ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer);
-    this.label = this.createLabel();
-    this.weight = this.createWeightElement();
+  public override getHTML(layer?: Layer): HTMLElement {
+    const uiElement: HTMLElement = super.getHTML() 
+    this.label = this.createLabel(uiElement);
+    this.weight = this.createWeightElement(uiElement);
+    this.style(layer)
+    return uiElement
   }
 
   /** set correct value */
-  public override style() {
+  private style(layer?: Layer) {
     this.weight.value = this.util.getStyle(this.styleOption);
     this.label.innerText = this.weight.value;
   }
 
 
-  private createLabel(): HTMLSpanElement {
+  private createLabel(uiElement: HTMLElement): HTMLSpanElement {
     return DomUtil.create(
       'span',
       'leaflet-styleeditor-input-span',
-      this.uiElement
+      uiElement
     );
   }
 
   /** create number input box */
-  private createWeightElement(): HTMLInputElement {
+  private createWeightElement(uiElement: HTMLElement): HTMLInputElement {
     const weight = DomUtil.create(
       'input',
       'leaflet-styleeditor-input',
-      this.uiElement
+      uiElement
     ) as HTMLInputElement;
     weight.type = 'range';
     weight.min = '0';

@@ -11,7 +11,7 @@ export interface StyleEditorOptions extends ControlOptions {
   colorRamp: ColorRamp,
   defaultColor?: string; // TODO color
 
-  marker: typeof StyleEditorMarker,
+  marker: StyleEditorMarker[],
 
   formElements: [ string, FormElementClass, ShowForLayerFun? ][];
 
@@ -30,7 +30,7 @@ export interface StyleEditorOptions extends ControlOptions {
 export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   position: 'topleft',
 
-  marker: RemoteMakiMarker,
+  marker: [ new RemoteMakiMarker() ],
 
   colorRamp: [
     [[
@@ -58,7 +58,6 @@ export const DEFAULT_STYLE_EDITOR_OPTIONS: StyleEditorOptions = {
   ],
 
   formElements: [
-    [ 'icon', IconElement ],
     [ 'color', ColorElement ],
     [ 'opacity', OpacityElement ],
     [ 'weight', WeightElement ],

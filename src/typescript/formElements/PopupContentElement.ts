@@ -1,6 +1,5 @@
-import { DomEvent, DomUtil, Layer } from 'leaflet';
+import { DomEvent, DomUtil, Layer, StyleEditor } from 'leaflet';
 import { FormElement } from '.';
-import { Form } from '../forms';
 
 /**
  * FormElement used for adding a description to marker or geometry.
@@ -14,30 +13,21 @@ export class PopupContentElement extends FormElement {
 
   private textArea: HTMLTextAreaElement;
 
-  constructor(
-    parentForm: Form,
-    parentUiElement: HTMLElement,
-    styleOption: string,
-    showForLayer: (layer: Layer) => boolean,
-  ) {
-    super(parentForm, parentUiElement, styleOption, showForLayer, 'Description');
-    this.textArea = this.createTextArea();
-  }
-
-  private createTextArea(): HTMLTextAreaElement {
-    const textArea = DomUtil.create(
+  public override getHTML(layer?: Layer): HTMLElement {
+    const uiElement = super.getHTML() 
+    this.textArea = DomUtil.create(
       'textarea',
       'leaflet-styleeditor-input',
-      this.uiElement
+      uiElement
     ) as HTMLTextAreaElement;
-    DomEvent.addListener(textArea, 'change', this.updateStyle, this);
-    DomEvent.addListener(textArea, 'input', this.updateStyle, this);
-    return textArea;
+    DomEvent.addListener(this.textArea, 'change', this.updateStyle, this);
+    DomEvent.addListener(this.textArea, 'input', this.updateStyle, this);
+    this.style(layer)
+    return uiElement
   }
 
   /** set correct value */
-  override style() {
-    const layer: Layer = this.styleEditor.currentLayer;
+  private style(layer?: Layer) {
     const popupContent = layer?.getPopup()?.getContent().toString() ?? layer?.options?.popupContent
     if (popupContent) {
       this.textArea.value = popupContent;
