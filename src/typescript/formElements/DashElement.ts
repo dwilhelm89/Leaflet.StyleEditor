@@ -1,5 +1,4 @@
 import { DomEvent, DomUtil, Layer, LayerGroup, Path, StyleEditor } from 'leaflet';
-import { Form } from '../forms';
 import { FormElement } from './FormElement';
 
 const selectedColorClass = 'leaflet-styleeditor-selected';
@@ -14,18 +13,13 @@ export class DashElement extends FormElement {
       : layer instanceof Path;
   }
 
-  private dashDivs: Map<string, HTMLElement> = new Map();
-
   private style(layer?: Layer): void {
-    this.dashDivs.forEach((div) => {
-      DomUtil.removeClass(div, selectedColorClass);
-    });
 
     if(!(layer instanceof Path)) {
       return;
     }
 
-    const dashStyle = layer.options[this.styleOption];
+    const dashStyle = this.getStyle(layer)
     const dashElement: HTMLElement= this.dashDivs.get(dashStyle);
     if (dashElement) {
       DomUtil.addClass(dashElement, selectedColorClass);
@@ -34,56 +28,55 @@ export class DashElement extends FormElement {
 
 
   /** create the three standard dash options */
-  override getHTML(layer?: Layer) {
+  override getHTML(layer?: Layer): HTMLElement {
     const uiElement: HTMLElement = super.getHTML();
-    let stroke = DomUtil.create(
-      'div',
-      'leaflet-styleeditor-stroke',
-      uiElement
-    );
-    stroke.style.backgroundPosition = '0px -75px';
-    DomEvent.addListener(
-      stroke,
-      'click',
-      () => {
-        this.setStyle('1');
-      },
-      this
-    );
-    this.dashDivs.set('1', stroke)
-
-    stroke = DomUtil.create(
-      'div',
-      'leaflet-styleeditor-stroke',
-      uiElement
-    );
-    stroke.style.backgroundPosition = '0px -95px';
-    DomEvent.addListener(
-      stroke,
-      'click',
-      () => {
-        this.setStyle('10, 10');
-      },
-      this
-    );
-    this.dashDivs.set('10, 10', stroke)
-
-    stroke = DomUtil.create(
-      'div',
-      'leaflet-styleeditor-stroke',
-      uiElement
-    );
-    stroke.style.backgroundPosition = '-10px -115px';
-    DomEvent.addListener(
-      stroke,
-      'click',
-      () => {
-        this.setStyle('15, 10, 1, 10');
-      },
-      this
-    );
-    this.dashDivs.set('15, 10, 1, 10', stroke)
-    this.style(layer)
+    const strokeHTMLElements: HTMLElement[] = this.createStrokeHTMLElements(layer, uiElement)
     return uiElement
+  }
+
+  // TODO make public?
+  private supportedDashArrays: string[] = ["", "10, 10", "15, 10, 1, 10"]
+
+  private createStrokeHTMLElements(layer: Layer, uiElement: HTMLElement): Map<string, HTMLElement> {
+    const map: Map<string, HTMLElement> = new Map();
+    this.supportedDashArrays.forEach((dashArray: string) => {
+      const htmlElement: HTMLElement = DomUtil.create(
+        'div',
+        'leaflet-styleeditor-stroke',
+        uiElement
+      );
+      htmlElement.appendChild(this.createSVG(dashArray));
+
+      DomEvent.addListener(
+        htmlElement,
+        'click',
+        () => {
+          this.setStyle(layer, dashArray);
+        },
+        this
+      );
+      map.set(dashArray, htmlElement)
+    })
+    return map;
+  }
+
+  protected override setStyle(layer: Layer, value: unknown): void {
+    super.setStyle(layer, value)
+  }
+
+  private createSVG(dashArray: string): SVGElement {
+    const svg: SVGElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute('viewBox', '0 0 160 20')
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+
+    const line: SVGLineElement = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', '5');
+    line.setAttribute('x2', '155');
+    line.setAttribute('y1', '10');
+    line.setAttribute('y2', '10');
+    line.style.setProperty('stroke-dasharray', dashArray);
+    svg.appendChild(line)
+
+    return svg;
   }
 }

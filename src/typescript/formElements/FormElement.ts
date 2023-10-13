@@ -72,7 +72,7 @@ export abstract class FormElement extends StyleEditorClass {
     //?! TODO readd form? this.parentForm.style();
   }
 
-  protected getStyle(layer: Layer): unknown {
-    return this.styleOption in layer.options ? layer.options[this.styleOption] : undefined;
+  protected getStyle(layer: Layer): string {
+    return this.styleOption in layer.options ? layer.options[this.styleOption] as string : undefined;
   }
 }

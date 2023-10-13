@@ -293,9 +293,10 @@
 .leaflet-styleeditor-stroke {
   height: 20px;
   width: 160px;
-  background-repeat: no-repeat;
-  background-image: url('../img/icon.png');
   cursor: pointer;
+  stroke: black;
+  stroke-width: 6;
+  stroke-linecap: round;
 }
 
 .leaflet-styleeditor-marker-s {
