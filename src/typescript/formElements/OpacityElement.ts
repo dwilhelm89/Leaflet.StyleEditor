@@ -70,6 +70,8 @@ export class OpacityElement extends FormElement {
 
   /** communicate opacity value */
   private updateStyle(layer: Layer) {
+    this.label.innerText =
+      Math.round(100 * parseFloat(this.slider.value)).toString() + '%';
     this.setStyle(layer, this.slider.value);
   }
 }
